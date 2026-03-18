@@ -1,22 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 
-// ── Logo: real signature image + "Jacobs" subtitle ─────────
-const Logo = ({ lang, scrolled }) => (
-  <div className="logo-wrap">
-    {/* Actual artist signature */}
-    <img
-      src="/images/signature.png"
-      alt="Yehudis Jacobs"
-      className={`logo-sig ${scrolled ? 'logo-sig--dark' : 'logo-sig--light'}`}
-    />
-    {/* Jacobs — small spaced caps below */}
-    <span className={`logo-jacobs ${scrolled ? 'logo-jacobs--dark' : 'logo-jacobs--light'}`}>
-      Jacobs
-    </span>
-  </div>
-);
-
 const Navbar = ({ t, currentPage, onNavigate, onToggleLang }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,9 +28,21 @@ const Navbar = ({ t, currentPage, onNavigate, onToggleLang }) => {
     <header className={`navbar ${scrolled ? 'scrolled' : ''}`} dir={t.dir}>
       <div className="navbar-inner container">
 
-        {/* Logo */}
+        {/* Logo — signature letters only */}
         <button className="logo-btn" onClick={() => go('home')} aria-label="Yehudis Jacobs — Home">
-          <Logo lang={t.lang} scrolled={scrolled} />
+          <div className="logo-wrap">
+            {/*
+              logo.png = signature letters only, white, transparent bg
+              Over dark hero → white (natural)
+              Over light scrolled page → inverted to black via CSS filter
+            */}
+            <img
+              src="/images/logo.png"
+              alt="Yehudis Jacobs"
+              className={`logo-img ${scrolled ? 'logo-dark' : 'logo-light'}`}
+            />
+            <span className="logo-jacobs">Jacobs</span>
+          </div>
         </button>
 
         {/* Desktop nav */}
@@ -65,7 +61,7 @@ const Navbar = ({ t, currentPage, onNavigate, onToggleLang }) => {
           </button>
         </nav>
 
-        {/* Mobile controls */}
+        {/* Mobile */}
         <div className="mobile-controls">
           <button className="lang-toggle" onClick={onToggleLang}>
             {t.nav.langToggle}
@@ -73,7 +69,7 @@ const Navbar = ({ t, currentPage, onNavigate, onToggleLang }) => {
           <button
             className={`burger ${menuOpen ? 'open' : ''}`}
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle navigation menu"
+            aria-label="Toggle menu"
           >
             <span /><span /><span />
           </button>

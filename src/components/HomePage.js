@@ -65,17 +65,10 @@ const HomePage = ({ t, onNavigate }) => {
         {/* Hero text */}
         <div className="video-content">
           <p className="hero-tagline">{t.home.videoTagline}</p>
-
-          {/* Signature logo as hero title */}
-          <div className="hero-logo-wrap">
-            <img
-              src="/images/signature.png"
-              alt="Yehudis Jacobs"
-              className="hero-logo-sig"
-            />
-            <span className="hero-logo-jacobs">Jacobs</span>
-          </div>
-
+          <h1 className="hero-title">
+            {t.home.heroTitle}
+            <span className="hero-title-jacobs">Jacobs</span>
+          </h1>
           <p className="hero-subtitle">{t.home.heroSubtitle}</p>
           <div className="hero-ctas">
             <button className="btn-primary-white" onClick={() => go('gallery')}>{t.home.heroCta}</button>

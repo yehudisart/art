@@ -41,59 +41,36 @@
 [dir='rtl'] .chess-row.odd  .chess-image { order: 1; }
 [dir='rtl'] .chess-row.odd  .chess-story { order: 2; }
 
-/* ── IMAGE PANEL ── */
+/* ── IMAGE PANEL — clean, no decoration ── */
 .chess-image {
   position: relative;
-  background: var(--stone);
-  /* Padding creates a "mat" around the painting — gallery-style */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px;
+  background: #fff;
+  overflow: hidden;
 }
 
-/* On depth row: slightly more padding for 3D effect space */
 .chess-row-depth .chess-image {
-  padding: 40px;
-  background: var(--stone);
-  overflow: visible;
+  background: #fff;
+  overflow: hidden;
 }
 
 .chess-img-btn {
   position: relative;
-  /* Don't stretch to fill — show full painting at natural ratio */
-  width: 100%;
-  max-height: 560px;
+  width: 100%; height: 100%;
   cursor: zoom-in;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   outline: none;
 }
-.chess-img-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.chess-img-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
 
 .chess-img {
-  /* Contain — never crop, always show full painting */
-  width: 100%;
-  height: auto;
-  max-height: 520px;
-  object-fit: contain;
+  /* Cover — fills the panel, no mat, no padding */
+  width: 100%; height: 100%;
+  object-fit: cover;
   display: block;
-  /* Subtle shadow = painting on wall */
-  box-shadow:
-    0 2px 8px rgba(0,0,0,0.08),
-    0 8px 32px rgba(0,0,0,0.12),
-    0 20px 60px rgba(0,0,0,0.10);
-  transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94),
-              box-shadow 0.9s ease;
+  min-height: 420px;
+  transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-.chess-img-btn:hover .chess-img {
-  transform: scale(1.025);
-  box-shadow:
-    0 4px 12px rgba(0,0,0,0.1),
-    0 16px 48px rgba(0,0,0,0.16),
-    0 32px 80px rgba(0,0,0,0.14);
-}
+.chess-img-btn:hover .chess-img { transform: scale(1.03); }
 
 /* Zoom hint — shown over the image only */
 .chess-zoom-hint {
@@ -131,27 +108,18 @@
 
 /* ── 3D DEPTH EFFECT — artwork #1 only ── */
 .chess-row-depth .chess-img-btn {
-  transform: perspective(1000px) rotateY(2.5deg) rotateX(-1deg);
-  transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.8s ease;
+  transform: perspective(1200px) rotateY(2deg) rotateX(-0.5deg);
+  transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
 }
 .chess-row-depth .chess-img-btn:hover {
-  transform: perspective(1000px) rotateY(1deg) rotateX(-0.5deg) translateZ(16px) scale(1.01);
+  transform: perspective(1200px) rotateY(0.5deg) rotateX(-0.25deg) translateZ(12px);
 }
-.chess-row-depth .chess-img-btn:hover .chess-img {
-  /* Already handled by btn transform */
-  transform: none;
-  box-shadow:
-    0 4px 12px rgba(0,0,0,0.1),
-    0 16px 48px rgba(0,0,0,0.18),
-    0 32px 80px rgba(0,0,0,0.22);
-}
-/* Canvas edge shadows */
-.chess-row-depth .chess-img::before { display: none; }
+.chess-row-depth .chess-img-btn:hover .chess-img { transform: none; }
 [dir='rtl'] .chess-row-depth .chess-img-btn {
-  transform: perspective(1000px) rotateY(-2.5deg) rotateX(-1deg);
+  transform: perspective(1200px) rotateY(-2deg) rotateX(-0.5deg);
 }
 [dir='rtl'] .chess-row-depth .chess-img-btn:hover {
-  transform: perspective(1000px) rotateY(-1deg) rotateX(-0.5deg) translateZ(16px) scale(1.01);
+  transform: perspective(1200px) rotateY(-0.5deg) rotateX(-0.25deg) translateZ(12px);
 }
 
 /* ── STORY PANEL ── */
@@ -271,21 +239,15 @@
   [dir='rtl'] .chess-row.even .chess-image, [dir='rtl'] .chess-row.odd .chess-image { order: 1; }
   .chess-row.even .chess-story, .chess-row.odd .chess-story,
   [dir='rtl'] .chess-row.even .chess-story, [dir='rtl'] .chess-row.odd .chess-story { order: 2; }
-  .chess-image { padding: 20px; }
-  .chess-img { max-height: 400px; }
-  .chess-img-btn { max-height: 420px; }
+  .chess-img { min-height: 300px; }
   .chess-story-inner { padding: 44px 28px; max-width: 100%; }
-  .chess-row-depth .chess-image { overflow: hidden; padding: 16px; }
-  .chess-row-depth .chess-img-btn {
-    transform: none;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.12), 0 12px 40px rgba(0,0,0,0.10);
-  }
-  .chess-row-depth .chess-img-btn:hover { transform: scale(1.01); }
+  .chess-row-depth .chess-img-btn { transform: none; }
+  .chess-row-depth .chess-img-btn:hover { transform: scale(1.02); }
   .lb-prev { left: 8px; }
   .lb-next { right: 8px; }
 }
 @media (max-width: 500px) {
   .chess-story-inner { padding: 36px 20px; }
-  .chess-image { padding: 14px; }
+  .chess-img { min-height: 240px; }
   .lb-image { max-height: 62vh; }
 }
