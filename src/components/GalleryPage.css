@@ -62,6 +62,109 @@
   background: #F4F4F4;
 }
 
+/* ══ 3D DEPTH EFFECT — artwork #1 only ═══════════════════
+   Creates the illusion of a physical canvas on the wall:
+   perspective tilt + layered drop-shadows + edge shading.
+   Applied via .chess-row-depth class on the first row.
+   ═══════════════════════════════════════════════════════ */
+
+/* Wrapper that holds the 3D scene */
+.chess-row-depth .chess-image {
+  background: transparent;
+  overflow: visible;          /* let shadows bleed out */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 36px;         /* space around canvas for shadow */
+}
+
+/* The clickable button gets the perspective */
+.chess-row-depth .chess-img-btn {
+  position: relative;
+  width: 100%; height: 100%;
+  cursor: zoom-in;
+  /* Perspective tilt — subtle lean, like a canvas on a wall */
+  transform: perspective(900px) rotateY(3deg) rotateX(-1deg);
+  transition:
+    transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.7s ease;
+  /* Multi-layer shadow = depth illusion */
+  box-shadow:
+    2px 4px 8px  rgba(0,0,0,0.08),
+    6px 12px 24px rgba(0,0,0,0.14),
+    16px 32px 56px rgba(0,0,0,0.18),
+    28px 48px 80px rgba(0,0,0,0.10);
+  border-radius: 1px;
+}
+
+/* On hover: canvas "lifts off the wall" toward viewer */
+.chess-row-depth .chess-img-btn:hover {
+  transform: perspective(900px) rotateY(1.5deg) rotateX(-0.5deg) translateZ(18px) scale(1.015);
+  box-shadow:
+    4px 8px 16px  rgba(0,0,0,0.1),
+    12px 24px 48px rgba(0,0,0,0.18),
+    28px 52px 80px rgba(0,0,0,0.22),
+    40px 64px 100px rgba(0,0,0,0.12);
+}
+
+/* Disable the default scale-only hover on the img itself */
+.chess-row-depth .chess-img-btn:hover .chess-img {
+  transform: none;
+}
+
+/* Canvas edge — left side is slightly darker (catch light) */
+.chess-row-depth .chess-img-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: -6px;
+  width: 6px;
+  background: linear-gradient(to left, rgba(0,0,0,0.18), rgba(0,0,0,0.06));
+  transform-origin: right center;
+  pointer-events: none;
+  border-radius: 1px 0 0 1px;
+}
+
+/* Canvas edge — bottom */
+.chess-row-depth .chess-img-btn::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 6px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.16), rgba(0,0,0,0.04));
+  pointer-events: none;
+  border-radius: 0 0 1px 1px;
+}
+
+/* RTL: mirror the tilt direction */
+[dir='rtl'] .chess-row-depth .chess-img-btn {
+  transform: perspective(900px) rotateY(-3deg) rotateX(-1deg);
+}
+[dir='rtl'] .chess-row-depth .chess-img-btn:hover {
+  transform: perspective(900px) rotateY(-1.5deg) rotateX(-0.5deg) translateZ(18px) scale(1.015);
+}
+[dir='rtl'] .chess-row-depth .chess-img-btn::before {
+  left: auto; right: -6px;
+  background: linear-gradient(to right, rgba(0,0,0,0.18), rgba(0,0,0,0.06));
+  border-radius: 0 1px 1px 0;
+}
+
+/* On mobile: disable 3D (too cramped) */
+@media (max-width: 900px) {
+  .chess-row-depth .chess-image {
+    overflow: hidden;
+    padding: 20px;
+  }
+  .chess-row-depth .chess-img-btn {
+    transform: none;
+    box-shadow:
+      4px 8px 24px rgba(0,0,0,0.14),
+      12px 20px 40px rgba(0,0,0,0.10);
+  }
+  .chess-row-depth .chess-img-btn:hover {
+    transform: scale(1.01);
+  }
+}
+
 /* Clickable image wrapper */
 .chess-img-btn {
   position: relative;

@@ -114,8 +114,10 @@ const GalleryPage = ({ t, onNavigate }) => {
       <section className="chess-section">
         {artworks.map((work, i) => {
           const isEven = i % 2 === 0;
+          // artwork id=1 (index 0) gets the 3D depth treatment
+          const isDepth = work.id === 1;
           return (
-            <article key={work.id} className={`chess-row ${isEven ? 'even' : 'odd'} reveal`}>
+            <article key={work.id} className={`chess-row ${isEven ? 'even' : 'odd'} ${isDepth ? 'chess-row-depth' : ''} reveal`}>
 
               {/* ── IMAGE PANEL ── */}
               <div className="chess-image">
