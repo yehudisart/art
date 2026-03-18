@@ -50,15 +50,36 @@
   font-family: var(--font-body-he); letter-spacing: 0;
   text-transform: none; font-size: 0.85rem;
 }
-.hero-title {
-  font-family: var(--font-display-en);
-  font-size: clamp(5.5rem, 13vw, 11rem);
-  font-weight: 300; line-height: 0.92; letter-spacing: 0.04em;
-  color: #fff; margin-bottom: 16px; font-style: italic;
+/* Hero signature logo */
+.hero-logo-wrap {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  margin-bottom: 20px;
 }
-[dir='rtl'] .hero-title {
-  font-family: var(--font-display-he); font-style: normal;
-  letter-spacing: 0; font-size: clamp(4rem, 10vw, 9rem);
+.hero-logo-sig {
+  height: clamp(72px, 14vw, 130px);
+  width: auto; display: block;
+  filter: brightness(0) invert(1);  /* white */
+  opacity: 0.95;
+  /* subtle entrance */
+  animation: heroSigIn 1.2s cubic-bezier(0.25,0.46,0.45,0.94) both;
+}
+@keyframes heroSigIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 0.95; transform: translateY(0); }
+}
+.hero-logo-jacobs {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(0.7rem, 1.4vw, 0.92rem);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  display: block;
+  margin-top: 2px;
+}
+[dir='rtl'] .hero-logo-jacobs {
+  font-family: 'Heebo', sans-serif;
+  letter-spacing: 0; text-transform: none;
 }
 .hero-subtitle {
   font-size: 0.7rem; letter-spacing: 0.28em; text-transform: uppercase;
