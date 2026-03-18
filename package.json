@@ -1,6 +1,1 @@
-{
-  "name": "yehudis-jacobs-gallery",
-  "version": "3.0.0",
-  "private": true,
-  "scripts": { "build": "echo Static site" }
-}
+{"name":"yehudis-jacobs-gallery","version":"4.0.0","private":true,"scripts":{"build":"echo Static"}}
