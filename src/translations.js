@@ -180,17 +180,17 @@ export const translations = {
 export const artworks = [
   {
     id: 1,
-    // ← REPLACE with real image: import img1 from '../images/work-1.jpg'
-    image: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=900&q=80',
-    titleEn: 'Between Light and Shadow',
-    titleHe: 'בין אור לצל',
+    // Real artwork by Yehudis — served from /images/har-sinai.jpg
+    image: '/images/har-sinai.jpg',
+    titleEn: 'Mount Sinai',
+    titleHe: 'הר סיני',
     mediumEn: 'Oil on canvas',
     mediumHe: 'שמן על בד',
-    dims: '80 × 100 cm',
-    year: '2024',
+    dims: '60 × 80 cm',
+    year: '2023 · תשפ״ג',
     available: true,
-    storyEn: 'This painting was born during a quiet Jerusalem morning — the hour when the city\'s ancient stone shifts from grey to gold. The tension between light and shadow here is not just visual. It mirrors the inner life: the way clarity and uncertainty coexist, the way we live in the threshold between knowing and not knowing. The warm yellows push forward; the deep purples hold their ground. Neither wins. Both are necessary.',
-    storyHe: 'ציור זה נולד בבוקר ירושלמי שקט — השעה שבה האבן הקדומה של העיר עוברת מאפור לזהב. המתח בין האור לצל אינו חזותי בלבד. הוא משקף את החיים הפנימיים: האופן שבו בהירות ואי-ודאות מתקיימים יחד, האופן שבו אנו חיים על הסף שבין ידיעה לאי-ידיעה. הצהובים החמים דוחפים קדימה; הסגולים העמוקים מחזיקים עמדתם. אף אחד לא מנצח. שניהם הכרחיים.',
+    storyEn: '״וַיַּ֤רְא הָעָם֙ וַיָּנֻ֔עוּ וַיַּֽעַמְד֖וּ מֵֽרָחֹֽק״ (שמות כ׳:ט״ו)',
+    storyHe: '״וַיַּ֤רְא הָעָם֙ וַיָּנֻ֔עוּ וַיַּֽעַמְד֖וּ מֵֽרָחֹֽק״ (שמות כ׳:ט״ו)',
   },
   {
     id: 2,
