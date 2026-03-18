@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { artworks } from '../translations';
 import './HomePage.css';
 
