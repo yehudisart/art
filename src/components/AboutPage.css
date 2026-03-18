@@ -1,247 +1,109 @@
-/* ── ABOUT PAGE ─────────────────────────────────────────── */
+.about-page { background: #fff; }
 
-/* ── BIO SECTION ────────────────────────────────────────── */
-.about-bio-section {
-  padding: 80px 0 60px;
-  background: var(--ivory);
+.about-hero {
+  padding: 160px 0 72px; background: #fff; text-align: center;
 }
+.about-page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 300; color: #0A0A0A; letter-spacing: 0.05em;
+}
+[dir='rtl'] .about-page-title { font-family: 'Frank Ruhl Libre', serif; letter-spacing: 0; }
 
+/* Bio */
+.about-bio-section { padding: 80px 0 72px; background: #fff; }
 .about-grid {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 80px;
-  align-items: start;
+  display: grid; grid-template-columns: 380px 1fr;
+  gap: 88px; align-items: start;
 }
-
-/* ── PORTRAIT ───────────────────────────────────────────── */
 .about-portrait {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-  position: sticky;
-  top: 100px;
+  display: flex; flex-direction: column; gap: 12px;
+  position: sticky; top: 96px;
 }
-
-[dir='rtl'] .about-portrait {
-  align-items: flex-end;
+.portrait-img {
+  width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block;
 }
-
-.portrait-placeholder {
-  width: 100%;
-  aspect-ratio: 3/4;
-  background: var(--sand);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(44, 36, 22, 0.06);
+.portrait-cap {
+  font-size: 0.7rem; letter-spacing: 0.14em;
+  color: #888; text-transform: uppercase;
+  font-family: 'EB Garamond', serif;
 }
-
-.about-portrait img {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  display: block;
+[dir='rtl'] .portrait-cap {
+  font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none;
 }
-
-.portrait-glyph {
-  font-size: 2.5rem;
-  color: rgba(44, 36, 22, 0.08);
+.about-bio { display: flex; flex-direction: column; }
+.bio-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400; font-style: italic; color: #0A0A0A;
 }
-
-.portrait-caption {
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: var(--charcoal-light);
-  text-transform: uppercase;
-}
-
-[dir='rtl'] .portrait-caption {
-  font-family: var(--font-body-he);
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 0.85rem;
-}
-
-/* ── BIO TEXT ───────────────────────────────────────────── */
-.about-bio {
-  display: flex;
-  flex-direction: column;
-}
-
-.bio-heading {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 400;
-  color: var(--charcoal);
-  font-style: italic;
-}
-
-[dir='rtl'] .bio-heading {
-  font-family: var(--font-display-he);
-  font-style: normal;
-  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-}
-
+[dir='rtl'] .bio-name { font-family: 'Frank Ruhl Libre', serif; font-style: normal; }
 .bio-para {
-  font-size: 1rem;
-  color: var(--charcoal-mid);
-  line-height: 1.95;
-  margin-bottom: 20px;
-  max-width: 600px;
+  font-size: 1rem; line-height: 1.95; color: #3A3A3A;
+  margin-bottom: 18px; max-width: 580px;
 }
+[dir='rtl'] .bio-para { font-family: 'Heebo', sans-serif; }
 
-[dir='rtl'] .bio-para {
-  font-family: var(--font-body-he);
-  font-size: 1rem;
+/* Education */
+.about-edu-section {
+  padding: 72px 0; background: #F4F4F4;
+  border-top: 1px solid #E0E0E0;
 }
-
-/* ── EDUCATION ──────────────────────────────────────────── */
-.about-education-section {
-  padding: 60px 0;
-  background: var(--parchment);
-  border-top: 1px solid rgba(44, 36, 22, 0.06);
-}
-
-.education-inner {
-  max-width: 640px;
-}
-
-[dir='rtl'] .education-inner {
-  margin-right: 0;
-}
-
+.edu-inner { max-width: 680px; }
 .edu-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 20px;
+  display: flex; flex-direction: column; gap: 24px; margin-top: 20px;
 }
-
 .edu-item {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  display: flex; gap: 24px; align-items: flex-start;
 }
-
-[dir='rtl'] .edu-item {
-  flex-direction: row-reverse;
+[dir='rtl'] .edu-item { flex-direction: row-reverse; }
+.edu-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem; color: #E0E0E0;
+  line-height: 1; flex-shrink: 0; width: 48px;
 }
-
-.edu-dot {
-  color: var(--gold);
-  font-size: 1.2rem;
-  line-height: 1.6;
-  flex-shrink: 0;
+.edu-text {
+  font-size: 0.95rem; color: #3A3A3A; line-height: 1.7; padding-top: 4px;
 }
+[dir='rtl'] .edu-text { font-family: 'Heebo', sans-serif; text-align: right; }
 
-.edu-item p {
-  font-size: 0.95rem;
-  color: var(--charcoal-mid);
-  line-height: 1.7;
-}
-
-[dir='rtl'] .edu-item p {
-  font-family: var(--font-body-he);
-  font-size: 0.95rem;
-  text-align: right;
-}
-
-/* ── ARTIST STATEMENT ───────────────────────────────────── */
+/* Statement */
 .about-statement-section {
-  padding: 80px 0 100px;
-  background: var(--ivory);
-  border-top: 1px solid rgba(44, 36, 22, 0.06);
+  padding: 96px 0 112px; background: #fff;
+  border-top: 1px solid #E0E0E0;
 }
-
-.statement-inner {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.statement-header {
-  margin-bottom: 40px;
-}
-
-.statement-header .section-heading {
-  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-  color: var(--charcoal);
-}
-
-.statement-body {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
+.statement-inner { max-width: 720px; margin: 0 auto; }
+.statement-header { margin-bottom: 40px; }
+.statement-paras { display: flex; flex-direction: column; gap: 20px; }
 .statement-para {
-  font-size: 1.05rem;
-  color: var(--charcoal-mid);
-  line-height: 2;
+  font-size: 1rem; color: #3A3A3A; line-height: 2;
 }
-
-[dir='rtl'] .statement-para {
-  font-family: var(--font-body-he);
-  font-size: 1.05rem;
-}
-
-/* Give first paragraph slightly larger treatment */
-.statement-para:first-child {
-  font-size: 1.15rem;
-  color: var(--charcoal);
+[dir='rtl'] .statement-para { font-family: 'Heebo', sans-serif; }
+.statement-lead {
+  font-size: 1.15rem; color: #0A0A0A;
+  font-family: 'Cormorant Garamond', serif;
   font-style: italic;
 }
-
-[dir='rtl'] .statement-para:first-child {
-  font-style: normal;
+[dir='rtl'] .statement-lead {
+  font-family: 'Frank Ruhl Libre', serif; font-style: normal;
 }
-
-/* ── CLOSING ORNAMENT ───────────────────────────────────── */
-.statement-closing {
-  margin-top: 56px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
+.statement-sig {
+  margin-top: 56px; display: flex; flex-direction: column;
+  align-items: center; gap: 12px;
 }
-
-.closing-ornament {
-  width: 80px;
-  height: auto;
-}
-
-.closing-name {
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
-  color: var(--charcoal-light);
+.sig-rule { width: 80px; height: auto; }
+.sig-name {
+  font-size: 0.72rem; letter-spacing: 0.18em; color: #888;
   text-transform: uppercase;
 }
-
-[dir='rtl'] .closing-name {
-  font-family: var(--font-body-he);
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 0.9rem;
+[dir='rtl'] .sig-name {
+  font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none;
 }
 
-/* ── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-
-  .about-portrait {
-    position: static;
-    max-width: 320px;
-  }
-
-  [dir='rtl'] .about-portrait {
-    align-items: flex-start;
-  }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-portrait { position: static; max-width: 320px; }
 }
-
 @media (max-width: 600px) {
-  .about-portrait {
-    max-width: 100%;
-  }
+  .about-portrait { max-width: 100%; }
 }

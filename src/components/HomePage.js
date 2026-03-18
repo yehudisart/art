@@ -1,191 +1,199 @@
-// ============================================================
-// HOME PAGE
-// ============================================================
-import React, { useEffect } from 'react';
-import './shared.css';
+import React, { useEffect, useRef } from 'react';
+import { artworks } from '../translations';
 import './HomePage.css';
 
-// Hook: trigger reveal animation on scroll
+// Scroll reveal hook
 const useReveal = () => {
   useEffect(() => {
     const els = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      }),
-      { threshold: 0.15 }
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
+      { threshold: 0.12 }
     );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
   }, []);
 };
 
-// Decorative brushstroke SVG divider
-const BrushDivider = () => (
-  <svg className="brush-divider" viewBox="0 0 120 8" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M2 4 C20 1, 40 7, 60 4 C80 1, 100 7, 118 4"
-      stroke="#B8963E"
-      strokeWidth="1"
-      fill="none"
-      opacity="0.55"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
 const HomePage = ({ t, onNavigate }) => {
   useReveal();
+  const isHe = t.lang === 'he';
+  const featured = artworks.slice(0, 3);
+
+  const go = (page) => { onNavigate(page); window.scrollTo({ top: 0 }); };
 
   return (
     <main className="home-page" dir={t.dir}>
 
-      {/* ── HERO ──────────────────────────────────────────── */}
-      <section className="hero">
-        {/* Texture overlay */}
-        <div className="hero-texture" />
+      {/* ══ 1. VIDEO HERO ═══════════════════════════════════ */}
+      <section className="video-hero">
+        {/*
+          ← REPLACE: Add your real video file here.
+          Options:
+          A) Self-hosted: <video src="/videos/studio.mp4" ... />
+          B) YouTube embed: replace the iframe src with your video ID
+          C) Vimeo embed: replace with Vimeo URL
 
-        <div className="hero-content container">
-          <p className="hero-tagline reveal">{t.home.heroTagline}</p>
-
-          <h1 className="hero-title reveal">
-            {t.home.heroTitle}
-          </h1>
-
-          <p className="hero-subtitle reveal">{t.home.heroSubtitle}</p>
-
-          <BrushDivider />
-
-          <p className="hero-intro reveal">{t.home.heroIntro}</p>
-
-          <div className="hero-ctas reveal">
-            <button
-              className="btn-primary"
-              onClick={() => { onNavigate('gallery'); window.scrollTo({ top: 0 }); }}
-            >
-              {t.home.ctaGallery}
-            </button>
-            <button
-              className="btn-outline"
-              onClick={() => { onNavigate('about'); window.scrollTo({ top: 0 }); }}
-            >
-              {t.home.ctaAbout}
-            </button>
+          Current: using a looping abstract art video from Pexels as placeholder.
+          The iframe below uses a YouTube embed.
+          Replace YOUR_VIDEO_ID with your actual YouTube video ID.
+        */}
+        <div className="video-wrap">
+          {/* Placeholder gradient — replace with video below */}
+          <div className="video-placeholder">
+            <div className="video-placeholder-inner">
+              {/* Uncomment and fill in your video:
+              <video autoPlay muted loop playsInline>
+                <source src="/videos/studio.mp4" type="video/mp4" />
+              </video>
+              */}
+              {/* Or use YouTube iframe: */}
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0&showinfo=0&rel=0&modestbranding=1"
+                title="Artist studio"
+                frameBorder="0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                className="yt-iframe"
+              />
+              {/* ← REPLACE the YouTube src above with your real video embed URL */}
+            </div>
+            <div className="video-overlay" />
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="scroll-indicator">
-          <div className="scroll-line" />
+        {/* Hero text */}
+        <div className="video-content">
+          <p className="hero-tagline">{t.home.videoTagline}</p>
+          <h1 className="hero-title">{t.home.heroTitle}</h1>
+          <p className="hero-subtitle">{t.home.heroSubtitle}</p>
+          <div className="hero-ctas">
+            <button className="btn-primary" onClick={() => go('gallery')}>{t.home.heroCta}</button>
+            <button className="btn-outline hero-outline" onClick={() => go('about')}>{t.home.heroCtaAbout}</button>
+          </div>
+        </div>
+
+        {/* Scroll cue */}
+        <div className="scroll-cue">
+          <div className="scroll-cue-line" />
         </div>
       </section>
 
-      {/* ── SECTION 1: Where Painting Meets Presence ──────── */}
-      <section className="section-presence">
+      {/* ══ 2. ARTIST STORY ═════════════════════════════════ */}
+      <section className="story-section">
         <div className="container">
-          <div className="presence-grid">
-            {/* Left: large placeholder artwork */}
-            <div className="presence-image reveal">
-              <div className="art-placeholder large">
-                {/* ← REPLACE: add real artwork image here */}
-                {/* <img src="/images/featured-1.jpg" alt="Featured work" /> */}
-                <div className="placeholder-inner">
-                  <span className="placeholder-glyph">◈</span>
-                </div>
+          <div className="story-grid">
+            <div className="story-image reveal">
+              {/*
+                ← REPLACE with real portrait image:
+                <img src="/images/portrait.jpg" alt="Yehudis in her studio" />
+              */}
+              <img
+                src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80"
+                alt="Artist in studio"
+                className="story-img"
+              />
+              <div className="story-img-caption">
+                {isHe ? 'יהודית בסטודיו, ירושלים' : 'Yehudis in her Jerusalem studio'}
               </div>
             </div>
-
-            {/* Right: text */}
-            <div className="presence-text reveal">
-              <span className="section-label">
-                {t.lang === 'he' ? 'על האמנות' : 'The Work'}
-              </span>
-              <h2 className="section-heading">{t.home.section1Title}</h2>
-              <hr className="divider" style={{ margin: '20px 0' }} />
-              <p className="section-body">{t.home.section1Text}</p>
+            <div className="story-text reveal">
+              <span className="label-tag">{t.home.storyLabel}</span>
+              <h2 className="section-heading story-heading">{t.home.storyTitle}</h2>
+              <div className="gold-rule" />
+              <p className="body-para">{t.home.storyText}</p>
+              <p className="body-para">{t.home.storyText2}</p>
+              <button className="btn-outline" onClick={() => go('about')}>{t.home.heroCtaAbout}</button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── QUOTE ─────────────────────────────────────────── */}
-      <section className="section-quote">
+      {/* ══ 3. QUOTE BREAK ══════════════════════════════════ */}
+      <section className="quote-section">
         <div className="container">
           <blockquote className="artist-quote reveal">
-            <p className="quote-text">"{t.home.quoteText}"</p>
+            <p className="quote-mark">"</p>
+            <p className="quote-text">{t.home.quoteText}</p>
             <cite className="quote-author">{t.home.quoteAuthor}</cite>
           </blockquote>
         </div>
       </section>
 
-      {/* ── SECTION 2: Color as Healing ───────────────────── */}
-      <section className="section-healing">
-        <div className="container">
-          <div className="healing-grid">
-            {/* Text first (reversed) */}
-            <div className="healing-text reveal">
-              <span className="section-label">
-                {t.lang === 'he' ? 'צבע וריפוי' : 'Art & Healing'}
-              </span>
-              <h2 className="section-heading">{t.home.section2Title}</h2>
-              <hr className="divider" style={{ margin: '20px 0' }} />
-              <p className="section-body">{t.home.section2Text}</p>
-              <p className="section-body statement-teaser">{t.home.statementTeaser}</p>
-            </div>
-
-            {/* Right: placeholder artwork */}
-            <div className="healing-image reveal">
-              <div className="art-placeholder large">
-                {/* ← REPLACE: add real artwork image here */}
-                <div className="placeholder-inner">
-                  <span className="placeholder-glyph">◈</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── FEATURED WORKS PREVIEW ────────────────────────── */}
-      <section className="section-featured">
+      {/* ══ 4. FEATURED WORKS (3 cards) ═════════════════════ */}
+      <section className="featured-section">
         <div className="container">
           <div className="featured-header reveal">
-            <h2 className="section-heading centered">{t.home.featuredTitle}</h2>
-            <p className="featured-sub">{t.home.featuredSubtitle}</p>
+            <span className="label-tag" style={{ textAlign: 'center', display: 'block' }}>{t.home.featuredLabel}</span>
+            <h2 className="section-heading" style={{ textAlign: 'center' }}>{t.home.featuredTitle}</h2>
+            <p className="featured-sub">{t.home.featuredSub}</p>
           </div>
 
-          {/* 3 preview cards */}
           <div className="featured-grid">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="featured-card reveal">
-                <div className="featured-img-wrap">
-                  {/* ← REPLACE: add real artwork image */}
-                  {/* <img src={`/images/work-${i}.jpg`} alt="..." /> */}
-                  <div className="placeholder-inner small">
-                    <span className="placeholder-glyph">◈</span>
+            {featured.map((work, i) => (
+              <div key={work.id} className="featured-card reveal" style={{ transitionDelay: `${i * 100}ms` }}>
+                <div className="featured-img-wrap" onClick={() => go('gallery')}>
+                  <img src={work.image} alt={isHe ? work.titleHe : work.titleEn} />
+                  <div className="featured-img-overlay">
+                    <span>{isHe ? 'לפרטים' : 'View Work'}</span>
                   </div>
                 </div>
-                <div className="featured-card-meta">
-                  {/* ← REPLACE: add real title */}
-                  <p className="work-title">
-                    {t.gallery.artworkTitle} {i}
+                <div className="featured-meta">
+                  <div className="featured-meta-top">
+                    <p className="featured-title">{isHe ? work.titleHe : work.titleEn}</p>
+                    {work.available
+                      ? <span className="avail-badge">{t.gallery.available}</span>
+                      : <span className="avail-badge sold">{t.gallery.soldLabel}</span>
+                    }
+                  </div>
+                  <p className="featured-detail">{isHe ? work.mediumHe : work.mediumEn} · {work.dims}</p>
+                  {/* Short story teaser */}
+                  <p className="featured-story-teaser">
+                    {(isHe ? work.storyHe : work.storyEn).substring(0, 90)}…
                   </p>
-                  <p className="work-medium">{t.gallery.artworkMedium}</p>
                 </div>
               </div>
             ))}
           </div>
 
           <div className="featured-cta reveal">
-            <button
-              className="btn-outline"
-              onClick={() => { onNavigate('gallery'); window.scrollTo({ top: 0 }); }}
-            >
-              {t.nav.gallery}
-            </button>
+            <button className="btn-primary" onClick={() => go('gallery')}>{t.home.featuredCta}</button>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 5. HEALING SECTION ══════════════════════════════ */}
+      <section className="healing-section">
+        <div className="container">
+          <div className="healing-grid">
+            <div className="healing-text reveal">
+              <span className="label-tag">{t.home.healingLabel}</span>
+              <h2 className="section-heading">{t.home.healingTitle}</h2>
+              <div className="gold-rule" />
+              <p className="body-para">{t.home.healingText}</p>
+              <button className="btn-outline" onClick={() => go('contact')}>{t.home.healingCta}</button>
+            </div>
+            <div className="healing-image reveal">
+              {/* ← REPLACE with real image */}
+              <img
+                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
+                alt="Paintbrushes and color"
+                className="healing-img"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ 6. COLLECT CTA ══════════════════════════════════ */}
+      <section className="collect-section">
+        <div className="collect-inner">
+          <div className="collect-content reveal">
+            <span className="label-tag collect-label">{t.home.collectLabel}</span>
+            <h2 className="collect-heading">{t.home.collectTitle}</h2>
+            <div className="gold-rule center" />
+            <p className="collect-text">{t.home.collectText}</p>
+            <button className="btn-primary collect-cta" onClick={() => go('contact')}>{t.home.collectCta}</button>
           </div>
         </div>
       </section>

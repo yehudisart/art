@@ -1,208 +1,161 @@
 /* ============================================================
-   YEHUDIS — GLOBAL STYLES
-   Brand palette, typography, base reset, utilities
-   ============================================================ */
+   YEHUDIS — GLOBAL STYLES v2
+   Premium white gallery aesthetic
+   ============================================================
 
-/* ── BRAND COLOR PALETTE ────────────────────────────────────
-   Parchment   #F5EFE0  – primary background, light warmth
-   Sand        #E8DCC8  – secondary surface, cards
-   Clay        #C4906A  – warm terracotta accent
-   Plum        #5C3D52  – deep accent, key text moments
-   Sage        #7A8C72  – olive/sage secondary accent
-   Gold        #B8963E  – antique gold highlight
-   Charcoal    #2C2416  – primary text
-   Ivory       #FAF6EE  – hero & section backgrounds
-   ──────────────────────────────────────────────────────── */
+   PALETTE:
+   --white:       #FFFFFF  – primary background
+   --off-white:   #FAFAFA  – secondary surface
+   --light-grey:  #F4F4F4  – subtle section bg
+   --mid-grey:    #E0E0E0  – borders, dividers
+   --text-dark:   #0A0A0A  – primary text (near-black)
+   --text-mid:    #3A3A3A  – body text
+   --text-light:  #888888  – captions, meta
+   --gold:        #C9A84C  – accent only — sparingly
+   --black:       #000000  – hero text, statements
+*/
 
 :root {
-  --parchment:  #F5EFE0;
-  --sand:       #E8DCC8;
-  --clay:       #C4906A;
-  --plum:       #5C3D52;
-  --sage:       #7A8C72;
-  --gold:       #B8963E;
-  --charcoal:   #2C2416;
-  --ivory:      #FAF6EE;
-  --charcoal-mid: #4A3E2E;
-  --charcoal-light: #7A6E5E;
+  --white:       #FFFFFF;
+  --off-white:   #FAFAFA;
+  --light-grey:  #F4F4F4;
+  --mid-grey:    #E0E0E0;
+  --text-dark:   #0A0A0A;
+  --text-mid:    #3A3A3A;
+  --text-light:  #888888;
+  --gold:        #C9A84C;
+  --black:       #000000;
 
-  /* Typography */
   --font-display-en: 'Cormorant Garamond', serif;
   --font-body-en:    'EB Garamond', serif;
   --font-display-he: 'Frank Ruhl Libre', serif;
   --font-body-he:    'Heebo', sans-serif;
 
-  /* Spacing */
-  --section-pad: 100px 0;
-  --section-pad-sm: 60px 0;
-  --container-max: 1200px;
-  --container-pad: 0 48px;
-  --container-pad-sm: 0 24px;
-
-  /* Transitions */
+  --navbar-h: 72px;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
 }
 
-/* ── RESET ──────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-}
+html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
-  background-color: var(--ivory);
-  color: var(--charcoal);
-  line-height: 1.7;
+  background: var(--white);
+  color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* ── LANGUAGE-SPECIFIC TYPOGRAPHY ──────────────────────── */
-body[dir='ltr'] {
-  font-family: var(--font-body-en);
-}
+body[dir='ltr'] { font-family: var(--font-body-en); }
+body[dir='rtl'] { font-family: var(--font-body-he); }
 
-body[dir='rtl'] {
-  font-family: var(--font-body-he);
-}
-
-/* ── HEADINGS ───────────────────────────────────────────── */
-[dir='ltr'] h1,
-[dir='ltr'] h2,
-[dir='ltr'] h3,
-[dir='ltr'] h4 {
+[dir='ltr'] h1,[dir='ltr'] h2,[dir='ltr'] h3,[dir='ltr'] h4 {
   font-family: var(--font-display-en);
   font-weight: 400;
-  letter-spacing: 0.02em;
 }
-
-[dir='rtl'] h1,
-[dir='rtl'] h2,
-[dir='rtl'] h3,
-[dir='rtl'] h4 {
+[dir='rtl'] h1,[dir='rtl'] h2,[dir='rtl'] h3,[dir='rtl'] h4 {
   font-family: var(--font-display-he);
   font-weight: 400;
 }
 
-/* ── UTILITY CLASSES ────────────────────────────────────── */
 .container {
-  max-width: var(--container-max);
+  max-width: 1280px;
   margin: 0 auto;
-  padding: var(--container-pad);
+  padding: 0 56px;
 }
+@media (max-width: 768px) { .container { padding: 0 24px; } }
 
-@media (max-width: 768px) {
-  .container {
-    padding: var(--container-pad-sm);
-  }
-}
+/* ── PAGE CONTENT ── */
+.page-content { min-height: 100vh; }
 
-/* ── PAGE TRANSITIONS ───────────────────────────────────── */
-.page-enter {
-  opacity: 0;
-  transform: translateY(18px);
-}
-.page-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
-}
-.page-exit {
-  opacity: 1;
-}
-.page-exit-active {
-  opacity: 0;
-  transition: opacity 0.3s var(--ease);
-}
-
-/* ── HORIZONTAL RULE ────────────────────────────────────── */
-.divider {
-  width: 48px;
-  height: 1px;
-  background: var(--gold);
-  border: none;
-  margin: 24px auto;
-}
-
-[dir='rtl'] .divider {
-  margin: 24px auto;
-}
-
-/* ── BUTTONS ────────────────────────────────────────────── */
+/* ── BUTTONS ── */
 .btn-primary {
   display: inline-block;
-  padding: 14px 40px;
-  background: var(--plum);
-  color: var(--parchment);
-  text-decoration: none;
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
+  padding: 15px 44px;
+  background: var(--black);
+  color: var(--white);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  border: none;
+  border: 1px solid var(--black);
   cursor: pointer;
-  transition: background 0.3s var(--ease), color 0.3s var(--ease),
-              box-shadow 0.3s var(--ease);
+  text-decoration: none;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+  font-family: var(--font-body-en);
 }
-
-.btn-primary:hover {
-  background: var(--charcoal);
-  box-shadow: 0 4px 24px rgba(44, 36, 22, 0.18);
-}
+.btn-primary:hover { background: var(--white); color: var(--black); }
 
 .btn-outline {
   display: inline-block;
-  padding: 13px 38px;
+  padding: 14px 42px;
   background: transparent;
-  color: var(--plum);
-  text-decoration: none;
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
+  color: var(--black);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  border: 1px solid var(--plum);
+  border: 1px solid var(--black);
   cursor: pointer;
+  text-decoration: none;
   transition: all 0.3s var(--ease);
+  font-family: var(--font-body-en);
 }
-
-.btn-outline:hover {
-  background: var(--plum);
-  color: var(--parchment);
-}
+.btn-outline:hover { background: var(--black); color: var(--white); }
 
 [dir='rtl'] .btn-primary,
 [dir='rtl'] .btn-outline {
-  letter-spacing: 0;
   font-family: var(--font-body-he);
-  font-size: 0.9rem;
+  letter-spacing: 0;
   text-transform: none;
+  font-size: 0.9rem;
 }
 
-/* ── SCROLL REVEAL ANIMATION ────────────────────────────── */
+/* ── REVEAL ANIMATION ── */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── GOLD RULE ── */
+.gold-rule {
+  width: 40px; height: 1px;
+  background: var(--gold);
+  border: none;
+  display: block;
+  margin: 20px 0;
+}
+.gold-rule.center { margin: 20px auto; }
+
+/* ── LABEL ── */
+.label-tag {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  font-family: var(--font-body-en);
+  margin-bottom: 12px;
+}
+[dir='rtl'] .label-tag {
+  font-family: var(--font-body-he);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.8rem;
 }
 
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* ── SECTION HEADING ── */
+.section-heading {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 400;
+  color: var(--black);
+  line-height: 1.15;
+}
+[dir='rtl'] .section-heading {
+  font-family: var(--font-display-he);
+  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
 }
 
-/* ── PAGE CONTENT — pushes below fixed navbar ───────────── */
-.page-content {
-  min-height: 100vh;
-}
-
-/* ── SELECTION COLOR ────────────────────────────────────── */
-::selection {
-  background: var(--clay);
-  color: var(--ivory);
-}
+/* ── SELECTION ── */
+::selection { background: var(--black); color: var(--white); }

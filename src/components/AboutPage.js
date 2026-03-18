@@ -1,24 +1,15 @@
-// ============================================================
-// ABOUT PAGE
-// ============================================================
 import React, { useEffect } from 'react';
-import './shared.css';
 import './AboutPage.css';
 
 const useReveal = () => {
   useEffect(() => {
     const els = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      }),
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
       { threshold: 0.12 }
     );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
   }, []);
 };
 
@@ -29,65 +20,57 @@ const AboutPage = ({ t }) => {
   return (
     <main className="about-page" dir={t.dir}>
 
-      {/* Page header */}
-      <section className="page-hero">
+      {/* Hero */}
+      <section className="about-hero">
         <div className="container">
-          <div className="page-hero-inner">
-            <h1 className="page-title">{t.about.pageTitle}</h1>
-            <div className="page-title-rule" />
-          </div>
+          <span className="label-tag">{t.about.pageLabel}</span>
+          <h1 className="about-page-title">{t.about.pageTitle}</h1>
+          <div className="gold-rule center" />
         </div>
       </section>
 
-      {/* ── BIOGRAPHY ────────────────────────────────────── */}
+      {/* Bio */}
       <section className="about-bio-section">
         <div className="container">
           <div className="about-grid">
 
-            {/* Portrait placeholder */}
             <div className="about-portrait reveal">
-              {/* ← REPLACE: add real portrait image */}
-              {/* <img src="/images/portrait.jpg" alt="Yehudis, artist" /> */}
-              <div className="portrait-placeholder">
-                <span className="portrait-glyph">◈</span>
-                {/* ← Replace above with: <img src="/images/portrait.jpg" alt="..." /> */}
-              </div>
-              {/* Caption under portrait */}
-              <p className="portrait-caption">
-                {isHe ? 'יהודית, ירושלים' : 'Yehudis, Jerusalem'}
+              {/*
+                ← REPLACE: <img src="/images/portrait.jpg" alt="Yehudis" className="portrait-img" />
+              */}
+              <img
+                src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=700&q=80"
+                alt="Yehudis, artist"
+                className="portrait-img"
+              />
+              <p className="portrait-cap">
+                {isHe ? 'יהודית · ירושלים' : 'Yehudis · Jerusalem'}
               </p>
             </div>
 
-            {/* Biography text */}
             <div className="about-bio reveal">
-              <span className="section-label">
-                {isHe ? 'ביוגרפיה' : 'Biography'}
-              </span>
-              <h2 className="bio-heading">
-                {isHe ? 'יהודית' : 'Yehudis'}
-              </h2>
-              <hr className="divider" style={{ margin: '16px 0 24px' }} />
-
-              <p className="bio-para">{t.about.bioParagraph1}</p>
-              <p className="bio-para">{t.about.bioParagraph2}</p>
-              <p className="bio-para">{t.about.bioParagraph3}</p>
-              <p className="bio-para">{t.about.bioParagraph4}</p>
+              <span className="label-tag">{isHe ? 'ביוגרפיה' : 'Biography'}</span>
+              <h2 className="bio-name">{isHe ? 'יהודית' : 'Yehudis'}</h2>
+              <div className="gold-rule" />
+              {[t.about.bio1, t.about.bio2, t.about.bio3, t.about.bio4].map((p, i) => (
+                <p key={i} className="bio-para">{p}</p>
+              ))}
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* ── EDUCATION ────────────────────────────────────── */}
-      <section className="about-education-section">
+      {/* Education */}
+      <section className="about-edu-section">
         <div className="container">
-          <div className="education-inner reveal">
-            <span className="section-label">{t.about.education}</span>
+          <div className="edu-inner reveal">
+            <span className="label-tag">{t.about.eduLabel}</span>
             <div className="edu-list">
               {[t.about.edu1, t.about.edu2, t.about.edu3].map((item, i) => (
                 <div key={i} className="edu-item">
-                  <span className="edu-dot">◦</span>
-                  <p>{item}</p>
+                  <span className="edu-num">{String(i + 1).padStart(2,'0')}</span>
+                  <p className="edu-text">{item}</p>
                 </div>
               ))}
             </div>
@@ -95,43 +78,30 @@ const AboutPage = ({ t }) => {
         </div>
       </section>
 
-      {/* ── ARTIST STATEMENT ─────────────────────────────── */}
+      {/* Artist Statement */}
       <section className="about-statement-section">
         <div className="container">
           <div className="statement-inner">
             <div className="statement-header reveal">
-              <span className="section-label">
-                {isHe ? 'הצהרת אמנות' : 'Artist Statement'}
-              </span>
+              <span className="label-tag">{t.about.statementLabel}</span>
               <h2 className="section-heading">{t.about.statementTitle}</h2>
-              <div className="page-title-rule" style={{ margin: '20px 0' }} />
+              <div className="gold-rule" />
             </div>
-
-            <div className="statement-body">
-              {[
-                t.about.statementText1,
-                t.about.statementText2,
-                t.about.statementText3,
-                t.about.statementText4,
-              ].map((para, i) => (
-                <p key={i} className="statement-para reveal">
+            <div className="statement-paras">
+              {[t.about.s1, t.about.s2, t.about.s3, t.about.s4].map((para, i) => (
+                <p key={i} className={`statement-para reveal ${i === 0 ? 'statement-lead' : ''}`}>
                   {para}
                 </p>
               ))}
             </div>
-
-            {/* Closing decorative element */}
-            <div className="statement-closing reveal">
-              <svg viewBox="0 0 80 20" className="closing-ornament">
-                <line x1="0" y1="10" x2="30" y2="10" stroke="#B8963E" strokeWidth="0.8" opacity="0.5" />
-                <circle cx="40" cy="10" r="3" fill="none" stroke="#B8963E" strokeWidth="0.8" opacity="0.5" />
-                <line x1="50" y1="10" x2="80" y2="10" stroke="#B8963E" strokeWidth="0.8" opacity="0.5" />
+            <div className="statement-sig reveal">
+              <svg viewBox="0 0 80 16" className="sig-rule">
+                <line x1="0" y1="8" x2="28" y2="8" stroke="#C9A84C" strokeWidth="0.8" opacity="0.5"/>
+                <circle cx="40" cy="8" r="2.5" fill="none" stroke="#C9A84C" strokeWidth="0.8" opacity="0.5"/>
+                <line x1="52" y1="8" x2="80" y2="8" stroke="#C9A84C" strokeWidth="0.8" opacity="0.5"/>
               </svg>
-              <p className="closing-name">
-                {isHe ? 'יהודית · ירושלים' : 'Yehudis · Jerusalem'}
-              </p>
+              <p className="sig-name">{isHe ? 'יהודית · ירושלים' : 'Yehudis · Jerusalem'}</p>
             </div>
-
           </div>
         </div>
       </section>

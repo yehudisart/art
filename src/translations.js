@@ -1,239 +1,312 @@
 // ============================================================
-// CONTENT & TRANSLATIONS
-// Edit all website text here — both English and Hebrew
+// CONTENT & TRANSLATIONS — v2
+// Edit all text here. Artwork stories are in the artworks array
+// in GalleryPage.js
 // ============================================================
 
 export const translations = {
   en: {
-    lang: 'en',
-    dir: 'ltr',
-    // ── NAVIGATION ──────────────────────────────────────────
+    lang: 'en', dir: 'ltr',
     nav: {
-      home: 'Home',
-      gallery: 'Gallery',
-      about: 'About',
-      contact: 'Contact',
+      home: 'Home', gallery: 'Gallery', about: 'About', contact: 'Contact',
       langToggle: 'עברית',
     },
-
-    // ── HOME PAGE ───────────────────────────────────────────
     home: {
-      heroTagline: 'Art as a Language of the Soul',
+      videoTagline: 'Art as a Language of the Soul',
       heroTitle: 'Yehudis',
       heroSubtitle: 'Jewish Artist · Jerusalem',
-      heroIntro:
-        'Color, depth, and inner world — rendered visible. Work that carries emotion, spirit, and the quiet light of Jerusalem.',
-      ctaGallery: 'Enter the Gallery',
-      ctaAbout: 'About the Artist',
+      heroCta: 'Enter the Gallery',
+      heroCtaAbout: 'About the Artist',
 
-      section1Title: 'Where Painting Meets Presence',
-      section1Text:
-        'Yehudis creates paintings that live at the intersection of personal memory, spiritual depth, and emotional honesty. Each work is an act of translation — from the interior world into form, color, and light. Her art does not explain. It opens a door.',
+      storyLabel: 'The Artist',
+      storyTitle: 'Where Color Becomes Feeling',
+      storyText: 'Yehudis creates paintings that open a door — from the seen world into the felt one. Based in Jerusalem, her work lives at the intersection of personal memory, spiritual depth, and emotional truth. Every canvas is an act of translation: from the interior world into form, light, and color.',
+      storyText2: 'With a Master\'s degree in Art Therapy from the University of Haifa, Yehudis brings to her practice a rare dual awareness — of the artist and the healer. Her paintings are not only made to be seen. They are made to be felt.',
 
-      section2Title: 'Color as Healing',
-      section2Text:
-        'With a Master\'s degree in Art Therapy, Yehudis brings to her practice a rare sensitivity — understanding that art can hold what words cannot. Her work is not only made to be seen. It is made to be felt.',
+      quoteText: 'I paint to give form to what lives inside — to make visible the light and shadow that words alone cannot carry.',
+      quoteAuthor: '— Yehudis, Jerusalem',
 
-      quoteText:
-        'I paint to give form to what lives inside — to make visible the light and shadow that words alone cannot carry.',
-      quoteAuthor: '— Yehudis',
+      featuredLabel: 'Selected Works',
+      featuredTitle: 'Recent Paintings',
+      featuredSub: 'Original works available. Inquire for details.',
+      featuredCta: 'View Full Gallery',
 
-      statementTeaser:
-        'Her paintings emerge from a deep engagement with Jewish consciousness, the colors of the land of Israel, and the intimate truth of inner experience.',
+      healingLabel: 'Art & Healing',
+      healingTitle: 'Painting as a Path to Wholeness',
+      healingText: 'Color, for Yehudis, is not decoration — it is a medium of the soul. Her training in Art Therapy has taught her that art carries a healing intelligence of its own. This understanding guides every stroke, every choice of pigment, every composition.',
+      healingCta: 'Commission a Work',
 
-      featuredTitle: 'Selected Works',
-      featuredSubtitle: 'New works available — inquire for details.',
+      collectLabel: 'For Collectors',
+      collectTitle: 'Acquire an Original Work',
+      collectText: 'Each painting is a singular, original work — never reproduced. Yehudis works with private collectors, interior designers, and gallery curators worldwide. Inquiries welcome.',
+      collectCta: 'Get in Touch',
     },
-
-    // ── GALLERY PAGE ────────────────────────────────────────
     gallery: {
       pageTitle: 'Gallery',
-      intro:
-        'Each painting is a world in itself — an encounter between color, intention, and the silent depths of inner life. New works available; inquire for details.',
-      // Artwork placeholder labels (replace with real data later)
-      artworkTitle: 'Untitled Work',
-      artworkMedium: 'Oil on canvas',
-      artworkDimensions: '60 × 80 cm',
-      artworkYear: '2024',
-      inquire: 'Inquire',
+      pageLabel: 'Original Works',
+      intro: 'Each painting is a world — an encounter between color, intention, and the silent depths of inner life.',
+      inquireCta: 'Inquire About This Work',
+      available: 'Available',
+      soldLabel: 'Sold',
     },
-
-    // ── ABOUT PAGE ──────────────────────────────────────────
     about: {
-      pageTitle: 'About the Artist',
-      bioParagraph1:
-        'Yehudis is a Jerusalem-based Jewish artist whose paintings are an extension of her inner world — rich with color, emotional depth, and spiritual presence. Her work is not a documentation of the world outside, but an exploration of the world within: the quiet spaces of feeling, memory, and meaning that live beneath the surface of daily life.',
-      bioParagraph2:
-        'She holds a Master\'s degree in Art Therapy from the University of Haifa, a training that deepened her understanding of art not only as expression but as a vessel for healing and transformation. This dual awareness — of the artist and the therapist — is woven into every canvas she creates.',
-      bioParagraph3:
-        'Yehudis studied at the Bezalel Academy of Art and Design, where she developed a rigorous formal language and a deep commitment to craftsmanship. She later studied with one of Israel\'s most respected and celebrated painters, refining her visual vocabulary and deepening her connection to the Israeli painterly tradition.',
-      bioParagraph4:
-        'Her paintings carry the light of Jerusalem — warm, layered, and complex. Color, for Yehudis, is not decoration. It is a medium of the soul, a way of touching what cannot be touched with words alone. She paints because some truths can only be expressed through form and light, through the gesture of a brushstroke on canvas.',
-
-      statementTitle: 'Artist Statement',
-      statementText1:
-        'I paint from the inside out. My work begins not with a subject or a scene, but with a feeling — an inner weather, a texture of experience that asks to be made visible.',
-      statementText2:
-        'Color is my primary language. Through it, I explore the emotional and spiritual dimensions of Jewish existence: the interplay of joy and longing, light and shadow, memory and hope. I am drawn to what is beneath the surface — to the quiet forces that shape us, that move through us, that we rarely find words for.',
-      statementText3:
-        'Painting, for me, is an act of listening as much as creating. I listen to the canvas, to the color, to the emotional truth that wants to emerge. My training in art therapy has taught me that art carries a healing intelligence of its own — and this understanding guides my practice as much as any formal technique.',
-      statementText4:
-        'I work in Jerusalem, surrounded by its ancient stone, its layered history, and its light that is unlike any other light in the world. This place is always present in my art — not as subject matter, but as atmosphere, as spirit.',
-
-      education: 'Education & Formation',
-      edu1: "Master's degree in Art Therapy — University of Haifa",
-      edu2: 'Studies at Bezalel Academy of Art and Design, Jerusalem',
-      edu3: 'Private study with one of Israel\'s leading painters',
+      pageTitle: 'About',
+      pageLabel: 'The Artist',
+      bio1: 'Yehudis is a Jerusalem-based Jewish artist whose paintings are an extension of her inner world — rich with color, emotional depth, and spiritual presence. Her work is not a documentation of the world outside, but an exploration of the world within.',
+      bio2: 'She holds a Master\'s degree in Art Therapy from the University of Haifa, a training that deepened her understanding of art not only as expression but as a vessel for healing and transformation.',
+      bio3: 'Yehudis studied at the Bezalel Academy of Art and Design, and later with one of Israel\'s most respected painters — refining her visual language and deepening her connection to the Israeli painterly tradition.',
+      bio4: 'Her paintings carry the light of Jerusalem — warm, layered, and complex. Color, for Yehudis, is a medium of the soul.',
+      statementLabel: 'Artist Statement',
+      statementTitle: 'On Painting',
+      s1: 'I paint from the inside out. My work begins not with a subject or a scene, but with a feeling — an inner weather, a texture of experience that asks to be made visible.',
+      s2: 'Color is my primary language. Through it I explore the emotional and spiritual dimensions of Jewish existence: the interplay of joy and longing, light and shadow, memory and hope.',
+      s3: 'Painting, for me, is an act of listening as much as creating. I listen to the canvas, to the color, to the emotional truth that wants to emerge.',
+      s4: 'I work in Jerusalem, surrounded by its ancient stone, its layered history, and its light that is unlike any other light in the world.',
+      eduLabel: 'Education',
+      edu1: "Master's in Art Therapy — University of Haifa",
+      edu2: 'Bezalel Academy of Art and Design, Jerusalem',
+      edu3: "Private study with one of Israel's leading painters",
     },
-
-    // ── CONTACT PAGE ────────────────────────────────────────
     contact: {
       pageTitle: 'Contact',
-      intro:
-        'I welcome inquiries from collectors, galleries, curators, and anyone drawn to the work. Whether you are interested in acquiring a painting, exploring a commission, or discussing an exhibition, I would be glad to hear from you.',
-      invitations: [
-        'Original works & private acquisitions',
-        'Commission inquiries',
-        'Exhibition & gallery collaboration',
-        'Art Therapy sessions',
-      ],
-      formName: 'Your Name',
-      formEmail: 'Your Email',
-      formPhone: 'Your Phone (optional)',
-      formMessage: 'Your Message',
+      pageLabel: 'Get in Touch',
+      intro: 'I welcome inquiries from collectors, galleries, curators, and anyone drawn to the work.',
+      invitations: ['Original works & private acquisitions','Commission inquiries','Exhibition & gallery collaboration','Art Therapy sessions'],
+      formName: 'Your Name', formEmail: 'Email Address',
+      formPhone: 'Phone (optional)', formMessage: 'Your Message',
       formSend: 'Send Message',
-      // ── REPLACE WITH REAL CONTACT DETAILS ──
-      emailLabel: 'Email',
-      emailValue: 'studio@yehudis.art', // ← Replace
-      phoneLabel: 'Phone',
-      phoneValue: '+972 00 000 0000', // ← Replace
-      instagramLabel: 'Instagram',
-      instagramValue: '@yehudis.art', // ← Replace
-      instagramUrl: 'https://instagram.com/yehudis.art', // ← Replace
-      locationLabel: 'Location',
-      locationValue: 'Jerusalem, Israel',
+      emailLabel: 'Email', emailValue: 'studio@yehudis.art',
+      phoneLabel: 'Phone', phoneValue: '+972 00 000 0000',
+      instagramLabel: 'Instagram', instagramValue: '@yehudis.art',
+      instagramUrl: 'https://instagram.com/yehudis.art',
+      locationLabel: 'Studio', locationValue: 'Jerusalem, Israel',
       thankYou: 'Thank you — your message has been sent.',
     },
-
-    // ── FOOTER ──────────────────────────────────────────────
     footer: {
-      tagline: 'Art filled with color, soul, and inner depth.',
+      tagline: 'Original paintings from Jerusalem.',
       copyright: '© 2024 Yehudis. All rights reserved.',
-      madeWith: 'Jerusalem',
     },
   },
 
-  // ════════════════════════════════════════════════════════
-  // HEBREW
-  // ════════════════════════════════════════════════════════
   he: {
-    lang: 'he',
-    dir: 'rtl',
+    lang: 'he', dir: 'rtl',
     nav: {
-      home: 'בית',
-      gallery: 'גלריה',
-      about: 'אודות',
-      contact: 'צור קשר',
+      home: 'בית', gallery: 'גלריה', about: 'אודות', contact: 'צור קשר',
       langToggle: 'English',
     },
-
     home: {
-      heroTagline: 'אמנות כשפת הנשמה',
+      videoTagline: 'אמנות כשפת הנשמה',
       heroTitle: 'יהודית',
       heroSubtitle: 'אמנית יהודייה · ירושלים',
-      heroIntro:
-        'צבע, עומק ועולם פנימי — נגלים לעין. יצירות הנושאות רגש, רוח ואורה השקט של ירושלים.',
-      ctaGallery: 'כניסה לגלריה',
-      ctaAbout: 'אודות האמנית',
+      heroCta: 'כניסה לגלריה',
+      heroCtaAbout: 'אודות האמנית',
 
-      section1Title: 'המפגש בין ציור לנוכחות',
-      section1Text:
-        'יהודית יוצרת ציורים החיים בצומת שבין זיכרון אישי, עומק רוחני וכנות רגשית. כל יצירה היא מעשה תרגום — מן העולם הפנימי אל צורה, צבע ואור. האמנות שלה אינה מסבירה. היא פותחת דלת.',
+      storyLabel: 'האמנית',
+      storyTitle: 'כשצבע הופך לרגש',
+      storyText: 'יהודית יוצרת ציורים הפותחים דלת — מהעולם הנראה אל העולם המורגש. יוצרת ומתגוררת בירושלים, עבודתה חיה בצומת שבין זיכרון אישי, עומק רוחני ואמת רגשית. כל קנבס הוא מעשה תרגום: מהעולם הפנימי אל צורה, אור וצבע.',
+      storyText2: 'בעלת תואר שני בטיפול באמצעות אמנות מאוניברסיטת חיפה, יהודית מביאה לפרקטיקה שלה מודעות כפולה נדירה — של האמנית והמרפאה. ציוריה אינם נועדו רק להיראות. הם נועדו להיחוות.',
 
-      section2Title: 'צבע כריפוי',
-      section2Text:
-        'בעלת תואר שני בטיפול באמצעות אמנות, יהודית מביאה לפרקטיקה שלה רגישות נדירה — הבנה עמוקה שאמנות יכולה להכיל את מה שמילים אינן מסוגלות. יצירותיה אינן נועדו רק להיראות. הן נועדו להיחוות.',
+      quoteText: 'אני מציירת כדי לתת צורה למה שחי בפנים — כדי להנכיח את האור והצל שמילים לבדן אינן יכולות לשאת.',
+      quoteAuthor: '— יהודית, ירושלים',
 
-      quoteText:
-        'אני מציירת כדי לתת צורה למה שחי בפנים — כדי להנכיח את האור והצל שמילים לבדן אינן יכולות לשאת.',
-      quoteAuthor: '— יהודית',
+      featuredLabel: 'יצירות נבחרות',
+      featuredTitle: 'ציורים אחרונים',
+      featuredSub: 'יצירות מקוריות זמינות. לפרטים נוספים, צרו קשר.',
+      featuredCta: 'לגלריה המלאה',
 
-      statementTeaser:
-        'ציוריה נולדים ממפגש עמוק עם התודעה היהודית, צבעי ארץ ישראל, ואמת האינטימית של החוויה הפנימית.',
+      healingLabel: 'אמנות וריפוי',
+      healingTitle: 'ציור כדרך לשלמות',
+      healingText: 'צבע, עבור יהודית, אינו קישוט — הוא מדיום של הנשמה. הכשרתה בטיפול באמצעות אמנות לימדה אותה שלאמנות יש אינטליגנציה מרפאת משלה. הבנה זו מנחה כל מכחול, כל בחירת צבע, כל קומפוזיציה.',
+      healingCta: 'הזמינו יצירה',
 
-      featuredTitle: 'יצירות נבחרות',
-      featuredSubtitle: 'יצירות חדשות — לפרטים נוספים, צרו קשר.',
+      collectLabel: 'לאספנים',
+      collectTitle: 'רכישת יצירה מקורית',
+      collectText: 'כל ציור הוא יצירה מקורית, יחידה במינה — ללא שכפול. יהודית עובדת עם אספנים פרטיים, מעצבי פנים ואוצרי גלריות. פניות בברכה.',
+      collectCta: 'צרו קשר',
     },
-
     gallery: {
       pageTitle: 'גלריה',
-      intro:
-        'כל ציור הוא עולם בפני עצמו — מפגש בין צבע, כוונה ועומקה השקט של החיים הפנימיים. יצירות חדשות זמינות; לפרטים נוספים צרו קשר.',
-      artworkTitle: 'יצירה',
-      artworkMedium: 'שמן על בד',
-      artworkDimensions: '60 × 80 ס"מ',
-      artworkYear: '2024',
-      inquire: 'פרטים',
+      pageLabel: 'יצירות מקוריות',
+      intro: 'כל ציור הוא עולם — מפגש בין צבע, כוונה ועומקה השקט של החיים הפנימיים.',
+      inquireCta: 'פרטים על יצירה זו',
+      available: 'זמין',
+      soldLabel: 'נמכר',
     },
-
     about: {
-      pageTitle: 'אודות האמנית',
-      bioParagraph1:
-        'יהודית היא אמנית יהודייה המתגוררת ויוצרת בירושלים. ציוריה הם הרחבה של עולמה הפנימי — עשירים בצבע, עומק רגשי ונוכחות רוחנית. יצירותיה אינן תיעוד של העולם החיצוני, אלא חקירה של העולם שמבפנים: המרחבים הנפשיים השקטים של תחושה, זיכרון ומשמעות, החיים מתחת לפני השטח של היומיום.',
-      bioParagraph2:
-        'יהודית היא בעלת תואר שני בטיפול באמצעות אמנות מאוניברסיטת חיפה — הכשרה שהעמיקה את הבנתה את האמנות לא רק כביטוי, אלא ככלי לריפוי ולשינוי. המודעות הכפולה הזו — של האמנית והמטפלת — שזורה בכל קנבס שהיא יוצרת.',
-      bioParagraph3:
-        'יהודית למדה בבצלאל, אקדמיה לאמנות ועיצוב בירושלים, שם פיתחה שפה פורמלית קפדנית ומחויבות עמוקה למלאכת האמנות. לאחר מכן למדה אצל אחד הציירים המוערכים והמוכרים ביותר בישראל, והעמיקה את האוצר החזותי שלה ואת הקשר שלה למסורת הציור הישראלי.',
-      bioParagraph4:
-        'ציוריה נושאים את אורה של ירושלים — חמים, מרובד ומורכב. צבע, עבור יהודית, אינו קישוט. הוא מדיום של הנשמה, דרך לגעת במה שלא ניתן לגעת בו במילים בלבד. היא מציירת מפני שיש אמיתות שאפשר לבטא רק דרך צורה ואור, דרך מחווה של מכחול על בד.',
-
-      statementTitle: 'הצהרת אמנות',
-      statementText1:
-        'אני מציירת מבפנים כלפי חוץ. עבודתי אינה מתחילה בנושא או בסצנה, אלא ברגש — אקלים פנימי, מרקם של חוויה הדורש להיגלות.',
-      statementText2:
-        'צבע הוא שפתי העיקרית. דרכו אני חוקרת את הממדים הרגשיים והרוחניים של הקיום היהודי: המשחק בין שמחה לגעגוע, אור וצל, זיכרון ותקווה. אני נמשכת למה שמתחת לפני השטח — לכוחות השקטים המעצבים אותנו, הנעים בתוכנו, שבקושי מוצאים מילים.',
-      statementText3:
-        'ציור הוא עבורי מעשה של הקשבה לא פחות ממעשה יצירה. אני מקשיבה לקנבס, לצבע, לאמת הרגשית הרוצה להתגלות. ההכשרה שלי בטיפול באמצעות אמנות לימדה אותי שלאמנות יש אינטליגנציה מרפאת משלה — והבנה זו מנחה את הפרקטיקה שלי לא פחות מכל טכניקה פורמלית.',
-      statementText4:
-        'אני עובדת בירושלים, מוקפת בסלעיה הקדומים, בהיסטוריה המרובדת שלה ובאורה שאין כדוגמתו בשום מקום אחר בעולם. המקום הזה תמיד נוכח באמנות שלי — לא כנושא, אלא כאווירה, כרוח.',
-
-      education: 'השכלה וגיבוש',
+      pageTitle: 'אודות',
+      pageLabel: 'האמנית',
+      bio1: 'יהודית היא אמנית יהודייה המתגוררת ויוצרת בירושלים. ציוריה הם הרחבה של עולמה הפנימי — עשירים בצבע, עומק רגשי ונוכחות רוחנית.',
+      bio2: 'בעלת תואר שני בטיפול באמצעות אמנות מאוניברסיטת חיפה — הכשרה שהעמיקה את הבנתה את האמנות כביטוי וככלי לריפוי ולשינוי.',
+      bio3: 'יהודית למדה בבצלאל, אקדמיה לאמנות ועיצוב בירושלים, ולאחר מכן אצל אחד הציירים המוערכים ביותר בישראל.',
+      bio4: 'ציוריה נושאים את אורה של ירושלים — חמים, מרובד ומורכב. צבע, עבורה, הוא מדיום של הנשמה.',
+      statementLabel: 'הצהרת אמנות',
+      statementTitle: 'על הציור',
+      s1: 'אני מציירת מבפנים כלפי חוץ. עבודתי אינה מתחילה בנושא או בסצנה, אלא ברגש — אקלים פנימי, מרקם של חוויה הדורש להיגלות.',
+      s2: 'צבע הוא שפתי העיקרית. דרכו אני חוקרת את הממדים הרגשיים והרוחניים של הקיום היהודי.',
+      s3: 'ציור הוא עבורי מעשה של הקשבה לא פחות ממעשה יצירה. אני מקשיבה לקנבס, לצבע, לאמת הרגשית הרוצה להתגלות.',
+      s4: 'אני עובדת בירושלים, מוקפת בסלעיה הקדומים ובאור שאין כדוגמתו בשום מקום אחר בעולם.',
+      eduLabel: 'השכלה',
       edu1: 'תואר שני בטיפול באמצעות אמנות — אוניברסיטת חיפה',
-      edu2: 'לימודים בבצלאל, אקדמיה לאמנות ועיצוב, ירושלים',
+      edu2: 'בצלאל, אקדמיה לאמנות ועיצוב, ירושלים',
       edu3: 'לימודים פרטיים אצל אחד הציירים המובילים בישראל',
     },
-
     contact: {
       pageTitle: 'צור קשר',
-      intro:
-        'אני שמחה לקבל פניות מאספנים, גלריות, אוצרים וכל מי שנמשך ליצירה. בין אם אתם מעוניינים בציור מקורי, בעבודה מוזמנת או בשיתוף פעולה לתערוכה — אשמח לשמוע מכם.',
-      invitations: [
-        'יצירות מקוריות ורכישה פרטית',
-        'פניות לציורים מוזמנים',
-        'שיתוף פעולה עם גלריות ותערוכות',
-        'מפגשי טיפול באמצעות אמנות',
-      ],
-      formName: 'שמך',
-      formEmail: 'כתובת דואר אלקטרוני',
-      formPhone: 'טלפון (לא חובה)',
-      formMessage: 'הודעתך',
+      pageLabel: 'פנו אלינו',
+      intro: 'אני שמחה לקבל פניות מאספנים, גלריות, אוצרים וכל מי שנמשך ליצירה.',
+      invitations: ['יצירות מקוריות ורכישה פרטית','פניות לציורים מוזמנים','שיתוף פעולה עם גלריות','מפגשי טיפול באמצעות אמנות'],
+      formName: 'שמך', formEmail: 'כתובת מייל',
+      formPhone: 'טלפון (לא חובה)', formMessage: 'הודעתך',
       formSend: 'שלח הודעה',
-      emailLabel: 'דואר אלקטרוני',
-      emailValue: 'studio@yehudis.art',
-      phoneLabel: 'טלפון',
-      phoneValue: '+972 00 000 0000',
-      instagramLabel: 'אינסטגרם',
-      instagramValue: '@yehudis.art',
+      emailLabel: 'מייל', emailValue: 'studio@yehudis.art',
+      phoneLabel: 'טלפון', phoneValue: '+972 00 000 0000',
+      instagramLabel: 'אינסטגרם', instagramValue: '@yehudis.art',
       instagramUrl: 'https://instagram.com/yehudis.art',
-      locationLabel: 'מיקום',
-      locationValue: 'ירושלים, ישראל',
+      locationLabel: 'סטודיו', locationValue: 'ירושלים, ישראל',
       thankYou: 'תודה — הודעתך נשלחה.',
     },
-
     footer: {
-      tagline: 'אמנות מלאה בצבע, נשמה ועומק פנימי.',
+      tagline: 'ציורים מקוריים מירושלים.',
       copyright: '© 2024 יהודית. כל הזכויות שמורות.',
-      madeWith: 'ירושלים',
     },
   },
 };
+
+// ============================================================
+// ARTWORK DATA — 10 paintings with stories
+// Replace image URLs with real ones when ready.
+// Each 'image' field: use a direct image URL or import from src/images/
+// ============================================================
+export const artworks = [
+  {
+    id: 1,
+    // ← REPLACE with real image: import img1 from '../images/work-1.jpg'
+    image: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=900&q=80',
+    titleEn: 'Between Light and Shadow',
+    titleHe: 'בין אור לצל',
+    mediumEn: 'Oil on canvas',
+    mediumHe: 'שמן על בד',
+    dims: '80 × 100 cm',
+    year: '2024',
+    available: true,
+    storyEn: 'This painting was born during a quiet Jerusalem morning — the hour when the city\'s ancient stone shifts from grey to gold. The tension between light and shadow here is not just visual. It mirrors the inner life: the way clarity and uncertainty coexist, the way we live in the threshold between knowing and not knowing. The warm yellows push forward; the deep purples hold their ground. Neither wins. Both are necessary.',
+    storyHe: 'ציור זה נולד בבוקר ירושלמי שקט — השעה שבה האבן הקדומה של העיר עוברת מאפור לזהב. המתח בין האור לצל אינו חזותי בלבד. הוא משקף את החיים הפנימיים: האופן שבו בהירות ואי-ודאות מתקיימים יחד, האופן שבו אנו חיים על הסף שבין ידיעה לאי-ידיעה. הצהובים החמים דוחפים קדימה; הסגולים העמוקים מחזיקים עמדתם. אף אחד לא מנצח. שניהם הכרחיים.',
+  },
+  {
+    id: 2,
+    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=900&q=80',
+    titleEn: 'Shabbat Candles',
+    titleHe: 'נרות שבת',
+    mediumEn: 'Oil on canvas',
+    mediumHe: 'שמן על בד',
+    dims: '60 × 80 cm',
+    year: '2024',
+    available: true,
+    storyEn: 'The act of lighting Shabbat candles — two hands cupped around flame — is one of the most intimate rituals in Jewish life. For generations, women have stood at this threshold, between the weekday and the holy, and drawn the light toward their faces. This painting tries to hold that gesture: the moment of transition, the warmth, the prayer that is made not with words but with open hands.',
+    storyHe: 'מעשה הדלקת נרות שבת — שתי ידיים עוטפות להבה — הוא אחד הטקסים האינטימיים ביותר בחיים היהודיים. לדורות, נשים עמדו על הסף הזה, בין החול לקודש, ומשכו את האור אל פניהן. ציור זה מנסה להחזיק את המחווה הזו: רגע המעבר, החום, התפילה שנעשית לא במילים אלא בידיים פתוחות.',
+  },
+  {
+    id: 3,
+    image: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=900&q=80',
+    titleEn: 'Jerusalem Stone, Morning',
+    titleHe: 'אבן ירושלמית, בוקר',
+    mediumEn: 'Mixed media on canvas',
+    mediumHe: 'מדיה מעורבת על בד',
+    dims: '70 × 90 cm',
+    year: '2024',
+    available: false,
+    storyEn: 'Jerusalem is made of one stone. By law, every building must be clad in it — a continuity across centuries, a golden thread connecting the ancient to the new. In the morning light, this stone breathes. It holds the memory of rain, of prayers, of people who walked past it and are gone. This painting is not about architecture. It is about time made visible.',
+    storyHe: 'ירושלים בנויה מאבן אחת. על פי חוק, כל בניין חייב להיות מחופה בה — רצף על פני מאות שנים, חוט זהב המחבר את העתיק לחדש. באור הבוקר, האבן הזו נושמת. היא מחזיקה את זיכרון הגשם, של תפילות, של אנשים שעברו לידה והלכו. ציור זה אינו עוסק בארכיטקטורה. הוא עוסק בזמן הנעשה גלוי.',
+  },
+  {
+    id: 4,
+    image: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=900&q=80',
+    titleEn: 'Inner Garden',
+    titleHe: 'גן פנימי',
+    mediumEn: 'Oil on linen',
+    mediumHe: 'שמן על פשתן',
+    dims: '100 × 120 cm',
+    year: '2023',
+    available: true,
+    storyEn: 'Every person contains a garden — a private interior landscape of memories, longings, and growing things. This painting asks: what does yours look like? The colors here are lush and layered, built up in many sessions, many sittings with the canvas. There is no single moment of arrival. The garden is always in process — always somewhere between seed and bloom.',
+    storyHe: 'כל אדם מכיל גן — נוף פנימי פרטי של זיכרונות, געגועים ודברים צומחים. ציור זה שואל: איך נראה שלך? הצבעים כאן שופעים ומרובדים, בנויים בהרבה מפגשים, הרבה ישיבות מול הקנבס. אין רגע הגעה יחיד. הגן תמיד בתהליך — תמיד איפשהו בין זרע לפריחה.',
+  },
+  {
+    id: 5,
+    image: 'https://images.unsplash.com/photo-1580136579312-94651dfd596d?w=900&q=80',
+    titleEn: 'The Letters',
+    titleHe: 'האותיות',
+    mediumEn: 'Acrylic and gold leaf',
+    mediumHe: 'אקריל ועלי זהב',
+    dims: '50 × 70 cm',
+    year: '2023',
+    available: true,
+    storyEn: 'Hebrew letters are not merely symbols — they are, in Jewish mystical tradition, the building blocks of creation itself. Each letter carries a weight, a shape, a sound that vibrates in the body. This painting emerged from a meditation on the Aleph — the silent letter, the breath before speech. The gold leaf catches light differently at every hour of the day.',
+    storyHe: 'אותיות עבריות אינן סמלים בלבד — הן, על פי המסורת המיסטית היהודית, אבני הבניין של הבריאה עצמה. כל אות נושאת משקל, צורה, קול הרוטט בגוף. ציור זה נולד ממדיטציה על האלף — האות הדוממת, הנשימה לפני הדיבור. עלי הזהב לוכדים אור באופן שונה בכל שעה ביום.',
+  },
+  {
+    id: 6,
+    image: 'https://images.unsplash.com/photo-1533158326339-7f3cf2404354?w=900&q=80',
+    titleEn: 'Longing (Gaguim)',
+    titleHe: 'געגועים',
+    mediumEn: 'Oil on canvas',
+    mediumHe: 'שמן על בד',
+    dims: '80 × 100 cm',
+    year: '2023',
+    available: true,
+    storyEn: 'There is a Hebrew word — gaguim — that carries a particular quality of longing: not grief, not nostalgia exactly, but a reaching toward something just out of grasp. This painting was made for that feeling. The blues are not sad. They are yearning. The warm underpainting bleeds through in places — a reminder that warmth is always there, beneath the longing.',
+    storyHe: 'יש מילה עברית — געגועים — הנושאת איכות מיוחדת של געגוע: לא אבל, לא נוסטלגיה בדיוק, אלא פשיטה לעבר משהו שרק מחמיק. ציור זה נעשה בשביל הרגש הזה. הכחולים אינם עצובים. הם כמהים. הציבוע התחתון החם מבצבץ בחלקים — תזכורת שחום תמיד שם, מתחת לגעגוע.',
+  },
+  {
+    id: 7,
+    image: 'https://images.unsplash.com/photo-1614854262318-831574f15f1f?w=900&q=80',
+    titleEn: 'Women of the Wall',
+    titleHe: 'נשות הכותל',
+    mediumEn: 'Mixed media',
+    mediumHe: 'מדיה מעורבת',
+    dims: '60 × 80 cm',
+    year: '2022',
+    available: false,
+    storyEn: 'This painting carries the faces of women I have seen at the Western Wall — faces open in prayer, faces weeping, faces radiant with something private and vast. I did not paint portraits. I painted presence. The figures here are half-dissolved into light, because in those moments, the boundary between the person and the prayer becomes very thin.',
+    storyHe: 'ציור זה נושא את פניהן של נשים שראיתי בכותל המערבי — פנים פתוחות בתפילה, פנים בוכות, פנים קורנות ממשהו פרטי ועצום. לא ציירתי דיוקנאות. ציירתי נוכחות. הדמויות כאן חצי-מומסות לאור, כי ברגעים אלה הגבול בין האדם לתפילה נעשה דק מאוד.',
+  },
+  {
+    id: 8,
+    image: 'https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=900&q=80',
+    titleEn: 'Pomegranate Season',
+    titleHe: 'עונת הרימונים',
+    mediumEn: 'Oil on canvas',
+    mediumHe: 'שמן על בד',
+    dims: '90 × 110 cm',
+    year: '2022',
+    available: true,
+    storyEn: 'The pomegranate is one of the seven species of the Land of Israel — a fruit whose interior is a universe of jewels. In Jewish tradition, its seeds are said to number 613, corresponding to the commandments. This painting is not symbolic in a didactic sense. It is about abundance — the way the fruit splits open and gives everything, all at once, without holding back.',
+    storyHe: 'הרימון הוא אחד משבעת המינים של ארץ ישראל — פרי שפנימיותו הוא יקום של אבנים יקרות. על פי המסורת היהודית, זרעיו מספרים 613, כנגד המצוות. ציור זה אינו סמלי במובן הדידקטי. הוא עוסק בשפע — האופן שבו הפרי נבקע ונותן הכל, בבת אחת, ללא עצירה.',
+  },
+  {
+    id: 9,
+    image: 'https://images.unsplash.com/photo-1501084817091-a4f3d1d19e07?w=900&q=80',
+    titleEn: 'Sky Over the Old City',
+    titleHe: 'שמיים מעל העיר העתיקה',
+    mediumEn: 'Oil on canvas',
+    mediumHe: 'שמן על בד',
+    dims: '60 × 80 cm',
+    year: '2021',
+    available: true,
+    storyEn: 'Jerusalem\'s sky at dusk — the minutes between light and dark — has a quality that I have never found anywhere else. The color moves quickly. You have to stay still to catch it. This painting was made in that stillness: a kind of waiting that is also a receiving. The city below is barely present. The sky takes everything.',
+    storyHe: 'שמיים ירושלמיים בשעת הדמדומים — הדקות שבין אור לחושך — יש להם איכות שלא מצאתי בשום מקום אחר. הצבע נע במהירות. צריך לעמוד בשקט כדי לתפוס אותו. ציור זה נעשה בשקט הזה: סוג של המתנה שהיא גם קבלה. העיר למטה בקושי נוכחת. השמיים לוקחים הכל.',
+  },
+  {
+    id: 10,
+    image: 'https://images.unsplash.com/photo-1536924430914-91f9e2041b83?w=900&q=80',
+    titleEn: 'Teshuvah (Return)',
+    titleHe: 'תשובה',
+    mediumEn: 'Mixed media on canvas',
+    mediumHe: 'מדיה מעורבת על בד',
+    dims: '70 × 90 cm',
+    year: '2021',
+    available: true,
+    storyEn: 'The Hebrew word teshuvah is often translated as repentance, but its root means return — a coming back to oneself, to one\'s source, to what is most true. This painting is about that movement: the turning. Not guilt, not shame — but the quiet, radical act of deciding to come home. The spiraling form at the center is always moving — outward and inward, at once.',
+    storyHe: 'המילה העברית תשובה מתורגמת לעתים קרובות כחרטה, אך שורשה פירושו חזרה — חזרה לעצמי, למקור, למה שהכי אמיתי. ציור זה עוסק בתנועה הזו: ההתפנות. לא אשמה, לא בושה — אלא המעשה השקט, הרדיקלי, של ההחלטה לחזור הביתה. הצורה הספירלית במרכז תמיד נעה — החוצה ופנימה, בבת אחת.',
+  },
+];

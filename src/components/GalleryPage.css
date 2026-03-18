@@ -1,185 +1,170 @@
 /* ── GALLERY PAGE ───────────────────────────────────────── */
 
-/* ── GALLERY GRID ───────────────────────────────────────── */
-.gallery-grid-section {
-  padding: 80px 0;
-  background: var(--ivory);
+.gallery-hero {
+  padding: 160px 0 80px;
+  background: #fff; text-align: center;
+}
+.gallery-label {
+  display: block; text-align: center; margin-bottom: 12px;
+}
+.gallery-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 300; color: #0A0A0A;
+  letter-spacing: 0.06em; margin-bottom: 20px;
+}
+[dir='rtl'] .gallery-title {
+  font-family: 'Frank Ruhl Libre', serif; letter-spacing: 0;
+}
+.gallery-intro {
+  font-size: 1rem; color: #888; max-width: 520px;
+  margin: 0 auto; line-height: 1.85;
+  font-style: italic;
+}
+[dir='rtl'] .gallery-intro { font-family: 'Heebo', sans-serif; font-style: normal; }
+
+/* ══ CHESS SECTION ════════════════════════════════════════ */
+.chess-section {
+  background: #fff;
 }
 
-.gallery-grid {
+/* Each row */
+.chess-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 48px 36px;
+  grid-template-columns: 1fr 1fr;
+  min-height: 640px;
+  border-top: 1px solid #E0E0E0;
 }
 
-/* ── ARTWORK CARD ───────────────────────────────────────── */
-.artwork-card {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+/* Even rows: image left, story right */
+.chess-row.even .chess-image { order: 1; }
+.chess-row.even .chess-story { order: 2; }
 
-.artwork-img-wrap {
-  position: relative;
-  background: var(--sand);
-  aspect-ratio: 3/4;
-  overflow: hidden;
-  cursor: pointer;
-}
+/* Odd rows: story left, image right */
+.chess-row.odd .chess-image { order: 2; }
+.chess-row.odd .chess-story { order: 1; }
 
-.artwork-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* RTL flips: even becomes right-image, odd becomes left-image */
+[dir='rtl'] .chess-row.even .chess-image { order: 2; }
+[dir='rtl'] .chess-row.even .chess-story { order: 1; }
+[dir='rtl'] .chess-row.odd .chess-image  { order: 1; }
+[dir='rtl'] .chess-row.odd .chess-story  { order: 2; }
 
-.artwork-img-wrap:hover img {
-  transform: scale(1.04);
+/* ── IMAGE PANEL ── */
+.chess-image {
+  position: relative; overflow: hidden;
+  background: #F4F4F4;
 }
-
-.artwork-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--sand);
-  min-height: 280px;
+.chess-img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  min-height: 480px;
+  transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
 }
+.chess-row:hover .chess-img { transform: scale(1.03); }
 
-.placeholder-glyph-lg {
-  font-size: 2.5rem;
-  color: rgba(44, 36, 22, 0.08);
+.chess-badge {
+  position: absolute; top: 24px; left: 24px;
 }
-
-/* Hover overlay */
-.artwork-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(44, 36, 22, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.35s ease;
+[dir='rtl'] .chess-badge { left: auto; right: 24px; }
+.badge-avail, .badge-sold {
+  font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 5px 10px; backdrop-filter: blur(8px);
 }
-
-.artwork-img-wrap:hover .artwork-overlay {
-  opacity: 1;
+.badge-avail {
+  background: rgba(255,255,255,0.9); color: #0A0A0A;
+  border: 1px solid rgba(0,0,0,0.12);
 }
-
-.overlay-inquire {
-  background: none;
-  border: 1px solid rgba(245, 239, 224, 0.8);
-  color: var(--parchment);
+.badge-sold {
+  background: rgba(0,0,0,0.55); color: rgba(255,255,255,0.7);
+}
+[dir='rtl'] .badge-avail, [dir='rtl'] .badge-sold {
+  font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none;
   font-size: 0.75rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  padding: 11px 28px;
-  cursor: pointer;
-  transition: background 0.25s ease;
 }
 
-[dir='rtl'] .overlay-inquire {
-  font-family: var(--font-body-he);
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 0.88rem;
+/* ── STORY PANEL ── */
+.chess-story {
+  display: flex; align-items: center; justify-content: center;
+  background: #fff; padding: 0;
 }
+/* Alternate bg for every other row */
+.chess-row.odd .chess-story { background: #FAFAFA; }
+[dir='rtl'] .chess-row.even .chess-story { background: #FAFAFA; }
+[dir='rtl'] .chess-row.odd  .chess-story { background: #fff; }
 
-.overlay-inquire:hover {
-  background: rgba(245, 239, 224, 0.15);
+.chess-story-inner {
+  padding: 64px 72px;
+  max-width: 500px;
+  display: flex; flex-direction: column; gap: 0;
 }
-
-/* ── ARTWORK META ───────────────────────────────────────── */
-.artwork-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 0 2px;
+.chess-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4rem; font-weight: 300;
+  color: #E0E0E0; line-height: 1;
+  margin-bottom: -8px;
 }
-
-.artwork-title {
-  font-family: var(--font-display-en);
-  font-style: italic;
-  font-size: 1.05rem;
-  font-weight: 400;
-  color: var(--charcoal);
+.chess-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 400; color: #0A0A0A;
+  line-height: 1.2; margin-bottom: 8px;
 }
-
-[dir='rtl'] .artwork-title {
-  font-family: var(--font-display-he);
-  font-style: normal;
+[dir='rtl'] .chess-title {
+  font-family: 'Frank Ruhl Libre', serif;
 }
-
-.artwork-detail {
-  font-size: 0.78rem;
-  color: var(--charcoal-mid);
-  letter-spacing: 0.04em;
+.chess-meta {
+  font-size: 0.72rem; letter-spacing: 0.1em;
+  color: #888; margin-bottom: 4px;
 }
-
-[dir='rtl'] .artwork-detail {
-  font-family: var(--font-body-he);
-  letter-spacing: 0;
-  font-size: 0.85rem;
+[dir='rtl'] .chess-meta {
+  font-family: 'Heebo', sans-serif; letter-spacing: 0; font-size: 0.82rem;
 }
-
-.artwork-detail.muted {
-  color: var(--charcoal-light);
+.chess-story-text {
+  font-size: 0.98rem; line-height: 1.9;
+  color: #3A3A3A; margin-bottom: 32px; margin-top: 4px;
 }
+[dir='rtl'] .chess-story-text { font-family: 'Heebo', sans-serif; }
+.chess-cta { align-self: flex-start; }
+[dir='rtl'] .chess-cta { align-self: flex-end; }
 
-.artwork-year {
-  font-size: 0.72rem;
-  color: var(--charcoal-light);
-  letter-spacing: 0.1em;
-  margin-top: 2px;
-}
-
-[dir='rtl'] .artwork-year {
-  font-family: var(--font-body-he);
-  letter-spacing: 0;
-}
-
-/* ── GALLERY BOTTOM ─────────────────────────────────────── */
+/* ── GALLERY BOTTOM ── */
 .gallery-bottom {
-  padding: 80px 0;
-  background: var(--parchment);
+  padding: 100px 0; background: #F4F4F4;
 }
-
 .gallery-bottom-inner {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 28px; text-align: center;
 }
-
-.gallery-cta-text {
-  font-size: 1.1rem;
-  color: var(--charcoal-mid);
-  font-style: italic;
-  max-width: 420px;
-  line-height: 1.8;
+.gallery-bottom-text {
+  font-size: 1.05rem; color: #3A3A3A;
+  max-width: 480px; line-height: 1.8; font-style: italic;
 }
+[dir='rtl'] .gallery-bottom-text { font-family: 'Heebo', sans-serif; font-style: normal; }
 
-[dir='rtl'] .gallery-cta-text {
-  font-family: var(--font-body-he);
-  font-style: normal;
-}
-
-/* ── RESPONSIVE ─────────────────────────────────────────── */
+/* ══ RESPONSIVE ═══════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 36px 24px;
+  .chess-row {
+    grid-template-columns: 1fr;
+    min-height: auto;
   }
+  .chess-row.even .chess-image,
+  .chess-row.odd .chess-image,
+  [dir='rtl'] .chess-row.even .chess-image,
+  [dir='rtl'] .chess-row.odd .chess-image {
+    order: 1;
+  }
+  .chess-row.even .chess-story,
+  .chess-row.odd .chess-story,
+  [dir='rtl'] .chess-row.even .chess-story,
+  [dir='rtl'] .chess-row.odd .chess-story {
+    order: 2;
+  }
+  .chess-img { min-height: 360px; }
+  .chess-story-inner { padding: 48px 32px; max-width: 100%; }
 }
 
-@media (max-width: 600px) {
-  .gallery-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
+@media (max-width: 500px) {
+  .chess-story-inner { padding: 40px 24px; }
+  .chess-number { font-size: 2.5rem; }
 }
