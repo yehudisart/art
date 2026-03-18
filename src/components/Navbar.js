@@ -11,79 +11,48 @@ const Navbar = ({ t, currentPage, onNavigate, onToggleLang }) => {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  const navItems = [
+  const items = [
     { key: 'home',    label: t.nav.home },
     { key: 'gallery', label: t.nav.gallery },
     { key: 'about',   label: t.nav.about },
     { key: 'contact', label: t.nav.contact },
   ];
 
-  const go = (page) => {
-    onNavigate(page);
-    setMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const go = (page) => { onNavigate(page); setMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
   return (
-    <header className={`navbar ${scrolled ? 'scrolled' : ''}`} dir={t.dir}>
-      <div className="navbar-inner container">
+    <header className={`nb ${scrolled ? 'nb--scrolled' : ''}`} dir={t.dir}>
+      <div className="nb__inner container">
 
-        {/* Logo — signature letters only */}
-        <button className="logo-btn" onClick={() => go('home')} aria-label="Yehudis Jacobs — Home">
-          <div className="logo-wrap">
-            {/*
-              logo.png = signature letters only, white, transparent bg
-              Over dark hero → white (natural)
-              Over light scrolled page → inverted to black via CSS filter
-            */}
-            <img
-              src="/images/logo.png"
-              alt="Yehudis Jacobs"
-              className={`logo-img ${scrolled ? 'logo-dark' : 'logo-light'}`}
-            />
-            <span className="logo-jacobs">Jacobs</span>
-          </div>
+        <button className="nb__logo" onClick={() => go('home')} aria-label="Yehudis Jacobs">
+          <img
+            src="/images/logo.png"
+            alt="Yehudis"
+            className={`nb__sig ${scrolled ? 'nb__sig--dark' : 'nb__sig--light'}`}
+          />
+          <span className="nb__jacobs">Jacobs</span>
         </button>
 
-        {/* Desktop nav */}
-        <nav className="nav-links" aria-label="Main navigation">
-          {navItems.map(item => (
-            <button
-              key={item.key}
-              className={`nav-link ${currentPage === item.key ? 'active' : ''}`}
-              onClick={() => go(item.key)}
-            >
+        <nav className="nb__links" aria-label="Main navigation">
+          {items.map(item => (
+            <button key={item.key} className={`nb__link ${currentPage === item.key ? 'nb__link--active' : ''}`} onClick={() => go(item.key)}>
               {item.label}
             </button>
           ))}
-          <button className="lang-toggle" onClick={onToggleLang}>
-            {t.nav.langToggle}
-          </button>
+          <button className="nb__lang" onClick={onToggleLang}>{t.nav.langToggle}</button>
         </nav>
 
-        {/* Mobile */}
-        <div className="mobile-controls">
-          <button className="lang-toggle" onClick={onToggleLang}>
-            {t.nav.langToggle}
-          </button>
-          <button
-            className={`burger ${menuOpen ? 'open' : ''}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
+        <div className="nb__mobile">
+          <button className="nb__lang" onClick={onToggleLang}>{t.nav.langToggle}</button>
+          <button className={`nb__burger ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
             <span /><span /><span />
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
-        {navItems.map(item => (
-          <button
-            key={item.key}
-            className={`mobile-nav-link ${currentPage === item.key ? 'active' : ''}`}
-            onClick={() => go(item.key)}
-          >
+      <div className={`nb__drawer ${menuOpen ? 'open' : ''}`}>
+        {items.map(item => (
+          <button key={item.key} className={`nb__drawer-link ${currentPage === item.key ? 'active' : ''}`} onClick={() => go(item.key)}>
             {item.label}
           </button>
         ))}
@@ -91,5 +60,4 @@ const Navbar = ({ t, currentPage, onNavigate, onToggleLang }) => {
     </header>
   );
 };
-
 export default Navbar;

@@ -2,214 +2,166 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { artworks } from '../translations';
 import './GalleryPage.css';
 
-// ── Scroll reveal ────────────────────────────────────────────
 const useReveal = () => {
   useEffect(() => {
     const els = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver(
-      entries => entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-      }),
-      { threshold: 0.1 }
+      (e) => e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('visible'); io.unobserve(x.target); } }),
+      { threshold: 0.08 }
     );
     els.forEach(el => io.observe(el));
     return () => io.disconnect();
   }, []);
 };
 
-// ── Lightbox component ───────────────────────────────────────
+/* ── Lightbox ── */
 const Lightbox = ({ work, isHe, t, onClose, onPrev, onNext }) => {
   useEffect(() => {
-    const handleKey = (e) => {
+    const fn = e => {
       if (e.key === 'Escape') onClose();
       if (e.key === 'ArrowRight') isHe ? onPrev() : onNext();
       if (e.key === 'ArrowLeft')  isHe ? onNext() : onPrev();
     };
-    document.addEventListener('keydown', handleKey);
+    document.addEventListener('keydown', fn);
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handleKey);
-      document.body.style.overflow = '';
-    };
+    return () => { document.removeEventListener('keydown', fn); document.body.style.overflow = ''; };
   }, [onClose, onPrev, onNext, isHe]);
-
   if (!work) return null;
-
   return (
-    <div className="lightbox-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Artwork viewer">
-
-      {/* Close */}
-      <button className="lb-close" onClick={onClose} aria-label="Close">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+    <div className="lb" onClick={onClose} role="dialog" aria-modal="true">
+      <button className="lb__close" onClick={onClose} aria-label="Close">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
           <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
           <line x1="20" y1="4" x2="4"  y2="20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
       </button>
-
-      {/* Prev */}
-      <button className="lb-nav lb-prev" onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="Previous">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-          <polyline points="15 18 9 12 15 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+      <button className="lb__nav lb__prev" onClick={e => { e.stopPropagation(); onPrev(); }} aria-label="Previous">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><polyline points="15 18 9 12 15 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
       </button>
-
-      {/* Main content — stop propagation so clicking image/caption doesn't close */}
-      <div className="lb-content" onClick={e => e.stopPropagation()}>
-        <div className="lb-image-wrap">
-          <img
-            src={work.image}
-            alt={isHe ? work.titleHe : work.titleEn}
-            className="lb-image"
-          />
-        </div>
-        <div className="lb-caption">
-          <p className="lb-title">{isHe ? work.titleHe : work.titleEn}</p>
-          <p className="lb-meta">
-            {isHe ? work.mediumHe : work.mediumEn} &nbsp;·&nbsp; {work.dims} &nbsp;·&nbsp; {work.year}
-          </p>
-          {work.available
-            ? <span className="lb-badge avail">{t.gallery.available}</span>
-            : <span className="lb-badge sold">{t.gallery.soldLabel}</span>
-          }
+      <div className="lb__body" onClick={e => e.stopPropagation()}>
+        <img src={work.image} alt={isHe ? work.titleHe : work.titleEn} className="lb__img" />
+        <div className="lb__cap">
+          <p className="lb__title">{isHe ? work.titleHe : work.titleEn}</p>
+          <p className="lb__meta">{isHe ? work.mediumHe : work.mediumEn} &nbsp;·&nbsp; {work.dims} &nbsp;·&nbsp; {work.year}</p>
         </div>
       </div>
-
-      {/* Next */}
-      <button className="lb-nav lb-next" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Next">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-          <polyline points="9 18 15 12 9 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+      <button className="lb__nav lb__next" onClick={e => { e.stopPropagation(); onNext(); }} aria-label="Next">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><polyline points="9 18 15 12 9 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
       </button>
-
     </div>
   );
 };
 
-// ── Gallery Page ─────────────────────────────────────────────
+/* ── Page ── */
 const GalleryPage = ({ t, onNavigate }) => {
   useReveal();
   const isHe = t.lang === 'he';
-  const go = (page) => { onNavigate(page); window.scrollTo({ top: 0 }); };
+  const go = page => { onNavigate(page); window.scrollTo({ top: 0 }); };
 
-  const [lightboxIndex, setLightboxIndex] = useState(null);
-  const openLightbox  = useCallback((i) => setLightboxIndex(i), []);
-  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
-  const prevImage = useCallback(() => setLightboxIndex(i => (i - 1 + artworks.length) % artworks.length), []);
-  const nextImage = useCallback(() => setLightboxIndex(i => (i + 1) % artworks.length), []);
+  const [lbIdx, setLbIdx] = useState(null);
+  const open  = useCallback(i => setLbIdx(i), []);
+  const close = useCallback(() => setLbIdx(null), []);
+  const prev  = useCallback(() => setLbIdx(i => (i - 1 + artworks.length) % artworks.length), []);
+  const next  = useCallback(() => setLbIdx(i => (i + 1) % artworks.length), []);
 
   return (
-    <main className="gallery-page" dir={t.dir}>
+    <main className="gp" dir={t.dir}>
 
       {/* Page header */}
-      <section className="gallery-hero">
+      <section className="gp__head">
         <div className="container">
-          <span className="label-tag gallery-label">{t.gallery.pageLabel}</span>
-          <h1 className="gallery-title">{t.gallery.pageTitle}</h1>
-          <div className="gold-rule center" />
-          <p className="gallery-intro">{t.gallery.intro}</p>
+          <span className="t-label">{t.gallery.pageLabel}</span>
+          <h1 className="t-heading t-heading--xl gp__title">{t.gallery.pageTitle}</h1>
+          <div className="g-rule g-rule--center" />
+          <p className="gp__intro">{t.gallery.intro}</p>
         </div>
       </section>
 
-      {/* ══ CHESS GRID ══════════════════════════════════════ */}
-      <section className="chess-section">
+      {/* Chess grid */}
+      <section className="gp__chess">
         {artworks.map((work, i) => {
           const isEven = i % 2 === 0;
-          // artwork id=1 (index 0) gets the 3D depth treatment
           const isDepth = work.id === 1;
           return (
-            <article key={work.id} className={`chess-row ${isEven ? 'even' : 'odd'} ${isDepth ? 'chess-row-depth' : ''} reveal`}>
-
-              {/* ── IMAGE PANEL ── */}
-              <div className="chess-image">
-                {/* Clickable image wrapper — opens lightbox */}
+            <article
+              key={work.id}
+              className={`gp__row ${isEven ? 'even' : 'odd'} ${isDepth ? 'depth' : ''} reveal`}
+            >
+              {/* Image side */}
+              <div className="gp__img-panel">
                 <div
-                  className="chess-img-btn"
-                  onClick={() => openLightbox(i)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Enlarge: ${isHe ? work.titleHe : work.titleEn}`}
-                  onKeyDown={e => e.key === 'Enter' && openLightbox(i)}
+                  className={`gp__img-btn ${isDepth ? 'gp__img-btn--depth' : ''}`}
+                  onClick={() => open(i)}
+                  role="button" tabIndex={0}
+                  aria-label={`Enlarge ${isHe ? work.titleHe : work.titleEn}`}
+                  onKeyDown={e => e.key === 'Enter' && open(i)}
                 >
-                  {/*
-                    ← REPLACE: swap src with your real image.
-                    e.g. import img1 from '../images/work-1.jpg'
-                    then: src={img1}
-                  */}
                   <img
                     src={work.image}
                     alt={isHe ? work.titleHe : work.titleEn}
-                    className="chess-img"
+                    className="gp__img"
                   />
-                  {/* Zoom hint on hover */}
-                  <div className="chess-zoom-hint" aria-hidden="true">
+                  <div className="gp__zoom" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-                      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.5"/>
-                      <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                      <line x1="11" y1="8"  x2="11" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                      <line x1="8"  y1="11" x2="14" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.4"/>
+                      <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                      <line x1="11" y1="8" x2="11" y2="14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                      <line x1="8"  y1="11" x2="14" y2="11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
                     </svg>
-                    <span>{isHe ? 'להגדלה' : 'Enlarge'}</span>
                   </div>
                 </div>
 
-                {/* Availability badge */}
-                <div className="chess-badge">
+                {/* Availability */}
+                <div className="gp__badge">
                   {work.available
-                    ? <span className="badge-avail">{t.gallery.available}</span>
-                    : <span className="badge-sold">{t.gallery.soldLabel}</span>
+                    ? <span className="gp__badge--avail">{t.gallery.available}</span>
+                    : <span className="gp__badge--sold">{t.gallery.soldLabel}</span>
                   }
                 </div>
               </div>
 
-              {/* ── STORY PANEL ── */}
-              <div className="chess-story">
-                <div className="chess-story-inner">
-                  <p className="chess-number">{String(i + 1).padStart(2, '0')}</p>
-                  <h2 className="chess-title">{isHe ? work.titleHe : work.titleEn}</h2>
-                  <p className="chess-meta">
-                    {isHe ? work.mediumHe : work.mediumEn} · {work.dims} · {work.year}
+              {/* Story side */}
+              <div className="gp__story">
+                <div className="gp__story-inner">
+                  <p className="gp__num">{String(i + 1).padStart(2, '0')}</p>
+                  <h2 className="gp__work-title">{isHe ? work.titleHe : work.titleEn}</h2>
+                  <p className="gp__work-meta">
+                    {isHe ? work.mediumHe : work.mediumEn}&nbsp;·&nbsp;{work.dims}&nbsp;·&nbsp;{work.year}
                   </p>
-                  <div className="gold-rule" />
-                  <p className="chess-story-text">{isHe ? work.storyHe : work.storyEn}</p>
-                  <button className="btn-primary chess-cta" onClick={() => go('contact')}>
-                    {t.gallery.inquireCta}
-                  </button>
+                  <div className="g-rule" />
+                  <p className="gp__work-story">
+                    {isHe ? work.storyHe : work.storyEn}
+                  </p>
+                  {(isHe ? work.titleHe : work.titleEn) && (
+                    <button className="btn btn--dark gp__inquire" onClick={() => go('contact')}>
+                      {t.gallery.inquireCta}
+                    </button>
+                  )}
                 </div>
               </div>
-
             </article>
           );
         })}
       </section>
 
-      {/* Bottom CTA */}
-      <section className="gallery-bottom">
+      {/* Bottom */}
+      <section className="gp__foot">
         <div className="container">
-          <div className="gallery-bottom-inner reveal">
-            <p className="gallery-bottom-text">
+          <div className="gp__foot-inner reveal">
+            <p className="gp__foot-text">
               {isHe
-                ? 'מעוניינים ביצירה? כל ציור ייחודי ומקורי. אשמח לשמוע מכם.'
-                : 'Every work is singular and original. Inquiries from collectors and galleries are welcome.'}
+                ? 'כל יצירה מקורית ויחידה במינה. פניות מאספנים ומגלריות בברכה.'
+                : 'Every work is singular and original. Collector and gallery inquiries welcome.'}
             </p>
-            <button className="btn-primary" onClick={() => go('contact')}>{t.nav.contact}</button>
+            <button className="btn btn--dark" onClick={() => go('contact')}>{t.nav.contact}</button>
           </div>
         </div>
       </section>
 
-      {/* ══ LIGHTBOX ══════════════════════════════════════ */}
-      {lightboxIndex !== null && (
-        <Lightbox
-          work={artworks[lightboxIndex]}
-          isHe={isHe}
-          t={t}
-          onClose={closeLightbox}
-          onPrev={prevImage}
-          onNext={nextImage}
-        />
+      {lbIdx !== null && (
+        <Lightbox work={artworks[lbIdx]} isHe={isHe} t={t} onClose={close} onPrev={prev} onNext={next} />
       )}
-
     </main>
   );
 };
-
 export default GalleryPage;

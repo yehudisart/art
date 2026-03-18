@@ -1,211 +1,132 @@
 /* ============================================================
-   YEHUDIS — GLOBAL STYLES v3
-   Palette drawn from the paintings:
-   Deep indigo/plum from the figures, warm gold leaf accents,
-   creamy whites, and rich cobalt blues.
+   YEHUDIS JACOBS — DESIGN SYSTEM v4
+   Palette extracted from the paintings themselves:
 
-   --ink:         #0D0B14  primary text / dark bg
-   --deep-plum:   #1A1228  hero sections, footer
-   --midnight:    #12101E  darkest bg
-   --white:       #FFFFFF  main background
-   --warm-white:  #FDFAF6  warm section bg
-   --stone:       #F0EBE3  subtle warm grey
-   --gold:        #C9A84C  accent — gold leaf echo
-   --gold-light:  #E8C97A  lighter gold hover
-   --cobalt:      #2B4B8C  blue accent from paintings
-   --violet:      #6B4FA0  plum/violet from paintings
-   --text-dark:   #0D0B14  body text
-   --text-mid:    #3D3845  secondary text
-   --text-light:  #8A8490  captions, meta
-   --border:      #E2DDD8  dividers
+   The canvases speak in deep cobalt, luminous plum, gold leaf,
+   electric whites and warm flesh tones. The site steps back
+   and lets the paintings lead.
+
+   COLORS:
+   --canvas:    #FFFFFF   — the neutral ground, like primed linen
+   --warm:      #FAF8F5   — off-white, warm sections
+   --ink:       #0C0A12   — near-black, primary text
+   --mid:       #3A3540   — secondary text
+   --quiet:     #8C8898   — captions, meta
+   --rule:      #E4E0EC   — hairline borders — faint violet tint
+   --deep:      #150E2A   — darkest bg — the deep space in the paintings
+   --cobalt:    #1C3A7A   — from the painting blues
+   --plum:      #2D1744   — from the deep shadows
+   --gold:      #BF9B45   — gold leaf, exact match
+   --gold-hi:   #D4B05C   — lighter gold
+   --ivory:     #F5EFDD   — warm light from the canvases
 ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@300;400;500&display=swap');
-
 :root {
-  --ink:           #0D0B14;
-  --deep-plum:     #1A1228;
-  --midnight:      #12101E;
-  --white:         #FFFFFF;
-  --warm-white:    #FDFAF6;
-  --stone:         #F0EBE3;
-  --gold:          #C9A84C;
-  --gold-light:    #E8C97A;
-  --cobalt:        #2B4B8C;
-  --violet:        #6B4FA0;
-  --text-dark:     #0D0B14;
-  --text-mid:      #3D3845;
-  --text-light:    #8A8490;
-  --border:        #E2DDD8;
+  --canvas:   #FFFFFF;
+  --warm:     #FAF8F5;
+  --ink:      #0C0A12;
+  --mid:      #3A3540;
+  --quiet:    #8C8898;
+  --rule:     #E4E0EC;
+  --deep:     #150E2A;
+  --cobalt:   #1C3A7A;
+  --plum:     #2D1744;
+  --gold:     #BF9B45;
+  --gold-hi:  #D4B05C;
+  --ivory:    #F5EFDD;
 
-  --font-display-en: 'Cormorant Garamond', serif;
-  --font-body-en:    'EB Garamond', serif;
-  --font-display-he: 'Frank Ruhl Libre', serif;
-  --font-body-he:    'Heebo', sans-serif;
+  --f-en-display: 'Cormorant Garamond', serif;
+  --f-en-body:    'EB Garamond', serif;
+  --f-he-display: 'Frank Ruhl Libre', serif;
+  --f-he-body:    'Heebo', sans-serif;
 
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease:    cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --ease-gallery: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --silk:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
-
+html { scroll-behavior: smooth; }
 body {
-  background: var(--white);
-  color: var(--text-dark);
+  background: var(--canvas);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
-body[dir='ltr'] { font-family: var(--font-body-en); }
-body[dir='rtl'] { font-family: var(--font-body-he); }
+body[dir='ltr'] { font-family: var(--f-en-body); }
+body[dir='rtl'] { font-family: var(--f-he-body); }
+[dir='ltr'] h1,[dir='ltr'] h2,[dir='ltr'] h3,[dir='ltr'] h4 { font-family: var(--f-en-display); font-weight: 400; }
+[dir='rtl'] h1,[dir='rtl'] h2,[dir='rtl'] h3,[dir='rtl'] h4 { font-family: var(--f-he-display); font-weight: 400; }
 
-[dir='ltr'] h1,[dir='ltr'] h2,[dir='ltr'] h3,[dir='ltr'] h4 {
-  font-family: var(--font-display-en); font-weight: 400;
-}
-[dir='rtl'] h1,[dir='rtl'] h2,[dir='rtl'] h3,[dir='rtl'] h4 {
-  font-family: var(--font-display-he); font-weight: 400;
-}
-
-.container {
-  max-width: 1360px; margin: 0 auto; padding: 0 64px;
-}
+.container { max-width: 1320px; margin: 0 auto; padding: 0 60px; }
 @media (max-width: 900px) { .container { padding: 0 32px; } }
-@media (max-width: 600px) { .container { padding: 0 20px; } }
+@media (max-width: 580px) { .container { padding: 0 20px; } }
 
 .page-content { min-height: 100vh; }
 
-/* ── BUTTONS ────────────────────────────────────────────── */
-.btn-primary {
-  display: inline-block;
-  padding: 14px 44px;
-  background: var(--ink);
-  color: var(--white);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border: 1px solid var(--ink);
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.35s var(--ease);
-  font-family: var(--font-body-en);
-  position: relative;
-  overflow: hidden;
+/* ── TYPOGRAPHY UTILITIES ────────────────────────────────── */
+.t-label {
+  font-family: var(--f-en-body);
+  font-size: 0.64rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--quiet); display: block; margin-bottom: 14px;
 }
-.btn-primary::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: var(--gold);
-  transform: translateX(-101%);
-  transition: transform 0.4s var(--ease-gallery);
-  z-index: 0;
-}
-.btn-primary:hover::after { transform: translateX(0); }
-.btn-primary span, .btn-primary { position: relative; z-index: 1; }
-.btn-primary:hover { border-color: var(--gold); color: var(--ink); }
+[dir='rtl'] .t-label { font-family: var(--f-he-body); letter-spacing: 0; text-transform: none; font-size: 0.78rem; }
 
-.btn-outline {
-  display: inline-block;
-  padding: 13px 42px;
-  background: transparent;
-  color: var(--ink);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border: 1px solid var(--ink);
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.35s var(--ease);
-  font-family: var(--font-body-en);
+.t-heading {
+  font-family: var(--f-en-display);
+  font-size: clamp(1.9rem, 3.8vw, 3rem);
+  font-weight: 400; line-height: 1.1; color: var(--ink);
 }
-.btn-outline:hover {
-  background: var(--ink); color: var(--white);
-}
+[dir='rtl'] .t-heading { font-family: var(--f-he-display); font-size: clamp(1.7rem, 3.4vw, 2.7rem); }
 
-/* White variants (on dark bg) */
-.btn-primary-white {
-  display: inline-block;
-  padding: 14px 44px;
-  background: var(--white);
-  color: var(--ink);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border: 1px solid var(--white);
-  cursor: pointer;
-  transition: all 0.35s var(--ease);
-  font-family: var(--font-body-en);
+.t-heading--light { color: #fff; }
+.t-heading--xl {
+  font-size: clamp(3rem, 7vw, 5.5rem);
 }
-.btn-primary-white:hover {
-  background: var(--gold); border-color: var(--gold); color: var(--ink);
-}
-.btn-outline-white {
-  display: inline-block;
-  padding: 13px 42px;
-  background: transparent;
-  color: rgba(255,255,255,0.85);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border: 1px solid rgba(255,255,255,0.4);
-  cursor: pointer;
-  transition: all 0.35s var(--ease);
-  font-family: var(--font-body-en);
-}
-.btn-outline-white:hover {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.8);
-  color: #fff;
-}
+[dir='rtl'] .t-heading--xl { font-size: clamp(2.5rem, 6vw, 5rem); }
 
-[dir='rtl'] .btn-primary,
-[dir='rtl'] .btn-outline,
-[dir='rtl'] .btn-primary-white,
-[dir='rtl'] .btn-outline-white {
-  font-family: var(--font-body-he);
-  letter-spacing: 0; text-transform: none; font-size: 0.9rem;
+.t-body {
+  font-size: 1.05rem; line-height: 2; color: var(--mid);
 }
+[dir='rtl'] .t-body { font-family: var(--f-he-body); font-size: 1rem; }
 
-/* ── GOLD RULE ──────────────────────────────────────────── */
-.gold-rule {
-  width: 40px; height: 1px; background: var(--gold);
-  border: none; display: block; margin: 20px 0;
-}
-.gold-rule.center { margin: 20px auto; }
+/* ── GOLD RULE ───────────────────────────────────────────── */
+.g-rule { width: 36px; height: 1px; background: var(--gold); border: none; display: block; margin: 18px 0; }
+.g-rule--center { margin: 18px auto; }
 
-/* ── LABEL TAG ──────────────────────────────────────────── */
-.label-tag {
-  display: block;
-  font-size: 0.66rem; letter-spacing: 0.26em; text-transform: uppercase;
-  color: var(--text-light); font-family: var(--font-body-en); margin-bottom: 14px;
+/* ── BUTTONS ─────────────────────────────────────────────── */
+.btn {
+  display: inline-block; cursor: pointer; border: none;
+  font-family: var(--f-en-body); font-size: 0.7rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 13px 40px; transition: all 0.35s var(--ease);
+  text-decoration: none; position: relative;
 }
-[dir='rtl'] .label-tag {
-  font-family: var(--font-body-he); letter-spacing: 0;
-  text-transform: none; font-size: 0.8rem;
-}
+[dir='rtl'] .btn { font-family: var(--f-he-body); letter-spacing: 0; text-transform: none; font-size: 0.88rem; }
 
-/* ── SECTION HEADING ────────────────────────────────────── */
-.section-heading {
-  font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 400;
-  color: var(--ink); line-height: 1.12;
-}
-[dir='rtl'] .section-heading {
-  font-family: var(--font-display-he);
-  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
-}
+.btn--dark  { background: var(--ink); color: #fff; border: 1px solid var(--ink); }
+.btn--dark:hover { background: var(--plum); border-color: var(--plum); }
 
-/* ── REVEAL ANIMATION ───────────────────────────────────── */
-.reveal {
-  opacity: 0; transform: translateY(32px);
-  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
-}
+.btn--ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
+.btn--ghost:hover { border-color: var(--ink); }
+
+.btn--white { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.25); }
+.btn--white:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.7); color: #fff; }
+
+.btn--gold { background: var(--gold); color: var(--deep); border: 1px solid var(--gold); }
+.btn--gold:hover { background: var(--gold-hi); border-color: var(--gold-hi); }
+
+/* ── REVEAL ──────────────────────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal--slow { transition-duration: 1.3s; }
+.reveal--fast { transition-duration: 0.6s; }
 
-/* ── SELECTION ──────────────────────────────────────────── */
-::selection { background: var(--gold); color: var(--ink); }
+/* ── SELECTION ───────────────────────────────────────────── */
+::selection { background: var(--gold); color: var(--deep); }
 
-/* ── SCROLLBAR ──────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--warm-white); }
+/* ── SCROLLBAR ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--canvas); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
