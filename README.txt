@@ -1,22 +1,22 @@
-Yehudis Jacobs — Fine Art Gallery Website
-==========================================
+Yehudis Jacobs — Fine Art Gallery
+===================================
 
-קובץ אחד מוכן להעלאה:
-  index.html — האתר המלא כולל כל הציורים מוטמעים
+העלאה ל-Vercel (מתוך GitHub):
+-------------------------------
+1. ודא שה-repo מכיל את 3 הקבצים:
+   - index.html
+   - vercel.json
+   - package.json
 
-כיצד להשתמש:
-  1. פתח את index.html בדפדפן כדי לראות את האתר
-  2. העלה את index.html לכל שירות אחסון אתרים
+2. ב-Vercel, תחת Project Settings > Build & Output Settings:
+   - Build Command: השאר ריק (או: echo done)
+   - Output Directory: . (נקודה בלבד)
+   - Framework Preset: Other
 
-שירותי אחסון מומלצים (חינמיים/זולים):
-  - Netlify: netlify.com  (גרור ושחרר את הקובץ)
-  - Tiiny.host: tiiny.host (הכי פשוט)
-  - GitHub Pages
-  - כל אחסון רגיל (Wix, Hostinger, etc.)
+3. לחץ Redeploy — זהו!
 
-שפות: אנגלית + עברית (כפתור מעבר בתפריט)
-דפים: Home / Gallery / About / Contact
-
-לשאלות:
-  yehudisfineartgallery@gmail.com
+העלאה ל-Netlify (הכי פשוט):
+-----------------------------
+פשוט גרור את קובץ index.html בלבד אל: netlify.com/drop
+האתר יהיה חי תוך שניות. ללא צורך ב-GitHub.
 
