@@ -1,0 +1,247 @@
+/* ── ABOUT PAGE ─────────────────────────────────────────── */
+
+/* ── BIO SECTION ────────────────────────────────────────── */
+.about-bio-section {
+  padding: 80px 0 60px;
+  background: var(--ivory);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* ── PORTRAIT ───────────────────────────────────────────── */
+.about-portrait {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  position: sticky;
+  top: 100px;
+}
+
+[dir='rtl'] .about-portrait {
+  align-items: flex-end;
+}
+
+.portrait-placeholder {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(44, 36, 22, 0.06);
+}
+
+.about-portrait img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+}
+
+.portrait-glyph {
+  font-size: 2.5rem;
+  color: rgba(44, 36, 22, 0.08);
+}
+
+.portrait-caption {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--charcoal-light);
+  text-transform: uppercase;
+}
+
+[dir='rtl'] .portrait-caption {
+  font-family: var(--font-body-he);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.85rem;
+}
+
+/* ── BIO TEXT ───────────────────────────────────────────── */
+.about-bio {
+  display: flex;
+  flex-direction: column;
+}
+
+.bio-heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  color: var(--charcoal);
+  font-style: italic;
+}
+
+[dir='rtl'] .bio-heading {
+  font-family: var(--font-display-he);
+  font-style: normal;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+}
+
+.bio-para {
+  font-size: 1rem;
+  color: var(--charcoal-mid);
+  line-height: 1.95;
+  margin-bottom: 20px;
+  max-width: 600px;
+}
+
+[dir='rtl'] .bio-para {
+  font-family: var(--font-body-he);
+  font-size: 1rem;
+}
+
+/* ── EDUCATION ──────────────────────────────────────────── */
+.about-education-section {
+  padding: 60px 0;
+  background: var(--parchment);
+  border-top: 1px solid rgba(44, 36, 22, 0.06);
+}
+
+.education-inner {
+  max-width: 640px;
+}
+
+[dir='rtl'] .education-inner {
+  margin-right: 0;
+}
+
+.edu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.edu-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+[dir='rtl'] .edu-item {
+  flex-direction: row-reverse;
+}
+
+.edu-dot {
+  color: var(--gold);
+  font-size: 1.2rem;
+  line-height: 1.6;
+  flex-shrink: 0;
+}
+
+.edu-item p {
+  font-size: 0.95rem;
+  color: var(--charcoal-mid);
+  line-height: 1.7;
+}
+
+[dir='rtl'] .edu-item p {
+  font-family: var(--font-body-he);
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+/* ── ARTIST STATEMENT ───────────────────────────────────── */
+.about-statement-section {
+  padding: 80px 0 100px;
+  background: var(--ivory);
+  border-top: 1px solid rgba(44, 36, 22, 0.06);
+}
+
+.statement-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.statement-header {
+  margin-bottom: 40px;
+}
+
+.statement-header .section-heading {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  color: var(--charcoal);
+}
+
+.statement-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.statement-para {
+  font-size: 1.05rem;
+  color: var(--charcoal-mid);
+  line-height: 2;
+}
+
+[dir='rtl'] .statement-para {
+  font-family: var(--font-body-he);
+  font-size: 1.05rem;
+}
+
+/* Give first paragraph slightly larger treatment */
+.statement-para:first-child {
+  font-size: 1.15rem;
+  color: var(--charcoal);
+  font-style: italic;
+}
+
+[dir='rtl'] .statement-para:first-child {
+  font-style: normal;
+}
+
+/* ── CLOSING ORNAMENT ───────────────────────────────────── */
+.statement-closing {
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.closing-ornament {
+  width: 80px;
+  height: auto;
+}
+
+.closing-name {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--charcoal-light);
+  text-transform: uppercase;
+}
+
+[dir='rtl'] .closing-name {
+  font-family: var(--font-body-he);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.9rem;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .about-portrait {
+    position: static;
+    max-width: 320px;
+  }
+
+  [dir='rtl'] .about-portrait {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-portrait {
+    max-width: 100%;
+  }
+}

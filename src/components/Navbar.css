@@ -1,0 +1,215 @@
+/* ── NAVBAR ─────────────────────────────────────────────── */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 24px 0;
+  background: transparent;
+  transition: background 0.4s ease, padding 0.4s ease,
+              box-shadow 0.4s ease;
+}
+
+.navbar.scrolled {
+  background: rgba(250, 246, 238, 0.96);
+  backdrop-filter: blur(12px);
+  padding: 14px 0;
+  box-shadow: 0 1px 0 rgba(44, 36, 22, 0.08);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── LOGO ───────────────────────────────────────────────── */
+.logo-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.logo-svg {
+  width: 180px;
+  height: auto;
+  transition: opacity 0.3s ease;
+}
+
+.logo-btn:hover .logo-svg {
+  opacity: 0.75;
+}
+
+/* ── DESKTOP NAV ────────────────────────────────────────── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--charcoal-mid);
+  font-family: var(--font-body-en);
+  padding: 0;
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+[dir='rtl'] .nav-link {
+  font-family: var(--font-body-he);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.9rem;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--charcoal);
+}
+
+.nav-link.active::after,
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── LANGUAGE TOGGLE ────────────────────────────────────── */
+.lang-toggle {
+  background: none;
+  border: 1px solid var(--gold);
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-family: var(--font-body-en);
+  padding: 6px 14px;
+  transition: all 0.25s ease;
+}
+
+.lang-toggle:hover {
+  background: var(--gold);
+  color: var(--ivory);
+}
+
+/* ── MOBILE CONTROLS ────────────────────────────────────── */
+.mobile-controls {
+  display: none;
+  align-items: center;
+  gap: 16px;
+}
+
+.burger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+
+.burger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--charcoal);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.burger.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+.burger.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ── MOBILE MENU ────────────────────────────────────────── */
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  background: rgba(250, 246, 238, 0.98);
+  backdrop-filter: blur(12px);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  /* hidden on desktop */
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.mobile-menu.open {
+  max-height: 320px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(44, 36, 22, 0.08);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mobile-nav-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--charcoal-mid);
+  font-family: var(--font-body-en);
+  padding: 14px 48px;
+  text-align: left;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+[dir='rtl'] .mobile-nav-link {
+  text-align: right;
+  font-family: var(--font-body-he);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+  color: var(--plum);
+  background: rgba(92, 61, 82, 0.05);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .mobile-controls {
+    display: flex;
+  }
+  /* mobile-menu is always display:flex; visibility is toggled by .open class */
+  .mobile-menu {
+    visibility: hidden; /* default on mobile too — open class overrides */
+  }
+}

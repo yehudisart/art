@@ -1,0 +1,208 @@
+/* ============================================================
+   YEHUDIS — GLOBAL STYLES
+   Brand palette, typography, base reset, utilities
+   ============================================================ */
+
+/* ── BRAND COLOR PALETTE ────────────────────────────────────
+   Parchment   #F5EFE0  – primary background, light warmth
+   Sand        #E8DCC8  – secondary surface, cards
+   Clay        #C4906A  – warm terracotta accent
+   Plum        #5C3D52  – deep accent, key text moments
+   Sage        #7A8C72  – olive/sage secondary accent
+   Gold        #B8963E  – antique gold highlight
+   Charcoal    #2C2416  – primary text
+   Ivory       #FAF6EE  – hero & section backgrounds
+   ──────────────────────────────────────────────────────── */
+
+:root {
+  --parchment:  #F5EFE0;
+  --sand:       #E8DCC8;
+  --clay:       #C4906A;
+  --plum:       #5C3D52;
+  --sage:       #7A8C72;
+  --gold:       #B8963E;
+  --charcoal:   #2C2416;
+  --ivory:      #FAF6EE;
+  --charcoal-mid: #4A3E2E;
+  --charcoal-light: #7A6E5E;
+
+  /* Typography */
+  --font-display-en: 'Cormorant Garamond', serif;
+  --font-body-en:    'EB Garamond', serif;
+  --font-display-he: 'Frank Ruhl Libre', serif;
+  --font-body-he:    'Heebo', sans-serif;
+
+  /* Spacing */
+  --section-pad: 100px 0;
+  --section-pad-sm: 60px 0;
+  --container-max: 1200px;
+  --container-pad: 0 48px;
+  --container-pad-sm: 0 24px;
+
+  /* Transitions */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* ── RESET ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--ivory);
+  color: var(--charcoal);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── LANGUAGE-SPECIFIC TYPOGRAPHY ──────────────────────── */
+body[dir='ltr'] {
+  font-family: var(--font-body-en);
+}
+
+body[dir='rtl'] {
+  font-family: var(--font-body-he);
+}
+
+/* ── HEADINGS ───────────────────────────────────────────── */
+[dir='ltr'] h1,
+[dir='ltr'] h2,
+[dir='ltr'] h3,
+[dir='ltr'] h4 {
+  font-family: var(--font-display-en);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+[dir='rtl'] h1,
+[dir='rtl'] h2,
+[dir='rtl'] h3,
+[dir='rtl'] h4 {
+  font-family: var(--font-display-he);
+  font-weight: 400;
+}
+
+/* ── UTILITY CLASSES ────────────────────────────────────── */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--container-pad);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--container-pad-sm);
+  }
+}
+
+/* ── PAGE TRANSITIONS ───────────────────────────────────── */
+.page-enter {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+.page-exit {
+  opacity: 1;
+}
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+/* ── HORIZONTAL RULE ────────────────────────────────────── */
+.divider {
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  border: none;
+  margin: 24px auto;
+}
+
+[dir='rtl'] .divider {
+  margin: 24px auto;
+}
+
+/* ── BUTTONS ────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--plum);
+  color: var(--parchment);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease),
+              box-shadow 0.3s var(--ease);
+}
+
+.btn-primary:hover {
+  background: var(--charcoal);
+  box-shadow: 0 4px 24px rgba(44, 36, 22, 0.18);
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 13px 38px;
+  background: transparent;
+  color: var(--plum);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--plum);
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+
+.btn-outline:hover {
+  background: var(--plum);
+  color: var(--parchment);
+}
+
+[dir='rtl'] .btn-primary,
+[dir='rtl'] .btn-outline {
+  letter-spacing: 0;
+  font-family: var(--font-body-he);
+  font-size: 0.9rem;
+  text-transform: none;
+}
+
+/* ── SCROLL REVEAL ANIMATION ────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── PAGE CONTENT — pushes below fixed navbar ───────────── */
+.page-content {
+  min-height: 100vh;
+}
+
+/* ── SELECTION COLOR ────────────────────────────────────── */
+::selection {
+  background: var(--clay);
+  color: var(--ivory);
+}
