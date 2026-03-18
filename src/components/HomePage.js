@@ -68,8 +68,8 @@ const HomePage = ({ t, onNavigate }) => {
           <h1 className="hero-title">{t.home.heroTitle}</h1>
           <p className="hero-subtitle">{t.home.heroSubtitle}</p>
           <div className="hero-ctas">
-            <button className="btn-primary" onClick={() => go('gallery')}>{t.home.heroCta}</button>
-            <button className="btn-outline hero-outline" onClick={() => go('about')}>{t.home.heroCtaAbout}</button>
+            <button className="btn-primary-white" onClick={() => go('gallery')}>{t.home.heroCta}</button>
+            <button className="btn-outline-white" onClick={() => go('about')}>{t.home.heroCtaAbout}</button>
           </div>
         </div>
 
@@ -193,7 +193,7 @@ const HomePage = ({ t, onNavigate }) => {
             <h2 className="collect-heading">{t.home.collectTitle}</h2>
             <div className="gold-rule center" />
             <p className="collect-text">{t.home.collectText}</p>
-            <button className="btn-primary collect-cta" onClick={() => go('contact')}>{t.home.collectCta}</button>
+            <button className="btn-primary-white collect-cta" onClick={() => go('contact')}>{t.home.collectCta}</button>
           </div>
         </div>
       </section>

@@ -1,108 +1,78 @@
-.about-page { background: #fff; }
-
-.about-hero {
-  padding: 160px 0 72px; background: #fff; text-align: center;
-}
+/* ══ ABOUT PAGE ═══════════════════════════════════════════ */
+.about-page { background: var(--white); }
+.about-hero { padding: 180px 0 80px; background: var(--white); text-align: center; }
 .about-page-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  font-weight: 300; color: #0A0A0A; letter-spacing: 0.05em;
+  font-family: var(--font-display-en);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 300; color: var(--ink); letter-spacing: 0.05em;
 }
-[dir='rtl'] .about-page-title { font-family: 'Frank Ruhl Libre', serif; letter-spacing: 0; }
+[dir='rtl'] .about-page-title { font-family: var(--font-display-he); letter-spacing: 0; }
 
-/* Bio */
-.about-bio-section { padding: 80px 0 72px; background: #fff; }
-.about-grid {
-  display: grid; grid-template-columns: 380px 1fr;
-  gap: 88px; align-items: start;
-}
-.about-portrait {
-  display: flex; flex-direction: column; gap: 12px;
-  position: sticky; top: 96px;
-}
-.portrait-img {
-  width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block;
-}
-.portrait-cap {
-  font-size: 0.7rem; letter-spacing: 0.14em;
-  color: #888; text-transform: uppercase;
-  font-family: 'EB Garamond', serif;
-}
-[dir='rtl'] .portrait-cap {
-  font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none;
-}
+.about-bio-section { padding: 96px 0 80px; background: var(--white); }
+.about-grid { display: grid; grid-template-columns: 380px 1fr; gap: 96px; align-items: start; }
+
+/* Portrait */
+.about-portrait { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 100px; }
+.portrait-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+.portrait-cap { font-size: 0.68rem; letter-spacing: 0.14em; color: var(--text-light); text-transform: uppercase; font-family: var(--font-body-en); }
+[dir='rtl'] .portrait-cap { font-family: var(--font-body-he); letter-spacing: 0; text-transform: none; }
+
+/* Bio text */
 .about-bio { display: flex; flex-direction: column; }
 .bio-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 400; font-style: italic; color: #0A0A0A;
+  font-family: var(--font-display-en);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 400; font-style: italic; color: var(--ink);
 }
-[dir='rtl'] .bio-name { font-family: 'Frank Ruhl Libre', serif; font-style: normal; }
-.bio-para {
-  font-size: 1rem; line-height: 1.95; color: #3A3A3A;
-  margin-bottom: 18px; max-width: 580px;
-}
-[dir='rtl'] .bio-para { font-family: 'Heebo', sans-serif; }
+[dir='rtl'] .bio-name { font-family: var(--font-display-he); font-style: normal; }
+.bio-para { font-size: 1.02rem; line-height: 2; color: var(--text-mid); margin-bottom: 18px; max-width: 580px; }
+[dir='rtl'] .bio-para { font-family: var(--font-body-he); }
 
 /* Education */
 .about-edu-section {
-  padding: 72px 0; background: #F4F4F4;
-  border-top: 1px solid #E0E0E0;
+  padding: 80px 0;
+  background: var(--deep-plum);
+  border-top: 1px solid rgba(201,168,76,0.1);
 }
-.edu-inner { max-width: 680px; }
-.edu-list {
-  display: flex; flex-direction: column; gap: 24px; margin-top: 20px;
-}
-.edu-item {
-  display: flex; gap: 24px; align-items: flex-start;
-}
+.edu-inner { max-width: 700px; }
+.about-edu-section .label-tag { color: var(--gold); opacity: 0.75; }
+.edu-list { display: flex; flex-direction: column; gap: 28px; margin-top: 24px; }
+.edu-item { display: flex; gap: 28px; align-items: flex-start; }
 [dir='rtl'] .edu-item { flex-direction: row-reverse; }
 .edu-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.8rem; color: #E0E0E0;
-  line-height: 1; flex-shrink: 0; width: 48px;
+  font-family: var(--font-display-en); font-size: 2rem;
+  line-height: 1.1; flex-shrink: 0; width: 52px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; opacity: 0.5;
 }
-.edu-text {
-  font-size: 0.95rem; color: #3A3A3A; line-height: 1.7; padding-top: 4px;
-}
-[dir='rtl'] .edu-text { font-family: 'Heebo', sans-serif; text-align: right; }
+.edu-text { font-size: 0.95rem; color: rgba(255,255,255,0.65); line-height: 1.75; padding-top: 4px; }
+[dir='rtl'] .edu-text { font-family: var(--font-body-he); text-align: right; }
 
 /* Statement */
 .about-statement-section {
-  padding: 96px 0 112px; background: #fff;
-  border-top: 1px solid #E0E0E0;
+  padding: 112px 0 128px; background: var(--white);
+  border-top: 1px solid var(--border);
 }
-.statement-inner { max-width: 720px; margin: 0 auto; }
-.statement-header { margin-bottom: 40px; }
-.statement-paras { display: flex; flex-direction: column; gap: 20px; }
-.statement-para {
-  font-size: 1rem; color: #3A3A3A; line-height: 2;
-}
-[dir='rtl'] .statement-para { font-family: 'Heebo', sans-serif; }
+.statement-inner { max-width: 740px; margin: 0 auto; }
+.statement-header { margin-bottom: 48px; }
+.statement-paras { display: flex; flex-direction: column; gap: 22px; }
+.statement-para { font-size: 1.02rem; color: var(--text-mid); line-height: 2; }
+[dir='rtl'] .statement-para { font-family: var(--font-body-he); }
 .statement-lead {
-  font-size: 1.15rem; color: #0A0A0A;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
+  font-size: 1.2rem; color: var(--ink);
+  font-family: var(--font-display-en); font-style: italic;
 }
-[dir='rtl'] .statement-lead {
-  font-family: 'Frank Ruhl Libre', serif; font-style: normal;
-}
-.statement-sig {
-  margin-top: 56px; display: flex; flex-direction: column;
-  align-items: center; gap: 12px;
-}
+[dir='rtl'] .statement-lead { font-family: var(--font-display-he); font-style: normal; }
+.statement-sig { margin-top: 64px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .sig-rule { width: 80px; height: auto; }
-.sig-name {
-  font-size: 0.72rem; letter-spacing: 0.18em; color: #888;
-  text-transform: uppercase;
-}
-[dir='rtl'] .sig-name {
-  font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none;
-}
+.sig-name { font-size: 0.68rem; letter-spacing: 0.2em; color: var(--text-light); text-transform: uppercase; }
+[dir='rtl'] .sig-name { font-family: var(--font-body-he); letter-spacing: 0; text-transform: none; }
 
 @media (max-width: 900px) {
-  .about-grid { grid-template-columns: 1fr; gap: 48px; }
-  .about-portrait { position: static; max-width: 320px; }
+  .about-grid { grid-template-columns: 1fr; gap: 56px; }
+  .about-portrait { position: static; max-width: 300px; }
+  [dir='rtl'] .about-portrait { max-width: 300px; }
 }
 @media (max-width: 600px) {
   .about-portrait { max-width: 100%; }

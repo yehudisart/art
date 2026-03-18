@@ -1,161 +1,211 @@
 /* ============================================================
-   YEHUDIS — GLOBAL STYLES v2
-   Premium white gallery aesthetic
-   ============================================================
+   YEHUDIS — GLOBAL STYLES v3
+   Palette drawn from the paintings:
+   Deep indigo/plum from the figures, warm gold leaf accents,
+   creamy whites, and rich cobalt blues.
 
-   PALETTE:
-   --white:       #FFFFFF  – primary background
-   --off-white:   #FAFAFA  – secondary surface
-   --light-grey:  #F4F4F4  – subtle section bg
-   --mid-grey:    #E0E0E0  – borders, dividers
-   --text-dark:   #0A0A0A  – primary text (near-black)
-   --text-mid:    #3A3A3A  – body text
-   --text-light:  #888888  – captions, meta
-   --gold:        #C9A84C  – accent only — sparingly
-   --black:       #000000  – hero text, statements
-*/
+   --ink:         #0D0B14  primary text / dark bg
+   --deep-plum:   #1A1228  hero sections, footer
+   --midnight:    #12101E  darkest bg
+   --white:       #FFFFFF  main background
+   --warm-white:  #FDFAF6  warm section bg
+   --stone:       #F0EBE3  subtle warm grey
+   --gold:        #C9A84C  accent — gold leaf echo
+   --gold-light:  #E8C97A  lighter gold hover
+   --cobalt:      #2B4B8C  blue accent from paintings
+   --violet:      #6B4FA0  plum/violet from paintings
+   --text-dark:   #0D0B14  body text
+   --text-mid:    #3D3845  secondary text
+   --text-light:  #8A8490  captions, meta
+   --border:      #E2DDD8  dividers
+============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@300;400;500&display=swap');
 
 :root {
-  --white:       #FFFFFF;
-  --off-white:   #FAFAFA;
-  --light-grey:  #F4F4F4;
-  --mid-grey:    #E0E0E0;
-  --text-dark:   #0A0A0A;
-  --text-mid:    #3A3A3A;
-  --text-light:  #888888;
-  --gold:        #C9A84C;
-  --black:       #000000;
+  --ink:           #0D0B14;
+  --deep-plum:     #1A1228;
+  --midnight:      #12101E;
+  --white:         #FFFFFF;
+  --warm-white:    #FDFAF6;
+  --stone:         #F0EBE3;
+  --gold:          #C9A84C;
+  --gold-light:    #E8C97A;
+  --cobalt:        #2B4B8C;
+  --violet:        #6B4FA0;
+  --text-dark:     #0D0B14;
+  --text-mid:      #3D3845;
+  --text-light:    #8A8490;
+  --border:        #E2DDD8;
 
   --font-display-en: 'Cormorant Garamond', serif;
   --font-body-en:    'EB Garamond', serif;
   --font-display-he: 'Frank Ruhl Libre', serif;
   --font-body-he:    'Heebo', sans-serif;
 
-  --navbar-h: 72px;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-gallery: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
   background: var(--white);
   color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
-
 body[dir='ltr'] { font-family: var(--font-body-en); }
 body[dir='rtl'] { font-family: var(--font-body-he); }
 
 [dir='ltr'] h1,[dir='ltr'] h2,[dir='ltr'] h3,[dir='ltr'] h4 {
-  font-family: var(--font-display-en);
-  font-weight: 400;
+  font-family: var(--font-display-en); font-weight: 400;
 }
 [dir='rtl'] h1,[dir='rtl'] h2,[dir='rtl'] h3,[dir='rtl'] h4 {
-  font-family: var(--font-display-he);
-  font-weight: 400;
+  font-family: var(--font-display-he); font-weight: 400;
 }
 
 .container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 56px;
+  max-width: 1360px; margin: 0 auto; padding: 0 64px;
 }
-@media (max-width: 768px) { .container { padding: 0 24px; } }
+@media (max-width: 900px) { .container { padding: 0 32px; } }
+@media (max-width: 600px) { .container { padding: 0 20px; } }
 
-/* ── PAGE CONTENT ── */
 .page-content { min-height: 100vh; }
 
-/* ── BUTTONS ── */
+/* ── BUTTONS ────────────────────────────────────────────── */
 .btn-primary {
   display: inline-block;
-  padding: 15px 44px;
-  background: var(--black);
+  padding: 14px 44px;
+  background: var(--ink);
   color: var(--white);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  border: 1px solid var(--black);
+  border: 1px solid var(--ink);
   cursor: pointer;
   text-decoration: none;
-  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+  transition: all 0.35s var(--ease);
   font-family: var(--font-body-en);
+  position: relative;
+  overflow: hidden;
 }
-.btn-primary:hover { background: var(--white); color: var(--black); }
+.btn-primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--gold);
+  transform: translateX(-101%);
+  transition: transform 0.4s var(--ease-gallery);
+  z-index: 0;
+}
+.btn-primary:hover::after { transform: translateX(0); }
+.btn-primary span, .btn-primary { position: relative; z-index: 1; }
+.btn-primary:hover { border-color: var(--gold); color: var(--ink); }
 
 .btn-outline {
   display: inline-block;
-  padding: 14px 42px;
+  padding: 13px 42px;
   background: transparent;
-  color: var(--black);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
+  color: var(--ink);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  border: 1px solid var(--black);
+  border: 1px solid var(--ink);
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s var(--ease);
+  transition: all 0.35s var(--ease);
   font-family: var(--font-body-en);
 }
-.btn-outline:hover { background: var(--black); color: var(--white); }
+.btn-outline:hover {
+  background: var(--ink); color: var(--white);
+}
+
+/* White variants (on dark bg) */
+.btn-primary-white {
+  display: inline-block;
+  padding: 14px 44px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: 1px solid var(--white);
+  cursor: pointer;
+  transition: all 0.35s var(--ease);
+  font-family: var(--font-body-en);
+}
+.btn-primary-white:hover {
+  background: var(--gold); border-color: var(--gold); color: var(--ink);
+}
+.btn-outline-white {
+  display: inline-block;
+  padding: 13px 42px;
+  background: transparent;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: all 0.35s var(--ease);
+  font-family: var(--font-body-en);
+}
+.btn-outline-white:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.8);
+  color: #fff;
+}
 
 [dir='rtl'] .btn-primary,
-[dir='rtl'] .btn-outline {
+[dir='rtl'] .btn-outline,
+[dir='rtl'] .btn-primary-white,
+[dir='rtl'] .btn-outline-white {
   font-family: var(--font-body-he);
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 0.9rem;
+  letter-spacing: 0; text-transform: none; font-size: 0.9rem;
 }
 
-/* ── REVEAL ANIMATION ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ── GOLD RULE ── */
+/* ── GOLD RULE ──────────────────────────────────────────── */
 .gold-rule {
-  width: 40px; height: 1px;
-  background: var(--gold);
-  border: none;
-  display: block;
-  margin: 20px 0;
+  width: 40px; height: 1px; background: var(--gold);
+  border: none; display: block; margin: 20px 0;
 }
 .gold-rule.center { margin: 20px auto; }
 
-/* ── LABEL ── */
+/* ── LABEL TAG ──────────────────────────────────────────── */
 .label-tag {
   display: block;
-  font-size: 0.68rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--text-light);
-  font-family: var(--font-body-en);
-  margin-bottom: 12px;
+  font-size: 0.66rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--text-light); font-family: var(--font-body-en); margin-bottom: 14px;
 }
 [dir='rtl'] .label-tag {
-  font-family: var(--font-body-he);
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 0.8rem;
+  font-family: var(--font-body-he); letter-spacing: 0;
+  text-transform: none; font-size: 0.8rem;
 }
 
-/* ── SECTION HEADING ── */
+/* ── SECTION HEADING ────────────────────────────────────── */
 .section-heading {
-  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-  font-weight: 400;
-  color: var(--black);
-  line-height: 1.15;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 400;
+  color: var(--ink); line-height: 1.12;
 }
 [dir='rtl'] .section-heading {
   font-family: var(--font-display-he);
   font-size: clamp(1.6rem, 3.2vw, 2.5rem);
 }
 
-/* ── SELECTION ── */
-::selection { background: var(--black); color: var(--white); }
+/* ── REVEAL ANIMATION ───────────────────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── SELECTION ──────────────────────────────────────────── */
+::selection { background: var(--gold); color: var(--ink); }
+
+/* ── SCROLLBAR ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--warm-white); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
