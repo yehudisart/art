@@ -18,21 +18,22 @@
 }
 .gallery-intro {
   font-size: 1rem; color: #888; max-width: 520px;
-  margin: 0 auto; line-height: 1.85;
-  font-style: italic;
+  margin: 0 auto; line-height: 1.85; font-style: italic;
 }
 [dir='rtl'] .gallery-intro { font-family: 'Heebo', sans-serif; font-style: normal; }
 
 /* ══ CHESS SECTION ════════════════════════════════════════ */
-.chess-section {
-  background: #fff;
-}
+.chess-section { background: #fff; }
 
-/* Each row */
 .chess-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 640px;
+  /*
+    Images reduced ~25%:
+    was 1fr 1fr (50/50). Now image column = 37.5% (≈ 50% × 0.75),
+    story column fills the rest.
+  */
+  grid-template-columns: 37.5fr 62.5fr;
+  min-height: 480px;            /* was 640px → 480px (25% smaller) */
   border-top: 1px solid #E0E0E0;
 }
 
@@ -40,47 +41,95 @@
 .chess-row.even .chess-image { order: 1; }
 .chess-row.even .chess-story { order: 2; }
 
-/* Odd rows: story left, image right */
+/* Odd rows: story left, image right — swap column widths too */
+.chess-row.odd {
+  grid-template-columns: 62.5fr 37.5fr;
+}
 .chess-row.odd .chess-image { order: 2; }
 .chess-row.odd .chess-story { order: 1; }
 
-/* RTL flips: even becomes right-image, odd becomes left-image */
+/* RTL mirrors */
+[dir='rtl'] .chess-row.even { grid-template-columns: 62.5fr 37.5fr; }
 [dir='rtl'] .chess-row.even .chess-image { order: 2; }
 [dir='rtl'] .chess-row.even .chess-story { order: 1; }
-[dir='rtl'] .chess-row.odd .chess-image  { order: 1; }
-[dir='rtl'] .chess-row.odd .chess-story  { order: 2; }
+[dir='rtl'] .chess-row.odd  { grid-template-columns: 37.5fr 62.5fr; }
+[dir='rtl'] .chess-row.odd  .chess-image { order: 1; }
+[dir='rtl'] .chess-row.odd  .chess-story { order: 2; }
 
 /* ── IMAGE PANEL ── */
 .chess-image {
   position: relative; overflow: hidden;
   background: #F4F4F4;
 }
+
+/* Clickable image wrapper */
+.chess-img-btn {
+  position: relative;
+  width: 100%; height: 100%;
+  cursor: zoom-in;
+  display: block;
+  outline: none;
+}
+.chess-img-btn:focus-visible {
+  outline: 2px solid #C9A84C;
+  outline-offset: -2px;
+}
+
 .chess-img {
   width: 100%; height: 100%;
   object-fit: cover; display: block;
-  min-height: 480px;
-  transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
+  min-height: 360px;            /* was 480px → 360px (25% smaller) */
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.chess-row:hover .chess-img { transform: scale(1.03); }
+.chess-img-btn:hover .chess-img { transform: scale(1.04); }
 
-.chess-badge {
-  position: absolute; top: 24px; left: 24px;
+/* Zoom hint overlay */
+.chess-zoom-hint {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  color: #fff;
 }
-[dir='rtl'] .chess-badge { left: auto; right: 24px; }
+.chess-img-btn:hover .chess-zoom-hint { opacity: 1; }
+.chess-zoom-hint span {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: 'EB Garamond', serif;
+}
+[dir='rtl'] .chess-zoom-hint span {
+  font-family: 'Heebo', sans-serif;
+  letter-spacing: 0; text-transform: none;
+  font-size: 0.82rem;
+}
+
+/* Availability badge */
+.chess-badge {
+  position: absolute; top: 20px; left: 20px; z-index: 2;
+  pointer-events: none;
+}
+[dir='rtl'] .chess-badge { left: auto; right: 20px; }
 .badge-avail, .badge-sold {
-  font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase;
-  padding: 5px 10px; backdrop-filter: blur(8px);
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 4px 9px; backdrop-filter: blur(8px);
 }
 .badge-avail {
-  background: rgba(255,255,255,0.9); color: #0A0A0A;
-  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.92); color: #0A0A0A;
+  border: 1px solid rgba(0,0,0,0.1);
 }
 .badge-sold {
   background: rgba(0,0,0,0.55); color: rgba(255,255,255,0.7);
 }
 [dir='rtl'] .badge-avail, [dir='rtl'] .badge-sold {
-  font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none;
-  font-size: 0.75rem;
+  font-family: 'Heebo', sans-serif; letter-spacing: 0;
+  text-transform: none; font-size: 0.75rem;
 }
 
 /* ── STORY PANEL ── */
@@ -88,50 +137,42 @@
   display: flex; align-items: center; justify-content: center;
   background: #fff; padding: 0;
 }
-/* Alternate bg for every other row */
 .chess-row.odd .chess-story { background: #FAFAFA; }
 [dir='rtl'] .chess-row.even .chess-story { background: #FAFAFA; }
 [dir='rtl'] .chess-row.odd  .chess-story { background: #fff; }
 
 .chess-story-inner {
-  padding: 64px 72px;
-  max-width: 500px;
+  padding: 52px 64px;
+  max-width: 520px;
   display: flex; flex-direction: column; gap: 0;
 }
 .chess-number {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 4rem; font-weight: 300;
-  color: #E0E0E0; line-height: 1;
-  margin-bottom: -8px;
+  font-size: 3.5rem; font-weight: 300;
+  color: #E8E8E8; line-height: 1; margin-bottom: -8px;
 }
 .chess-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
   font-weight: 400; color: #0A0A0A;
-  line-height: 1.2; margin-bottom: 8px;
+  line-height: 1.2; margin-bottom: 6px;
 }
-[dir='rtl'] .chess-title {
-  font-family: 'Frank Ruhl Libre', serif;
-}
+[dir='rtl'] .chess-title { font-family: 'Frank Ruhl Libre', serif; }
 .chess-meta {
-  font-size: 0.72rem; letter-spacing: 0.1em;
-  color: #888; margin-bottom: 4px;
+  font-size: 0.7rem; letter-spacing: 0.1em;
+  color: #888; margin-bottom: 2px;
 }
-[dir='rtl'] .chess-meta {
-  font-family: 'Heebo', sans-serif; letter-spacing: 0; font-size: 0.82rem;
-}
+[dir='rtl'] .chess-meta { font-family: 'Heebo', sans-serif; letter-spacing: 0; font-size: 0.82rem; }
 .chess-story-text {
-  font-size: 0.98rem; line-height: 1.9;
-  color: #3A3A3A; margin-bottom: 32px; margin-top: 4px;
+  font-size: 0.96rem; line-height: 1.9;
+  color: #3A3A3A; margin-bottom: 28px; margin-top: 4px;
 }
 [dir='rtl'] .chess-story-text { font-family: 'Heebo', sans-serif; }
 .chess-cta { align-self: flex-start; }
 [dir='rtl'] .chess-cta { align-self: flex-end; }
 
 /* ── GALLERY BOTTOM ── */
-.gallery-bottom {
-  padding: 100px 0; background: #F4F4F4;
-}
+.gallery-bottom { padding: 100px 0; background: #F4F4F4; }
 .gallery-bottom-inner {
   display: flex; flex-direction: column;
   align-items: center; gap: 28px; text-align: center;
@@ -142,29 +183,150 @@
 }
 [dir='rtl'] .gallery-bottom-text { font-family: 'Heebo', sans-serif; font-style: normal; }
 
+/* ══ LIGHTBOX ═════════════════════════════════════════════ */
+.lightbox-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: lbFadeIn 0.25s ease;
+}
+@keyframes lbFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Main content block */
+.lb-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 90vw;
+  max-height: 90vh;
+  animation: lbSlideUp 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+@keyframes lbSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Image container */
+.lb-image-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 0;
+}
+.lb-image {
+  max-width: 88vw;
+  max-height: 76vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+
+/* Caption below image */
+.lb-caption {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.lb-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 400; font-style: italic;
+  color: #fff; letter-spacing: 0.02em;
+}
+[dir='rtl'] .lb-title { font-family: 'Frank Ruhl Libre', serif; font-style: normal; }
+.lb-meta {
+  font-size: 0.72rem; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.45);
+}
+[dir='rtl'] .lb-meta { font-family: 'Heebo', sans-serif; letter-spacing: 0; font-size: 0.82rem; }
+.lb-badge {
+  font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 3px 9px; margin-top: 4px;
+}
+.lb-badge.avail {
+  background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.lb-badge.sold {
+  background: transparent; color: rgba(255,255,255,0.35);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+[dir='rtl'] .lb-badge { font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none; }
+
+/* Close button — top right */
+.lb-close {
+  position: fixed; top: 24px; right: 24px;
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50%;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+  z-index: 1001;
+}
+.lb-close:hover {
+  background: rgba(255,255,255,0.22); color: #fff;
+}
+
+/* Nav buttons — left and right arrows */
+.lb-nav {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+  z-index: 1001;
+}
+.lb-nav:hover { background: rgba(255,255,255,0.18); color: #fff; }
+.lb-prev { left: 20px; }
+.lb-next { right: 20px; }
+
 /* ══ RESPONSIVE ═══════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .chess-row {
+  /* Stack vertically on mobile — image on top, story below */
+  .chess-row,
+  .chess-row.odd,
+  [dir='rtl'] .chess-row.even,
+  [dir='rtl'] .chess-row.odd {
     grid-template-columns: 1fr;
     min-height: auto;
   }
   .chess-row.even .chess-image,
-  .chess-row.odd .chess-image,
+  .chess-row.odd  .chess-image,
   [dir='rtl'] .chess-row.even .chess-image,
-  [dir='rtl'] .chess-row.odd .chess-image {
-    order: 1;
-  }
+  [dir='rtl'] .chess-row.odd  .chess-image { order: 1; }
   .chess-row.even .chess-story,
-  .chess-row.odd .chess-story,
+  .chess-row.odd  .chess-story,
   [dir='rtl'] .chess-row.even .chess-story,
-  [dir='rtl'] .chess-row.odd .chess-story {
-    order: 2;
-  }
-  .chess-img { min-height: 360px; }
-  .chess-story-inner { padding: 48px 32px; max-width: 100%; }
+  [dir='rtl'] .chess-row.odd  .chess-story { order: 2; }
+  .chess-img { min-height: 280px; }
+  .chess-story-inner { padding: 40px 28px; max-width: 100%; }
+
+  /* Lightbox nav */
+  .lb-prev { left: 8px; }
+  .lb-next { right: 8px; }
+  .lb-nav { width: 40px; height: 40px; }
+  .lb-close { top: 16px; right: 16px; }
 }
 
 @media (max-width: 500px) {
-  .chess-story-inner { padding: 40px 24px; }
-  .chess-number { font-size: 2.5rem; }
+  .chess-story-inner { padding: 36px 20px; }
+  .chess-number { font-size: 2.2rem; }
+  .lb-image { max-height: 60vh; }
 }
