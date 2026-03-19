@@ -35,13 +35,19 @@ const HomePage = ({ t, onNavigate }) => {
         />
         <div className="video-overlay" />
 
-        {/* Hero text */}
+        {/* Hero content — centered logo layout */}
         <div className="video-content">
-          <p className="hero-tagline">{t.home.videoTagline}</p>
-          <h1 className="hero-title">{t.home.heroTitle}</h1>
-          <p className="hero-subtitle">{t.home.heroSubtitle}</p>
+          <div className="hero-logo-wrap">
+            <img
+              src="/images/logo-yehudis.png"
+              alt="Yehudis"
+              className="hero-logo-img"
+            />
+            <p className="hero-jacobs">{isHe ? 'יעקובס' : 'JACOBS'}</p>
+          </div>
+          <p className="hero-subtitle hero-soul">{t.home.heroSubtitle}</p>
           <div className="hero-ctas">
-            <button className="btn-primary" onClick={() => go('gallery')}>{t.home.heroCta}</button>
+            <button className="btn-outline hero-outline" onClick={() => go('gallery')}>{t.home.heroCta}</button>
             <button className="btn-outline hero-outline" onClick={() => go('about')}>{t.home.heroCtaAbout}</button>
           </div>
         </div>
