@@ -3,120 +3,103 @@ import './ContactPage.css';
 
 const useReveal = () => {
   useEffect(() => {
-    const els = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
-      { threshold: 0.12 }
-    );
-    els.forEach(el => io.observe(el));
-    return () => io.disconnect();
+    const t = setTimeout(() => {
+      const els = document.querySelectorAll('.rv');
+      const io = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }),
+        { threshold: 0.06 }
+      );
+      els.forEach(el => io.observe(el));
+      return () => io.disconnect();
+    }, 80);
+    return () => clearTimeout(t);
   }, []);
 };
 
 const ContactPage = ({ t }) => {
   useReveal();
-  const [form, setForm] = useState({ name:'', email:'', phone:'', message:'' });
+  const isHe = t.lang === 'he';
+  const [form, setForm] = useState({ name:'', email:'', subject:'', whatsapp:'', message:'' });
   const [sent, setSent] = useState(false);
-
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    // ← REPLACE: connect to Formspree / EmailJS / your backend here
-    // fetch('https://formspree.io/f/YOUR_ID', { method: 'POST', body: JSON.stringify(form) })
-    setSent(true);
-  };
+  const upd = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const submit = e => { e.preventDefault(); setSent(true); };
 
   return (
     <main className="contact-page" dir={t.dir}>
+      <div className="ct-wrap">
+        <span className="ct-ey rv">{isHe ? 'פניות פרטיות' : 'Private Inquiries'}</span>
+        <h1 className="ct-h rv d1">{isHe ? 'יצירת קשר' : 'Contact'}</h1>
+        <p className="ct-h-he rv d1">{isHe ? 'Contact' : 'יצירת קשר'}</p>
+        <p className="ct-int rv d2">
+          {isHe
+            ? 'לפניות רכישה, ביקורי סטודיו או עבודות לפי הזמנה — כתבו אלינו. אנו מגיבים לכל פנייה רצינית תוך 48 שעות.'
+            : 'For acquisition enquiries, studio visits, or commissioned works — write to us. We respond to all serious enquiries within 48 hours.'
+          }
+        </p>
+        <div className="ct-rule rv d2" />
 
-      <section className="contact-hero">
-        <div className="container">
-          <span className="label-tag contact-label">{t.contact.pageLabel}</span>
-          <h1 className="contact-title">{t.contact.pageTitle}</h1>
-          <div className="gold-rule center" />
-          <p className="contact-intro">{t.contact.intro}</p>
-        </div>
-      </section>
-
-      <section className="contact-body">
-        <div className="container">
-          <div className="contact-grid">
-
-            {/* Info column */}
-            <div className="contact-info reveal">
-              <div className="info-block">
-                <span className="label-tag">{t.lang === 'he' ? 'פניות מתקבלות' : 'Open to'}</span>
-                <ul className="invite-list">
-                  {t.contact.invitations.map((item, i) => (
-                    <li key={i} className="invite-item">
-                      <span className="invite-num">{String(i+1).padStart(2,'0')}</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+        {sent ? (
+          <div className="fok show rv">
+            <p>{isHe ? '׳תודה — פנייתך התקבלה. נחזור אליך בקרוב.' : 'Thank you — your message has been received. We\'ll be in touch soon.'}</p>
+          </div>
+        ) : (
+          <form className="ct-form rv" onSubmit={submit} noValidate>
+            <div className="ct-row">
+              <div className="ct-g">
+                <label className="ct-l">{isHe ? 'שם מלא' : 'Full Name'}</label>
+                <input className="ct-i" type="text" name="name" value={form.name} onChange={upd}
+                  placeholder={isHe ? 'שמך' : 'Your name'} required />
               </div>
-              <div className="details-block">
-                {[
-                  { label: t.contact.emailLabel, value: t.contact.emailValue, href: `mailto:${t.contact.emailValue}` },
-                  { label: t.contact.phoneLabel, value: t.contact.phoneValue, href: `tel:${t.contact.phoneValue.replace(/\s/g,'')}` },
-                  { label: t.contact.instagramLabel, value: t.contact.instagramValue, href: t.contact.instagramUrl, ext: true },
-                  { label: t.contact.locationLabel, value: t.contact.locationValue, href: null },
-                ].map((row, i) => (
-                  <div key={i} className="detail-row">
-                    <span className="detail-label">{row.label}</span>
-                    {row.href
-                      ? <a href={row.href} className="detail-value" target={row.ext ? '_blank' : undefined} rel={row.ext ? 'noopener noreferrer' : undefined}>{row.value}</a>
-                      : <span className="detail-value">{row.value}</span>
-                    }
-                  </div>
-                ))}
+              <div className="ct-g">
+                <label className="ct-l">{isHe ? 'אימייל' : 'Email'}</label>
+                <input className="ct-i" type="email" name="email" value={form.email} onChange={upd}
+                  placeholder="your@email.com" required />
               </div>
             </div>
-
-            {/* Form column */}
-            <div className="contact-form-wrap reveal">
-              {sent ? (
-                <div className="form-thanks">
-                  <svg viewBox="0 0 56 56" className="thanks-icon">
-                    <circle cx="28" cy="28" r="26" fill="none" stroke="#C9A84C" strokeWidth="1"/>
-                    <path d="M16 28 L24 36 L40 20" fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
-                  <p className="thanks-text">{t.contact.thankYou}</p>
-                </div>
-              ) : (
-                <form className="contact-form" onSubmit={handleSubmit} noValidate>
-                  {[
-                    { id:'name',    label: t.contact.formName,    type:'text',  required:true },
-                    { id:'email',   label: t.contact.formEmail,   type:'email', required:true },
-                    { id:'phone',   label: t.contact.formPhone,   type:'tel',   required:false },
-                  ].map(field => (
-                    <div key={field.id} className="form-field">
-                      <label htmlFor={field.id} className="form-label">{field.label}</label>
-                      <input
-                        id={field.id} name={field.id} type={field.type}
-                        className="form-input" required={field.required}
-                        value={form[field.id]} onChange={handleChange}
-                      />
-                    </div>
-                  ))}
-                  <div className="form-field">
-                    <label htmlFor="message" className="form-label">{t.contact.formMessage}</label>
-                    <textarea
-                      id="message" name="message" rows={5}
-                      className="form-input form-textarea" required
-                      value={form.message} onChange={handleChange}
-                    />
-                  </div>
-                  <button type="submit" className="btn-primary form-submit">{t.contact.formSend}</button>
-                </form>
-              )}
+            <div className="ct-row">
+              <div className="ct-g">
+                <label className="ct-l">{isHe ? 'נושא' : 'Subject'}</label>
+                <input className="ct-i" type="text" name="subject" value={form.subject} onChange={upd}
+                  placeholder={isHe ? 'רכישה / ביקור סטודיו...' : 'Acquisition / Studio visit…'} />
+              </div>
+              <div className="ct-g">
+                <label className="ct-l">WhatsApp</label>
+                <input className="ct-i" type="tel" name="whatsapp" value={form.whatsapp} onChange={upd}
+                  placeholder="+972…" />
+              </div>
             </div>
+            <div className="ct-g">
+              <label className="ct-l">{isHe ? 'הודעה' : 'Message'}</label>
+              <textarea className="ct-ta" name="message" value={form.message} onChange={upd} rows={5}
+                placeholder={isHe ? 'ספרו לנו על היצירה שמעניינת אתכם...' : 'Please share which work interests you…'}
+                required />
+            </div>
+            <button type="submit" className="ct-sub">
+              {isHe ? 'שליחת פנייה' : 'Send Enquiry'}
+            </button>
+          </form>
+        )}
 
+        {/* Contact details */}
+        <div className="ct-dets">
+          <div>
+            <span className="cd-l">Email</span>
+            <span className="cd-v"><a href="mailto:yehudisfineartgallery@gmail.com">yehudisfineartgallery@gmail.com</a></span>
+          </div>
+          <div>
+            <span className="cd-l">WhatsApp</span>
+            <span className="cd-v"><a href="https://wa.me/972" target="_blank" rel="noopener noreferrer">{isHe ? 'שלחו הודעה' : 'Send a message'}</a></span>
+          </div>
+          <div>
+            <span className="cd-l">Instagram</span>
+            <span className="cd-v"><a href="https://instagram.com/yehudisart" target="_blank" rel="noopener noreferrer">@yehudisart</a></span>
+          </div>
+          <div>
+            <span className="cd-l">{isHe ? 'סטודיו' : 'Studio'}</span>
+            <span className="cd-v">{isHe ? 'ירושלים, ישראל' : 'Jerusalem, Israel'}</span>
           </div>
         </div>
-      </section>
-
+      </div>
     </main>
   );
 };

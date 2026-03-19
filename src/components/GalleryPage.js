@@ -2,212 +2,174 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { artworks } from '../translations';
 import './GalleryPage.css';
 
-// ── Scroll reveal ────────────────────────────────────────────
 const useReveal = () => {
   useEffect(() => {
-    const els = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver(
-      entries => entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-      }),
-      { threshold: 0.1 }
-    );
-    els.forEach(el => io.observe(el));
-    return () => io.disconnect();
+    const run = () => {
+      const els = document.querySelectorAll('.rv');
+      const io = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }),
+        { threshold: 0.06 }
+      );
+      els.forEach(el => io.observe(el));
+      return () => io.disconnect();
+    };
+    const t = setTimeout(run, 80);
+    return () => clearTimeout(t);
   }, []);
 };
 
-// ── Lightbox component ───────────────────────────────────────
-const Lightbox = ({ work, isHe, t, onClose, onPrev, onNext }) => {
+// Split artworks into 3 tabs
+const tabs = {
+  soul:  [0, 1, 2],   // har-sinai, torah, angel
+  story: [3, 4],      // hasidim, tefila
+  light: [5, 6, 7],   // remaining
+};
+
+const Modal = ({ work, isHe, t, onClose, onPrev, onNext }) => {
   useEffect(() => {
-    const handleKey = (e) => {
+    const fn = e => {
       if (e.key === 'Escape') onClose();
       if (e.key === 'ArrowRight') isHe ? onPrev() : onNext();
       if (e.key === 'ArrowLeft')  isHe ? onNext() : onPrev();
     };
-    document.addEventListener('keydown', handleKey);
+    document.addEventListener('keydown', fn);
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handleKey);
-      document.body.style.overflow = '';
-    };
+    return () => { document.removeEventListener('keydown', fn); document.body.style.overflow = ''; };
   }, [onClose, onPrev, onNext, isHe]);
-
   if (!work) return null;
-
   return (
-    <div className="lightbox-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Artwork viewer">
-
-      {/* Close */}
-      <button className="lb-close" onClick={onClose} aria-label="Close">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-          <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          <line x1="20" y1="4" x2="4"  y2="20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        </svg>
-      </button>
-
-      {/* Prev */}
-      <button className="lb-nav lb-prev" onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="Previous">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-          <polyline points="15 18 9 12 15 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </button>
-
-      {/* Main content — stop propagation so clicking image/caption doesn't close */}
-      <div className="lb-content" onClick={e => e.stopPropagation()}>
-        <div className="lb-image-wrap">
-          <img
-            src={work.image}
-            alt={isHe ? work.titleHe : work.titleEn}
-            className="lb-image"
-          />
-        </div>
-        <div className="lb-caption">
-          <p className="lb-title">{isHe ? work.titleHe : work.titleEn}</p>
-          <p className="lb-meta">
-            {isHe ? work.mediumHe : work.mediumEn} &nbsp;·&nbsp; {work.dims} &nbsp;·&nbsp; {work.year}
-          </p>
-          {work.available
-            ? <span className="lb-badge avail">{t.gallery.available}</span>
-            : <span className="lb-badge sold">{t.gallery.soldLabel}</span>
+    <div className="modal open" onClick={onClose}>
+      <button className="modal-x" onClick={onClose}>Close ✕</button>
+      <div className="modal-in" onClick={e => e.stopPropagation()}>
+        <img src={work.image} alt={isHe ? work.titleHe : work.titleEn} className="modal-art" />
+        <div className="modal-meta">
+          <span className="m-cat">{isHe ? 'יצירה מקורית' : 'Original Work'}</span>
+          <h2 className="m-title">{isHe ? work.titleHe : work.titleEn}</h2>
+          {isHe
+            ? <p className="m-he">{work.titleEn}</p>
+            : <p className="m-he">{work.titleHe}</p>
           }
+          <div className="m-rule" />
+          <div className="m-sp"><span className="m-lbl">{isHe ? 'טכניקה' : 'Medium'}</span><span className="m-val">{isHe ? work.mediumHe : work.mediumEn}</span></div>
+          <div className="m-sp"><span className="m-lbl">{isHe ? 'מידות' : 'Dimensions'}</span><span className="m-val">{work.dims}</span></div>
+          <div className="m-sp"><span className="m-lbl">{isHe ? 'שנה' : 'Year'}</span><span className="m-val">{work.year}</span></div>
+          <div className="m-sp"><span className="m-lbl">{isHe ? 'זמינות' : 'Status'}</span>
+            <span className="m-val">{work.available ? (isHe ? 'זמין' : 'Available') : (isHe ? 'נמכר' : 'Sold')}</span>
+          </div>
+          {(isHe ? work.storyHe : work.storyEn) && <>
+            <span className="m-story-lbl">{isHe ? 'על היצירה' : 'About This Work'}</span>
+            <p className="m-poem">{isHe ? work.storyHe : work.storyEn}</p>
+          </>}
+          <a className="m-cta" href="mailto:yehudisfineartgallery@gmail.com">
+            {isHe ? 'פנייה לגבי יצירה זו' : 'Inquire About This Work'}
+          </a>
+          <div className="modal-nav">
+            <button className="modal-nav-btn" onClick={onPrev}>←</button>
+            <button className="modal-nav-btn" onClick={onNext}>→</button>
+          </div>
         </div>
       </div>
-
-      {/* Next */}
-      <button className="lb-nav lb-next" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Next">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-          <polyline points="9 18 15 12 9 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </button>
-
     </div>
   );
 };
 
-// ── Gallery Page ─────────────────────────────────────────────
 const GalleryPage = ({ t, onNavigate }) => {
   useReveal();
   const isHe = t.lang === 'he';
-  const go = (page) => { onNavigate(page); window.scrollTo({ top: 0 }); };
+  const go = page => { onNavigate(page); window.scrollTo({ top: 0 }); };
+  const [activeTab, setActiveTab] = useState('soul');
+  const [modalIdx, setModalIdx] = useState(null);
+  const [modalList, setModalList] = useState([]);
 
-  const [lightboxIndex, setLightboxIndex] = useState(null);
-  const openLightbox  = useCallback((i) => setLightboxIndex(i), []);
-  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
-  const prevImage = useCallback(() => setLightboxIndex(i => (i - 1 + artworks.length) % artworks.length), []);
-  const nextImage = useCallback(() => setLightboxIndex(i => (i + 1) % artworks.length), []);
+  const openModal = useCallback((list, idx) => { setModalList(list); setModalIdx(idx); }, []);
+  const closeModal = useCallback(() => setModalIdx(null), []);
+  const prevModal = useCallback(() => setModalIdx(i => (i - 1 + modalList.length) % modalList.length), [modalList]);
+  const nextModal = useCallback(() => setModalIdx(i => (i + 1) % modalList.length), [modalList]);
+
+  const tabWorks = tabs[activeTab].map(i => artworks[i]).filter(Boolean);
 
   return (
-    <main className="gallery-page" dir={t.dir}>
+    <main className="gal-page" dir={t.dir}>
 
-      {/* Page header */}
-      <section className="gallery-hero">
-        <div className="container">
-          <span className="label-tag gallery-label">{t.gallery.pageLabel}</span>
-          <h1 className="gallery-title">{t.gallery.pageTitle}</h1>
-          <div className="gold-rule center" />
-          <p className="gallery-intro">{t.gallery.intro}</p>
+      {/* Header */}
+      <div className="gal-head">
+        <span className="g-eyebrow">{isHe ? 'יצירות מקוריות' : 'Original Works'}</span>
+        <h1 className="g-title">{isHe ? 'גלריה' : 'Gallery'}</h1>
+        <p className="g-sub">{isHe ? 'זמין לרכישה פרטית · כל יצירה ייחודית' : 'Available for private acquisition · Each work unique'}</p>
+        <div className="g-tabs">
+          {['soul','story','light'].map(tab => (
+            <button key={tab} className={`g-tab ${activeTab === tab ? 'on' : ''}`} onClick={() => setActiveTab(tab)}>
+              {tab === 'soul'  ? (isHe ? 'נשמה' : 'Soul')  : ''}
+              {tab === 'story' ? (isHe ? 'סיפור' : 'Story') : ''}
+              {tab === 'light' ? (isHe ? 'אור'   : 'Light') : ''}
+            </button>
+          ))}
         </div>
-      </section>
+      </div>
 
-      {/* ══ CHESS GRID ══════════════════════════════════════ */}
-      <section className="chess-section">
-        {artworks.map((work, i) => {
-          const isEven = i % 2 === 0;
-          // artwork id=1 (index 0) gets the 3D depth treatment
-          const isDepth = work.id === 1;
+      {/* Masonry grid */}
+      <div className="g-grid">
+        {tabWorks.map((work, i) => {
+          const cls = i === 0 && activeTab === 'soul' ? 'tall' : i === 0 && activeTab === 'story' ? 'wide' : '';
           return (
-            <article key={work.id} className={`chess-row ${isEven ? 'even' : 'odd'} ${isDepth ? 'chess-row-depth' : ''} reveal`}>
-
-              {/* ── IMAGE PANEL ── */}
-              <div className="chess-image">
-                {/* Clickable image wrapper — opens lightbox */}
-                <div
-                  className="chess-img-btn"
-                  onClick={() => openLightbox(i)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Enlarge: ${isHe ? work.titleHe : work.titleEn}`}
-                  onKeyDown={e => e.key === 'Enter' && openLightbox(i)}
-                >
-                  {/*
-                    ← REPLACE: swap src with your real image.
-                    e.g. import img1 from '../images/work-1.jpg'
-                    then: src={img1}
-                  */}
-                  <img
-                    src={work.image}
-                    alt={isHe ? work.titleHe : work.titleEn}
-                    className="chess-img"
-                  />
-                  {/* Zoom hint on hover */}
-                  <div className="chess-zoom-hint" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-                      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.5"/>
-                      <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                      <line x1="11" y1="8"  x2="11" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                      <line x1="8"  y1="11" x2="14" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                    </svg>
-                    <span>{isHe ? 'להגדלה' : 'Enlarge'}</span>
-                  </div>
-                </div>
-
-                {/* Availability badge */}
-                <div className="chess-badge">
-                  {work.available
-                    ? <span className="badge-avail">{t.gallery.available}</span>
-                    : <span className="badge-sold">{t.gallery.soldLabel}</span>
-                  }
+            <div key={work.id} className={`gc rv ${cls} d${i}`} onClick={() => openModal(tabWorks, i)}>
+              <img src={work.image} alt={isHe ? work.titleHe : work.titleEn} className="gc-img" />
+              <div className="gc-hov">
+                <div className="gc-info">
+                  <span className="gc-title">{isHe ? work.titleHe : work.titleEn}</span>
+                  <span className="gc-med">{isHe ? work.mediumHe : work.mediumEn} · {work.dims}</span>
                 </div>
               </div>
-
-              {/* ── STORY PANEL ── */}
-              <div className="chess-story">
-                <div className="chess-story-inner">
-                  <p className="chess-number">{String(i + 1).padStart(2, '0')}</p>
-                  <h2 className="chess-title">{isHe ? work.titleHe : work.titleEn}</h2>
-                  <p className="chess-meta">
-                    {isHe ? work.mediumHe : work.mediumEn} · {work.dims} · {work.year}
-                  </p>
-                  <div className="gold-rule" />
-                  <p className="chess-story-text">{isHe ? work.storyHe : work.storyEn}</p>
-                  <button className="btn-primary chess-cta" onClick={() => go('contact')}>
-                    {t.gallery.inquireCta}
-                  </button>
-                </div>
-              </div>
-
-            </article>
+            </div>
           );
         })}
-      </section>
+      </div>
 
-      {/* Bottom CTA */}
-      <section className="gallery-bottom">
-        <div className="container">
-          <div className="gallery-bottom-inner reveal">
-            <p className="gallery-bottom-text">
-              {isHe
-                ? 'מעוניינים ביצירה? כל ציור ייחודי ומקורי. אשמח לשמוע מכם.'
-                : 'Every work is singular and original. Inquiries from collectors and galleries are welcome.'}
-            </p>
-            <button className="btn-primary" onClick={() => go('contact')}>{t.nav.contact}</button>
-          </div>
+      {/* Story cards */}
+      <div className="stories">
+        <div className="st-head">
+          <span className="st-eyebrow">{isHe ? 'מאחורי הבד' : 'Behind the Canvas'}</span>
+          <h3 className="st-title">{isHe ? 'לכל יצירה יש סיפור' : 'Every Work Has a Story'}</h3>
         </div>
-      </section>
+        <div className="st-grid">
+          {tabWorks.map((work, i) => (
+            <div key={work.id} className={`sc rv d${i}`} onClick={() => openModal(tabWorks, i)}>
+              <div className="sc-img-wrap">
+                <img src={work.image} alt={isHe ? work.titleHe : work.titleEn} className="sc-img" />
+              </div>
+              <div className="sc-body">
+                <span className="sc-n">{String(i + 1).padStart(2,'0')}</span>
+                <div className="sc-ttl">{isHe ? work.titleHe : work.titleEn}</div>
+                <span className="sc-m">{isHe ? work.mediumHe : work.mediumEn} · {work.dims}</span>
+                {(isHe ? work.storyHe : work.storyEn) &&
+                  <p className="sc-story">{(isHe ? work.storyHe : work.storyEn).substring(0, 110)}…</p>
+                }
+                <button className="sc-cta">{isHe ? 'פנייה' : 'Inquire'}</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
-      {/* ══ LIGHTBOX ══════════════════════════════════════ */}
-      {lightboxIndex !== null && (
-        <Lightbox
-          work={artworks[lightboxIndex]}
-          isHe={isHe}
-          t={t}
-          onClose={closeLightbox}
-          onPrev={prevImage}
-          onNext={nextImage}
-        />
+      {/* Acquire band */}
+      <div className="gal-acquire">
+        <span className="acq-eyebrow">{isHe ? 'לאספנים' : 'For Collectors'}</span>
+        <h2 className="acq-title">{isHe ? 'רכישת יצירה מקורית' : 'Acquire an Original Work'}</h2>
+        <div className="acq-rule" />
+        <p className="acq-body">{isHe
+          ? 'כל ציור הוא יצירה מקורית ויחידה. יהודית עובדת עם אספנים פרטיים ומעצבי פנים ברחבי העולם.'
+          : 'Each painting is singular and original — never reproduced. Yehudis works with private collectors and designers worldwide.'
+        }</p>
+        <button className="acq-link" onClick={() => go('contact')}>
+          {isHe ? 'צרו קשר' : 'Get in Touch'}
+        </button>
+      </div>
+
+      {/* Modal */}
+      {modalIdx !== null && (
+        <Modal work={modalList[modalIdx]} isHe={isHe} t={t}
+          onClose={closeModal} onPrev={prevModal} onNext={nextModal} />
       )}
-
     </main>
   );
 };

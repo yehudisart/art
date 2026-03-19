@@ -41,11 +41,15 @@
 html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
-  background: var(--white);
+  background: #f2ede7;
   color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: #f2ede7; }
+::-webkit-scrollbar-thumb { background: rgba(26,23,20,.15); }
 
 body[dir='ltr'] { font-family: var(--font-body-en); }
 body[dir='rtl'] { font-family: var(--font-body-he); }

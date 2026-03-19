@@ -3,13 +3,16 @@ import './AboutPage.css';
 
 const useReveal = () => {
   useEffect(() => {
-    const els = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
-      { threshold: 0.12 }
-    );
-    els.forEach(el => io.observe(el));
-    return () => io.disconnect();
+    const t = setTimeout(() => {
+      const els = document.querySelectorAll('.rv');
+      const io = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }),
+        { threshold: 0.06 }
+      );
+      els.forEach(el => io.observe(el));
+      return () => io.disconnect();
+    }, 80);
+    return () => clearTimeout(t);
   }, []);
 };
 
@@ -20,91 +23,62 @@ const AboutPage = ({ t }) => {
   return (
     <main className="about-page" dir={t.dir}>
 
-      {/* Hero */}
-      <section className="about-hero">
-        <div className="container">
-          <span className="label-tag">{t.about.pageLabel}</span>
-          <h1 className="about-page-title">{t.about.pageTitle}</h1>
-          <div className="gold-rule center" />
+      {/* Split — sticky image left, scrolling text right */}
+      <div className="ab-split">
+        <div className="ab-img-col">
+          <img src="/images/tefila.jpg" alt="Yehudis" className="ab-img" />
         </div>
-      </section>
+        <div className="ab-text">
+          <span className="ab-ey rv">{isHe ? 'על האמנית' : 'About the Artist'}</span>
+          <img className="ab-logo rv d1" src="/images/logo-yehudis-dark.png" alt="Yehudis" />
+          <p className="ab-sub rv d1">יהודית יעקבס</p>
+          <div className="ab-rule rv d2" />
 
-      {/* Bio */}
-      <section className="about-bio-section">
-        <div className="container">
-          <div className="about-grid">
+          {isHe ? (
+            <>
+              <p className="ab-p rv">יהודית יעקבס היא ציירת ירושלמית שיצירתה שוכנת על הסף שבין הנראה לנחוש. בדיה לא מתארים חיים יהודיים — הם נושמים אותם. בכל ציור, תנועה מחזיקה תפילה, קרן אור נושאת זיכרון, ופנים נושאות את כובד הדורות.</p>
+              <p className="ab-p rv">בעלת תואר שני בטיפול באמנות מאוניברסיטת חיפה ובוגרת בצלאל, אקדמיה לאמנות ועיצוב בירושלים — כולל לימודים אצל אחת הציירות המפורסמות ביותר בישראל — היא מביאה גם קשב של מרפאה וגם דיוק של אומנת.</p>
+              <p className="ab-p rv">ציוריה מוחזקים באוספים פרטיים בישראל, בארצות הברית ובכל רחבי אירופה. כל יצירה ייחודית — נוצרת לאט, בכוונה.</p>
+            </>
+          ) : (
+            <>
+              <p className="ab-p rv">Yehudis Jacobs is a Jerusalem-based painter whose work inhabits the threshold between the seen and the felt. Her canvases do not describe Jewish life — they breathe it. In each painting, a gesture holds a prayer, a shaft of light carries memory, a face holds the weight of generations.</p>
+              <p className="ab-p rv">Trained in art therapy at the University of Haifa and schooled at Bezalel Academy in Jerusalem — including study with one of Israel's most celebrated painters — she brings both a healer's attention and a craftsman's rigor to each canvas.</p>
+              <p className="ab-p rv">Her paintings are held in private collections in Israel, the United States, and across Europe. Each work is unique — made slowly, with intention.</p>
+            </>
+          )}
 
-            <div className="about-portrait reveal">
-              {/*
-                ← REPLACE: <img src="/images/portrait.jpg" alt="Yehudis" className="portrait-img" />
-              */}
-              <img
-                src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=700&q=80"
-                alt="Yehudis, artist"
-                className="portrait-img"
-              />
-              <p className="portrait-cap">
-                {isHe ? 'יהודית · ירושלים' : 'Yehudis · Jerusalem'}
-              </p>
+          <div className="ab-creds rv">
+            <div className="cr-row">
+              <span className="cr-l">{isHe ? 'מקום' : 'Based'}</span>
+              <span className="cr-v">{isHe ? 'ירושלים, ישראל' : 'Jerusalem, Israel'}</span>
             </div>
-
-            <div className="about-bio reveal">
-              <span className="label-tag">{isHe ? 'ביוגרפיה' : 'Biography'}</span>
-              <h2 className="bio-name">{isHe ? 'יהודית' : 'Yehudis'}</h2>
-              <div className="gold-rule" />
-              {[t.about.bio1, t.about.bio2, t.about.bio3, t.about.bio4].map((p, i) => (
-                <p key={i} className="bio-para">{p}</p>
-              ))}
+            <div className="cr-row">
+              <span className="cr-l">{isHe ? 'השכלה' : 'Education'}</span>
+              <span className="cr-v">{isHe ? 'בצלאל · תואר שני בטיפול באמנות, אוניברסיטת חיפה' : 'Bezalel Academy · M.A. Art Therapy, University of Haifa'}</span>
             </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Education */}
-      <section className="about-edu-section">
-        <div className="container">
-          <div className="edu-inner reveal">
-            <span className="label-tag">{t.about.eduLabel}</span>
-            <div className="edu-list">
-              {[t.about.edu1, t.about.edu2, t.about.edu3].map((item, i) => (
-                <div key={i} className="edu-item">
-                  <span className="edu-num">{String(i + 1).padStart(2,'0')}</span>
-                  <p className="edu-text">{item}</p>
-                </div>
-              ))}
+            <div className="cr-row">
+              <span className="cr-l">{isHe ? 'מדיה' : 'Medium'}</span>
+              <span className="cr-v">{isHe ? 'שמן, אקריליק, מדיה מעורבת, עלי זהב' : 'Oil, acrylic, mixed media, gold leaf on canvas'}</span>
+            </div>
+            <div className="cr-row">
+              <span className="cr-l">{isHe ? 'אוספים' : 'Collections'}</span>
+              <span className="cr-v">{isHe ? 'פרטיים — ישראל, ארה"ב, אירופה' : 'Private — Israel, USA, Europe'}</span>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Artist Statement */}
-      <section className="about-statement-section">
-        <div className="container">
-          <div className="statement-inner">
-            <div className="statement-header reveal">
-              <span className="label-tag">{t.about.statementLabel}</span>
-              <h2 className="section-heading">{t.about.statementTitle}</h2>
-              <div className="gold-rule" />
-            </div>
-            <div className="statement-paras">
-              {[t.about.s1, t.about.s2, t.about.s3, t.about.s4].map((para, i) => (
-                <p key={i} className={`statement-para reveal ${i === 0 ? 'statement-lead' : ''}`}>
-                  {para}
-                </p>
-              ))}
-            </div>
-            <div className="statement-sig reveal">
-              <svg viewBox="0 0 80 16" className="sig-rule">
-                <line x1="0" y1="8" x2="28" y2="8" stroke="#C9A84C" strokeWidth="0.8" opacity="0.5"/>
-                <circle cx="40" cy="8" r="2.5" fill="none" stroke="#C9A84C" strokeWidth="0.8" opacity="0.5"/>
-                <line x1="52" y1="8" x2="80" y2="8" stroke="#C9A84C" strokeWidth="0.8" opacity="0.5"/>
-              </svg>
-              <p className="sig-name">{isHe ? 'יהודית · ירושלים' : 'Yehudis · Jerusalem'}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Dark quote band */}
+      <div className="a-stmt">
+        <blockquote className="rv">
+          {isHe
+            ? '״אני מציירת את מה שלא ניתן לומר במילים — המרחב שבין נשימה לברכה, בין זיכרון להווה.״'
+            : '"I paint what cannot be spoken — the space between a breath and a blessing, between memory and now."'
+          }
+        </blockquote>
+        <cite className="rv d1">— Yehudis Jacobs</cite>
+      </div>
 
     </main>
   );
