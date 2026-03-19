@@ -1,0 +1,67 @@
+/* ── CONTACT PAGE — same design language ── */
+
+.contact-page { background: #fff; }
+
+.cp-hero {
+  padding: 160px 0 72px; background: #fff; text-align: center;
+  border-bottom: 1px solid #E0E0E0;
+}
+.cp-hero-label { font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: #888; font-family: 'EB Garamond', serif; display: block; margin-bottom: 12px; }
+[dir='rtl'] .cp-hero-label { font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none; font-size: 0.8rem; }
+.cp-hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 300; color: #0A0A0A; letter-spacing: 0.04em; }
+[dir='rtl'] .cp-hero-title { font-family: 'Frank Ruhl Libre', serif; letter-spacing: 0; }
+.cp-gold-rule { width: 40px; height: 1px; background: #C9A84C; border: none; margin: 20px auto 24px; display: block; }
+.cp-intro { font-size: 1rem; color: #888; max-width: 500px; margin: 0 auto; line-height: 1.9; font-style: italic; font-family: 'EB Garamond', serif; }
+[dir='rtl'] .cp-intro { font-family: 'Heebo', sans-serif; font-style: normal; }
+
+/* Body */
+.cp-body { padding: 96px 0 120px; background: #fff; }
+.cp-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 88px; align-items: start; }
+
+/* Info */
+.cp-info { display: flex; flex-direction: column; gap: 52px; }
+.cp-invites-label { font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: #888; font-family: 'EB Garamond', serif; display: block; margin-bottom: 18px; }
+[dir='rtl'] .cp-invites-label { font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none; font-size: 0.8rem; }
+.cp-invite-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.cp-invite-item { display: flex; align-items: flex-start; gap: 16px; font-size: 0.94rem; color: #3A3A3A; font-family: 'EB Garamond', serif; }
+[dir='rtl'] .cp-invite-item { flex-direction: row-reverse; text-align: right; }
+.cp-invite-num { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #E0E0E0; line-height: 1.2; flex-shrink: 0; }
+[dir='rtl'] .cp-invite-item > span:last-child { font-family: 'Heebo', sans-serif; }
+
+.cp-details { display: flex; flex-direction: column; gap: 22px; padding-top: 32px; border-top: 1px solid #E0E0E0; }
+.cp-detail-row { display: flex; flex-direction: column; gap: 4px; }
+.cp-detail-label { font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: #888; font-family: 'EB Garamond', serif; }
+[dir='rtl'] .cp-detail-label { font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none; font-size: 0.76rem; }
+.cp-detail-value { font-size: 0.94rem; color: #3A3A3A; text-decoration: none; transition: color 0.25s ease; font-family: 'EB Garamond', serif; }
+[dir='rtl'] .cp-detail-value { font-family: 'Heebo', sans-serif; }
+a.cp-detail-value:hover { color: #C9A84C; }
+
+/* Form */
+.cp-form-wrap {
+  background: #FAFAFA; padding: 52px 48px;
+  border-top: 2px solid #C9A84C;
+}
+.cp-form { display: flex; flex-direction: column; gap: 28px; }
+.cp-field { display: flex; flex-direction: column; gap: 8px; }
+.cp-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: #888; font-family: 'EB Garamond', serif; }
+[dir='rtl'] .cp-label { font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none; font-size: 0.78rem; }
+.cp-input {
+  background: transparent; border: none;
+  border-bottom: 1px solid #E0E0E0;
+  padding: 10px 0; font-size: 0.97rem; color: #0A0A0A;
+  font-family: 'EB Garamond', serif; outline: none; width: 100%;
+  transition: border-color 0.3s ease;
+  -webkit-appearance: none; border-radius: 0;
+}
+[dir='rtl'] .cp-input { font-family: 'Heebo', sans-serif; text-align: right; }
+.cp-input:focus { border-bottom-color: #C9A84C; }
+.cp-textarea { resize: vertical; min-height: 100px; line-height: 1.7; }
+.cp-submit { align-self: flex-start; margin-top: 6px; }
+[dir='rtl'] .cp-submit { align-self: flex-end; }
+
+.cp-thanks { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 280px; gap: 20px; text-align: center; }
+.cp-thanks-text { font-size: 1rem; color: #3A3A3A; font-style: italic; font-family: 'EB Garamond', serif; }
+[dir='rtl'] .cp-thanks-text { font-family: 'Heebo', sans-serif; font-style: normal; }
+
+@media (max-width: 900px) { .cp-grid { grid-template-columns: 1fr; gap: 56px; } }
+@media (max-width: 600px) { .cp-form-wrap { padding: 36px 22px; } }

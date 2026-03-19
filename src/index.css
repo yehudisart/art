@@ -1,0 +1,161 @@
+/* ============================================================
+   YEHUDIS — GLOBAL STYLES v2
+   Premium white gallery aesthetic
+   ============================================================
+
+   PALETTE:
+   --white:       #FFFFFF  – primary background
+   --off-white:   #FAFAFA  – secondary surface
+   --light-grey:  #F4F4F4  – subtle section bg
+   --mid-grey:    #E0E0E0  – borders, dividers
+   --text-dark:   #0A0A0A  – primary text (near-black)
+   --text-mid:    #3A3A3A  – body text
+   --text-light:  #888888  – captions, meta
+   --gold:        #C9A84C  – accent only — sparingly
+   --black:       #000000  – hero text, statements
+*/
+
+:root {
+  --white:       #FFFFFF;
+  --off-white:   #FAFAFA;
+  --light-grey:  #F4F4F4;
+  --mid-grey:    #E0E0E0;
+  --text-dark:   #0A0A0A;
+  --text-mid:    #3A3A3A;
+  --text-light:  #888888;
+  --gold:        #C9A84C;
+  --black:       #000000;
+
+  --font-display-en: 'Cormorant Garamond', serif;
+  --font-body-en:    'EB Garamond', serif;
+  --font-display-he: 'Frank Ruhl Libre', serif;
+  --font-body-he:    'Heebo', sans-serif;
+
+  --navbar-h: 72px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--white);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body[dir='ltr'] { font-family: var(--font-body-en); }
+body[dir='rtl'] { font-family: var(--font-body-he); }
+
+[dir='ltr'] h1,[dir='ltr'] h2,[dir='ltr'] h3,[dir='ltr'] h4 {
+  font-family: var(--font-display-en);
+  font-weight: 400;
+}
+[dir='rtl'] h1,[dir='rtl'] h2,[dir='rtl'] h3,[dir='rtl'] h4 {
+  font-family: var(--font-display-he);
+  font-weight: 400;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+@media (max-width: 768px) { .container { padding: 0 24px; } }
+
+/* ── PAGE CONTENT ── */
+.page-content { min-height: 100vh; }
+
+/* ── BUTTONS ── */
+.btn-primary {
+  display: inline-block;
+  padding: 15px 44px;
+  background: var(--black);
+  color: var(--white);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid var(--black);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+  font-family: var(--font-body-en);
+}
+.btn-primary:hover { background: var(--white); color: var(--black); }
+
+.btn-outline {
+  display: inline-block;
+  padding: 14px 42px;
+  background: transparent;
+  color: var(--black);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid var(--black);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s var(--ease);
+  font-family: var(--font-body-en);
+}
+.btn-outline:hover { background: var(--black); color: var(--white); }
+
+[dir='rtl'] .btn-primary,
+[dir='rtl'] .btn-outline {
+  font-family: var(--font-body-he);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.9rem;
+}
+
+/* ── REVEAL ANIMATION ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── GOLD RULE ── */
+.gold-rule {
+  width: 40px; height: 1px;
+  background: var(--gold);
+  border: none;
+  display: block;
+  margin: 20px 0;
+}
+.gold-rule.center { margin: 20px auto; }
+
+/* ── LABEL ── */
+.label-tag {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  font-family: var(--font-body-en);
+  margin-bottom: 12px;
+}
+[dir='rtl'] .label-tag {
+  font-family: var(--font-body-he);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.8rem;
+}
+
+/* ── SECTION HEADING ── */
+.section-heading {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 400;
+  color: var(--black);
+  line-height: 1.15;
+}
+[dir='rtl'] .section-heading {
+  font-family: var(--font-display-he);
+  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+}
+
+/* ── SELECTION ── */
+::selection { background: var(--black); color: var(--white); }
