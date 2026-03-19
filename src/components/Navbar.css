@@ -1,0 +1,90 @@
+.nb {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 22px 0;
+  transition: background 0.5s ease, padding 0.4s ease, box-shadow 0.4s ease;
+}
+.nb--scrolled {
+  background: rgba(255,255,255,0.97); backdrop-filter: blur(20px);
+  padding: 13px 0; box-shadow: 0 1px 0 var(--rule);
+}
+.nb__inner { display: flex; align-items: center; justify-content: space-between; }
+
+/* Logo */
+.nb__logo { background: none; border: none; cursor: pointer; padding: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+[dir='rtl'] .nb__logo { align-items: flex-end; }
+.nb__sig { height: 34px; width: auto; display: block; transition: opacity 0.3s ease, filter 0.3s ease; }
+.nb__sig--light { filter: none; opacity: 0.88; }
+.nb__sig--dark  { filter: brightness(0); opacity: 0.80; }
+.nb__logo:hover .nb__sig { opacity: 0.45; }
+.nb__jacobs {
+  font-family: var(--f-en-body); font-size: 0.52rem; letter-spacing: 0.44em;
+  text-transform: uppercase; line-height: 1; transition: color 0.3s ease;
+}
+.nb--scrolled .nb__jacobs { color: var(--quiet); }
+.nb:not(.nb--scrolled) .nb__jacobs { color: rgba(255,255,255,0.35); }
+
+/* Desktop links */
+.nb__links { display: flex; align-items: center; gap: 44px; }
+.nb__link {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--f-en-body); font-size: 0.66rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 0; position: relative; transition: color 0.25s ease;
+}
+[dir='rtl'] .nb__link { font-family: var(--f-he-body); letter-spacing: 0; text-transform: none; font-size: 0.86rem; }
+.nb__link::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px; background: var(--gold);
+  transform: scaleX(0); transform-origin: center; transition: transform 0.3s ease;
+}
+.nb__link:hover::after, .nb__link--active::after { transform: scaleX(1); }
+.nb--scrolled .nb__link { color: var(--mid); }
+.nb--scrolled .nb__link:hover, .nb--scrolled .nb__link--active { color: var(--ink); }
+.nb:not(.nb--scrolled) .nb__link { color: rgba(255,255,255,0.55); }
+.nb:not(.nb--scrolled) .nb__link:hover,
+.nb:not(.nb--scrolled) .nb__link--active { color: #fff; }
+
+/* Lang toggle */
+.nb__lang {
+  background: none; cursor: pointer;
+  font-family: var(--f-en-body); font-size: 0.6rem;
+  letter-spacing: 0.16em; text-transform: uppercase; padding: 5px 12px;
+  transition: all 0.25s ease;
+}
+.nb--scrolled .nb__lang { color: var(--mid); border: 1px solid var(--rule); }
+.nb:not(.nb--scrolled) .nb__lang { color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.18); }
+.nb--scrolled .nb__lang:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.nb:not(.nb--scrolled) .nb__lang:hover { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.5); }
+
+/* Mobile */
+.nb__mobile { display: none; align-items: center; gap: 14px; }
+.nb__burger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+.nb__burger span { display: block; width: 22px; height: 1px; transition: all 0.3s ease; transform-origin: center; }
+.nb--scrolled .nb__burger span { background: var(--ink); }
+.nb:not(.nb--scrolled) .nb__burger span { background: rgba(255,255,255,0.8); }
+.nb__burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nb__burger.open span:nth-child(2) { opacity: 0; }
+.nb__burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Drawer */
+.nb__drawer {
+  display: flex; flex-direction: column;
+  background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+  max-height: 0; overflow: hidden; visibility: hidden; pointer-events: none;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+.nb__drawer.open {
+  max-height: 300px; padding: 10px 0;
+  border-top: 1px solid var(--rule);
+  visibility: visible; pointer-events: auto;
+}
+.nb__drawer-link {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--f-en-body); font-size: 0.75rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--mid); padding: 14px 48px; text-align: left; transition: color 0.2s ease;
+}
+[dir='rtl'] .nb__drawer-link { font-family: var(--f-he-body); letter-spacing: 0; text-transform: none; text-align: right; font-size: 0.92rem; }
+.nb__drawer-link:hover, .nb__drawer-link.active { color: var(--ink); }
+
+@media (max-width: 768px) { .nb__links { display: none; } .nb__mobile { display: flex; } }
