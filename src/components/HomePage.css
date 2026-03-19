@@ -76,7 +76,13 @@
   width: clamp(220px, 32vw, 420px);
   height: auto;
   display: block;
-  filter: drop-shadow(0 2px 24px rgba(0,0,0,0.35));
+  opacity: 0.92;
+  filter: drop-shadow(0 1px 12px rgba(0,0,0,0.18)) blur(0.3px);
+  transition: opacity 0.4s ease;
+}
+.hero-logo-img:hover {
+  opacity: 1;
+  filter: drop-shadow(0 1px 16px rgba(0,0,0,0.22)) blur(0px);
 }
 
 /* JACOBS subtitle under logo */
