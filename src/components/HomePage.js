@@ -25,42 +25,15 @@ const HomePage = ({ t, onNavigate }) => {
   return (
     <main className="home-page" dir={t.dir}>
 
-      {/* ══ 1. VIDEO HERO ═══════════════════════════════════ */}
+      {/* ══ 1. IMAGE HERO ═══════════════════════════════════ */}
       <section className="video-hero">
-        {/*
-          ← REPLACE: Add your real video file here.
-          Options:
-          A) Self-hosted: <video src="/videos/studio.mp4" ... />
-          B) YouTube embed: replace the iframe src with your video ID
-          C) Vimeo embed: replace with Vimeo URL
-
-          Current: using a looping abstract art video from Pexels as placeholder.
-          The iframe below uses a YouTube embed.
-          Replace YOUR_VIDEO_ID with your actual YouTube video ID.
-        */}
-        <div className="video-wrap">
-          {/* Placeholder gradient — replace with video below */}
-          <div className="video-placeholder">
-            <div className="video-placeholder-inner">
-              {/* Uncomment and fill in your video:
-              <video autoPlay muted loop playsInline>
-                <source src="/videos/studio.mp4" type="video/mp4" />
-              </video>
-              */}
-              {/* Or use YouTube iframe: */}
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0&showinfo=0&rel=0&modestbranding=1"
-                title="Artist studio"
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                className="yt-iframe"
-              />
-              {/* ← REPLACE the YouTube src above with your real video embed URL */}
-            </div>
-            <div className="video-overlay" />
-          </div>
-        </div>
+        {/* Background image with zoom animation */}
+        <img
+          src="/images/har-sinai-hero.jpg"
+          alt="Har Sinai artwork by Yehudis"
+          className="hero-bg-image"
+        />
+        <div className="video-overlay" />
 
         {/* Hero text */}
         <div className="video-content">

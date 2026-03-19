@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 
-const Logo = ({ lang }) => (
-  <svg className="logo-svg" viewBox="0 0 200 44" xmlns="http://www.w3.org/2000/svg" aria-label="Yehudis">
-    <line x1="0" y1="4" x2="200" y2="4" stroke="#C9A84C" strokeWidth="0.5" opacity="0.7"/>
-    {lang === 'he'
-      ? <text x="100" y="32" textAnchor="middle" fill="#0A0A0A" fontFamily="'Frank Ruhl Libre',serif" fontWeight="400" fontSize="24" letterSpacing="1">יהודית</text>
-      : <text x="100" y="32" textAnchor="middle" fill="#0A0A0A" fontFamily="'Cormorant Garamond',serif" fontWeight="400" fontSize="26" letterSpacing="6" fontStyle="italic">Yehudis</text>
-    }
-    <line x1="0" y1="40" x2="200" y2="40" stroke="#C9A84C" strokeWidth="0.5" opacity="0.7"/>
-  </svg>
+const Logo = ({ lang, dark }) => (
+  <img
+    src={dark ? '/images/logo-yehudis.png' : '/images/logo-yehudis-dark.png'}
+    alt="Yehudis"
+    className="logo-img"
+    style={{ height: '44px', width: 'auto', display: 'block', objectFit: 'contain' }}
+  />
 );
 
 const Navbar = ({ t, currentPage, onNavigate, onToggleLang }) => {
@@ -39,7 +37,7 @@ const Navbar = ({ t, currentPage, onNavigate, onToggleLang }) => {
     <header className={`navbar ${scrolled ? 'scrolled' : ''}`} dir={t.dir}>
       <div className="navbar-inner container">
         <button className="logo-btn" onClick={() => go('home')} aria-label="Go to home">
-          <Logo lang={t.lang} />
+          <Logo lang={t.lang} dark={!scrolled && currentPage === 'home'} />
         </button>
         <nav className="nav-links" aria-label="Main navigation">
           {navItems.map(item => (
