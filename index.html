@@ -114,7 +114,7 @@ nav.solid .ham span{background:var(--ink)}
 }
 .hero-bg{
   position:absolute;inset:0;
-  background-size:cover;background-position:center top;
+  background-size:cover;background-position:center 15%;
   animation:breathe 20s ease-in-out infinite;
   will-change:transform;
 }
@@ -333,19 +333,12 @@ footer{
 .f-contact-block{display:flex;flex-direction:column;gap:10px;align-items:center}
 .f-contact-lbl{font-family:var(--sans);font-size:.44rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(245,238,228,.2);display:block;margin-bottom:6px;text-align:center}
 .f-clink{
-  display:flex;align-items:center;gap:10px;
+  display:block;
   font-family:var(--serif);font-size:.82rem;
   color:rgba(245,238,228,.35);text-decoration:none;
-  transition:color .3s;
+  transition:color .3s;padding:3px 0;
 }
-.f-clink:hover{color:rgba(245,238,228,.75)}
-.f-clink-icon{
-  width:28px;height:28px;border:1px solid rgba(245,238,228,.1);
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:border-color .3s;
-}
-.f-clink:hover .f-clink-icon{border-color:rgba(245,238,228,.3)}
-.f-clink-icon svg{width:13px;height:13px;fill:none;stroke:rgba(245,238,228,.45);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.f-clink:hover{color:rgba(245,238,228,.65)}
 /* Nav column */
 .f-nav-col{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
 .f-nav-lbl{font-family:var(--sans);font-size:.44rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(245,238,228,.2);margin-bottom:8px}
@@ -572,10 +565,8 @@ footer{
       <p class="hero-tag rev d2 en">Art as a Language of the Soul</p>
       <p class="hero-tag rev d2 he" style="direction:rtl;">אמנות כשפה של הנשמה</p>
       <div class="hero-btns rev d3">
-        <button class="btn-h en" onclick="goPage('gallery')">Enter the Gallery</button>
-        <button class="btn-h he" style="display:none" onclick="goPage('gallery')">כניסה לגלריה</button>
-        <button class="btn-h en" onclick="goPage('about')">About the Artist</button>
-        <button class="btn-h he" style="display:none" onclick="goPage('about')">על האמנית</button>
+        <button class="btn-h" onclick="goPage('gallery')"><span class="eni">Enter the Gallery</span><span class="hei">כניסה לגלריה</span></button>
+        <button class="btn-h" onclick="goPage('about')"><span class="eni">About the Artist</span><span class="hei">על האמנית</span></button>
       </div>
     </div>
     <div class="hero-scroll" onclick="document.querySelector('.statement').scrollIntoView({behavior:'smooth'})">
@@ -648,14 +639,11 @@ footer{
     </div>
   </section>
 
-  <!-- ART BRIDGE (divider between panels and WCF) -->
-  <div class="art-bridge" id="artBridge">
-    <div class="art-bridge-img" id="artBridgeImg"></div>
-    <div class="art-bridge-veil"></div>
-    <div class="art-bridge-txt">
-      <p class="art-bridge-quote rev en">"Her paintings carry the weight of prayer and the lightness of dawn — works that transform any space they inhabit."</p>
-      <p class="art-bridge-quote rev he" style="direction:rtl;">"הציורים שלה נושאים את כובד התפילה וקלות השחר — יצירות המשנות כל מרחב שבו הן שוכנות."</p>
-    </div>
+  <!-- PULL QUOTE BRIDGE -->
+  <div class="art-bridge">
+    <p class="art-bridge-quote rev en">"Her paintings carry the weight of prayer and the lightness of dawn — works that transform any space they inhabit."</p>
+    <p class="art-bridge-quote rev he" style="direction:rtl;">"הציורים שלה נושאים את כובד התפילה וקלות השחר — יצירות המשנות כל מרחב שבו הן שוכנות."</p>
+    <p class="art-bridge-attr rev d1">— Yehudis Jacobs · Jerusalem</p>
   </div>
 
   <!-- WHERE COLOR BECOMES FEELING -->
@@ -705,25 +693,9 @@ footer{
       <div class="f-contact-block">
         <span class="f-contact-lbl en">Get in Touch</span>
         <span class="f-contact-lbl he" style="direction:rtl;">יצירת קשר</span>
-        <a class="f-clink" href="mailto:yehudisfineartgallery@gmail.com">
-          <div class="f-clink-icon">
-            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          yehudisfineartgallery@gmail.com
-        </a>
-        <a class="f-clink" href="https://wa.me/972" target="_blank" rel="noopener">
-          <div class="f-clink-icon">
-            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-          </div>
-          <span class="en">WhatsApp Inquiry</span>
-          <span class="he">פנייה בוואטסאפ</span>
-        </a>
-        <a class="f-clink" href="https://instagram.com" target="_blank" rel="noopener">
-          <div class="f-clink-icon">
-            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          </div>
-          Instagram
-        </a>
+        <a class="f-clink" href="mailto:yehudisfineartgallery@gmail.com">yehudisfineartgallery@gmail.com</a>
+        <a class="f-clink" href="https://wa.me/972" target="_blank" rel="noopener"><span class="eni">WhatsApp Inquiry</span><span class="hei">פנייה בוואטסאפ</span></a>
+        <a class="f-clink" href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
       </div>
       <div class="f-nav-col">
         <span class="f-nav-lbl en">Navigation</span>
@@ -791,7 +763,7 @@ footer{
     <div class="f-top">
       <div class="f-brand"><img class="f-logo-img" id="fLogo1" src="" alt="Yehudis"/><span class="f-brand-sub">Jacobs · Jerusalem</span></div>
       <div class="f-contact-block">
-        <a class="f-clink" href="mailto:yehudisfineartgallery@gmail.com"><div class="f-clink-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>yehudisfineartgallery@gmail.com</a>
+        <a class="f-clink" href="mailto:yehudisfineartgallery@gmail.com">yehudisfineartgallery@gmail.com</a>
       </div>
       <div class="f-nav-col"><nav class="f-nav"><a onclick="goPage('home')">Home</a><a onclick="goPage('gallery')">Gallery</a><a onclick="goPage('about')">About</a><a onclick="goPage('contact')">Contact</a></nav></div>
     </div>
@@ -839,7 +811,7 @@ footer{
   <footer>
     <div class="f-top">
       <div class="f-brand"><img class="f-logo-img" id="fLogo2" src="" alt="Yehudis"/><span class="f-brand-sub">Jacobs · Jerusalem</span></div>
-      <div class="f-contact-block"><a class="f-clink" href="mailto:yehudisfineartgallery@gmail.com"><div class="f-clink-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>yehudisfineartgallery@gmail.com</a></div>
+      <div class="f-contact-block"><a class="f-clink" href="mailto:yehudisfineartgallery@gmail.com">yehudisfineartgallery@gmail.com</a></div>
       <div class="f-nav-col"><nav class="f-nav"><a onclick="goPage('home')">Home</a><a onclick="goPage('gallery')">Gallery</a><a onclick="goPage('about')">About</a><a onclick="goPage('contact')">Contact</a></nav></div>
     </div>
     <div class="f-bottom"><span class="f-copy">© 2024 Yehudis Jacobs</span></div>
@@ -875,8 +847,8 @@ footer{
     <div class="f-top">
       <div class="f-brand"><img class="f-logo-img" id="fLogo3" src="" alt="Yehudis"/><span class="f-brand-sub">Jacobs · Jerusalem</span></div>
       <div class="f-contact-block">
-        <a class="f-clink" href="mailto:yehudisfineartgallery@gmail.com"><div class="f-clink-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>yehudisfineartgallery@gmail.com</a>
-        <a class="f-clink" href="https://wa.me/972" target="_blank" rel="noopener"><div class="f-clink-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div><span class="en">WhatsApp</span><span class="he">וואטסאפ</span></a>
+        <a class="f-clink" href="mailto:yehudisfineartgallery@gmail.com">yehudisfineartgallery@gmail.com</a>
+        <a class="f-clink" href="https://wa.me/972" target="_blank" rel="noopener"><span class="eni">WhatsApp Inquiry</span><span class="hei">פנייה בוואטסאפ</span></a>
       </div>
       <div class="f-nav-col"><nav class="f-nav"><a onclick="goPage('home')">Home</a><a onclick="goPage('gallery')">Gallery</a><a onclick="goPage('about')">About</a><a onclick="goPage('contact')">Contact</a></nav></div>
     </div>
@@ -942,8 +914,8 @@ function setImages(){
   const hl=document.getElementById('heroLogo');if(hl)hl.src=LW;
   const hb=document.getElementById('heroBg');if(hb)hb.style.backgroundImage=`url('${I.hero}')`;
   ({pSoul:'blue',pStory:'tex',pLight:'sinai'}).constructor===Object&&Object.entries({pSoul:'blue',pStory:'tex',pLight:'sinai'}).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.style.backgroundImage=`url('${I[k]}')`;});
-  const ab=document.getElementById('artBridgeImg');if(ab)ab.style.backgroundImage=`url('${I.torah}')`;
-  const wc=document.getElementById('wcfImg');if(wc)wc.style.backgroundImage=`url('${I.hum}')`;
+
+  const wc=document.getElementById('wcfImg');if(wc)wc.style.backgroundImage=`url('${I.sinai}')`;
   const aq=document.getElementById('acqBg');if(aq)aq.style.backgroundImage=`url('${I.rabbi}')`;
   const ai=document.getElementById('abImg');if(ai)ai.style.backgroundImage=`url('${I.blue}')`;
   const al=document.getElementById('abLogo');if(al)al.src=LD;
@@ -1010,8 +982,7 @@ window.addEventListener('scroll',()=>{
   const home=document.getElementById('home').classList.contains('active');
   document.getElementById('nav').classList.toggle('solid',!home||window.scrollY>50);
   if(window.scrollY>50)setImages();
-  const ab=document.getElementById('artBridge');
-  if(ab){const r=ab.getBoundingClientRect();if(r.top<window.innerHeight&&r.bottom>0)ab.classList.add('visible');}
+
   observe();
 },{passive:true});
 function toggleNav(){document.getElementById('navLinks').classList.toggle('open');}
