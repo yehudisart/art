@@ -1,0 +1,102 @@
+.contact-page { background: #fff; }
+
+.contact-hero {
+  padding: 160px 0 72px; background: #fff; text-align: center;
+}
+.contact-label { display: block; text-align: center; }
+.contact-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 300; color: #0A0A0A; letter-spacing: 0.05em;
+}
+[dir='rtl'] .contact-title { font-family: 'Frank Ruhl Libre', serif; letter-spacing: 0; }
+.contact-intro {
+  font-size: 1rem; color: #888; max-width: 520px;
+  margin: 0 auto; line-height: 1.85; font-style: italic;
+}
+[dir='rtl'] .contact-intro { font-family: 'Heebo', sans-serif; font-style: normal; }
+
+.contact-body { padding: 80px 0 120px; background: #fff; }
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1.4fr;
+  gap: 80px; align-items: start;
+}
+
+/* Info */
+.contact-info { display: flex; flex-direction: column; gap: 56px; }
+.invite-list { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 16px; }
+.invite-item {
+  display: flex; align-items: flex-start; gap: 16px;
+  font-size: 0.92rem; color: #3A3A3A; line-height: 1.6;
+}
+[dir='rtl'] .invite-item { flex-direction: row-reverse; text-align: right; }
+.invite-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; color: #E0E0E0; line-height: 1.2; flex-shrink: 0;
+}
+[dir='rtl'] .invite-item > span:last-child { font-family: 'Heebo', sans-serif; }
+
+.details-block {
+  display: flex; flex-direction: column; gap: 20px;
+  padding-top: 32px; border-top: 1px solid #E0E0E0;
+}
+.detail-row { display: flex; flex-direction: column; gap: 4px; }
+.detail-label {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #888; font-family: 'EB Garamond', serif;
+}
+[dir='rtl'] .detail-label {
+  font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none; font-size: 0.78rem;
+}
+.detail-value {
+  font-size: 0.92rem; color: #3A3A3A; text-decoration: none;
+  transition: color 0.25s ease;
+}
+[dir='rtl'] .detail-value { font-family: 'Heebo', sans-serif; }
+a.detail-value:hover { color: #C9A84C; }
+
+/* Form */
+.contact-form-wrap {
+  background: #FAFAFA; padding: 56px 52px;
+}
+.contact-form { display: flex; flex-direction: column; gap: 28px; }
+.form-field { display: flex; flex-direction: column; gap: 8px; }
+.form-label {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: #888; font-family: 'EB Garamond', serif;
+}
+[dir='rtl'] .form-label {
+  font-family: 'Heebo', sans-serif; letter-spacing: 0; text-transform: none; font-size: 0.8rem;
+}
+.form-input {
+  background: transparent; border: none;
+  border-bottom: 1px solid #E0E0E0;
+  padding: 10px 0; font-size: 0.95rem;
+  color: #0A0A0A; font-family: 'EB Garamond', serif;
+  outline: none; width: 100%;
+  transition: border-color 0.25s ease;
+  -webkit-appearance: none; border-radius: 0;
+}
+[dir='rtl'] .form-input { font-family: 'Heebo', sans-serif; text-align: right; }
+.form-input:focus { border-bottom-color: #0A0A0A; }
+.form-textarea { resize: vertical; min-height: 100px; line-height: 1.7; }
+.form-submit { align-self: flex-start; margin-top: 8px; }
+[dir='rtl'] .form-submit { align-self: flex-end; }
+
+.form-thanks {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 280px; gap: 20px; text-align: center;
+}
+.thanks-icon { width: 56px; height: 56px; }
+.thanks-text {
+  font-size: 1rem; color: #3A3A3A; font-style: italic;
+}
+[dir='rtl'] .thanks-text { font-family: 'Heebo', sans-serif; font-style: normal; }
+
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 56px; }
+}
+@media (max-width: 600px) {
+  .contact-form-wrap { padding: 36px 24px; }
+}
