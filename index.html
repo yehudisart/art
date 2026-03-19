@@ -1489,7 +1489,7 @@ const works={
 
 function setImages(){
   const solid=document.getElementById('nav').classList.contains('solid');
-  const set=(id,src)=>{const e=document.getElementById(id);if(e){if(src.startsWith('data:image'))e.src=src;else e.style.backgroundImage=`url('${src}')`;} };
+  const set=(id,src)=>{const e=document.getElementById(id);if(!e)return;if(e.tagName==='IMG'){e.src=src;}else{e.style.backgroundImage=`url('${src}')`;} };
   set('navLogo', solid?LD:LW);
   set('heroLogo', LW);
   set('heroBg', I.hero);
@@ -1500,7 +1500,7 @@ function setImages(){
   set('abImg',  I.blue);
   set('abLogo', LD);
   [0,1,2,3].forEach(n=>set('fLogo'+n, LW));
-  Object.entries({gs0:'torah',gs1:'tefila',gs2:'blue',gst0:'sinai',gst1:'tex',gst2:'port',gl0:'hum',gl1:'angel',sc0:'torah',sc1:'tefila',sc2:'blue'}).forEach(([id,k])=>set(id,I[k]));
+  Object.entries({gs0:'torah',gs1:'tefila',gs2:'blue',gst0:'sinai',gst1:'tex',gst2:'port',gl0:'hum',gl1:'angel',sc0:'torah',sc1:'tefila',sc2:'blue'}).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.style.backgroundImage=`url('${I[k]}')`;};
 }
 
 function goPage(id){
