@@ -13,13 +13,13 @@
    FOUNDATION
 ───────────────────────────────────── */
 :root {
-  --bg:       #faf8f4;
-  --bg-warm:  #f3ede4;
+  --bg:       #ffffff;
+  --bg-warm:  #f8f6f2;
   --bg-dark:  #12100e;
-  --ink:      #1c1814;
-  --ink-2:    rgba(28,24,20,.55);
-  --ink-3:    rgba(28,24,20,.30);
-  --ink-4:    rgba(28,24,20,.12);
+  --ink:      #1a1714;
+  --ink-2:    rgba(26,23,20,.52);
+  --ink-3:    rgba(26,23,20,.30);
+  --ink-4:    rgba(26,23,20,.10);
   --gold:     #b8965a;
   --gold-lt:  rgba(184,150,90,.18);
   --serif:    'Playfair Display', 'Cormorant Garamond', Georgia, serif;
@@ -1147,7 +1147,7 @@ footer {
 }
 @keyframes sdrop { 0%,100%{opacity:.4;transform:scaleY(.9)} 50%{opacity:1;transform:scaleY(1.1)} }
 .hs-txt { font-family:var(--sans); font-size:.44rem; letter-spacing:.26em; text-transform:uppercase; color:rgba(255,255,255,.55); }
-.quote-sec { padding:112px 12vw 96px; text-align:center; background:var(--bg); border-bottom:1px solid var(--ink-4); }
+.quote-sec { padding:112px 12vw 96px; text-align:center; background:var(--bg); }
 .qs-quote {
   font-family:var(--serif2); font-style:italic; font-size:clamp(1.15rem,2.1vw,1.65rem);
   font-weight:300; color:var(--ink-2); line-height:1.8; letter-spacing:.02em;
@@ -1177,7 +1177,7 @@ footer {
 .as-img { overflow:hidden; }
 .as-painting { width:100%; height:100%; min-height:600px; background-size:cover; background-position:center; transition:transform 2s var(--ease); }
 .as-img:hover .as-painting { transform:scale(1.03); }
-.as-text { background:var(--bg-dark); display:flex; flex-direction:column; justify-content:center; padding:88px 72px; }
+.as-text { background:var(--bg-dark); display:flex; flex-direction:column; justify-content:center; padding:88px 72px; position:relative; }
 .as-eyebrow { font-family:var(--sans); font-size:.40rem; letter-spacing:.5em; text-transform:uppercase; color:rgba(184,150,90,.5); display:block; margin-bottom:12px; }
 .as-title { font-family:var(--serif); font-size:clamp(1.8rem,3vw,2.8rem); font-weight:400; color:rgba(255,255,255,.92); line-height:1.15; letter-spacing:.02em; margin-bottom:18px; }
 .as-rule { width:28px; height:1px; background:var(--gold); margin-bottom:26px; }
@@ -1185,7 +1185,7 @@ footer {
 .as-p-he { font-family:var(--serif); font-size:.9rem; font-weight:400; color:rgba(255,255,255,.42); line-height:1.95; margin-bottom:14px; direction:rtl; text-align:right; }
 .as-link { font-family:var(--sans); font-size:.44rem; letter-spacing:.32em; text-transform:uppercase; color:rgba(184,150,90,.65); background:none; border:none; border-bottom:1px solid rgba(184,150,90,.3); padding-bottom:5px; cursor:pointer; align-self:flex-start; transition:color .3s,border-color .3s; margin-top:18px; display:inline-block; }
 .as-link:hover { color:rgba(184,150,90,1); border-bottom-color:rgba(184,150,90,.7); }
-.path-sec { background:#fff; display:grid; grid-template-columns:1fr 1fr; min-height:560px; border-top:1px solid var(--ink-4); }
+.path-sec { background:var(--bg); display:grid; grid-template-columns:1fr 1fr; min-height:560px; border-top:1px solid var(--ink-4); }
 .path-text { padding:80px 72px; display:flex; flex-direction:column; justify-content:center; }
 .path-eyebrow { font-family:var(--sans); font-size:.40rem; letter-spacing:.5em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:16px; }
 .path-title { font-family:var(--serif); font-size:clamp(1.6rem,2.6vw,2.4rem); font-weight:400; color:var(--ink); line-height:1.15; letter-spacing:.02em; margin-bottom:20px; }
@@ -1340,6 +1340,9 @@ footer {
       <button class="as-link rv d3 he" style="display:none" onclick="goPage('about')">על האמנית</button>
     </div>
   </section>
+
+  <!-- GRADIENT TRANSITION -->
+  <div style="height:80px;background:linear-gradient(to bottom,var(--bg-dark) 0%,var(--bg) 100%);"></div>
 
   <!-- PAINTING AS A PATH TO WHOLENESS -->
   <section class="path-sec">
