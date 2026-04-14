@@ -213,11 +213,20 @@ nav.solid .n-ham span { background: var(--ink); }
 }
 .hero-name-sub {
   font-family: var(--sans);
-  font-size: .58rem;
-  letter-spacing: .44em;
+  font-size: .52rem;
+  letter-spacing: .52em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.4);
-  margin-bottom: 28px;
+  color: rgba(184,150,90,.85);
+  margin-bottom: 8px;
+}
+.hero-location {
+  font-family: var(--serif2);
+  font-style: italic;
+  font-size: .68rem;
+  letter-spacing: .22em;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 32px;
+  display: block;
 }
 .hero-tagline {
   font-family: var(--serif);
@@ -1127,7 +1136,7 @@ footer {
   position:relative; z-index:2; text-align:center;
   display:flex; flex-direction:column; align-items:center; gap:0;
 }
-.hero-logo-img { height:120px; width:auto; filter:drop-shadow(0 2px 32px rgba(0,0,0,.4)) sepia(1) saturate(1.2) hue-rotate(5deg) brightness(1.1); margin-bottom:22px; }
+.hero-logo-img { height:220px; width:auto; filter:drop-shadow(0 4px 40px rgba(0,0,0,.35)) sepia(1) saturate(1.4) hue-rotate(8deg) brightness(1.15); margin-bottom:10px; }
 .hero-tagline {
   font-family:var(--serif2); font-style:italic; font-size:clamp(.9rem,1.5vw,1.15rem);
   font-weight:300; color:rgba(255,255,255,.7); letter-spacing:.08em; margin-bottom:36px;
@@ -1357,9 +1366,10 @@ footer {
     <div class="hero-veil"></div>
     <div class="hero-cnt">
       <img class="hero-logo-img rv" id="heroLogo" src="" alt="Yehudis"/>
-      <p class="hero-tagline rv d1 en">Art as a Language of the Soul</p>
-      <p class="hero-tagline rv d1 he" style="direction:rtl;">אמנות כשפה של הנשמה</p>
-      <div class="hero-links rv d2">
+      <div class="hero-name-sub rv d1">Jacobs</div>
+      <span class="hero-location rv d1 en">Jerusalem</span>
+      <span class="hero-location rv d1 he" style="direction:rtl;display:none;">ירושלים</span>
+      <div class="hero-links rv d2" style="margin-top:16px;">
         <button class="hero-link" onclick="goPage('gallery')"><span class="eni">Enter the Gallery</span><span class="hei">כניסה לגלריה</span></button>
         <button class="hero-link" onclick="goPage('about')"><span class="eni">About the Artist</span><span class="hei">על האמנית</span></button>
       </div>
