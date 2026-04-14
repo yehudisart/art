@@ -1236,140 +1236,210 @@ footer {
   .hero-logo-img { height:180px; }
 }
 /* ══════════════════════════════════════
-   PREMIUM GALLERY REFINEMENTS
+   ENFORCED FINAL PASS — ALL REQUIREMENTS
 ══════════════════════════════════════ */
 
-/* Selection */
-::selection { background: rgba(198,168,90,.14); color: var(--ink); }
+/* ── 1. LOGO: exact gold filter applied to every logo image, no gradients, no white ── */
+.n-logo-img,
+.hero-logo-img,
+.f-brand-img,
+.ab-logo {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(32%) saturate(600%) hue-rotate(8deg) brightness(92%) !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
 
-/* Gold hairline top bar — refined opacity */
+/* ── 2. HERO OVERLAY: exact spec gradient ── */
+.hero-veil {
+  background: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.25)) !important;
+}
+
+/* ── 3. TYPOGRAPHY: global luxury hierarchy ── */
+/* Headings */
+h1, h2, h3,
+.j-name, .as-title, .acq-title, .rp-title, .path-title,
+.g-title, .ct-h, .ab-text h1, .ab-text h2,
+.rp-card-title, .sc-ttl, .m-title, .st-title {
+  letter-spacing: 0.05em !important;
+  font-weight: 300 !important;
+  line-height: 1.25 !important;
+}
+/* Body text: enforced dark color */
+p, span, li, blockquote,
+.qs-quote, .qs-body, .il-quote, .j-desc, .j-desc-he,
+.as-p, .as-p-he, .acq-body, .acq-body-he,
+.ab-p, .ab-p-he, .f-brand-desc, .rp-card-poem,
+.path-body, .sc-story, .cd-v, .ct-int, .ct-int-he {
+  color: #1A1A1A !important;
+  opacity: 1 !important;
+}
+/* Preserve white text on dark-bg sections */
+.as-text p, .as-text span,
+.modal p, .modal span,
+.gc-info span, .gc-title, .gc-med {
+  color: rgba(242,237,231,.82) !important;
+}
+/* Eyebrows stay gold */
+.rp-eyebrow, .as-eyebrow, .path-eyebrow, .acq-eyebrow,
+.j-eyebrow, .g-eyebrow, .ab-ey, .st-eyebrow, .ct-ey,
+.rp-card-med, .sc-n, .sc-m, .j-num,
+.qs-attr, .il-attr {
+  color: #C6A85A !important;
+  opacity: 1 !important;
+}
+/* Subtitles / secondary text: softer dark, not invisible */
+.j-sub, .g-sub, .j-name-he, .acq-title-he,
+.rp-sub, .f-brand-sub, .f-col-lbl,
+.ab-sub, .m-cat, .m-lbl, .m-val, .m-poem {
+  color: rgba(26,26,26,.45) !important;
+  opacity: 1 !important;
+}
+/* Line-height elegance */
+.qs-quote, .acq-body, .acq-body-he,
+.as-p, .ab-p, .path-body, .sc-story, .j-desc, .j-desc-he {
+  line-height: 2.05 !important;
+}
+
+/* ── 4. BUTTONS: minimal, no heavy borders, clean hover ── */
+.hero-link {
+  background: none !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(198,168,90,.5) !important;
+  padding: 0 0 5px !important;
+  color: rgba(255,255,255,.82) !important;
+  transition: all 0.3s ease !important;
+  letter-spacing: .32em !important;
+}
+.hero-link:hover {
+  color: #ffffff !important;
+  border-bottom-color: #C6A85A !important;
+  background: none !important;
+}
+.rp-cta {
+  border: 1px solid rgba(198,168,90,.5) !important;
+  transition: all 0.3s ease !important;
+}
+.rp-cta:hover { background: transparent !important; color: var(--ink) !important; border-color: var(--ink) !important; }
+.path-cta { transition: all 0.3s ease !important; }
+.path-cta:hover { background: #C6A85A !important; }
+.acq-link {
+  border: 1px solid rgba(26,26,26,.25) !important;
+  transition: all 0.3s ease !important;
+}
+.acq-link:hover { background: #1A1A1A !important; color: #fff !important; border-color: #1A1A1A !important; }
+.j-cta { transition: all 0.3s ease !important; }
+.as-link { transition: all 0.3s ease !important; }
+.m-cta { transition: all 0.3s ease !important; }
+
+/* ── 5. SPACING: section vertical padding ── */
+.quote-sec   { padding: 120px 13vw !important; }
+.recent-sec  { padding: 120px 10vw !important; border-top: 1px solid rgba(198,168,90,.10) !important; }
+.interlude   { padding: 120px 12vw !important; }
+.acquire     { padding: 120px 10vw !important; }
+.stories     { padding: 120px 10vw !important; }
+.a-stmt      { padding: 120px 10vw !important; }
+.gal-head    { padding: 72px 10vw 0 !important; }
+.g-grid      { padding: 72px 10vw 120px !important; }
+.j-text      { padding: 96px 80px !important; }
+footer       { padding: 96px 64px 56px !important; }
+
+/* ── 6. LAST BANNER TEXT: forced #1A1A1A, full opacity, no overlay ── */
+.acquire,
+.acq-eyebrow,
+.acq-title,
+.acq-title-he,
+.acq-body,
+.acq-body-he {
+  background: var(--bg-warm) !important;
+}
+.acq-title  { color: #1A1A1A !important; opacity: 1 !important; font-weight: 300 !important; }
+.acq-body   { color: #1A1A1A !important; opacity: 1 !important; }
+.acq-body-he { color: #1A1A1A !important; opacity: 1 !important; }
+.acq-title-he { color: rgba(26,26,26,.5) !important; opacity: 1 !important; }
+.acquire-bg { display: none !important; }
+
+/* ── 7. GLOBAL CONSISTENCY ── */
+::selection { background: rgba(198,168,90,.14); color: #1A1A1A; }
+
+/* Gold top bar: 1px, refined */
 body::before {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold) 60%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #C6A85A 40%, #C6A85A 60%, transparent 100%);
   z-index: 999;
-  opacity: .55;
+  opacity: .5;
 }
 
-/* Nav — tighter, more intentional gap */
-.n-links { gap: 52px; }
+/* Nav links: consistent gap, no jumpy behavior */
+.n-links { gap: 52px !important; }
+.n-logo-sub { color: rgba(198,168,90,.6) !important; }
+nav.solid .n-logo-sub { color: rgba(198,168,90,.75) !important; }
+nav.solid { border-bottom-color: rgba(198,168,90,.12) !important; }
 
-/* Hero veil — more painterly, less digital */
-.hero-veil {
-  background: radial-gradient(ellipse at 50% 60%, rgba(0,0,0,.04) 0%, rgba(0,0,0,.28) 100%);
+/* Image hovers: uniform calm scale */
+.journey:hover .j-img { transform: scale(1.02) !important; }
+.as-img:hover .as-painting { transform: scale(1.02) !important; }
+.path-img:hover .path-painting { transform: scale(1.02) !important; }
+.rp-card:hover .rp-img { transform: scale(1.02) !important; }
+.gc:hover .gc-img { transform: scale(1.02) !important; }
+.sc:hover { transform: translateY(-2px) !important; }
+.rp-card:hover { transform: translateY(-2px) !important; }
+
+/* Image transitions: uniform duration */
+.j-img, .as-painting, .path-painting, .rp-img, .gc-img, .sc-img {
+  transition: transform 2s var(--ease) !important;
 }
 
-/* Quote section — more breathing room */
-.quote-sec { padding: 136px 13vw 120px; }
-.qs-quote {
-  font-size: clamp(1.2rem, 2.2vw, 1.75rem);
-  line-height: 1.85;
-  color: var(--ink);
-  letter-spacing: .015em;
+/* Rules: consistent gold hairline */
+.j-rule, .as-rule, .path-rule, .acq-rule, .ab-rule, .m-rule {
+  background: rgba(198,168,90,.4) !important;
+  opacity: 1 !important;
 }
 
-/* Recent works — more space above, refined card hover */
-.recent-sec {
-  padding: 112px 10vw 120px;
-  border-top: 1px solid rgba(198,168,90,.10);
-}
-.rp-card {
-  transition: transform .8s var(--ease);
-}
-.rp-card:hover {
-  transform: translateY(-3px);
-}
-.rp-img {
-  border-bottom: 1px solid transparent;
-  transition: border-color .6s, transform 1.8s var(--ease);
-}
-.rp-card:hover .rp-img {
-  border-color: var(--gold);
-}
-.rp-card-title {
-  font-size: 1.05rem;
-  font-weight: 300;
-  letter-spacing: .04em;
-  color: var(--ink);
-  margin-top: 4px;
-}
-.rp-head { margin-bottom: 64px; }
+/* Footer: clean borders */
+footer            { border-top: 1px solid rgba(198,168,90,.14) !important; }
+.f-bottom         { border-top: 1px solid rgba(198,168,90,.10) !important; padding-top: 32px !important; }
+.f-grid           { margin-bottom: 64px !important; }
+.f-copy, .f-loc   { color: rgba(26,26,26,.35) !important; letter-spacing: .22em !important; }
 
-/* Artist section — refined hover, no harsh transitions */
-.as-img:hover .as-painting { transform: scale(1.02); }
-.artist-sec { margin: 0 40px; }
+/* Gallery tabs */
+.g-tab.on::after  { background: #1A1A1A !important; }
 
-/* Path section */
-.path-sec {
-  margin: 40px 40px 0;
-  border: none;
-  border-top: 1px solid rgba(198,168,90,.10);
-}
-.path-img:hover .path-painting { transform: scale(1.02); }
-
-/* Journeys — more generous interior padding */
-.j-text { padding: 96px 80px; }
-.j-img { transition: transform 2.4s var(--ease); }
-.journey:hover .j-img { transform: scale(1.025); }
-.j-rule { background: rgba(198,168,90,.3); }
-
-/* Interlude — more padding */
-.interlude { padding: 96px 12vw; }
-
-/* Gallery page — breathing room */
-.g-grid { padding: 64px 10vw 100px; gap: 4px; }
-.gc:hover .gc-img { transform: scale(1.03); }
-
-/* Story cards — subtle hover */
-.sc:hover { transform: translateY(-2px); }
-
-/* About page refinements */
-.ab-text { padding: 80px 72px; }
-
-/* Gallery head */
-.gal-head { padding: 64px 10vw 0; }
-
-/* Footer — more breathing room */
-footer {
-  border-top: 1px solid rgba(198,168,90,.14);
-  padding: 88px 64px 56px;
-}
-.f-bottom {
-  border-top: 1px solid rgba(198,168,90,.10);
-  padding-top: 32px;
-}
-.f-copy, .f-loc {
-  color: var(--ink-3);
-  letter-spacing: .22em;
-}
-.f-grid { margin-bottom: 64px; }
-
-/* About blockquote accent */
+/* About blockquote */
 .a-stmt blockquote::before {
   content: '\201C';
   display: block;
   font-family: var(--serif);
   font-size: 2.8rem;
-  color: var(--gold);
-  opacity: .35;
+  color: #C6A85A;
+  opacity: .3;
   line-height: 1;
   margin-bottom: 10px;
 }
 
-/* Gallery card image transition */
-.gc-img { transition: transform 2.2s var(--ease); }
+/* Artist section margin */
+.artist-sec { margin: 0 40px !important; }
+.path-sec   { margin: 40px 40px 0 !important; border: none !important; border-top: 1px solid rgba(198,168,90,.10) !important; }
 
-/* Acquire mobile */
-@media(max-width:768px) {
-  .acquire { padding: 96px 7vw; }
+/* Scrollbar: gold accent */
+::-webkit-scrollbar-thumb { background: rgba(198,168,90,.25) !important; }
+
+/* Mobile overrides */
+@media(max-width:960px) {
+  .artist-sec { margin: 0 !important; }
+  .path-sec   { margin: 0 !important; }
 }
-
-/* Section dividers consistent gold hairline */
-.recent-sec,
-.artist-sec + .path-sec {
-  border-top: 1px solid rgba(198,168,90,.10);
+@media(max-width:768px) {
+  .quote-sec  { padding: 72px 7vw !important; }
+  .recent-sec { padding: 72px 7vw !important; }
+  .interlude  { padding: 72px 7vw !important; }
+  .acquire    { padding: 80px 7vw !important; }
+  .stories    { padding: 72px 5vw !important; }
+  .hero-logo-img { height: 180px !important; }
+  .j-text     { padding: 52px 24px !important; }
+  footer      { padding: 64px 20px 40px !important; }
 }
 </style>
 </head>
