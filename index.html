@@ -14,8 +14,8 @@
 ───────────────────────────────────── */
 :root {
   --bg:       #ffffff;
-  --bg-warm:  #f8f6f2;
-  --bg-dark:  #12100e;
+  --bg-warm:  #fafaf9;
+  --bg-dark:  #ffffff;
   --ink:      #1a1714;
   --ink-2:    rgba(26,23,20,.52);
   --ink-3:    rgba(26,23,20,.30);
@@ -79,8 +79,8 @@ nav {
   border-bottom: 1px solid transparent;
 }
 nav.solid {
-  background: rgba(250,248,244,.97);
-  border-bottom-color: rgba(184,150,90,.15);
+  background: rgba(255,255,255,.97);
+  border-bottom-color: rgba(184,150,90,.12);
   backdrop-filter: blur(16px);
 }
 
@@ -620,7 +620,7 @@ nav.solid .n-ham span { background: var(--ink); }
    FOOTER — clean 3-column, light
 ───────────────────────────────────── */
 footer {
-  background: var(--bg-warm);
+  background: var(--bg);
   border-top: 1px solid var(--ink-4);
   padding: 72px 56px 48px;
 }
@@ -767,7 +767,7 @@ footer {
   grid-template-columns: 1fr 1fr;
   gap: 3px;
 }
-.gc { position: relative; overflow: hidden; cursor: pointer; background: var(--bg-warm); }
+.gc { position: relative; overflow: hidden; cursor: pointer; background: #f9f9f8; }
 .gc.tall { grid-row: span 2; }
 .gc.wide { grid-column: span 2; }
 .gc-img {
@@ -805,7 +805,7 @@ footer {
 }
 /* story cards */
 .stories {
-  background: var(--bg-warm);
+  background: var(--bg);
   border-top: 1px solid var(--ink-4);
   padding: 72px 10vw;
 }
@@ -981,11 +981,11 @@ footer {
   color: var(--ink-3); min-width: 76px; flex-shrink: 0;
 }
 .cr-v { font-family: var(--serif); font-size: .82rem; color: var(--ink-2); line-height: 1.5; }
-.a-stmt { background: var(--bg-dark); padding: 88px 10vw; text-align: center; }
+.a-stmt { background: var(--bg-warm); padding: 88px 10vw; text-align: center; border-top:1px solid var(--ink-4); border-bottom:1px solid var(--ink-4); }
 .a-stmt blockquote {
   font-family: var(--serif); font-style: italic;
   font-size: clamp(1rem, 2.2vw, 1.55rem);
-  font-weight: 300; color: rgba(242,237,231,.68);
+  font-weight: 300; color: var(--ink-2);
   max-width: 640px; margin: 0 auto;
   line-height: 1.78; letter-spacing: .02em;
 }
@@ -993,7 +993,7 @@ footer {
   display: block; margin-top: 20px;
   font-family: var(--sans); font-size: .46rem;
   letter-spacing: .28em; text-transform: uppercase;
-  color: rgba(242,237,231,.2); font-style: normal;
+  color: var(--gold); font-style: normal;
 }
 
 /* ─────────────────────────────────────
@@ -1147,7 +1147,7 @@ footer {
 }
 @keyframes sdrop { 0%,100%{opacity:.4;transform:scaleY(.9)} 50%{opacity:1;transform:scaleY(1.1)} }
 .hs-txt { font-family:var(--sans); font-size:.44rem; letter-spacing:.26em; text-transform:uppercase; color:rgba(255,255,255,.55); }
-.quote-sec { padding:112px 12vw 96px; text-align:center; background:var(--bg); }
+.quote-sec { padding:120px 12vw 104px; text-align:center; background:var(--bg); }
 .qs-quote {
   font-family:var(--serif2); font-style:italic; font-size:clamp(1.15rem,2.1vw,1.65rem);
   font-weight:300; color:var(--ink-2); line-height:1.8; letter-spacing:.02em;
@@ -1177,14 +1177,14 @@ footer {
 .as-img { overflow:hidden; }
 .as-painting { width:100%; height:100%; min-height:600px; background-size:cover; background-position:center; transition:transform 2s var(--ease); }
 .as-img:hover .as-painting { transform:scale(1.03); }
-.as-text { background:var(--bg-dark); display:flex; flex-direction:column; justify-content:center; padding:88px 72px; position:relative; }
-.as-eyebrow { font-family:var(--sans); font-size:.40rem; letter-spacing:.5em; text-transform:uppercase; color:rgba(184,150,90,.5); display:block; margin-bottom:12px; }
-.as-title { font-family:var(--serif); font-size:clamp(1.8rem,3vw,2.8rem); font-weight:400; color:rgba(255,255,255,.92); line-height:1.15; letter-spacing:.02em; margin-bottom:18px; }
+.as-text { background:#ffffff; display:flex; flex-direction:column; justify-content:center; padding:88px 72px; position:relative; border-left:1px solid rgba(184,150,90,.12); }
+.as-eyebrow { font-family:var(--sans); font-size:.40rem; letter-spacing:.5em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:12px; }
+.as-title { font-family:var(--serif); font-size:clamp(1.8rem,3vw,2.8rem); font-weight:400; color:var(--ink); line-height:1.15; letter-spacing:.02em; margin-bottom:18px; }
 .as-rule { width:28px; height:1px; background:var(--gold); margin-bottom:26px; }
-.as-p { font-family:var(--serif); font-size:.9rem; font-weight:400; color:rgba(255,255,255,.42); line-height:1.95; margin-bottom:14px; letter-spacing:.01em; }
-.as-p-he { font-family:var(--serif); font-size:.9rem; font-weight:400; color:rgba(255,255,255,.42); line-height:1.95; margin-bottom:14px; direction:rtl; text-align:right; }
-.as-link { font-family:var(--sans); font-size:.44rem; letter-spacing:.32em; text-transform:uppercase; color:rgba(184,150,90,.65); background:none; border:none; border-bottom:1px solid rgba(184,150,90,.3); padding-bottom:5px; cursor:pointer; align-self:flex-start; transition:color .3s,border-color .3s; margin-top:18px; display:inline-block; }
-.as-link:hover { color:rgba(184,150,90,1); border-bottom-color:rgba(184,150,90,.7); }
+.as-p { font-family:var(--serif); font-size:.9rem; font-weight:400; color:var(--ink-2); line-height:1.95; margin-bottom:14px; letter-spacing:.01em; }
+.as-p-he { font-family:var(--serif); font-size:.9rem; font-weight:400; color:var(--ink-2); line-height:1.95; margin-bottom:14px; direction:rtl; text-align:right; }
+.as-link { font-family:var(--sans); font-size:.44rem; letter-spacing:.32em; text-transform:uppercase; color:var(--gold); background:none; border:none; border-bottom:1px solid rgba(184,150,90,.35); padding-bottom:5px; cursor:pointer; align-self:flex-start; transition:color .3s,border-color .3s; margin-top:18px; display:inline-block; }
+.as-link:hover { color:var(--ink); border-bottom-color:var(--gold); }
 .path-sec { background:var(--bg); display:grid; grid-template-columns:1fr 1fr; min-height:560px; border-top:1px solid var(--ink-4); }
 .path-text { padding:80px 72px; display:flex; flex-direction:column; justify-content:center; }
 .path-eyebrow { font-family:var(--sans); font-size:.40rem; letter-spacing:.5em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:16px; }
@@ -1197,7 +1197,7 @@ footer {
 .path-painting { width:100%; aspect-ratio:auto; min-height:500px; background-size:cover; background-position:center top; box-shadow:none; transition:transform 2s var(--ease); flex:1; }
 .path-img:hover .path-painting { transform:scale(1.03); }
 .acquire { position:relative; padding:100px 10vw; text-align:center; overflow:hidden; min-height:560px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.acquire-bg { position:absolute; inset:0; background-size:cover; background-position:center; filter:brightness(.42) saturate(.75); }
+.acquire-bg { position:absolute; inset:0; background-size:cover; background-position:center; filter:brightness(.35) saturate(.6); }
 .acquire > * { position:relative; z-index:1; }
 .acq-eyebrow { font-family:var(--sans); font-size:.40rem; letter-spacing:.5em; text-transform:uppercase; color:rgba(184,150,90,.6); display:block; margin-bottom:20px; }
 .acq-title { font-family:var(--serif); font-size:clamp(2.2rem,4.5vw,4rem); font-weight:400; color:rgba(250,248,244,.92); letter-spacing:.04em; line-height:1.1; margin-bottom:8px; }
@@ -1340,9 +1340,6 @@ footer {
       <button class="as-link rv d3 he" style="display:none" onclick="goPage('about')">על האמנית</button>
     </div>
   </section>
-
-  <!-- GRADIENT TRANSITION -->
-  <div style="height:80px;background:linear-gradient(to bottom,var(--bg-dark) 0%,var(--bg) 100%);"></div>
 
   <!-- PAINTING AS A PATH TO WHOLENESS -->
   <section class="path-sec">
