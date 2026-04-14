@@ -20,8 +20,9 @@
   --ink-2:    rgba(26,23,20,.52);
   --ink-3:    rgba(26,23,20,.30);
   --ink-4:    rgba(26,23,20,.10);
-  --gold:     #b8965a;
-  --gold-lt:  rgba(184,150,90,.18);
+  --gold:     #C6A85A;
+  --gold-lt:  rgba(198,168,90,.15);
+  --logo-filter: sepia(1) saturate(1.8) hue-rotate(2deg) brightness(.94) contrast(1.05);
   --serif:    'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --serif2:   'Cormorant Garamond', Georgia, serif;
   --sans:     'Jost', sans-serif;
@@ -96,7 +97,7 @@ nav.solid {
 }
 .n-logo-img {
   height: 36px; width: auto;
-  filter: sepia(1) saturate(2.2) hue-rotate(5deg) brightness(1.05) contrast(1.1);
+  filter: var(--logo-filter);
 }
 .n-logo-sub {
   font-family: var(--sans);
@@ -642,7 +643,7 @@ footer {
   gap: 48px;
   margin-bottom: 56px;
 }
-.f-brand-img { height: 32px; width: auto; margin-bottom: 10px; filter: sepia(1) saturate(2.2) hue-rotate(5deg) brightness(1.05) contrast(1.1); }
+.f-brand-img { height: 32px; width: auto; margin-bottom: 10px; filter: var(--logo-filter); }
 .f-brand-sub {
   font-family: var(--sans);
   font-size: .44rem;
@@ -968,7 +969,7 @@ footer {
   letter-spacing: .44em; text-transform: uppercase;
   color: var(--ink-3); display: block; margin-bottom: 12px;
 }
-.ab-logo { height: 46px; width: auto; display: block; margin-bottom: 4px; filter: sepia(1) saturate(2.2) hue-rotate(5deg) brightness(1.05) contrast(1.1); }
+.ab-logo { height: 46px; width: auto; display: block; margin-bottom: 4px; filter: var(--logo-filter); }
 .ab-sub {
   font-family: var(--serif); font-size: .9rem;
   color: var(--ink-3); direction: rtl; margin-bottom: 22px;
@@ -1136,7 +1137,7 @@ footer {
   position:relative; z-index:2; text-align:center;
   display:flex; flex-direction:column; align-items:center; gap:0;
 }
-.hero-logo-img { height:320px; width:auto; filter:drop-shadow(0 4px 40px rgba(0,0,0,.35)) sepia(1) saturate(2.2) hue-rotate(5deg) brightness(1.05) contrast(1.1); margin-bottom:10px; }
+.hero-logo-img { height:320px; width:auto; filter:var(--logo-filter); margin-bottom:16px; }
 .hero-tagline {
   font-family:var(--serif2); font-style:italic; font-size:clamp(.9rem,1.5vw,1.15rem);
   font-weight:300; color:rgba(255,255,255,.7); letter-spacing:.08em; margin-bottom:36px;
@@ -1208,17 +1209,17 @@ footer {
 .path-img { overflow:hidden; display:flex; align-items:stretch; background:#ece9e4; }
 .path-painting { width:100%; aspect-ratio:auto; min-height:500px; background-size:cover; background-position:center top; box-shadow:none; transition:transform 2s var(--ease); flex:1; }
 .path-img:hover .path-painting { transform:scale(1.03); }
-.acquire { position:relative; padding:120px 10vw; text-align:center; overflow:hidden; min-height:640px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.acquire-bg { position:absolute; inset:0; background-size:cover; background-position:center; filter:brightness(.08) saturate(.2); }
+.acquire { position:relative; padding:140px 10vw; text-align:center; overflow:hidden; min-height:640px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg-warm); border-top:1px solid rgba(198,168,90,.18); }
+.acquire-bg { display:none; }
 .acquire > * { position:relative; z-index:1; }
-.acq-eyebrow { font-family:var(--sans); font-size:.44rem; letter-spacing:.6em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:28px; opacity:.9; }
-.acq-title { font-family:var(--serif); font-size:clamp(3rem,6vw,5.8rem); font-weight:600; color:#ffffff; letter-spacing:.04em; line-height:1.05; margin-bottom:8px; }
-.acq-title-he { font-family:var(--serif2); font-size:1.3rem; color:rgba(255,255,255,.45); direction:rtl; font-weight:400; margin-bottom:36px; letter-spacing:.02em; }
-.acq-rule { width:36px; height:1px; background:var(--gold); margin:0 auto 34px; }
-.acq-body { font-family:var(--serif2); font-size:1.05rem; font-weight:500; color:rgba(255,255,255,.92); line-height:1.85; max-width:520px; margin:0 auto 52px; letter-spacing:.01em; }
-.acq-body-he { font-family:var(--serif2); font-size:1.05rem; font-weight:500; color:rgba(255,255,255,.92); line-height:1.85; max-width:520px; margin:0 auto 52px; direction:rtl; letter-spacing:.01em; }
-.acq-link { font-family:var(--sans); font-size:.46rem; letter-spacing:.36em; text-transform:uppercase; color:var(--gold); background:rgba(0,0,0,.2); border:1px solid rgba(184,150,90,.9); padding:15px 42px; cursor:pointer; transition:all .4s; display:inline-block; backdrop-filter:blur(4px); }
-.acq-link:hover { color:var(--bg); border-color:var(--gold); background:var(--gold); }
+.acq-eyebrow { font-family:var(--sans); font-size:.42rem; letter-spacing:.58em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:32px; }
+.acq-title { font-family:var(--serif); font-size:clamp(2.6rem,5vw,4.8rem); font-weight:400; color:var(--ink); letter-spacing:.04em; line-height:1.08; margin-bottom:0; }
+.acq-title-he { font-family:var(--serif2); font-size:1.1rem; color:var(--ink-3); direction:rtl; font-weight:300; margin-bottom:36px; letter-spacing:.01em; margin-top:6px; }
+.acq-rule { width:32px; height:1px; background:var(--gold); margin:32px auto 32px; opacity:.7; }
+.acq-body { font-family:var(--serif2); font-size:.98rem; font-weight:400; color:var(--ink-2); line-height:2; max-width:500px; margin:0 auto 52px; letter-spacing:.01em; }
+.acq-body-he { font-family:var(--serif2); font-size:.98rem; font-weight:400; color:var(--ink-2); line-height:2; max-width:500px; margin:0 auto 52px; direction:rtl; letter-spacing:.01em; }
+.acq-link { font-family:var(--sans); font-size:.44rem; letter-spacing:.36em; text-transform:uppercase; color:var(--ink); background:none; border:1px solid var(--ink-3); padding:14px 44px; cursor:pointer; transition:all .5s var(--ease); display:inline-block; }
+.acq-link:hover { color:var(--bg); background:var(--ink); border-color:var(--ink); }
 /* Responsive */
 @media(max-width:768px){
   .rp-grid { grid-template-columns:1fr; gap:40px; }
@@ -1234,99 +1235,141 @@ footer {
   .acquire { padding:80px 7vw; }
   .hero-logo-img { height:180px; }
 }
-/* ── LUXURY FINISHES ── */
-::selection { background: rgba(184,150,90,.18); color: var(--ink); }
+/* ══════════════════════════════════════
+   PREMIUM GALLERY REFINEMENTS
+══════════════════════════════════════ */
 
-/* Gold thin top bar */
+/* Selection */
+::selection { background: rgba(198,168,90,.14); color: var(--ink); }
+
+/* Gold hairline top bar — refined opacity */
 body::before {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold) 60%, transparent 100%);
   z-index: 999;
-  opacity: .7;
+  opacity: .55;
 }
 
-/* Gallery card hover — gold border glow */
+/* Nav — tighter, more intentional gap */
+.n-links { gap: 52px; }
+
+/* Hero veil — more painterly, less digital */
+.hero-veil {
+  background: radial-gradient(ellipse at 50% 60%, rgba(0,0,0,.04) 0%, rgba(0,0,0,.28) 100%);
+}
+
+/* Quote section — more breathing room */
+.quote-sec { padding: 136px 13vw 120px; }
+.qs-quote {
+  font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+  line-height: 1.85;
+  color: var(--ink);
+  letter-spacing: .015em;
+}
+
+/* Recent works — more space above, refined card hover */
+.recent-sec {
+  padding: 112px 10vw 120px;
+  border-top: 1px solid rgba(198,168,90,.10);
+}
 .rp-card {
-  transition: transform .6s var(--ease);
+  transition: transform .8s var(--ease);
 }
 .rp-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
 }
 .rp-img {
-  border-bottom: 2px solid transparent;
-  transition: border-color .5s, transform 1.6s var(--ease);
+  border-bottom: 1px solid transparent;
+  transition: border-color .6s, transform 1.8s var(--ease);
 }
 .rp-card:hover .rp-img {
   border-color: var(--gold);
 }
-
-/* Section dividers — gold hairline */
-.recent-sec {
-  border-top: 1px solid rgba(184,150,90,.12);
+.rp-card-title {
+  font-size: 1.05rem;
+  font-weight: 300;
+  letter-spacing: .04em;
+  color: var(--ink);
+  margin-top: 4px;
 }
+.rp-head { margin-bottom: 64px; }
+
+/* Artist section — refined hover, no harsh transitions */
+.as-img:hover .as-painting { transform: scale(1.02); }
+.artist-sec { margin: 0 40px; }
+
+/* Path section */
 .path-sec {
-  box-shadow: 0 2px 48px rgba(0,0,0,.04);
+  margin: 40px 40px 0;
+  border: none;
+  border-top: 1px solid rgba(198,168,90,.10);
 }
-.artist-sec {
-  box-shadow: 0 2px 48px rgba(0,0,0,.04);
-}
+.path-img:hover .path-painting { transform: scale(1.02); }
 
-/* Quote section — elegant centered dot */
-.quote-sec::after {
-  content: '◆';
-  display: block;
-  text-align: center;
-  font-size: .4rem;
-  color: var(--gold);
-  letter-spacing: .5em;
-  margin-top: 48px;
-  opacity: .6;
-}
+/* Journeys — more generous interior padding */
+.j-text { padding: 96px 80px; }
+.j-img { transition: transform 2.4s var(--ease); }
+.journey:hover .j-img { transform: scale(1.025); }
+.j-rule { background: rgba(198,168,90,.3); }
 
-/* Nav links gap refinement */
-.n-links { gap: 48px; }
+/* Interlude — more padding */
+.interlude { padding: 96px 12vw; }
 
-/* Hero — subtle vignette */
-.hero-veil {
-  background: radial-gradient(ellipse at center, rgba(0,0,0,.02) 0%, rgba(0,0,0,.22) 100%);
-}
+/* Gallery page — breathing room */
+.g-grid { padding: 64px 10vw 100px; gap: 4px; }
+.gc:hover .gc-img { transform: scale(1.03); }
 
-/* Acquire section — min-height already set in section styles */
+/* Story cards — subtle hover */
+.sc:hover { transform: translateY(-2px); }
 
-/* Footer refinement */
+/* About page refinements */
+.ab-text { padding: 80px 72px; }
+
+/* Gallery head */
+.gal-head { padding: 64px 10vw 0; }
+
+/* Footer — more breathing room */
 footer {
-  border-top: 1px solid rgba(184,150,90,.15);
+  border-top: 1px solid rgba(198,168,90,.14);
+  padding: 88px 64px 56px;
 }
 .f-bottom {
-  border-top: 1px solid rgba(184,150,90,.1);
+  border-top: 1px solid rgba(198,168,90,.10);
+  padding-top: 32px;
 }
 .f-copy, .f-loc {
   color: var(--ink-3);
   letter-spacing: .22em;
 }
+.f-grid { margin-bottom: 64px; }
 
-/* about page blockquote gold accent */
+/* About blockquote accent */
 .a-stmt blockquote::before {
-  content: '"';
+  content: '\201C';
   display: block;
   font-family: var(--serif);
-  font-size: 3rem;
+  font-size: 2.8rem;
   color: var(--gold);
-  opacity: .4;
+  opacity: .35;
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
-/* Smooth image hover on gallery */
-.gc-img { transition: transform 2s var(--ease); }
+/* Gallery card image transition */
+.gc-img { transition: transform 2.2s var(--ease); }
 
-/* Path painting subtle shadow */
-.path-sec {
-  border: none;
-  border-top: 1px solid rgba(184,150,90,.1);
+/* Acquire mobile */
+@media(max-width:768px) {
+  .acquire { padding: 96px 7vw; }
+}
+
+/* Section dividers consistent gold hairline */
+.recent-sec,
+.artist-sec + .path-sec {
+  border-top: 1px solid rgba(198,168,90,.10);
 }
 </style>
 </head>
