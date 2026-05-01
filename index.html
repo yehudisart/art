@@ -13,38 +13,39 @@
    Warm parchment · Deep indigo · Antique gold
 ───────────────────────────────────── */
 :root {
-  /* Light surfaces — warm parchment, like aged canvas */
-  --bg:       #f5f0e8;          /* warm ivory parchment */
-  --bg-warm:  #ede6d8;          /* deeper warm — section alternator */
-  --bg-cool:  #eee9f0;          /* faint lavender — echoes painting blues */
+  /* ALL backgrounds — deep indigo from the hero */
+  --bg:       #12101e;          /* main bg — deep indigo */
+  --bg-warm:  #1a1628;          /* slightly lighter indigo */
+  --bg-cool:  #1e1c32;          /* section alternator */
+  --bg-light: #242038;          /* cards, elevated surfaces */
 
-  /* Dark surfaces — deep indigo night, like the dark sections of paintings */
-  --bg-dark:  #12101e;          /* deep indigo-black */
-  --bg-dark2: #1a1628;          /* slightly lighter — cards on dark */
+  /* Dark surfaces */
+  --bg-dark:  #0d0b18;          /* deepest — footer, heavy sections */
+  --bg-dark2: #0f0e1c;
 
-  /* Ink */
-  --ink:      #1a1714;
-  --ink-2:    rgba(26,23,20,.62);
-  --ink-3:    rgba(26,23,20,.38);
-  --ink-4:    rgba(26,23,20,.14);
-  --ink-5:    rgba(26,23,20,.07);
+  /* Ink on dark — cream/ivory */
+  --ink:      rgba(245,240,232,.95);
+  --ink-2:    rgba(245,240,232,.65);
+  --ink-3:    rgba(245,240,232,.38);
+  --ink-4:    rgba(245,240,232,.15);
+  --ink-5:    rgba(245,240,232,.07);
 
-  /* Cream for dark sections */
+  /* Cream (same as ink on dark — unified) */
   --cream:    rgba(245,240,232,1);
   --cream-9:  rgba(245,240,232,.9);
-  --cream-6:  rgba(245,240,232,.6);
-  --cream-4:  rgba(245,240,232,.4);
+  --cream-6:  rgba(245,240,232,.65);
+  --cream-4:  rgba(245,240,232,.42);
   --cream-2:  rgba(245,240,232,.2);
   --cream-1:  rgba(245,240,232,.1);
   --cream-05: rgba(245,240,232,.05);
 
   /* Gold — antique, from the gold leaf in the paintings */
   --gold:     #c4a35a;
-  --gold-lt:  rgba(196,163,90,.18);
+  --gold-lt:  rgba(196,163,90,.2);
   --gold-dim: rgba(196,163,90,.08);
 
-  /* Accent — soft plum, echoes the purple/violet in paintings */
-  --plum:     rgba(120,90,140,.12);
+  /* Plum accent */
+  --plum:     rgba(140,100,180,.15);
 
   /* Typography */
   --serif:    'Cormorant Garamond', Georgia, serif;
@@ -100,11 +101,11 @@ nav {
   border-bottom: 1px solid transparent;
 }
 nav.solid {
-  background: rgba(245,240,232,.96);
+  background: rgba(18,16,30,.96);
   border-bottom-color: var(--ink-4);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 1px 28px rgba(26,20,12,.05);
+  box-shadow: 0 1px 28px rgba(0,0,0,.3);
 }
 .n-logo { cursor:pointer; display:flex; flex-direction:column; align-items:flex-start; gap:1px; }
 .n-logo-img { height:30px; width:auto; }
@@ -112,7 +113,7 @@ nav.solid {
   font-family:var(--sans); font-size:.4rem; letter-spacing:.34em;
   text-transform:uppercase; color:rgba(255,255,255,.3); transition:color .5s;
 }
-nav.solid .n-logo-sub { color:var(--ink-3); }
+nav.solid .n-logo-sub { color:var(--ink-3); }  /* cream-faint */
 
 .n-links { display:flex; align-items:center; gap:38px; list-style:none; }
 .n-links a {
@@ -121,28 +122,28 @@ nav.solid .n-logo-sub { color:var(--ink-3); }
   color:rgba(255,255,255,.58); text-decoration:none;
   position:relative; transition:color .3s; cursor:pointer;
 }
-nav.solid .n-links a { color:var(--ink-3); }
+nav.solid .n-links a { color:var(--ink-2); }
 .n-links a::after {
   content:''; position:absolute; bottom:-3px; left:0;
   width:0; height:1px; background:currentColor; transition:width .35s ease;
 }
 .n-links a:hover::after, .n-links a.on::after { width:100%; }
 .n-links a:hover, .n-links a.on { color:rgba(255,255,255,.95); }
-nav.solid .n-links a:hover, nav.solid .n-links a.on { color:var(--ink); }
+nav.solid .n-links a:hover, nav.solid .n-links a.on { color:var(--cream-9); }
 
 .n-lang { display:flex; align-items:center; gap:5px; }
 .lbtn {
   font-family:var(--sans); font-size:.52rem; letter-spacing:.14em; text-transform:uppercase;
   background:none; border:none; cursor:pointer; color:rgba(255,255,255,.28); transition:color .3s;
 }
-nav.solid .lbtn { color:var(--ink-3); }
+nav.solid .lbtn { color:var(--ink-3); }  /* stays cream-faint */
 .lbtn.on { color:rgba(255,255,255,.85); }
-nav.solid .lbtn.on { color:var(--ink); }
+nav.solid .lbtn.on { color:var(--cream-9); }
 .ldot { width:2px; height:2px; border-radius:50%; background:rgba(255,255,255,.2); }
 nav.solid .ldot { background:var(--ink-4); }
 .n-ham { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; }
 .n-ham span { display:block; width:20px; height:1px; background:rgba(255,255,255,.8); transition:background .4s; }
-nav.solid .n-ham span { background:var(--ink); }
+nav.solid .n-ham span { background:var(--cream-9); }
 
 /* ─────────────────────────────────────
    HERO — Gallery word
@@ -219,6 +220,7 @@ nav.solid .n-ham span { background:var(--ink); }
   padding: 108px 12vw 96px;
   text-align:center;
   background:var(--bg);
+  border-bottom: 1px solid var(--ink-4);
 }
 .qs-quote {
   font-family:var(--serif); font-style:italic;
@@ -265,7 +267,7 @@ nav.solid .n-ham span { background:var(--ink); }
 .j-text {
   display:flex; flex-direction:column; justify-content:center;
   padding:88px 80px;
-  background:var(--bg);
+  background:var(--bg-warm);
 }
 .j-num {
   font-family:var(--sans); font-size:.46rem; letter-spacing:.42em;
@@ -531,7 +533,7 @@ footer {
 .st-eyebrow { font-family:var(--sans); font-size:.44rem; letter-spacing:.46em; text-transform:uppercase; color:var(--ink-3); display:block; margin-bottom:11px; }
 .st-title { font-family:var(--serif); font-size:clamp(1.3rem,2.2vw,1.9rem); font-weight:300; color:var(--ink); }
 .st-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; }
-.sc { background:var(--bg); cursor:pointer; transition:transform .6s var(--ease); }
+.sc { background:var(--bg-warm); cursor:pointer; transition:transform .6s var(--ease); }
 .sc:hover { transform:translateY(-4px); }
 .sc-img { width:100%; aspect-ratio:3/4; background-size:cover; background-position:center; transition:transform 1.6s var(--ease); }
 .sc:hover .sc-img { transform:scale(1.03); }
@@ -606,12 +608,12 @@ footer {
 .ct-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 .ct-g { display:flex; flex-direction:column; gap:6px; }
 .ct-l { font-family:var(--sans); font-size:.44rem; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-3); }
-.ct-i, .ct-ta { background:none; border:none; border-bottom:1px solid var(--ink-4); padding:9px 0; font-family:var(--serif); font-size:.88rem; color:var(--ink); outline:none; transition:border-color .3s; width:100%; resize:none; }
+.ct-i, .ct-ta { background:none; border:none; border-bottom:1px solid var(--ink-4); padding:9px 0; font-family:var(--serif); font-size:.88rem; color:var(--cream-9); outline:none; transition:border-color .3s; width:100%; resize:none; }
 .ct-i::placeholder, .ct-ta::placeholder { color:var(--ink-3); font-style:italic; }
 .ct-i:focus, .ct-ta:focus { border-bottom-color:var(--ink-2); }
 .ct-ta { min-height:96px; }
-.ct-sub { align-self:flex-start; font-family:var(--sans); font-size:.5rem; letter-spacing:.24em; text-transform:uppercase; color:var(--ink); background:none; border:1px solid var(--ink-3); padding:12px 30px; cursor:pointer; transition:all .35s; margin-top:6px; }
-.ct-sub:hover { background:var(--ink); color:var(--bg); }
+.ct-sub { align-self:flex-start; font-family:var(--sans); font-size:.5rem; letter-spacing:.24em; text-transform:uppercase; color:var(--cream-6); background:none; border:1px solid var(--ink-3); padding:12px 30px; cursor:pointer; transition:all .35s; margin-top:6px; }
+.ct-sub:hover { background:var(--cream-1); color:var(--cream-9); border-color:var(--ink-2); }
 .fok { display:none; padding:30px 0; text-align:center; }
 .fok.show { display:block; }
 .fok p { font-family:var(--serif); font-style:italic; font-size:.96rem; color:var(--ink-2); }
@@ -627,8 +629,8 @@ footer {
 @media(max-width:960px) {
   nav { padding:0 20px; }
   .n-links { display:none; }
-  .n-links.open { display:flex; flex-direction:column; position:fixed; top:0; left:0; right:0; background:rgba(245,240,232,.98); padding:68px 24px 28px; gap:14px; z-index:190; border-bottom:1px solid var(--ink-4); }
-  .n-links.open a { color:var(--ink) !important; }
+  .n-links.open { display:flex; flex-direction:column; position:fixed; top:0; left:0; right:0; background:rgba(18,16,30,.98); padding:68px 24px 28px; gap:14px; z-index:190; border-bottom:1px solid var(--ink-4); }
+  .n-links.open a { color:var(--cream-9) !important; }
   .n-ham { display:flex; }
   .hero-gallery-word { font-size:clamp(3.5rem,18vw,8rem); }
   .quote-sec { padding:80px 7vw 72px; }
@@ -690,6 +692,131 @@ footer {
 #sc0      { background-position: center 28%; }
 #sc1      { background-position: center center; }
 #sc2      { background-position: center 22%; }
+
+/* ─────────────────────────────────────
+   HOME — QUOTE EXTRAS
+───────────────────────────────────── */
+.qs-rule {
+  width: 24px; height: 1px;
+  background: var(--gold); opacity: .5;
+  margin: 0 auto 20px;
+}
+.qs-attr {
+  font-family: var(--sans);
+  font-size: .46rem; letter-spacing: .32em;
+  text-transform: uppercase; color: var(--ink-3);
+  text-align: center;
+}
+
+/* ─────────────────────────────────────
+   HOME — THREE JOURNEYS CARDS (rp-grid)
+───────────────────────────────────── */
+.recent-sec {
+  background: var(--bg);
+  border-bottom: 1px solid var(--ink-4);
+}
+.rp-head {
+  text-align: center;
+  padding: 96px 10vw 64px;
+}
+.rp-head .rv { display: block; }
+
+.rp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 0;
+}
+.rp-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 3/4;
+  background: var(--bg-light);
+}
+.rp-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform 2s var(--ease);
+}
+.rp-card:hover .rp-img { transform: scale(1.05); }
+/* Dark overlay on hover */
+.rp-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(12,10,20,.85) 0%, rgba(12,10,20,.1) 60%, transparent 100%);
+  transition: opacity .4s;
+}
+.rp-card:hover::after {
+  background: linear-gradient(to top, rgba(12,10,20,.9) 0%, rgba(12,10,20,.3) 60%, transparent 100%);
+}
+.rp-card-title {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 2;
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 300;
+  color: var(--cream-9);
+  letter-spacing: .08em;
+  text-align: center;
+  padding: 0 20px 12px;
+  transition: transform .4s var(--ease);
+}
+.rp-card-med {
+  position: absolute; bottom: 52px; left: 0; right: 0;
+  z-index: 2;
+  font-family: var(--serif);
+  font-size: .88rem;
+  color: var(--cream-4);
+  letter-spacing: .04em;
+  text-align: center;
+  font-style: italic;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .4s, transform .4s;
+}
+.rp-card:hover .rp-card-med { opacity: 1; transform: none; }
+.rp-card-poem {
+  position: absolute;
+  bottom: 80px; left: 24px; right: 24px;
+  z-index: 2;
+  font-family: var(--serif); font-style: italic;
+  font-size: .78rem;
+  color: var(--cream-4);
+  line-height: 1.7;
+  text-align: center;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .5s .1s, transform .5s .1s;
+  display: none;
+}
+
+.rp-cta-wrap {
+  text-align: center;
+  padding: 56px 10vw 88px;
+  background: var(--bg);
+}
+.rp-cta {
+  font-family: var(--sans);
+  font-size: .54rem; letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--ink-2); background: none; border: none;
+  border-bottom: 1px solid var(--ink-4);
+  padding-bottom: 5px; cursor: pointer;
+  transition: color .3s, border-color .3s;
+  display: inline-block;
+}
+.rp-cta:hover { color: var(--cream-9); border-color: var(--ink-2); }
+
+/* ─────────────────────────────────────
+   Responsive — rp-grid
+───────────────────────────────────── */
+@media(max-width: 960px) {
+  .rp-grid { grid-template-columns: 1fr; }
+  .rp-card { aspect-ratio: 4/3; }
+  .rp-cta-wrap { padding: 44px 7vw 64px; }
+  .rp-head { padding: 72px 7vw 52px; }
+}
+
 </style>
 </head>
 <body>
