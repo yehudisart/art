@@ -1205,6 +1205,137 @@
     font-size: 20px;
     cursor: pointer;
   }
+
+  /* ===== SECTION TRANSITIONS — soft dissolve between sections ===== */
+
+  /* Hero → About: bottom of hero melts into cream */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 180px;
+    z-index: 5;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(245, 242, 236, 0.6) 50%,
+      var(--cream) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* About section: top fades in from cream, bottom fades into warm-white */
+  .home-about {
+    position: relative;
+  }
+  .home-about::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 100px;
+    z-index: 2;
+    background: linear-gradient(to bottom, var(--cream) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .home-about::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    z-index: 2;
+    background: linear-gradient(to top, var(--warm-white) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Works section: top fades in, bottom fades into cream */
+  .home-works {
+    position: relative;
+  }
+  .home-works::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 100px;
+    z-index: 2;
+    background: linear-gradient(to bottom, var(--warm-white) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .home-works::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    z-index: 2;
+    background: linear-gradient(to top, var(--cream) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Quote banner: both edges dissolve */
+  .quote-banner {
+    position: relative;
+  }
+  .quote-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 80px;
+    z-index: 1;
+    background: linear-gradient(to bottom, var(--cream) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .quote-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    z-index: 1;
+    background: linear-gradient(to top, var(--cream) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Gallery page — smooth top entry */
+  .gallery-page {
+    position: relative;
+  }
+
+  /* About page hero — bottom dissolve */
+  .about-hero {
+    position: relative;
+  }
+  .about-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 100px;
+    z-index: 2;
+    background: linear-gradient(to top, var(--warm-white) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Contact image banner — dissolve top and bottom */
+  .contact-img-banner {
+    position: relative;
+  }
+  .contact-img-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 80px;
+    z-index: 1;
+    background: linear-gradient(to bottom, var(--warm-white) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .contact-img-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    z-index: 1;
+    background: linear-gradient(to top, var(--cream) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+
 </style>
 </head>
 <body>
