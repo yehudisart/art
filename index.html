@@ -65,10 +65,21 @@ nav.scrolled{border-color:var(--light-border);padding:14px 60px;}
 
 /* ── HOME ABOUT ── */
 .home-about{display:grid;grid-template-columns:1fr 1fr;min-height:75vh;background:var(--cream);position:relative;}
+.home-about-right{order:-1;}
 .home-about::after{content:'';position:absolute;bottom:0;left:0;right:0;height:100px;background:linear-gradient(to top,var(--warm-white),transparent);pointer-events:none;z-index:1;}
-.home-about-left{padding:90px 60px;display:flex;flex-direction:column;justify-content:center;}
-.home-about-right{overflow:hidden;}
-.home-about-right img{width:100%;height:100%;object-fit:cover;display:block;}
+.home-about-left{padding:90px 80px 90px 60px;display:flex;flex-direction:column;justify-content:center;}
+.home-about-right{overflow:hidden;position:relative;}
+.home-about-right img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  mix-blend-mode:multiply;
+}
+.home-about-right::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(to right, transparent 50%, var(--cream) 100%),
+    linear-gradient(to bottom, var(--cream) 0%, transparent 12%, transparent 88%, var(--cream) 100%);
+  pointer-events:none;z-index:2;
+}
 .about-ph{width:100%;height:100%;min-height:480px;background:linear-gradient(135deg,#D4C8B8,#B8A898);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:12px;letter-spacing:.2em;}
 
 /* ── SELECTED WORKS ── */
