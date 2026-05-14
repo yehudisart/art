@@ -274,16 +274,14 @@
   .hero-cta:hover { gap: 22px; color: var(--gold); }
 
   .hero-scroll {
-    position: absolute;
-    bottom: 48px;
-    left: 60px;
+    margin-top: 48px;
     display: flex;
     align-items: center;
     gap: 12px;
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--text-light);
+    color: var(--mid);
   }
 
   .hero-scroll-line {
@@ -312,42 +310,7 @@
     display: none;
   }
 
-  .slide-counter {
-    position: absolute;
-    bottom: 32px;
-    right: 40px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 10;
-  }
 
-  .slide-num {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.7);
-  }
-
-  .slide-line {
-    width: 40px;
-    height: 1px;
-    background: rgba(255,255,255,0.3);
-    position: relative;
-  }
-
-  .slide-line-fill {
-    position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    background: rgba(255,255,255,0.8);
-    transition: width 0.5s ease;
-  }
-
-  .slide-num-total {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.4);
-  }
 
   /* HOME ABOUT SECTION */
   .home-about {
@@ -671,6 +634,10 @@
     margin-bottom: 16px;
     position: relative;
     background: var(--cream);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .gallery-img-wrap img {
@@ -1385,12 +1352,7 @@
       </div>
     </div>
 
-    <!-- Slide counter bottom right -->
-    <div class="slide-counter">
-      <span class="slide-num" id="slideNum">01</span>
-      <div class="slide-line"><div class="slide-line-fill" id="slideFill" style="width:50%"></div></div>
-      <span class="slide-num-total">02</span>
-    </div>
+
 
   </section>
 
@@ -1725,7 +1687,7 @@
         <div class="form-field">
           <textarea placeholder="Message"></textarea>
         </div>
-        <button class="form-submit" type="button">
+        <button class="form-submit" type="button" onclick="handleFormSubmit(this)">
           Send Message →
         </button>
       </div>
@@ -1790,10 +1752,14 @@
   // PAGE NAVIGATION
   function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
+    const page = document.getElementById('page-' + name);
+    if (!page) return;
+    page.classList.add('active');
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-    window.scrollTo(0, 0);
-    initFadeIns();
+    const navMap = { gallery:'nav-works', about:'nav-about', contact:'nav-contact' };
+    if (navMap[name]) { const el = document.getElementById(navMap[name]); if(el) el.classList.add('active'); }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setTimeout(initFadeIns, 50);
   }
 
   // NAV SCROLL
@@ -1801,29 +1767,15 @@
     document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
   });
 
-  // HERO SLIDER
-  let slideIndex = 0;
-  const slides = document.querySelectorAll('.hero-slide');
-  function nextSlide() {
-    slides[slideIndex].classList.remove('active');
-    slideIndex = (slideIndex + 1) % slides.length;
-    slides[slideIndex].classList.add('active');
-    document.getElementById('slideNum').textContent = String(slideIndex + 1).padStart(2, '0');
-    document.getElementById('slideFill').style.width = ((slideIndex + 1) / slides.length * 100) + '%';
-  }
-  setInterval(nextSlide, 4000);
+  // HERO — static single painting (no slider needed)
 
   // GALLERY FILTER
   function filterGallery(cat, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     document.querySelectorAll('.gallery-item').forEach(item => {
-      const show = cat === 'all' || item.dataset.category === cat;
-      item.style.display = show ? '' : 'none';
+      item.style.display = (cat === 'all' || item.dataset.category === cat) ? '' : 'none';
     });
-    // Re-apply grid to avoid layout gaps
-    const grid = document.getElementById('galleryGrid');
-    if (grid) { grid.style.display = 'none'; grid.offsetHeight; grid.style.display = ''; }
   }
 
   // LIGHTBOX
@@ -1846,16 +1798,36 @@
       document.body.style.overflow = '';
     }
   }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
 
   // FADE IN ON SCROLL
   function initFadeIns() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+      return;
+    }
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.15 });
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.fade-in:not(.visible)').forEach(el => observer.observe(el));
   }
   initFadeIns();
+
+  // FORM SUBMIT
+  function handleFormSubmit(btn) {
+    const form = btn.closest('.contact-form');
+    const inputs = form ? form.querySelectorAll('input, textarea') : [];
+    let valid = true;
+    inputs.forEach(inp => {
+      if (inp.type !== 'hidden' && inp.value.trim() === '') { inp.style.borderColor = '#B8922A'; valid = false; }
+      else inp.style.borderColor = '';
+    });
+    if (valid) {
+      btn.textContent = 'Message Sent ✓';
+      btn.style.background = '#6B6660';
+      setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; if(form) form.reset(); }, 3000);
+    }
+  }
 
   // UPDATE PANEL
   function toggleUpdatePanel() {
