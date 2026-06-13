@@ -1,14 +1,13 @@
-# Yehudis Art — Website
+# Yehudis Art
 
-A single-page art gallery website for Yehudis Jewish Art.
+Static site — single `index.html`.
 
-## Structure
-- `index.html` — Main HTML
-- `style.css` — All styles
-- `main.js` — All JavaScript
-- `vercel.json` — Vercel deployment config
-
-## Deploy to Vercel
-1. Push to GitHub
-2. Connect repo in Vercel dashboard
-3. Deploy (no build command needed — static site)
+## Deploy
+```bash
+git init
+git add .
+git commit -m "init"
+git remote add origin https://github.com/YOUR/yehudis-art.git
+git push -u origin main
+```
+Then import in vercel.com → Framework: Other → Deploy.
