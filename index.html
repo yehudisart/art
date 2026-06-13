@@ -400,7 +400,6 @@ footer { padding:1.5rem 2.5rem; text-align:center; border-top:1px solid var(--bo
   <div class="ticker"><div class="ticker-inner" id="ticker-inner"></div></div>
 
   <div class="home-cats" id="hcats" style="min-height:420px"></div>
-  <div class="cat-titles-row" id="cat-titles"></div>
 
 
 
@@ -601,17 +600,6 @@ Object.entries(CATS).forEach(([k,c])=>{
   </div>`;
   el.onclick=()=>{showPage('gallery');setTimeout(()=>galEnterCat(k),20);};
   hcats.appendChild(el);
-});
-
-// Home cat-title-row
-const ctRow=document.getElementById('cat-titles');
-Object.entries(CATS).forEach(([k,c])=>{
-  const card=document.createElement('div'); card.className='cat-title-card';
-  card.innerHTML=`<div class="cat-title-en">${c.label}</div>
-  <div class="cat-title-desc">${c.desc}</div>
-  <div class="cat-title-img"><img src="${c.paintings[1]?.src||c.paintings[0].src}" alt="${c.label}" loading="lazy"></div>`;
-  card.onclick=()=>{showPage('gallery');setTimeout(()=>galEnterCat(k),20);};
-  ctRow.appendChild(card);
 });
 
 // Nav
