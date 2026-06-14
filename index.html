@@ -32,8 +32,10 @@ nav.solid { background:rgba(255,255,255,0.97); border-bottom:1px solid var(--bor
 nav.over  { background:transparent; border-bottom:1px solid transparent; }
 .logo { font-family:'EB Garamond',serif; font-size:1.4rem; font-weight:400; letter-spacing:0.06em; cursor:pointer; user-select:none; transition:color 0.4s; }
 .logo em { font-style:italic; color:var(--gold); }
-.hero-logo-wrap { display:flex; justify-content:flex-start; margin-bottom:1.5rem; }
-.hero-logo-img { width:min(480px, 80vw); height:auto; filter:brightness(0) invert(1); opacity:0.95; }
+.hero-logo-wrap { display:flex; justify-content:flex-start; margin-top:3rem; margin-bottom:1rem; }
+.hero-logo-img { width:min(420px, 75vw); height:auto; filter:brightness(0) invert(1); opacity:0; transform:translateY(40px); transition:opacity 1.1s ease, transform 1.1s ease; }
+.hero-logo-img.revealed { opacity:0.93; transform:translateY(0); }
+@keyframes heroLogoIn { from { opacity:0; transform:translateY(40px); } to { opacity:0.93; transform:translateY(0); } }
 
 .logo-img { height:54px; width:auto; filter:brightness(0) sepia(1) saturate(3.5) hue-rotate(2deg) brightness(1.6); transition:filter .3s; }
 nav.solid nav.solid .logo-img { filter:brightness(0) sepia(1) saturate(3.5) hue-rotate(2deg) brightness(1.6); }
@@ -630,6 +632,14 @@ Object.entries(CATS).forEach(([k,c])=>{
 
 // Nav
 const navEl=document.getElementById('nav');
+// Hero logo reveal
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var heroLogo = document.querySelector('.hero-logo-img');
+    if (heroLogo) heroLogo.classList.add('revealed');
+  }, 400);
+});
+
 function setNav(id){
   if(id==='gallery'||id==='about-page') navEl.className='solid';
   else navEl.className='over';
