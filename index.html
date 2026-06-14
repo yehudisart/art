@@ -343,6 +343,11 @@ nav.over .nav-cta:hover { border-color:var(--gold); color:var(--gold); }
 .lb-cap { font-family:'EB Garamond',serif; font-style:italic; font-size:1rem; color:var(--muted); }
 .lb-close { position:fixed; top:1.5rem; right:2rem; background:none; border:1px solid var(--border); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.9rem; color:var(--muted); z-index:501; cursor:pointer; transition:border-color 0.2s, color 0.2s; }
 .lb-close:hover { border-color:var(--ink); color:var(--ink); }
+.lb-bg-picker { display:flex; align-items:center; gap:.55rem; margin-top:.25rem; }
+.lb-bg-label { font-family:'Inter',sans-serif; font-size:.65rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-right:.25rem; }
+.lb-bg-swatch { width:22px; height:22px; border-radius:50%; border:2px solid transparent; cursor:pointer; transition:transform .15s, border-color .15s; padding:0; }
+.lb-bg-swatch:hover { transform:scale(1.18); }
+.lb-bg-swatch.active { border-color:var(--gold); transform:scale(1.18); }
 
 footer { padding:1.5rem 2.5rem; text-align:center; border-top:1px solid var(--border); font-size:0.65rem; letter-spacing:0.14em; color:var(--light); }
 
@@ -571,6 +576,16 @@ footer { padding:1.5rem 2.5rem; text-align:center; border-top:1px solid var(--bo
   </button>
   <img id="lb-img" src="" alt="" onclick="event.stopPropagation()">
   <p class="lb-cap" id="lb-cap"></p>
+  <div class="lb-bg-picker" onclick="event.stopPropagation()">
+    <span class="lb-bg-label">רקע</span>
+    <button class="lb-bg-swatch active" data-color="#FFFFFF" style="background:#FFFFFF" onclick="setLbBg(this,'#FFFFFF')" title="לבן"></button>
+    <button class="lb-bg-swatch" data-color="#F5F0E8" style="background:#F5F0E8" onclick="setLbBg(this,'#F5F0E8')" title="בז׳"></button>
+    <button class="lb-bg-swatch" data-color="#E8E4DC" style="background:#E8E4DC" onclick="setLbBg(this,'#E8E4DC')" title="בז׳ עמוק"></button>
+    <button class="lb-bg-swatch" data-color="#D6D0C4" style="background:#D6D0C4" onclick="setLbBg(this,'#D6D0C4')" title="גרייג׳"></button>
+    <button class="lb-bg-swatch" data-color="#C2BDB4" style="background:#C2BDB4" onclick="setLbBg(this,'#C2BDB4')" title="אפור חם"></button>
+    <button class="lb-bg-swatch" data-color="#9E9E9E" style="background:#9E9E9E" onclick="setLbBg(this,'#9E9E9E')" title="אפור"></button>
+    <button class="lb-bg-swatch" data-color="#2C2C2C" style="background:#2C2C2C" onclick="setLbBg(this,'#2C2C2C')" title="שחור"></button>
+  </div>
   <button class="lb-arr lb-arr-r" onclick="event.stopPropagation();lbNav(1)">
     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
@@ -741,6 +756,23 @@ function submitContact(e){
   window.location.href = mailto;
   document.getElementById('cp-success').classList.add('show');
   e.target.reset();
+}
+function setLbBg(el, color){
+  document.getElementById('lb').style.background = color;
+  document.querySelectorAll('.lb-bg-swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  // adjust caption and arrow colors for dark backgrounds
+  const dark = ['#2C2C2C','#3D3D3D'];
+  const isDark = dark.includes(color);
+  document.getElementById('lb-cap').style.color = isDark ? 'rgba(255,255,255,.6)' : '';
+  document.querySelectorAll('.lb-arr').forEach(a => {
+    a.style.background = isDark ? 'rgba(255,255,255,.12)' : '';
+    a.style.color = isDark ? '#fff' : '';
+    a.style.borderColor = isDark ? 'rgba(255,255,255,.2)' : '';
+  });
+  document.querySelector('.lb-close').style.color = isDark ? '#fff' : '';
+  document.querySelector('.lb-close').style.borderColor = isDark ? 'rgba(255,255,255,.3)' : '';
+  document.querySelector('.lb-bg-label').style.color = isDark ? 'rgba(255,255,255,.5)' : '';
 }
 function closeLB(){document.getElementById('lb').classList.remove('open');}
 document.getElementById('lb').addEventListener('click',e=>{if(e.target.id==='lb')closeLB();});
