@@ -340,10 +340,10 @@ nav.over .nav-cta:hover { border-color:var(--gold); color:var(--gold); }
 
 
 /* ── Premium Gallery Viewer ── */
-/* #lb handled above */
+#lb { position:fixed; inset:0; z-index:1000; background:#111; display:flex; align-items:center; justify-content:center; flex-direction:column; opacity:0; pointer-events:none; transition:opacity .5s ease; }
 #lb.open { opacity:1; pointer-events:all; }
 .lb-canvas { position:relative; display:flex; flex-direction:column; align-items:center; max-width:90vw; max-height:90vh; }
-.lb-zoom-wrap { overflow:hidden; cursor:zoom-in; position:relative; }
+.lb-zoom-wrap { overflow:visible; cursor:zoom-in; position:relative; }
 .lb-zoom-wrap.zoomed { cursor:grab; }
 .lb-zoom-wrap.dragging { cursor:grabbing; }
 #lb-img { display:block; max-width:85vw; max-height:78vh; object-fit:contain; transform-origin:center center; transition:opacity .22s ease, transform .15s ease; user-select:none; -webkit-user-drag:none; will-change:transform; }
@@ -820,108 +820,74 @@ setNav('home');
 
 // ── Premium Zoom/Pan Engine ──
 (function(){
-  let scale = 1, originX = 0, originY = 0;
-  let isDragging = false, startX = 0, startY = 0, dragX = 0, dragY = 0;
-  const MIN = 1, MAX = 5;
+  let scale=1, tx=0, ty=0, dragging=false, lastX=0, lastY=0;
+  const MIN=1, MAX=5;
+  function gi(){ return document.getElementById('lb-img'); }
+  function gw(){ return document.getElementById('lb-zoom-wrap'); }
+  function isOpen(){ const lb=document.getElementById('lb'); return lb&&lb.classList.contains('open'); }
+  function cl(v,a,b){ return Math.max(a,Math.min(b,v)); }
 
-  function getImg() { return document.getElementById('lb-img'); }
-  function getWrap() { return document.getElementById('lb-zoom-wrap'); }
-
-  window.resetZoom = function() {
-    scale = 1; originX = 0; originY = 0; dragX = 0; dragY = 0;
-    const img = getImg(); const wrap = getWrap();
-    if (!img || !wrap) return;
-    img.style.transform = '';
-    img.style.transition = 'opacity .22s ease, transform .15s ease';
-    img.style.opacity = '1';
-    wrap.classList.remove('zoomed','dragging');
-    wrap.style.cursor = 'zoom-in';
+  window.resetZoom=function(){
+    scale=1; tx=0; ty=0;
+    const i=gi(),w=gw(); if(!i||!w) return;
+    i.style.transition='opacity .22s ease';
+    i.style.transform='none';
+    i.style.opacity='1';
+    w.style.cursor='zoom-in';
   };
 
-  function clamp(val, mn, mx) { return Math.min(Math.max(val, mn), mx); }
-
-  function applyTransform(animate) {
-    const img = getImg();
-    if (!img) return;
-    img.style.transition = animate ? 'transform .35s cubic-bezier(.25,.46,.45,.94)' : 'transform .05s linear';
-    img.style.transform = `scale(${scale}) translate(${originX/scale}px, ${originY/scale}px)`;
+  function apply(anim){
+    const i=gi(); if(!i) return;
+    i.style.transition=anim?'transform .3s cubic-bezier(.25,.46,.45,.94)':'none';
+    i.style.transform=scale===1?'none':`translate(${tx}px,${ty}px) scale(${scale})`;
+    const w=gw(); if(w) w.style.cursor=scale>1?'grab':'zoom-in';
   }
 
-  // Mouse wheel zoom
-  document.addEventListener('wheel', function(e) {
-    const lb = document.getElementById('lb');
-    if (!lb || !lb.classList.contains('open')) return;
+  document.addEventListener('wheel',function(e){
+    if(!isOpen()) return;
     e.preventDefault();
-    const delta = e.deltaY < 0 ? 0.15 : -0.15;
-    const newScale = clamp(scale + delta * scale, MIN, MAX);
-    if (newScale === MIN) { scale = MIN; originX = 0; originY = 0; applyTransform(true); getWrap().classList.remove('zoomed'); getWrap().style.cursor='zoom-in'; return; }
-    // zoom toward cursor
-    const img = getImg();
-    const rect = img.getBoundingClientRect();
-    const cx = e.clientX - rect.left - rect.width/2;
-    const cy = e.clientY - rect.top - rect.height/2;
-    originX += cx * (1 - newScale/scale);
-    originY += cy * (1 - newScale/scale);
-    scale = newScale;
-    applyTransform(false);
-    getWrap().classList.add('zoomed');
-    getWrap().style.cursor = 'grab';
-  }, { passive: false });
+    const ns=cl(scale*(e.deltaY<0?1.12:0.9),MIN,MAX);
+    if(ns===MIN){scale=1;tx=0;ty=0;apply(true);return;}
+    const i=gi(),r=i.getBoundingClientRect();
+    tx+=(e.clientX-r.left-r.width/2)*(1-ns/scale);
+    ty+=(e.clientY-r.top-r.height/2)*(1-ns/scale);
+    scale=ns; apply(false);
+  },{passive:false});
 
-  // Drag to pan
-  document.addEventListener('mousedown', function(e) {
-    if (scale <= 1) return;
-    const wrap = getWrap();
-    if (!wrap || !wrap.contains(e.target)) return;
-    isDragging = true;
-    startX = e.clientX - dragX;
-    startY = e.clientY - dragY;
-    wrap.classList.add('dragging');
-    e.preventDefault();
+  document.addEventListener('mousedown',function(e){
+    if(!isOpen()||scale<=1) return;
+    const w=gw(); if(!w||!w.contains(e.target)) return;
+    dragging=true; lastX=e.clientX; lastY=e.clientY;
+    w.style.cursor='grabbing'; e.preventDefault();
   });
-  document.addEventListener('mousemove', function(e) {
-    if (!isDragging) return;
-    dragX = e.clientX - startX;
-    dragY = e.clientY - startY;
-    originX = dragX; originY = dragY;
-    applyTransform(false);
+  document.addEventListener('mousemove',function(e){
+    if(!dragging) return;
+    tx+=e.clientX-lastX; ty+=e.clientY-lastY;
+    lastX=e.clientX; lastY=e.clientY; apply(false);
   });
-  document.addEventListener('mouseup', function() {
-    if (!isDragging) return;
-    isDragging = false;
-    const wrap = getWrap();
-    if (wrap) wrap.classList.remove('dragging');
+  document.addEventListener('mouseup',function(){
+    if(!dragging) return; dragging=false;
+    const w=gw(); if(w) w.style.cursor=scale>1?'grab':'zoom-in';
   });
 
-  // Double-click to zoom/reset
-  document.addEventListener('dblclick', function(e) {
-    const lb = document.getElementById('lb');
-    if (!lb || !lb.classList.contains('open')) return;
-    const wrap = getWrap();
-    if (!wrap || !wrap.contains(e.target)) return;
+  document.addEventListener('dblclick',function(e){
+    if(!isOpen()) return;
+    const w=gw(); if(!w||!w.contains(e.target)) return;
     e.stopPropagation();
-    if (scale > 1) { scale = 1; originX = 0; originY = 0; dragX = 0; dragY = 0; applyTransform(true); wrap.classList.remove('zoomed'); wrap.style.cursor='zoom-in'; }
-    else { scale = 2.5; applyTransform(true); wrap.classList.add('zoomed'); wrap.style.cursor='grab'; }
+    if(scale>1){scale=1;tx=0;ty=0;apply(true);}
+    else{scale=2.2;apply(true);}
   });
 
-  // Touch pinch zoom
-  let lastDist = 0;
-  document.addEventListener('touchstart', function(e) {
-    if (e.touches.length === 2) { lastDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); }
-  }, { passive: true });
-  document.addEventListener('touchmove', function(e) {
-    const lb = document.getElementById('lb');
-    if (!lb || !lb.classList.contains('open')) return;
-    if (e.touches.length === 2) {
-      e.preventDefault();
-      const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-      const delta = dist / lastDist;
-      scale = clamp(scale * delta, MIN, MAX);
-      lastDist = dist;
-      applyTransform(false);
-      if (scale > 1) getWrap().classList.add('zoomed');
-    }
-  }, { passive: false });
+  let t0d=0,t0s=1;
+  document.addEventListener('touchstart',function(e){
+    if(e.touches.length===2){t0d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);t0s=scale;}
+  },{passive:true});
+  document.addEventListener('touchmove',function(e){
+    if(!isOpen()||e.touches.length!==2) return;
+    e.preventDefault();
+    const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    scale=cl(t0s*(d/t0d),MIN,MAX); apply(false);
+  },{passive:false});
 })();
 
 </script>
