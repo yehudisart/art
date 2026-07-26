@@ -14,20 +14,20 @@
 <meta property="og:site_name" content="Yehudis Jacobs">
 <meta property="og:title" content="Yehudis Jacobs — Contemporary Jewish Art">
 <meta property="og:description" content="Original oil paintings layered with real gold leaf, created in Jerusalem — for homes that carry the weight of something holy.">
-<meta property="og:image" content="https://yehudis.art/assets/img/banner.jpg">
+<meta property="og:image" content="https://yehudis.art/assets/img/hero.jpg">
 <meta property="og:image:alt" content="Detail of an oil and gold-leaf painting by Yehudis Jacobs">
 <meta property="og:url" content="https://yehudis.art/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Yehudis Jacobs — Contemporary Jewish Art">
 <meta name="twitter:description" content="Original oil paintings layered with real gold leaf, created in Jerusalem.">
-<meta name="twitter:image" content="https://yehudis.art/assets/img/banner.jpg">
+<meta name="twitter:image" content="https://yehudis.art/assets/img/hero.jpg">
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="/assets/video/hero-poster.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="/assets/img/hero.webp" type="image/webp" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <script type="application/ld+json">
@@ -202,11 +202,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   width:100%; height:100%; object-fit:cover;
 }
 .hero-poster { animation:kenburns 22s ease-in-out infinite alternate; }
-.hero-video {
-  position:absolute; inset:0;
-  opacity:0; transition:opacity 1.2s ease;
-}
-.hero-video.ready { opacity:.88; }
 @keyframes kenburns {
   from { transform:scale(1.02); }
   to   { transform:scale(1.12) translate(-1%, .8%); }
@@ -231,18 +226,19 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   margin-bottom:1.2rem; opacity:0; animation:fadeUp 1s ease .25s forwards;
 }
 .hh1 {
-  font-family:var(--serif); font-size:clamp(2.5rem,6.5vw,6rem); font-weight:400;
-  line-height:1; color:var(--white); margin-bottom:1.6rem;
-  opacity:0; animation:fadeUp 1s ease .4s forwards;
+  font-family:var(--serif); font-size:clamp(2.2rem,5.5vw,4.6rem); font-weight:400;
+  line-height:1.05; color:var(--white); margin-bottom:1.1rem;
+  text-transform:uppercase; letter-spacing:.06em;
+  opacity:0; animation:fadeUp 1s ease .25s forwards;
   text-wrap:balance;
 }
 .hh1 em { font-style:italic; color:var(--gold-l); display:block; font-size:1.08em; }
 .hsub {
-  font-size:.9rem; line-height:1.85; color:rgba(255,255,255,.65);
-  max-width:430px; margin-bottom:2.4rem;
-  opacity:0; animation:fadeUp 1s ease .55s forwards;
+  font-size:.72rem; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--gold-l); margin-bottom:2.4rem;
+  opacity:0; animation:fadeUp 1s ease .4s forwards;
 }
-.hcta { display:flex; gap:.9rem; flex-wrap:wrap; opacity:0; animation:fadeUp 1s ease .7s forwards; }
+.hcta { display:flex; gap:.9rem; flex-wrap:wrap; opacity:0; animation:fadeUp 1s ease .55s forwards; }
 
 .scrl {
   position:absolute; bottom:2.5rem; right:3rem; z-index:2;
@@ -287,32 +283,70 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 .ti { font-family:var(--serif); font-size:.82rem; font-style:italic; letter-spacing:.14em; color:var(--muted); padding:0 1.6rem; }
 .ti-sep { color:var(--gold-l); font-size:.55rem; }
 
-/* ═══ HOME CATEGORY CARDS ═══ */
-.home-cats { display:grid; grid-template-columns:repeat(3,1fr); border-bottom:1px solid var(--border); }
-.hcat {
-  position:relative; overflow:hidden; min-height:380px;
-  background:none; border:none; padding:0; display:block; text-align:left;
-  border-right:1px solid var(--border);
+/* ═══ STATEMENT ═══ */
+.statement {
+  padding:6rem var(--pad-x); text-align:center;
+  border-top:1px solid var(--border); background:var(--white);
 }
-.hcat:last-child { border-right:none; }
-.hcat-img { position:absolute; inset:0; display:block; }
-.hcat-img img {
-  width:100%; height:100%; object-fit:cover; filter:brightness(.72);
-  transition:transform .7s cubic-bezier(.25,.46,.45,.94), filter .5s;
+.statement-lead {
+  font-family:var(--serif); font-size:clamp(1.5rem,3.2vw,2.3rem); font-style:italic;
+  line-height:1.4; max-width:44rem; margin:0 auto 1.6rem; text-wrap:balance;
 }
-.hcat:hover .hcat-img img, .hcat:focus-visible .hcat-img img { transform:scale(1.05); filter:brightness(.85); }
-.hcat-body {
-  position:absolute; bottom:0; left:0; right:0; padding:2rem 1.8rem; display:block;
-  background:linear-gradient(to top, rgba(26,23,20,.9) 0%, transparent 100%);
+.statement-body {
+  font-size:.9rem; line-height:1.9; color:var(--muted);
+  max-width:32rem; margin:0 auto;
 }
-.hcat-en   { display:block; font-family:var(--serif); font-size:2rem; font-style:italic; color:var(--white); line-height:1; margin-bottom:.4rem; }
-.hcat-desc { display:block; font-size:.7rem; color:rgba(255,255,255,.6); letter-spacing:.06em; }
-.hcat-cta  {
-  display:inline-block; margin-top:.9rem;
-  font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold);
-  opacity:0; transform:translateY(5px); transition:opacity .3s, transform .3s;
+
+/* ═══ SELECTED WORKS ═══ */
+.selected { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); background:var(--off); }
+.selected-h {
+  font-family:var(--serif); font-size:clamp(1.6rem,3vw,2.2rem); font-weight:400; font-style:italic;
+  margin-bottom:2.5rem;
 }
-.hcat:hover .hcat-cta, .hcat:focus-visible .hcat-cta { opacity:1; transform:none; }
+.selected-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem;
+  max-width:1100px; margin:0 auto;
+}
+.sw {
+  background:none; border:none; padding:0; display:block; width:100%; text-align:left;
+  transition:transform .3s;
+}
+.sw:hover, .sw:focus-visible { transform:translateY(-4px); }
+.sw-img { display:block; overflow:hidden; aspect-ratio:4/5; background:var(--border); }
+.sw-img img {
+  width:100%; height:100%; object-fit:cover; filter:brightness(.94);
+  transition:transform .65s cubic-bezier(.25,.46,.45,.94), filter .4s;
+}
+.sw:hover .sw-img img, .sw:focus-visible .sw-img img { transform:scale(1.05); filter:brightness(1); }
+.sw-title { display:block; font-family:var(--serif); font-size:1.15rem; font-style:italic; margin-top:.9rem; }
+.sw-med   { display:block; font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--light); margin-top:.2rem; }
+.selected-more {
+  margin-top:2.5rem; position:relative;
+  background:none; border:none; border-bottom:1px solid var(--gold);
+  font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold);
+  padding:.4rem 0; transition:color .2s, border-color .2s;
+}
+.selected-more::after { content:''; position:absolute; inset:-11px -8px; }
+.selected-more:hover { color:var(--ink); border-color:var(--ink); }
+
+/* ═══ ABOUT PREVIEW ═══ */
+.about-preview { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--border); }
+.ap-img { overflow:hidden; min-height:320px; background:var(--off); }
+.ap-img img { width:100%; height:100%; object-fit:cover; }
+.ap-text {
+  padding:5rem; display:flex; flex-direction:column; justify-content:center;
+  border-left:1px solid var(--border);
+}
+.ap-h { font-family:var(--serif); font-size:clamp(1.6rem,3vw,2.2rem); font-weight:400; font-style:italic; margin-bottom:1.2rem; }
+.ap-p { font-size:.9rem; line-height:1.9; color:var(--muted); max-width:29rem; margin-bottom:1.6rem; }
+.ap-cta {
+  align-self:flex-start; position:relative;
+  background:none; border:none; border-bottom:1px solid var(--gold);
+  font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold);
+  padding:.4rem 0; transition:color .2s, border-color .2s;
+}
+.ap-cta::after { content:''; position:absolute; inset:-11px -8px; }
+.ap-cta:hover { color:var(--ink); border-color:var(--ink); }
 
 /* ═══ HOME CONTACT FOOTER ═══ */
 .home-contact-footer { padding:6rem var(--pad-x) 5rem; text-align:center; border-top:1px solid var(--border); }
@@ -341,6 +375,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 .gal-picker-head { text-align:center; margin-bottom:3rem; }
 .gal-picker-eyebrow { font-size:.6rem; letter-spacing:.4em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:.9rem; }
 .gal-picker-title { font-family:var(--serif); font-size:clamp(1.9rem,4vw,3rem); font-weight:400; font-style:italic; }
+.gal-picker-intro { font-size:.85rem; line-height:1.8; color:var(--muted); max-width:34rem; margin:.9rem auto 0; }
 .gal-picker-title em { color:var(--gold); }
 
 .gal-picker-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; max-width:960px; margin:0 auto; width:100%; }
@@ -588,6 +623,12 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     padding:.85rem 1rem; font-size:.7rem;
   }
 
+  .about-preview  { grid-template-columns:1fr; }
+  .ap-img         { aspect-ratio:16/10; min-height:0; order:1; }
+  .ap-text        { order:2; border-left:none; border-top:1px solid var(--border); padding:3.5rem 2.5rem; }
+  .selected-grid  { grid-template-columns:repeat(2,1fr); gap:1.2rem; }
+  .statement      { padding:4rem var(--pad-x); }
+
   .banner-strip   { grid-template-columns:1fr; min-height:0; }
   .banner-text    { border-right:none; border-bottom:1px solid var(--border); order:2; }
   .banner-img     { order:1; aspect-ratio:16/10; min-height:0; }
@@ -615,8 +656,8 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   .hero { min-height:480px; }
   .hcontent { padding:var(--nav-h) 1.5rem 3.5rem; padding-bottom:calc(3.5rem + env(safe-area-inset-bottom)); }
   .heyebrow { font-size:.56rem; letter-spacing:.32em; margin-bottom:.9rem; }
-  .hh1 { font-size:clamp(2.1rem,9.5vw,3rem); margin-bottom:1.1rem; }
-  .hsub { font-size:.85rem; line-height:1.75; margin-bottom:1.8rem; max-width:none; }
+  .hh1 { font-size:clamp(1.75rem,8vw,2.6rem); letter-spacing:.04em; margin-bottom:.9rem; }
+  .hsub { font-size:.62rem; letter-spacing:.28em; margin-bottom:1.8rem; }
   .hcta { gap:.6rem; }
   .hcta .btn-dark, .hcta .btn-outline { flex:1 1 auto; min-width:0; padding:.85rem 1rem; font-size:.66rem; letter-spacing:.12em; }
   .scrl { display:none; }
@@ -628,12 +669,12 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   .ti { font-size:.75rem; padding:0 1.1rem; }
 
   /* Captions must be visible on touch — there is no hover */
-  .home-cats { grid-template-columns:1fr; }
-  .hcat { min-height:300px; border-right:none; border-bottom:1px solid var(--border); }
-  .hcat:last-child { border-bottom:none; }
-  .hcat-body { padding:1.5rem 1.25rem; }
-  .hcat-en { font-size:1.7rem; }
-  .hcat-cta { opacity:1; transform:none; }
+  .statement       { padding:3.5rem 1.25rem; }
+  .selected        { padding:3.5rem 1.25rem; }
+  .selected-grid   { grid-template-columns:1fr; gap:1.75rem; max-width:400px; }
+  .selected-h      { margin-bottom:1.75rem; }
+  .ap-text         { padding:3rem 1.25rem; }
+  .ap-img          { aspect-ratio:4/3; }
 
   .home-contact-footer { padding:4rem 1.25rem 3.5rem; }
   .hcf-links { gap:1.6rem 2rem; }
@@ -675,7 +716,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 }
 
 @media (max-width:380px) {
-  .hh1 { font-size:1.95rem; }
+  .hh1 { font-size:1.6rem; }
   .hcta { flex-direction:column; }
   .hcta .btn-dark, .hcta .btn-outline { width:100%; }
 }
@@ -746,24 +787,20 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   <section class="hero" aria-label="Introduction">
     <div class="hero-media">
       <picture>
-        <source srcset="/assets/video/hero-poster.webp" type="image/webp">
-        <img class="hero-poster" src="/assets/video/hero-poster.jpg"
-             alt="Detail of an oil and gold-leaf painting by Yehudis Jacobs"
-             width="720" height="960" fetchpriority="high" decoding="async">
+        <source srcset="/assets/img/hero.webp" type="image/webp">
+        <img class="hero-poster" src="/assets/img/hero.jpg"
+             alt="Painting by Yehudis Jacobs, oil and gold leaf on canvas"
+             width="1280" height="1706" fetchpriority="high" decoding="async">
       </picture>
-      <video class="hero-video" id="hero-video" muted loop playsinline preload="none"
-             aria-hidden="true" tabindex="-1" disablepictureinpicture></video>
     </div>
     <div class="hero-ov"></div>
     <div class="hero-fade"></div>
 
     <div class="hcontent">
-      <p class="heyebrow">Contemporary Jewish Art</p>
-      <h1 class="hh1">Art that speaks what<em>words cannot hold</em></h1>
-      <p class="hsub">Original oil paintings layered with real gold leaf — created in Jerusalem, for homes that carry the weight of something holy.</p>
+      <h1 class="hh1">Yehudis Jacobs</h1>
+      <p class="hsub">Original Paintings</p>
       <div class="hcta">
-        <button class="btn-dark" data-page="gallery">Enter gallery</button>
-        <button class="btn-outline" data-page="about-page">About Yehudis</button>
+        <button class="btn-dark" data-page="gallery">Explore the Collection</button>
       </div>
     </div>
 
@@ -773,12 +810,16 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     </div>
   </section>
 
+  <section class="statement">
+    <p class="statement-lead">I believe the most meaningful paintings are the ones that continue to reveal themselves over time.</p>
+    <p class="statement-body">A painting should never end with the first glance. Each encounter offers an opportunity to discover something new, something personal, something that speaks differently to every viewer.</p>
+  </section>
+
   <section class="banner-strip">
     <div class="banner-text">
       <p class="banner-eyebrow">Original works · Gold leaf · Oil on canvas</p>
-      <h2 class="banner-heading">Every painting holds<br>a world within it</h2>
-      <p class="banner-body">Some experiences, emotions, and truths live beyond words. Art has the ability to reach those places, giving shape to what we often feel long before we can explain it.</p>
-      <p class="banner-body">Original works are available for private collection. Prints and commissions welcome.</p>
+      <h2 class="banner-heading">Every painting tells a different story to every person who lives with it.</h2>
+      <p class="banner-body">Original paintings available for private collections. Selected works, commissions, and limited edition prints are available upon request.</p>
       <button class="banner-cta" data-page="contact-page">Get in touch →</button>
     </div>
     <div class="banner-img">
@@ -792,16 +833,35 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 
   <div class="ticker" aria-hidden="true"><div class="ticker-inner" id="ticker-inner"></div></div>
 
-  <section class="home-cats" id="hcats" aria-label="Collections"></section>
+  <section class="selected" aria-labelledby="selected-h">
+    <h2 class="selected-h" id="selected-h">Selected Works</h2>
+    <div class="selected-grid" id="selected-grid"></div>
+    <button class="selected-more" data-page="gallery">View the full collection →</button>
+  </section>
+
+  <section class="about-preview">
+    <div class="ap-img">
+      <picture>
+        <source srcset="/assets/img/about.webp" type="image/webp">
+        <img src="/assets/img/about.jpg" alt="Painting of sages by Yehudis Jacobs"
+             width="600" height="533" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <div class="ap-text">
+      <h2 class="ap-h">About the Artist</h2>
+      <p class="ap-p">Art has always been my way of exploring what words cannot fully express. Through painting, I hope to create works that invite reflection, inspire the spirit, and continue to reveal themselves over time.</p>
+      <button class="ap-cta" data-page="about-page">Read more →</button>
+    </div>
+  </section>
 
   <section class="home-contact-footer">
     <span class="hcf-eyebrow">Yehudis Jacobs</span>
-    <h2 class="hcf-heading">Find the painting that <em>was meant for your home</em></h2>
-    <p class="hcf-sub">Originals · Limited prints · Private commissions</p>
+    <h2 class="hcf-heading">Discover the Painting That <em>Speaks to You</em></h2>
+    <p class="hcf-sub">Explore the collection and find the piece that feels uniquely your own.</p>
     <div class="hcf-links" id="hcf-links"></div>
     <div class="hcf-btns">
-      <button class="btn-dark" data-page="gallery">Enter gallery</button>
-      <button class="btn-ghost" data-page="about-page">About Yehudis</button>
+      <button class="btn-dark" data-page="gallery">View the Collection</button>
+      <button class="btn-ghost" data-page="about-page">About the Artist</button>
     </div>
   </section>
 
@@ -813,8 +873,8 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 
   <section class="gal-picker" id="gal-picker">
     <div class="gal-picker-head">
-      <span class="gal-picker-eyebrow">The collection</span>
-      <h1 class="gal-picker-title">Choose a <em>world</em></h1>
+      <h1 class="gal-picker-title">The <em>Collection</em></h1>
+      <p class="gal-picker-intro">Original works created to inspire reflection, beauty, and quiet discovery.</p>
     </div>
     <div class="gal-picker-grid" id="gal-picker-grid"></div>
   </section>
@@ -878,8 +938,8 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   <div class="contact-page-wrap">
     <div class="cp-left">
       <span class="cp-eyebrow">Get in touch</span>
-      <h1 class="cp-title">Let's <em>connect</em></h1>
-      <p class="cp-sub">Whether you are looking for a specific piece, a commission for your home, or simply want to connect — Yehudis would be glad to hear from you.</p>
+      <h1 class="cp-title">Let&rsquo;s <em>Connect</em></h1>
+      <p class="cp-sub">Whether you&rsquo;re interested in an original painting, a commissioned work, or simply wish to learn more, I would be delighted to hear from you.</p>
 
       <div class="cp-links" id="cp-links"></div>
 
@@ -1045,49 +1105,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
         '<a class="cp-link-val" href="' + esc(SITE.facebook) + '" target="_blank" rel="noopener noreferrer">' + esc(SITE.facebookName) + '</a></div>';
   })();
 
-  /* ═══ HERO VIDEO — poster first, video only when it's worth it ═══ */
-  (function heroVideo() {
-    var v = $('#hero-video');
-    if (!v || reduceMotion) return;
-
-    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    if (conn) {
-      if (conn.saveData) return;
-      if (/^(slow-2g|2g|3g)$/.test(conn.effectiveType || '')) return;
-    }
-
-    var start = function () {
-      var src = document.createElement('source');
-      src.src = '/assets/video/hero.mp4';
-      src.type = 'video/mp4';
-      v.appendChild(src);
-      v.load();
-      v.addEventListener('canplay', function () {
-        var p = v.play();
-        if (p && p.catch) { p.catch(function () { /* autoplay blocked — poster stays */ }); }
-        v.classList.add('ready');
-      }, { once: true });
-    };
-
-    if ('requestIdleCallback' in window) { requestIdleCallback(start, { timeout: 2500 }); }
-    else { setTimeout(start, 1200); }
-
-    /* Don't burn battery when the hero isn't on screen */
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (!v.src && !v.querySelector('source')) return;
-          if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-          else { v.pause(); }
-        });
-      }, { threshold: 0.05 }).observe($('.hero'));
-    }
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) { v.pause(); }
-      else if ($('#home').classList.contains('active')) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-    });
-  })();
-
   /* ═══ TICKER ═══ */
   (function ticker() {
     var words = ['Soul', '·', 'Light', '·', 'Story', '·', 'Oil on canvas', '·', 'Gold leaf', '·', 'Jerusalem', '·'];
@@ -1102,22 +1119,26 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     inner.appendChild(frag);
   })();
 
-  /* ═══ HOME CATEGORY CARDS ═══ */
-  (function homeCats() {
-    var wrap = $('#hcats');
-    CATEGORIES.forEach(function (c) {
+  /* ═══ SELECTED WORKS (home) ═══ */
+  var FEATURED = ['melody', 'garden-of-eden', 'jerusalem-of-gold'];
+
+  (function selectedWorks() {
+    var grid = $('#selected-grid');
+    FEATURED.forEach(function (slug) {
+      var found = null, cat = null;
+      CATEGORIES.forEach(function (c) {
+        c.paintings.forEach(function (pt) { if (pt.img === slug) { found = pt; cat = c; } });
+      });
+      if (!found) return;
       var b = document.createElement('button');
-      b.className = 'hcat';
-      b.setAttribute('aria-label', 'View the ' + c.label + ' collection');
+      b.className = 'sw';
+      b.setAttribute('aria-label', 'View ' + found.title + ' in the ' + cat.label + ' collection');
       b.innerHTML =
-        '<span class="hcat-img">' + picture(c.cover, '', '-sm', null, null, false) + '</span>' +
-        '<span class="hcat-body">' +
-          '<span class="hcat-en">' + esc(c.label) + '</span>' +
-          '<span class="hcat-desc">' + esc(c.desc) + '</span>' +
-          '<span class="hcat-cta">Explore →</span>' +
-        '</span>';
-      b.addEventListener('click', function () { navigate('gallery', c.id); });
-      wrap.appendChild(b);
+        '<span class="sw-img">' + picture(found.img, found.title + ' — ' + found.medium, '-sm', null, null, false) + '</span>' +
+        '<span class="sw-title">' + esc(found.title) + '</span>' +
+        '<span class="sw-med">' + esc(found.medium) + '</span>';
+      b.addEventListener('click', function () { navigate('gallery', cat.id); });
+      grid.appendChild(b);
     });
   })();
 
