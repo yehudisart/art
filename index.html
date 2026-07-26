@@ -36,11 +36,11 @@
   "@type": "VisualArtist",
   "name": "Yehudis Jacobs",
   "url": "https://yehudis.art/",
-  "jobTitle": "Painter",
+  "jobTitle": ["Painter", "Art Therapist"],
   "email": "art@yehudis.com",
   "address": { "@type": "PostalAddress", "addressLocality": "Jerusalem", "addressCountry": "IL" },
   "alumniOf": { "@type": "CollegeOrUniversity", "name": "Bezalel Academy of Arts and Design" },
-  "description": "Contemporary Jewish artist working in oil and real gold leaf."
+  "description": "Contemporary Jewish artist working in oil and real gold leaf, living and painting in Jerusalem."
 }
 </script>
 
@@ -61,9 +61,12 @@ html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
 body {
   background:var(--white); color:var(--ink);
   font-family:var(--sans); font-weight:300;
+  /* 'clip' contains overflow WITHOUT creating a scroll container, which is what
+     'hidden' does — and a scroll container silently breaks position:sticky. */
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
+@supports (overflow-x:clip) { body { overflow-x:clip; } }
 img, video { display:block; max-width:100%; }
 button { font-family:inherit; cursor:pointer; color:inherit; }
 a { color:inherit; }
@@ -412,13 +415,19 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 
 /* ═══ ABOUT ═══ */
 #about-page { padding-top:var(--nav-h); }
-.about-hero { display:grid; grid-template-columns:1fr 1fr; min-height:calc(100svh - var(--nav-h)); }
-.ah-img { overflow:hidden; background:var(--off); min-height:320px; }
+.about-hero { display:grid; grid-template-columns:1fr 1fr; align-items:start; }
+/* The bio is long, so the portrait stays pinned while the text scrolls past it
+   instead of being stretched to match the column height. */
+.ah-img {
+  position:sticky; top:var(--nav-h);
+  height:calc(100svh - var(--nav-h));
+  overflow:hidden; background:var(--off);
+}
 .ah-img img { width:100%; height:100%; object-fit:cover; }
-.ah-text { padding:5rem; display:flex; flex-direction:column; justify-content:center; background:var(--off); border-left:1px solid var(--border); }
+.ah-text { padding:5rem; background:var(--off); border-left:1px solid var(--border); }
 .ah-ey  { font-size:.62rem; letter-spacing:.38em; text-transform:uppercase; color:var(--gold); margin-bottom:1.4rem; }
-.ah-q   { font-family:var(--serif); font-size:clamp(1.2rem,2.2vw,1.4rem); font-style:italic; line-height:1.62; border-left:2px solid var(--gold); padding-left:1.3rem; margin-bottom:2rem; }
-.ah-p   { font-size:.87rem; line-height:1.9; color:var(--muted); margin-bottom:1rem; }
+.ah-q   { font-family:var(--serif); font-size:clamp(1.3rem,2.4vw,1.6rem); font-style:italic; line-height:1.55; border-left:2px solid var(--gold); padding-left:1.3rem; margin-bottom:2.2rem; max-width:28rem; }
+.ah-p   { font-size:.87rem; line-height:1.9; color:var(--muted); margin-bottom:1.15rem; max-width:29rem; }
 .ah-sig { font-family:var(--serif); font-size:1.8rem; font-style:italic; color:var(--gold); margin-top:1.2rem; }
 
 .cblock { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); }
@@ -585,7 +594,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   .banner-body    { max-width:none; }
 
   .about-hero     { grid-template-columns:1fr; min-height:0; }
-  .ah-img         { aspect-ratio:4/3; min-height:0; }
+  .ah-img         { position:static; height:auto; aspect-ratio:4/3; min-height:0; }
   .ah-text        { border-left:none; border-top:1px solid var(--border); }
 
   .contact-page-wrap { grid-template-columns:1fr; min-height:0; }
@@ -768,7 +777,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     <div class="banner-text">
       <p class="banner-eyebrow">Original works · Gold leaf · Oil on canvas</p>
       <h2 class="banner-heading">Every painting holds<br>a world within it</h2>
-      <p class="banner-body">Yehudis Jacobs was born and raised in Jerusalem, trained at Bezalel, and has spent her life listening to what colour and texture can say that language never could. Each canvas is painted slowly, in layers — oil, light, and gold leaf pressed by hand.</p>
+      <p class="banner-body">Some experiences, emotions, and truths live beyond words. Art has the ability to reach those places, giving shape to what we often feel long before we can explain it.</p>
       <p class="banner-body">Original works are available for private collection. Prints and commissions welcome.</p>
       <button class="banner-cta" data-page="contact-page">Get in touch →</button>
     </div>
@@ -839,11 +848,17 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
       </picture>
     </div>
     <div class="ah-text">
-      <p class="ah-ey">Yehudis — the artist</p>
-      <blockquote class="ah-q">“There are things a person carries that have no words. I paint for those things.”</blockquote>
-      <p class="ah-p">Yehudis Jacobs was born and raised in Jerusalem, where light, stone, and prayer shaped her earliest sense of beauty. She studied fine art at the Bezalel Academy of Arts and Design, where she developed her signature layered oil technique. Her canvases are built from bold brushstrokes, luminous pigment and real gold leaf.</p>
-      <p class="ah-p">She holds a master's degree in art therapy, a path rooted in her conviction that painting is a language of its own — one capable of holding grief, joy, longing, and faith in ways that ordinary words cannot reach. Her work is not decoration. It is a vessel.</p>
-      <p class="ah-p">Yehudis's paintings are held in private collections across Israel, the United States, and Europe. She accepts commissions for original works and is available for consultation on pieces created for the Jewish home.</p>
+      <p class="ah-ey">About the artist</p>
+      <blockquote class="ah-q">I have always seen art as the language of the soul.</blockquote>
+      <p class="ah-p">Some experiences, emotions, and truths live beyond words. Art has the ability to reach those places, giving shape to what we often feel long before we can explain it.</p>
+      <p class="ah-p">My hope is that everyone who encounters my work experiences it in a deeply personal way. I don’t believe a painting should tell the viewer what to see. I believe it should create space for discovery. The same painting may speak differently to different people, and even to the same person at different moments in life. The longer we live with a work of art, the more it has the potential to reveal.</p>
+      <p class="ah-p">If my paintings inspire reflection, bring comfort, awaken wonder, or quietly invite someone to see life from a new perspective, then they have fulfilled their purpose.</p>
+      <p class="ah-p">Painting is my way of expressing what matters most to me and of sharing it with others.</p>
+      <p class="ah-p">As an Art Therapist with a Master’s degree, I have witnessed the extraordinary power of creativity, both in the lives of those I work with and in my own life. Again and again, I have seen that art offers us a path to express what words cannot, to discover hidden parts of ourselves, and sometimes, to begin healing.</p>
+      <p class="ah-p">One of the greatest gifts of the creative process is that it continues to surprise me. Every painting becomes a journey of discovery. Often, something unexpected emerges along the way, something I could never have planned from the beginning. Those moments remind me that true creativity is not only about making something beautiful. It is also about listening.</p>
+      <p class="ah-p">My artistic education includes studies at the Bezalel Academy of Arts and Design in Jerusalem, along with years of private study under internationally recognized artists. I am deeply grateful for everything they taught me. Yet the greatest teacher has always been life itself. Every encounter, every challenge, every moment of faith, joy, longing, and growth has become part of the way I paint.</p>
+      <p class="ah-p">Living in Jerusalem, I draw continual inspiration from the timeless beauty of Jewish life, Torah, and the spiritual richness woven into everyday moments.</p>
+      <p class="ah-p">My aspiration is to express the language of the spirit through the language of art, creating paintings that continue to reveal themselves over time and become meaningful companions in the homes and lives of those who welcome them.</p>
       <p class="ah-sig">Yehudis</p>
     </div>
   </section>
