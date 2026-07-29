@@ -429,6 +429,9 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   position:relative; overflow:hidden; aspect-ratio:4/5;
   background:var(--white); border:none; padding:0; display:block; width:100%;
 }
+/* Panoramic works get a double-width cell so they are shown whole rather than
+   cropped to ~40% of their width. Applied by aspect ratio, not per painting. */
+.gg-item.wide { grid-column:span 2; aspect-ratio:2/1; }
 .gg-item img {
   width:100%; height:100%; object-fit:cover; filter:brightness(.93);
   transition:transform .65s cubic-bezier(.25,.46,.45,.94), filter .4s;
@@ -687,6 +690,8 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 
   .gal-grid { grid-template-columns:1fr; }
   .gg-item { aspect-ratio:1/1; }
+  /* Single column on phones — spanning two would overflow. */
+  .gg-item.wide { grid-column:auto; aspect-ratio:2/1; }
   .gg-cap { opacity:1; transform:none; padding:2rem 1.25rem 1rem; }
 
   .ah-text, .cp-left { padding:3rem 1.25rem; }
@@ -1033,7 +1038,8 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
       paintings: [
         { img: 'jerusalem-of-gold', title: 'Jerusalem of Gold', medium: 'Oil & gold leaf on canvas', w: 600, h: 593 },
         { img: 'the-wall',          title: 'The Wall',          medium: 'Oil on canvas',             w: 536, h: 600 },
-        { img: 'matan-torah',       title: 'Matan Torah',       medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 }
+        { img: 'matan-torah',       title: 'Matan Torah',       medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 },
+        { img: 'four-elements',     title: 'Four Elements',     medium: 'Pouring · 60×120 cm',       w: 1600, h: 820 }
       ]
     }
   ];
@@ -1227,7 +1233,8 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     grid.innerHTML = '';
     c.paintings.forEach(function (p, i) {
       var b = document.createElement('button');
-      b.className = 'gg-item';
+      /* Anything meaningfully wider than it is tall gets the double-width cell. */
+      b.className = 'gg-item' + (p.w && p.h && (p.w / p.h) >= 1.6 ? ' wide' : '');
       b.setAttribute('aria-label', 'View ' + p.title + ' full size');
       b.innerHTML =
         picture(p.img, p.title + ' — ' + p.medium, '-sm', null, null, i < 3) +
