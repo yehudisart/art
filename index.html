@@ -841,9 +841,9 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   <section class="about-preview">
     <div class="ap-img">
       <picture>
-        <source srcset="/assets/img/about.webp" type="image/webp">
-        <img src="/assets/img/about.jpg" alt="Painting of sages by Yehudis Jacobs"
-             width="600" height="533" loading="lazy" decoding="async">
+        <source srcset="/assets/img/torah.webp" type="image/webp">
+        <img src="/assets/img/torah.jpg" alt="Torah — oil on canvas by Yehudis Jacobs"
+             width="424" height="600" loading="lazy" decoding="async">
       </picture>
     </div>
     <div class="ap-text">
@@ -901,9 +901,9 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   <section class="about-hero">
     <div class="ah-img">
       <picture>
-        <source srcset="/assets/img/about.webp" type="image/webp">
-        <img src="/assets/img/about.jpg" alt="Painting of sages by Yehudis Jacobs"
-             width="600" height="533" loading="lazy" decoding="async">
+        <source srcset="/assets/img/one.webp" type="image/webp">
+        <img src="/assets/img/one.jpg" alt="One — oil on canvas by Yehudis Jacobs"
+             width="445" height="600" loading="lazy" decoding="async">
       </picture>
     </div>
     <div class="ah-text">
@@ -963,9 +963,9 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 
     <div class="cp-right">
       <picture>
-        <source srcset="/assets/img/soul.webp" type="image/webp">
-        <img src="/assets/img/soul.jpg" alt="Painting of a figure at prayer by Yehudis Jacobs"
-             width="475" height="600" loading="lazy" decoding="async">
+        <source srcset="/assets/img/prayer.webp" type="image/webp">
+        <img src="/assets/img/prayer.jpg" alt="Prayer — oil on canvas by Yehudis Jacobs"
+             width="858" height="1400" loading="lazy" decoding="async">
       </picture>
     </div>
   </div>
@@ -1020,26 +1020,27 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
      ───────────────────────────────────────────── */
   var CATEGORIES = [
     {
-      id: 'soul', label: 'Soul', desc: 'Portraits of inner light', cover: 'soul',
+      id: 'soul', label: 'Soul', desc: 'Portraits of inner light', cover: 'one',
       paintings: [
-        { img: 'melody', title: 'Melody', medium: 'Oil on canvas', w: 445, h: 600 }
+        { img: 'one',      title: 'One',      medium: 'Oil on canvas · 60×80 cm', w: 445, h: 600 },
+        { img: 'torah',    title: 'Torah',    medium: 'Oil on canvas · 70×50 cm', w: 424, h: 600 },
+        { img: 'the-wall', title: 'The Wall', medium: 'Oil on canvas',            w: 533, h: 534 }
       ]
     },
     {
-      id: 'light', label: 'Light', desc: 'Colour as radiance', cover: 'light',
+      id: 'light', label: 'Light', desc: 'Colour as radiance', cover: 'flowers',
       paintings: [
-        { img: 'flower-garden',  title: 'Flower Garden',  medium: 'Oil & gold leaf on canvas', w: 424, h: 600 },
-        { img: 'garden-of-eden', title: 'Garden of Eden', medium: 'Oil & gold leaf on canvas', w: 516, h: 600 },
-        { img: 'bloom',          title: 'Bloom',          medium: 'Oil on canvas',             w: 533, h: 534 }
+        { img: 'tower-of-david',  title: 'Tower of David',  medium: 'Oil on canvas · 50×60 cm',  w: 516, h: 600 },
+        { img: 'flowers',         title: 'Flowers',         medium: 'Oil on canvas · 70×70 cm',  w: 600, h: 593 },
+        { img: 'pouring-flowers', title: 'Pouring Flowers', medium: 'Oil on canvas · 90×100 cm', w: 536, h: 600 },
+        { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 }
       ]
     },
     {
-      id: 'story', label: 'Story', desc: 'Sacred moments in time', cover: 'story',
+      id: 'story', label: 'Story', desc: 'Sacred moments in time', cover: 'four-elements',
       paintings: [
-        { img: 'jerusalem-of-gold', title: 'Jerusalem of Gold', medium: 'Oil & gold leaf on canvas', w: 600, h: 593 },
-        { img: 'the-wall',          title: 'The Wall',          medium: 'Oil on canvas',             w: 536, h: 600 },
-        { img: 'matan-torah',       title: 'Matan Torah',       medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 },
-        { img: 'four-elements',     title: 'Four Elements',     medium: 'Pouring · 60×120 cm',       w: 1600, h: 820 }
+        { img: 'four-elements', title: 'Four Elements', medium: 'Pouring · 60×120 cm',      w: 1600, h: 820 },
+        { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 858,  h: 1400 }
       ]
     }
   ];
