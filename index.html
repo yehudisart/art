@@ -48,9 +48,10 @@
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
-  --gold:#c9a84c; --gold-l:#e8d5a0;
-  --ink:#1a1714; --white:#fff; --off:#f8f7f5;
-  --border:#e8e4de; --muted:#8c857d; --light:#b8b0a6;
+  --gold:#b9963f; --gold-l:#e8d5a0;
+  --ink:#181613; --white:#fdfcfa; --off:#f4f2ed;
+  --paper:#faf8f4; --canvas:#efece5;
+  --border:#e4dfd6; --muted:#857e75; --light:#b3aba0;
   --nav-h:60px;
   --pad-x:2.5rem;
   --serif:'EB Garamond', Georgia, 'Times New Roman', serif;
@@ -58,8 +59,16 @@
 }
 
 html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+:target, [id] { scroll-margin-top:calc(var(--nav-h) + 1rem); }
 body {
-  background:var(--white); color:var(--ink);
+  color:var(--ink);
+  /* Warm gallery paper rather than flat white — gives the works a wall to sit
+     on. The gradient is barely perceptible but stops the page reading as a
+     blank browser default. */
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #fffefc 0%, rgba(255,254,252,0) 70%),
+    linear-gradient(180deg, var(--paper) 0%, var(--off) 100%);
+  background-attachment:fixed;
   font-family:var(--sans); font-weight:300;
   /* 'clip' contains overflow WITHOUT creating a scroll container, which is what
      'hidden' does — and a scroll container silently breaks position:sticky. */
@@ -98,7 +107,7 @@ a { color:inherit; }
 .page.active { display:block; }
 
 /* ═══ NAV ═══ */
-nav {
+#nav {
   position:fixed; top:0; left:0; right:0; z-index:300;
   min-height:var(--nav-h);
   display:flex; align-items:center; justify-content:space-between;
@@ -106,8 +115,8 @@ nav {
   padding-top:env(safe-area-inset-top);
   transition:background .4s, border-color .4s;
 }
-nav.solid { background:rgba(255,255,255,.97); border-bottom:1px solid var(--border); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
-nav.over  { background:transparent; border-bottom:1px solid transparent; }
+#nav.solid { background:rgba(255,255,255,.97); border-bottom:1px solid var(--border); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+#nav.over  { background:transparent; border-bottom:1px solid transparent; }
 
 .logo {
   font-family:var(--serif); font-size:1.5rem; font-weight:400; font-style:italic;
@@ -130,12 +139,12 @@ nav.over  { background:transparent; border-bottom:1px solid transparent; }
   background:var(--gold); transform:scaleX(0); transition:transform .25s;
 }
 .nb.active::after { transform:scaleX(1); }
-nav.over  .nb            { color:rgba(255,255,255,.6); }
-nav.over  .nb:hover      { color:rgba(255,255,255,.95); }
-nav.over  .nb.active     { color:var(--white); }
-nav.solid .nb            { color:var(--muted); }
-nav.solid .nb:hover      { color:var(--ink); }
-nav.solid .nb.active     { color:var(--ink); }
+#nav.over  .nb            { color:rgba(255,255,255,.6); }
+#nav.over  .nb:hover      { color:rgba(255,255,255,.95); }
+#nav.over  .nb.active     { color:var(--white); }
+#nav.solid .nb            { color:var(--muted); }
+#nav.solid .nb:hover      { color:var(--ink); }
+#nav.solid .nb.active     { color:var(--ink); }
 
 .nav-cta {
   font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; text-decoration:none;
@@ -146,10 +155,10 @@ nav.solid .nb.active     { color:var(--ink); }
 /* The drawer carries its own Contact button; it must only appear once the
    nav collapses, otherwise the bar shows CONTACT twice. */
 .nav-center .nav-cta { display:none; }
-nav.solid .nav-cta        { color:var(--muted); border-color:var(--border); }
-nav.solid .nav-cta:hover  { border-color:var(--gold); color:var(--gold); }
-nav.over  .nav-cta        { color:rgba(255,255,255,.75); border-color:rgba(255,255,255,.3); }
-nav.over  .nav-cta:hover  { border-color:var(--gold); color:var(--gold); }
+#nav.solid .nav-cta        { color:var(--muted); border-color:var(--border); }
+#nav.solid .nav-cta:hover  { border-color:var(--gold); color:var(--gold); }
+#nav.over  .nav-cta        { color:rgba(255,255,255,.75); border-color:rgba(255,255,255,.3); }
+#nav.over  .nav-cta:hover  { border-color:var(--gold); color:var(--gold); }
 
 /* Hamburger */
 .nav-toggle {
@@ -164,11 +173,11 @@ nav.over  .nav-cta:hover  { border-color:var(--gold); color:var(--gold); }
 .nav-toggle span:nth-child(1) { top:17px; }
 .nav-toggle span:nth-child(2) { top:22px; }
 .nav-toggle span:nth-child(3) { top:27px; }
-nav.over  .nav-toggle { color:var(--white); }
-nav.solid .nav-toggle { color:var(--ink); }
-nav.menu-open .nav-toggle span:nth-child(1) { transform:translateY(5px) rotate(45deg); }
-nav.menu-open .nav-toggle span:nth-child(2) { opacity:0; }
-nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(-45deg); }
+#nav.over  .nav-toggle { color:var(--white); }
+#nav.solid .nav-toggle { color:var(--ink); }
+#nav.menu-open .nav-toggle span:nth-child(1) { transform:translateY(5px) rotate(45deg); }
+#nav.menu-open .nav-toggle span:nth-child(2) { opacity:0; }
+#nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(-45deg); }
 
 .nav-backdrop {
   display:none; position:fixed; inset:0; z-index:290;
@@ -393,11 +402,10 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 /* Gallery grid view */
 #gal-grid-view { display:none; padding-top:var(--nav-h); }
 .gal-bar {
-  position:sticky; top:var(--nav-h); z-index:100;
-  height:52px; display:flex; align-items:center; gap:1rem;
-  padding:0 var(--pad-x);
-  background:rgba(255,255,255,.97); border-bottom:1px solid var(--border);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  position:relative; z-index:1;
+  min-height:52px; display:flex; align-items:center; gap:1rem;
+  padding:.5rem var(--pad-x);
+  border-bottom:1px solid var(--border);
 }
 .gal-back {
   background:none; border:none; display:inline-flex; align-items:center; gap:.5rem;
@@ -420,7 +428,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 .gct:hover { color:var(--muted); }
 .gct.active { color:var(--ink); border-bottom-color:var(--gold); }
 
-.gal-heading { padding:2.5rem var(--pad-x) 1.5rem; border-bottom:1px solid var(--border); }
+.gal-heading { padding:2.5rem var(--pad-x) 1rem; }
 .gch-title { font-family:var(--serif); font-size:clamp(1.7rem,3.5vw,2.8rem); font-weight:400; font-style:italic; line-height:1; }
 .gch-desc  { font-size:.75rem; color:var(--muted); letter-spacing:.1em; margin-top:.4rem; }
 
@@ -431,15 +439,24 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   align-items:start; max-width:1200px; width:100%; margin:0 auto;
 }
 .gl-figure {
-  background:none; border:none; padding:0; display:block; width:100%;
-  overflow:hidden; cursor:pointer;
+  border:none; padding:1.75rem; display:flex; width:100%;
+  align-items:center; justify-content:center;
+  /* Fixed frame so every row lines up, with the painting shown whole inside
+     it — a gallery never crops the work to fit the wall. */
+  aspect-ratio:1/1; overflow:hidden; cursor:pointer;
+  background:var(--canvas);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);
+  transition:box-shadow .35s;
 }
+.gl-figure:hover, .gl-figure:focus-visible { box-shadow:inset 0 0 0 1px rgba(0,0,0,.09), 0 14px 40px rgba(0,0,0,.09); }
+.gl-figure picture { display:contents; }
 .gl-figure img {
-  width:100%; height:auto; display:block;
+  max-width:100%; max-height:100%; width:auto; height:auto; display:block;
+  box-shadow:0 6px 26px rgba(0,0,0,.14);
   transition:transform .7s cubic-bezier(.25,.46,.45,.94);
 }
-.gl-figure:hover img, .gl-figure:focus-visible img { transform:scale(1.02); }
-.gl-body { padding-top:.4rem; }
+.gl-figure:hover img, .gl-figure:focus-visible img { transform:scale(1.025); }
+.gl-body { padding-top:.6rem; align-self:center; }
 .gl-title {
   font-family:var(--serif); font-size:clamp(1.05rem,1.7vw,1.35rem); font-weight:400;
   letter-spacing:.2em; text-transform:uppercase; line-height:1.4; margin-bottom:1.4rem;
@@ -486,13 +503,16 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   padding:2.5rem var(--pad-x) 4rem; max-width:1300px; margin:0 auto; width:100%;
   align-items:start;
 }
-.pp-figure { overflow:hidden; }
-.pp-img {
-  width:100%; height:auto; display:block;
-  cursor:zoom-in; will-change:transform;
-  transition:transform .5s cubic-bezier(.25,.46,.45,.94);
+.pp-figure {
+  display:flex; align-items:center; justify-content:center;
+  padding:2rem; background:var(--canvas); overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);
 }
-.pp-figure.magnify { overflow:hidden; }
+.pp-img {
+  max-width:100%; max-height:70svh; width:auto; height:auto; display:block;
+  cursor:zoom-in; will-change:transform;
+  box-shadow:0 10px 40px rgba(0,0,0,.18);
+}
 .pp-hint {
   font-size:.6rem; letter-spacing:.18em; text-transform:uppercase;
   color:var(--light); margin-top:.9rem;
@@ -519,16 +539,24 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 /* ═══ ZOOM OVERLAY ═══ */
 .zoom {
   display:none; position:fixed; inset:0; z-index:600;
-  background:rgba(20,18,16,.96);
+  background:rgba(16,14,12,.94);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
   align-items:center; justify-content:center;
-  overflow:hidden; touch-action:none;
+  overflow:hidden; padding:2.5rem 1rem;
+  opacity:0; transition:opacity .3s ease;
 }
 .zoom.open { display:flex; }
+.zoom.shown { opacity:1; }
+.zoom.open { display:flex; }
 .zoom img {
-  max-width:none; max-height:none; display:block;
-  cursor:zoom-out; will-change:transform;
-  transform-origin:center center;
+  /* Contained, never cropped — the whole painting, as large as the screen
+     allows, floating on the dark ground. */
+  max-width:92vw; max-height:88svh; width:auto; height:auto; display:block;
+  cursor:zoom-out; box-shadow:0 30px 90px rgba(0,0,0,.6);
+  opacity:0; transform:scale(.97);
+  transition:opacity .35s ease, transform .35s cubic-bezier(.25,.46,.45,.94);
 }
+.zoom.shown img { opacity:1; transform:none; }
 .zoom-close {
   position:fixed; top:1rem; right:1rem; z-index:602;
   width:44px; height:44px; border-radius:50%;
@@ -608,75 +636,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 .cp-right { overflow:hidden; background:var(--off); min-height:300px; }
 .cp-right img { width:100%; height:100%; object-fit:cover; filter:brightness(.92); }
 
-/* ═══ LIGHTBOX ═══ */
-.lb {
-  display:none; position:fixed; inset:0; z-index:500;
-  background:#fff;
-  flex-direction:column; align-items:center; justify-content:center;
-  gap:1rem; padding:4.5rem 1rem 1.5rem;
-  padding-bottom:calc(1.5rem + env(safe-area-inset-bottom));
-  transition:background .25s;
-}
-.lb.open { display:flex; }
-.lb-figure { display:flex; flex-direction:column; align-items:center; gap:.9rem; min-height:0; }
-.lb-img {
-  max-height:70svh; max-width:min(88vw, 900px); width:auto; height:auto;
-  object-fit:contain; box-shadow:0 8px 60px rgba(0,0,0,.16);
-  cursor:zoom-in; transition:transform .35s cubic-bezier(.25,.46,.45,.94);
-  transform-origin:center center; touch-action:manipulation;
-}
-.lb-img.zoomed { cursor:zoom-out; transition:transform .12s linear; }
-/* While zoomed the figure must not clip the enlarged image */
-.lb-figure { transition:none; }
-.lb.is-zoomed .lb-cap,
-.lb.is-zoomed .lb-controls { opacity:.25; pointer-events:none; transition:opacity .3s; }
-.lb.is-zoomed .lb-arr { opacity:0; pointer-events:none; }
-.lb-zoom-hint {
-  font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--light);
-  transition:color .25s, opacity .3s;
-}
-.lb.is-zoomed .lb-zoom-hint { opacity:0; }
-.lb-cap { font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--muted); text-align:center; transition:color .25s; }
-
-.lb-close {
-  position:fixed; top:1rem; right:1rem; z-index:503;
-  width:44px; height:44px; border-radius:50%;
-  background:rgba(255,255,255,.9); border:1px solid var(--border);
-  display:flex; align-items:center; justify-content:center;
-  font-size:1rem; color:var(--muted);
-  transition:border-color .2s, color .2s, background .25s;
-}
-.lb-close:hover { border-color:var(--ink); color:var(--ink); }
-
-.lb-arr {
-  position:fixed; top:50%; transform:translateY(-50%); z-index:502;
-  width:44px; height:44px; border-radius:50%;
-  background:rgba(255,255,255,.9); border:1px solid var(--border);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 2px 12px rgba(0,0,0,.08);
-  transition:border-color .2s, background .25s, color .25s;
-}
-.lb-arr:hover { border-color:var(--gold); }
-.lb-arr svg { width:15px; height:15px; stroke:currentColor; stroke-width:1.8; fill:none; }
-.lb-arr-l { left:1.5rem; }
-.lb-arr-r { right:1.5rem; }
-.lb.single .lb-arr { display:none; }
-
-.lb-bg-picker { display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; justify-content:center; }
-.lb-bg-label { font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-right:.25rem; transition:color .25s; }
-.lb-bg-swatch {
-  width:44px; height:44px; padding:0; border:none; background:none !important;
-  display:flex; align-items:center; justify-content:center;
-}
-.lb-bg-swatch::before {
-  content:''; width:28px; height:28px; border-radius:50%;
-  background:var(--swatch); border:2px solid transparent;
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.14);
-  transition:transform .15s, border-color .15s;
-}
-.lb-bg-swatch:hover::before  { transform:scale(1.15); }
-.lb-bg-swatch.active::before { border-color:var(--gold); transform:scale(1.15); }
-
 /* ═══ FOOTER ═══ */
 .site-footer {
   padding:1.6rem var(--pad-x); text-align:center; border-top:1px solid var(--border);
@@ -725,7 +684,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   .nb::after { display:none; }
   .nb.active { border-bottom-color:var(--gold); }
 
-  nav > .nav-cta {
+  #nav > .nav-cta {
     display:none;
   }
   .nav-center .nav-cta {
@@ -820,28 +779,12 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   .cp-right { aspect-ratio:4/3; }
   .cp-submit { align-self:stretch; text-align:center; }
 
-  /* Lightbox on phone: arrows sit below the image, not over it */
-  .lb { padding:3.75rem .75rem 1.25rem; gap:.75rem; justify-content:flex-start; padding-top:4.25rem; }
-  .lb-figure { justify-content:center; flex:1; }
-  .lb-img { max-height:56svh; max-width:94vw; }
-  .lb-cap { font-size:.9rem; }
-  .lb-arr { position:static; transform:none; width:48px; height:48px; }
-  .lb-arr-l, .lb-arr-r { left:auto; right:auto; }
-  .lb-controls { display:flex; align-items:center; justify-content:center; gap:1.25rem; width:100%; }
-  .lb-bg-picker { gap:0; }
-  .lb-bg-swatch::before { width:26px; height:26px; }
-  .lb-bg-label { width:100%; text-align:center; margin:0 0 .2rem; }
 }
 
 @media (max-width:380px) {
   .hh1 { font-size:1.6rem; }
   .hcta { flex-direction:column; }
   .hcta .btn-dark, .hcta .btn-outline { width:100%; }
-}
-
-/* Desktop: keep arrows flanking the image */
-@media (min-width:641px) {
-  .lb-controls { display:contents; }
 }
 
 /* Landscape phones — hero text must not overflow */
@@ -851,7 +794,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   .hh1 { font-size:2rem; margin-bottom:.75rem; }
   .hsub { display:none; }
   .scrl { display:none; }
-  .lb-img { max-height:60svh; }
 }
 
 /* Reduced motion */
@@ -869,7 +811,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 
 /* Print */
 @media print {
-  nav, .scrl, .lb, .nav-backdrop { display:none !important; }
+  #nav, .scrl, .zoom, .nav-backdrop { display:none !important; }
   .page { display:block !important; }
 }
 </style>
@@ -1018,11 +960,11 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 <!-- ═══ SINGLE PAINTING ═══ -->
 <div id="painting-page" class="page">
   <div class="pp-bar">
-    <nav class="pp-crumbs" aria-label="Breadcrumb">
+    <div class="pp-crumbs" role="navigation" aria-label="Breadcrumb">
       <button class="pp-crumb" id="pp-crumb-cat"></button>
       <span class="pp-crumb-sep" aria-hidden="true">›</span>
       <span class="pp-crumb-current" id="pp-crumb-now"></span>
-    </nav>
+    </div>
     <button class="pp-next" id="pp-next">Next ›</button>
   </div>
 
@@ -1161,31 +1103,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   <img id="zoom-img" src="" alt="">
   <button class="zoom-close" id="zoom-close" aria-label="Close zoom">✕</button>
   <p class="zoom-cap" id="zoom-cap"></p>
-</div>
-
-<!-- ═══ LIGHTBOX ═══ -->
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Painting viewer" hidden>
-  <button class="lb-close" id="lb-close" aria-label="Close viewer">✕</button>
-
-  <button class="lb-arr lb-arr-l" id="lb-prev" aria-label="Previous painting">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-  </button>
-
-  <figure class="lb-figure">
-    <img class="lb-img" id="lb-img" src="" alt="">
-    <figcaption class="lb-cap" id="lb-cap"></figcaption>
-    <p class="lb-zoom-hint" id="lb-zoom-hint"></p>
-  </figure>
-
-  <button class="lb-arr lb-arr-r" id="lb-next" aria-label="Next painting">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-  </button>
-
-  <div class="lb-controls">
-    <div class="lb-bg-picker" role="group" aria-label="Preview wall colour">
-      <span class="lb-bg-label">Wall</span>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -1517,29 +1434,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
      Scales the painting to fill the screen but never beyond it, then follows
      the pointer so you can travel across the surface. */
   var zoomEl = $('#zoom'), zoomImg = $('#zoom-img');
-  var zScale = 1, zMaxX = 0, zMaxY = 0;
-
-  function layoutZoom() {
-    var nw = zoomImg.naturalWidth, nh = zoomImg.naturalHeight;
-    if (!nw || !nh) return;
-    var vw = window.innerWidth, vh = window.innerHeight;
-    /* Cover the viewport, but never enlarge past the image's own pixels. */
-    var cover = Math.max(vw / nw, vh / nh);
-    /* Never shrink below 1x — a small painting still fills the screen. */
-    zScale = Math.max(cover, 1);
-    var w = nw * zScale, h = nh * zScale;
-    zoomImg.style.width = w + 'px';
-    zoomImg.style.height = h + 'px';
-    zMaxX = Math.max(0, (w - vw) / 2);
-    zMaxY = Math.max(0, (h - vh) / 2);
-    moveZoom(0.5, 0.5);
-  }
-
-  function moveZoom(rx, ry) {
-    var x = (0.5 - rx) * 2 * zMaxX;
-    var y = (0.5 - ry) * 2 * zMaxY;
-    zoomImg.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-  }
 
   function openZoom(pt) {
     zoomImg.src = '/assets/img/' + pt.img + '.jpg';
@@ -1547,49 +1441,71 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     $('#zoom-cap').textContent = pt.title + ' · ' + pt.medium;
     zoomEl.hidden = false;
     zoomEl.classList.add('open');
+    /* Next frame, so the opacity transition actually runs. */
+    requestAnimationFrame(function () { zoomEl.classList.add('shown'); });
     document.body.style.overflow = 'hidden';
-    if (zoomImg.complete) layoutZoom();
-    else zoomImg.addEventListener('load', layoutZoom, { once: true });
     $('#zoom-close').focus();
   }
 
   function closeZoom() {
-    zoomEl.classList.remove('open');
-    zoomEl.hidden = true;
+    zoomEl.classList.remove('shown');
+    setTimeout(function () {
+      zoomEl.classList.remove('open');
+      zoomEl.hidden = true;
+    }, 260);
     document.body.style.overflow = '';
     var t = $('#pp-img');
     if (t && $('#painting-page').classList.contains('active')) t.focus();
   }
 
-  zoomEl.addEventListener('mousemove', function (e) {
-    moveZoom(e.clientX / window.innerWidth, e.clientY / window.innerHeight);
-  });
-  zoomEl.addEventListener('touchmove', function (e) {
-    e.preventDefault();
-    moveZoom(e.touches[0].clientX / window.innerWidth, e.touches[0].clientY / window.innerHeight);
-  }, { passive: false });
   zoomEl.addEventListener('click', closeZoom);
   $('#zoom-close').addEventListener('click', function (e) { e.stopPropagation(); closeZoom(); });
-  window.addEventListener('resize', function () { if (zoomEl.classList.contains('open')) layoutZoom(); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && zoomEl.classList.contains('open')) closeZoom();
   });
 
   /* Before zooming: hovering the painting drifts it gently, hinting there is
      more to see. Pointer devices only — it would fight scrolling on touch. */
-  (function hoverDrift() {
+  (function hoverMagnifier() {
     var fig = $('#pp-figure'), img = $('#pp-img');
-    if (!canHover || reduceMotion) return;
-    fig.addEventListener('mousemove', function (e) {
-      var r = fig.getBoundingClientRect();
-      var rx = (e.clientX - r.left) / r.width - 0.5;
-      var ry = (e.clientY - r.top) / r.height - 0.5;
-      img.style.transition = 'transform .18s ease-out';
-      img.style.transform = 'scale(1.06) translate(' + (-rx * 3.2) + '%,' + (-ry * 3.2) + '%)';
+    if (!fig || !img || !canHover || reduceMotion) return;
+
+    var MAG = 1.85;            /* how far in the loupe goes */
+    var raf = null, tx = 0, ty = 0, active = false;
+
+    /* Painted on the next animation frame rather than on every mouse event,
+       and with no CSS transition while tracking — that combination is what
+       makes it follow the cursor instead of lagging behind it. */
+    function paint() {
+      raf = null;
+      img.style.transform = active
+        ? 'scale(' + MAG + ') translate(' + tx + '%,' + ty + '%)'
+        : '';
+    }
+
+    fig.addEventListener('mouseenter', function () {
+      active = true;
+      img.style.transition = 'transform .28s ease-out';
+      setTimeout(function () { if (active) img.style.transition = 'none'; }, 280);
     });
+
+    fig.addEventListener('mousemove', function (e) {
+      if (!active) return;
+      var r = img.getBoundingClientRect();
+      /* Cursor position across the image, -0.5 .. 0.5 */
+      var rx = Math.max(-0.5, Math.min(0.5, (e.clientX - r.left) / r.width  - 0.5));
+      var ry = Math.max(-0.5, Math.min(0.5, (e.clientY - r.top)  / r.height - 0.5));
+      /* Travel far enough to reach the edges at full magnification. */
+      var limit = (MAG - 1) / MAG * 100;
+      tx = -rx * limit;
+      ty = -ry * limit;
+      if (!raf) raf = requestAnimationFrame(paint);
+    });
+
     fig.addEventListener('mouseleave', function () {
-      img.style.transition = 'transform .5s cubic-bezier(.25,.46,.45,.94)';
-      img.style.transform = '';
+      active = false; tx = ty = 0;
+      img.style.transition = 'transform .45s cubic-bezier(.25,.46,.45,.94)';
+      if (!raf) raf = requestAnimationFrame(paint);
     });
   })();
 
@@ -1597,201 +1513,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     if (currentWork) openZoom(currentWork.p);
   });
 
-  /* ═══ LIGHTBOX ═══ */
-  var lb = $('#lb'), lbImg = $('#lb-img'), lbCap = $('#lb-cap');
-  var lbIdx = 0, lbList = [], lbOpener = null;
-
-  (function buildSwatches() {
-    var picker = $('.lb-bg-picker');
-    WALL_COLOURS.forEach(function (c, i) {
-      var b = document.createElement('button');
-      b.className = 'lb-bg-swatch' + (i === 0 ? ' active' : '');
-      b.style.setProperty('--swatch', c.hex);
-      b.title = c.name;
-      b.setAttribute('aria-label', 'Preview on a ' + c.name.toLowerCase() + ' wall');
-      b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
-      b.addEventListener('click', function () { setWall(b, c.hex); });
-      picker.appendChild(b);
-    });
-  })();
-
-  function setWall(btn, hex) {
-    lb.style.background = hex;
-    $$('.lb-bg-swatch').forEach(function (s) {
-      s.classList.remove('active');
-      s.setAttribute('aria-pressed', 'false');
-    });
-    btn.classList.add('active');
-    btn.setAttribute('aria-pressed', 'true');
-
-    /* Contrast-aware UI: compute perceived luminance instead of hardcoding */
-    var r = parseInt(hex.substr(1, 2), 16),
-        g = parseInt(hex.substr(3, 2), 16),
-        b = parseInt(hex.substr(5, 2), 16);
-    var dark = (0.299 * r + 0.587 * g + 0.114 * b) < 130;
-
-    lbCap.style.color = dark ? 'rgba(255,255,255,.8)' : '';
-    $('.lb-bg-label').style.color = dark ? 'rgba(255,255,255,.65)' : '';
-    $$('.lb-arr, .lb-close').forEach(function (el) {
-      el.style.background   = dark ? 'rgba(255,255,255,.14)' : '';
-      el.style.color        = dark ? '#fff' : '';
-      el.style.borderColor  = dark ? 'rgba(255,255,255,.28)' : '';
-    });
-  }
-
-  $('#lb-zoom-hint').textContent = canHover ? 'Click image to zoom' : 'Tap image to zoom';
-
-  function renderLightbox() {
-    if (typeof setZoom === 'function') setZoom(false);
-    var p = lbList[lbIdx];
-    lbImg.src = '/assets/img/' + p.img + '.jpg';
-    lbImg.alt = p.title + ' — ' + p.medium;
-    if (p.w) { lbImg.width = p.w; lbImg.height = p.h; }
-    lbCap.textContent = p.title + ' · ' + p.medium;
-
-    /* Preload neighbours so arrow-clicks feel instant */
-    [lbIdx - 1, lbIdx + 1].forEach(function (i) {
-      var n = lbList[(i + lbList.length) % lbList.length];
-      if (n && n !== p) { var im = new Image(); im.src = '/assets/img/' + n.img + '.jpg'; }
-    });
-  }
-
-  function openLightbox(i, opener) {
-    var c = catById(currentCat);
-    if (!c) return;
-    lbList = c.paintings;
-    lbIdx = i;
-    lbOpener = opener || null;
-
-    lb.classList.toggle('single', lbList.length < 2);
-    renderLightbox();
-    lb.hidden = false;
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    $('#lb-close').focus();
-  }
-
-  function closeLightbox() {
-    setZoom(false);
-    lb.classList.remove('open');
-    lb.hidden = true;
-    document.body.style.overflow = '';
-    if (lbOpener) { lbOpener.focus(); lbOpener = null; }
-  }
-
-  function lbNav(dir) {
-    if (lbList.length < 2) return;
-    lbIdx = (lbIdx + dir + lbList.length) % lbList.length;
-    renderLightbox();
-  }
-
-  /* ═══ ZOOM ═══
-     Click/tap toggles a 2.5x zoom centred on the point touched, so tapping a
-     detail brings that detail closer rather than always the middle. Dragging
-     (or moving the mouse) while zoomed pans around the image. */
-  var ZOOM = 2.5;
-  var zoomed = false, panX = 0, panY = 0;
-
-  function applyTransform() {
-    lbImg.style.transform = zoomed
-      ? 'scale(' + ZOOM + ') translate(' + panX + 'px,' + panY + 'px)'
-      : '';
-  }
-
-  function panFromPoint(clientX, clientY) {
-    var r = lbImg.getBoundingClientRect();
-    /* Where the pointer sits within the image, as -0.5 .. 0.5 from centre */
-    var relX = (clientX - (r.left + r.width / 2)) / r.width;
-    var relY = (clientY - (r.top + r.height / 2)) / r.height;
-    /* Un-scaled offset that brings that point toward the middle, clamped so
-       the image never pans past its own edges. */
-    var maxX = lbImg.clientWidth  * (ZOOM - 1) / (2 * ZOOM);
-    var maxY = lbImg.clientHeight * (ZOOM - 1) / (2 * ZOOM);
-    panX = Math.max(-maxX, Math.min(maxX, -relX * lbImg.clientWidth));
-    panY = Math.max(-maxY, Math.min(maxY, -relY * lbImg.clientHeight));
-  }
-
-  function setZoom(on, clientX, clientY) {
-    zoomed = !!on;
-    lb.classList.toggle('is-zoomed', zoomed);
-    lbImg.classList.toggle('zoomed', zoomed);
-    if (zoomed && clientX != null) { panFromPoint(clientX, clientY); }
-    else { panX = panY = 0; }
-    applyTransform();
-  }
-
-  lbImg.addEventListener('click', function (e) {
-    e.stopPropagation();
-    setZoom(!zoomed, e.clientX, e.clientY);
-  });
-
-  /* Mouse pan: follow the cursor while zoomed */
-  lbImg.addEventListener('mousemove', function (e) {
-    if (!zoomed) return;
-    panFromPoint(e.clientX, e.clientY);
-    applyTransform();
-  });
-
-  /* Touch pan: drag to move around the zoomed image */
-  var dragX = 0, dragY = 0, startPanX = 0, startPanY = 0;
-  lbImg.addEventListener('touchstart', function (e) {
-    if (!zoomed) return;
-    dragX = e.touches[0].clientX; dragY = e.touches[0].clientY;
-    startPanX = panX; startPanY = panY;
-  }, { passive: true });
-
-  lbImg.addEventListener('touchmove', function (e) {
-    if (!zoomed) return;
-    e.preventDefault();
-    var maxX = lbImg.clientWidth  * (ZOOM - 1) / (2 * ZOOM);
-    var maxY = lbImg.clientHeight * (ZOOM - 1) / (2 * ZOOM);
-    panX = Math.max(-maxX, Math.min(maxX, startPanX + (e.touches[0].clientX - dragX) / ZOOM));
-    panY = Math.max(-maxY, Math.min(maxY, startPanY + (e.touches[0].clientY - dragY) / ZOOM));
-    applyTransform();
-  }, { passive: false });
-
-  $('#lb-close').addEventListener('click', closeLightbox);
-  $('#lb-prev').addEventListener('click', function () { lbNav(-1); });
-  $('#lb-next').addEventListener('click', function () { lbNav(1); });
-  lb.addEventListener('click', function (e) {
-    if (zoomed) { setZoom(false); return; }
-    if (e.target === lb || e.target === $('.lb-figure')) closeLightbox();
-  });
-
-  /* Keyboard: escape, arrows, and a focus trap */
-  document.addEventListener('keydown', function (e) {
-    if (!lb.classList.contains('open')) return;
-
-    if (e.key === 'Escape')     { if (zoomed) { setZoom(false); } else { closeLightbox(); } return; }
-    if (zoomed) { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { setZoom(false); } return; }
-    if (e.key === 'ArrowRight') { lbNav(1);  return; }
-    if (e.key === 'ArrowLeft')  { lbNav(-1); return; }
-
-    if (e.key === 'Tab') {
-      var f = $$('button', lb).filter(function (b) { return b.offsetParent !== null; });
-      if (!f.length) return;
-      var first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
-  });
-
-  /* Swipe — only inside the lightbox, and only for mostly-horizontal gestures */
-  (function swipe() {
-    var x0 = null, y0 = null;
-    lb.addEventListener('touchstart', function (e) {
-      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
-    }, { passive: true });
-    lb.addEventListener('touchend', function (e) {
-      if (x0 === null) return;
-      var dx = e.changedTouches[0].clientX - x0;
-      var dy = e.changedTouches[0].clientY - y0;
-      x0 = y0 = null;
-      if (zoomed) return;
-      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-      lbNav(dx < 0 ? 1 : -1);
-    }, { passive: true });
-  })();
+  var canHover = window.matchMedia('(hover: hover)').matches;
 
   /* ═══ MOBILE NAV ═══ */
   var navEl = $('#nav'), navToggle = $('#nav-toggle'), navBackdrop = $('#nav-backdrop');
@@ -1909,7 +1631,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 
   window.addEventListener('popstate', function () {
     if (zoomEl.classList.contains('open')) closeZoom();
-    if (lb.classList.contains('open')) closeLightbox();
     applyRoute();
   });
 
