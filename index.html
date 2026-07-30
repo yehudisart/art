@@ -523,7 +523,20 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 .lb-img {
   max-height:70svh; max-width:min(88vw, 900px); width:auto; height:auto;
   object-fit:contain; box-shadow:0 8px 60px rgba(0,0,0,.16);
+  cursor:zoom-in; transition:transform .35s cubic-bezier(.25,.46,.45,.94);
+  transform-origin:center center; touch-action:manipulation;
 }
+.lb-img.zoomed { cursor:zoom-out; transition:transform .12s linear; }
+/* While zoomed the figure must not clip the enlarged image */
+.lb-figure { transition:none; }
+.lb.is-zoomed .lb-cap,
+.lb.is-zoomed .lb-controls { opacity:.25; pointer-events:none; transition:opacity .3s; }
+.lb.is-zoomed .lb-arr { opacity:0; pointer-events:none; }
+.lb-zoom-hint {
+  font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--light);
+  transition:color .25s, opacity .3s;
+}
+.lb.is-zoomed .lb-zoom-hint { opacity:0; }
 .lb-cap { font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--muted); text-align:center; transition:color .25s; }
 
 .lb-close {
@@ -985,6 +998,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   <figure class="lb-figure">
     <img class="lb-img" id="lb-img" src="" alt="">
     <figcaption class="lb-cap" id="lb-cap"></figcaption>
+    <p class="lb-zoom-hint" id="lb-zoom-hint"></p>
   </figure>
 
   <button class="lb-arr lb-arr-r" id="lb-next" aria-label="Next painting">
@@ -1303,7 +1317,11 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     });
   }
 
+  var canHover = window.matchMedia('(hover: hover)').matches;
+  $('#lb-zoom-hint').textContent = canHover ? 'Click image to zoom' : 'Tap image to zoom';
+
   function renderLightbox() {
+    if (typeof setZoom === 'function') setZoom(false);
     var p = lbList[lbIdx];
     lbImg.src = '/assets/img/' + p.img + '.jpg';
     lbImg.alt = p.title + ' — ' + p.medium;
@@ -1333,6 +1351,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   }
 
   function closeLightbox() {
+    setZoom(false);
     lb.classList.remove('open');
     lb.hidden = true;
     document.body.style.overflow = '';
@@ -1345,16 +1364,85 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     renderLightbox();
   }
 
+  /* ═══ ZOOM ═══
+     Click/tap toggles a 2.5x zoom centred on the point touched, so tapping a
+     detail brings that detail closer rather than always the middle. Dragging
+     (or moving the mouse) while zoomed pans around the image. */
+  var ZOOM = 2.5;
+  var zoomed = false, panX = 0, panY = 0;
+
+  function applyTransform() {
+    lbImg.style.transform = zoomed
+      ? 'scale(' + ZOOM + ') translate(' + panX + 'px,' + panY + 'px)'
+      : '';
+  }
+
+  function panFromPoint(clientX, clientY) {
+    var r = lbImg.getBoundingClientRect();
+    /* Where the pointer sits within the image, as -0.5 .. 0.5 from centre */
+    var relX = (clientX - (r.left + r.width / 2)) / r.width;
+    var relY = (clientY - (r.top + r.height / 2)) / r.height;
+    /* Un-scaled offset that brings that point toward the middle, clamped so
+       the image never pans past its own edges. */
+    var maxX = lbImg.clientWidth  * (ZOOM - 1) / (2 * ZOOM);
+    var maxY = lbImg.clientHeight * (ZOOM - 1) / (2 * ZOOM);
+    panX = Math.max(-maxX, Math.min(maxX, -relX * lbImg.clientWidth));
+    panY = Math.max(-maxY, Math.min(maxY, -relY * lbImg.clientHeight));
+  }
+
+  function setZoom(on, clientX, clientY) {
+    zoomed = !!on;
+    lb.classList.toggle('is-zoomed', zoomed);
+    lbImg.classList.toggle('zoomed', zoomed);
+    if (zoomed && clientX != null) { panFromPoint(clientX, clientY); }
+    else { panX = panY = 0; }
+    applyTransform();
+  }
+
+  lbImg.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setZoom(!zoomed, e.clientX, e.clientY);
+  });
+
+  /* Mouse pan: follow the cursor while zoomed */
+  lbImg.addEventListener('mousemove', function (e) {
+    if (!zoomed) return;
+    panFromPoint(e.clientX, e.clientY);
+    applyTransform();
+  });
+
+  /* Touch pan: drag to move around the zoomed image */
+  var dragX = 0, dragY = 0, startPanX = 0, startPanY = 0;
+  lbImg.addEventListener('touchstart', function (e) {
+    if (!zoomed) return;
+    dragX = e.touches[0].clientX; dragY = e.touches[0].clientY;
+    startPanX = panX; startPanY = panY;
+  }, { passive: true });
+
+  lbImg.addEventListener('touchmove', function (e) {
+    if (!zoomed) return;
+    e.preventDefault();
+    var maxX = lbImg.clientWidth  * (ZOOM - 1) / (2 * ZOOM);
+    var maxY = lbImg.clientHeight * (ZOOM - 1) / (2 * ZOOM);
+    panX = Math.max(-maxX, Math.min(maxX, startPanX + (e.touches[0].clientX - dragX) / ZOOM));
+    panY = Math.max(-maxY, Math.min(maxY, startPanY + (e.touches[0].clientY - dragY) / ZOOM));
+    applyTransform();
+  }, { passive: false });
+
   $('#lb-close').addEventListener('click', closeLightbox);
   $('#lb-prev').addEventListener('click', function () { lbNav(-1); });
   $('#lb-next').addEventListener('click', function () { lbNav(1); });
-  lb.addEventListener('click', function (e) { if (e.target === lb || e.target === $('.lb-figure')) closeLightbox(); });
+  lb.addEventListener('click', function (e) {
+    if (zoomed) { setZoom(false); return; }
+    if (e.target === lb || e.target === $('.lb-figure')) closeLightbox();
+  });
 
   /* Keyboard: escape, arrows, and a focus trap */
   document.addEventListener('keydown', function (e) {
     if (!lb.classList.contains('open')) return;
 
-    if (e.key === 'Escape')     { closeLightbox(); return; }
+    if (e.key === 'Escape')     { if (zoomed) { setZoom(false); } else { closeLightbox(); } return; }
+    if (zoomed) { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { setZoom(false); } return; }
     if (e.key === 'ArrowRight') { lbNav(1);  return; }
     if (e.key === 'ArrowLeft')  { lbNav(-1); return; }
 
@@ -1378,6 +1466,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
       var dx = e.changedTouches[0].clientX - x0;
       var dy = e.changedTouches[0].clientY - y0;
       x0 = y0 = null;
+      if (zoomed) return;
       if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
       lbNav(dx < 0 ? 1 : -1);
     }, { passive: true });
