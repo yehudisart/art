@@ -450,24 +450,23 @@ a { color:inherit; }
 .gch-desc  { font-size:.72rem; color:var(--muted); letter-spacing:.1em; margin-top:.4rem; }
 
 /* ═══ CATEGORY LIST ═══ */
-.gal-list { --work-h:26rem; padding:3.5rem var(--pad-x) 5rem; display:flex; flex-direction:column; gap:5.5rem; }
+.gal-list { padding:3.5rem var(--pad-x) 4rem; display:flex; flex-direction:column; gap:5.5rem; }
 .gl-row {
   display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:3.5rem;
   align-items:start; max-width:1200px; width:100%; margin:0 auto;
 }
 .gl-figure {
-  background:none; border:none; padding:0; display:flex; width:100%;
-  align-items:center; justify-content:flex-start;
-  /* No frame: the works simply sit on the page. Rows still align because the
-     figure holds a consistent height and the painting is contained within it. */
-  height:var(--work-h); cursor:pointer;
+  background:none; border:none; padding:0; display:block; width:100%;
+  /* Every work occupies an identical square, so the column reads as one clean
+     edge down the page whatever each canvas's own proportions are. */
+  aspect-ratio:1/1; overflow:hidden; cursor:pointer;
 }
 .gl-figure picture { display:contents; }
 .gl-figure img {
-  max-width:100%; max-height:100%; width:auto; height:auto; display:block;
-  transition:opacity .35s ease;
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .8s cubic-bezier(.25,.46,.45,.94), opacity .35s ease;
 }
-.gl-figure:hover img, .gl-figure:focus-visible img { opacity:.86; }
+.gl-figure:hover img, .gl-figure:focus-visible img { transform:scale(1.03); opacity:.92; }
 .gl-body { padding-top:.6rem; align-self:center; }
 .gl-title {
   font-family:var(--serif); font-size:clamp(1.05rem,1.7vw,1.3rem); font-weight:400;
@@ -477,11 +476,38 @@ a { color:inherit; }
 .gl-desc { font-size:.88rem; line-height:1.9; color:var(--muted); max-width:34rem; margin-bottom:1.8rem; }
 .gl-more {
   display:inline-block; background:none; border:1px solid var(--ink);
-  font-size:.7rem; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:var(--ink);
+  font-size:.76rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--ink);
   padding:.95rem 2rem; min-height:44px;
   transition:background .25s, color .25s, border-color .25s;
 }
 .gl-more:hover { background:var(--ink); color:var(--white); }
+
+/* ═══ ALL WORKS GRID ═══ */
+.allworks {
+  padding:4.5rem var(--pad-x) 5rem; max-width:1400px; margin:0 auto; width:100%;
+  border-top:1px solid var(--border);
+}
+.allworks-h {
+  font-family:var(--serif); font-size:clamp(1.05rem,1.7vw,1.3rem); font-weight:400;
+  letter-spacing:.24em; text-transform:uppercase; text-align:center; margin-bottom:3rem;
+}
+.allworks-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2.5rem 1.75rem; }
+.aw {
+  background:none; border:none; padding:0; display:block; width:100%; text-align:center;
+  cursor:pointer;
+}
+.aw-img { display:block; overflow:hidden; aspect-ratio:3/2; }
+.aw-img img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94), opacity .3s;
+}
+.aw:hover .aw-img img, .aw:focus-visible .aw-img img { transform:scale(1.04); opacity:.9; }
+.aw-t {
+  display:block; margin-top:.9rem;
+  font-size:.74rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink); line-height:1.45;
+}
+.aw.is-current .aw-t { color:var(--muted); }
 
 /* ═══ PAINTING PAGE ═══ */
 #painting-page { padding-top:var(--nav-h); }
@@ -492,19 +518,19 @@ a { color:inherit; }
 .pp-crumbs { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; min-width:0; }
 .pp-crumb {
   background:none; border:none; padding:.5rem 0; position:relative;
-  font-size:.7rem; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  font-size:.76rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
   transition:color .2s;
 }
 .pp-crumb::after { content:''; position:absolute; inset:-11px -6px; }
 .pp-crumb:hover { color:var(--accent); }
 .pp-crumb-sep { font-size:.7rem; color:var(--light); }
 .pp-crumb-current {
-  font-size:.7rem; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:var(--ink);
+  font-size:.76rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--ink);
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
 .pp-next {
   background:none; border:none; padding:.5rem 0; position:relative; flex-shrink:0;
-  font-size:.7rem; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  font-size:.76rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
   transition:color .2s;
 }
 .pp-next::after { content:''; position:absolute; inset:-11px -6px; }
@@ -630,7 +656,7 @@ a { color:inherit; }
 .cp-label { font-size:.7rem; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
 .cp-input, .cp-textarea {
   background:var(--off); border:1px solid var(--border);
-  padding:.85rem 1rem; font-family:var(--sans); font-size:16px; font-weight:300;
+  padding:.85rem 1rem; font-family:var(--sans); font-size:16px; font-weight:400;
   color:var(--ink); outline:none; border-radius:2px;
   transition:border-color .2s;
   width:100%;
@@ -724,7 +750,9 @@ a { color:inherit; }
 
   .gal-picker-grid { grid-template-columns:repeat(2,1fr); max-width:640px; gap:1.1rem; }
   .gl-row          { grid-template-columns:1fr; gap:1.75rem; max-width:640px; }
-  .gal-list        { --work-h:20rem; gap:4.5rem; }
+  .gal-list        { gap:4.5rem; }
+  .allworks-grid   { grid-template-columns:repeat(3,1fr); gap:2rem 1.25rem; }
+  .allworks        { padding:3.5rem var(--pad-x) 4rem; }
   .pp-main         { grid-template-columns:1fr; gap:2.5rem; padding-top:2rem; }
   .pp-title        { margin-bottom:1.2rem; }
 }
@@ -771,8 +799,11 @@ a { color:inherit; }
   .gct { font-size:.95rem; padding:0 .8rem; }
   .gal-heading { padding:2rem 1.25rem 1.25rem; }
 
-  .gal-list  { --work-h:16rem; padding:2rem 1.25rem 4rem; gap:4rem; }
-  .gl-figure { justify-content:center; }
+  .gal-list  { padding:2rem 1.25rem 3rem; gap:3.5rem; }
+  .allworks       { padding:3rem 1.25rem 3.5rem; }
+  .allworks-h     { margin-bottom:2rem; }
+  .allworks-grid  { grid-template-columns:repeat(2,1fr); gap:1.5rem 1rem; }
+  .aw-t           { font-size:.7rem; letter-spacing:.12em; margin-top:.7rem; }
   .gl-title  { letter-spacing:.16em; margin-bottom:1rem; }
   .gl-desc   { margin-bottom:1.4rem; }
   .gl-more   { width:100%; text-align:center; }
@@ -961,6 +992,11 @@ a { color:inherit; }
       <p class="gch-desc" id="gal-heading-desc"></p>
     </div>
     <div class="gal-list" id="gal-grid"></div>
+
+    <section class="allworks" aria-labelledby="aw-h-cat">
+      <h2 class="allworks-h" id="aw-h-cat">All Works</h2>
+      <div class="allworks-grid" id="allworks-cat"></div>
+    </section>
   </section>
 
   <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
@@ -1026,6 +1062,11 @@ a { color:inherit; }
       </div>
     </form>
   </div>
+
+  <section class="allworks" aria-labelledby="aw-h-work">
+    <h2 class="allworks-h" id="aw-h-work">All Works</h2>
+    <div class="allworks-grid" id="allworks-work"></div>
+  </section>
 
   <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
 </div>
@@ -1361,13 +1402,15 @@ a { color:inherit; }
           '<h3 class="gl-title">' + esc(pt.title) + '</h3>' +
           '<p class="gl-med">' + esc(pt.medium) + '</p>' +
           (pt.desc ? '<p class="gl-desc">' + esc(pt.desc) + '</p>' : '') +
-          '<button class="gl-more">View</button>' +
+          '<button class="gl-more">Learn more</button>' +
         '</div>';
       var open = function () { navigate('painting-page', null, pt.slug); };
       row.querySelector('.gl-figure').addEventListener('click', open);
       row.querySelector('.gl-more').addEventListener('click', open);
       grid.appendChild(row);
     });
+
+    buildAllWorks($('#allworks-cat'), null);
 
     if (push) setHash('gallery/' + id);
     scrollTop();
@@ -1384,6 +1427,24 @@ a { color:inherit; }
   $('#gal-back').addEventListener('click', function () { showPicker(true); });
 
   var canHover = window.matchMedia('(hover: hover)').matches;
+
+  /* ═══ ALL WORKS GRID ═══ */
+  function buildAllWorks(mount, currentSlug) {
+    if (!mount) return;
+    mount.innerHTML = '';
+    ALL.forEach(function (entry) {
+      var pt = entry.p;
+      var b = document.createElement('button');
+      b.className = 'aw' + (pt.slug === currentSlug ? ' is-current' : '');
+      b.setAttribute('aria-label', 'View ' + pt.title);
+      if (pt.slug === currentSlug) b.setAttribute('aria-current', 'true');
+      b.innerHTML =
+        '<span class="aw-img">' + picture(pt.img, pt.title, '-sm', null, null, false) + '</span>' +
+        '<span class="aw-t">' + esc(pt.title) + '</span>';
+      b.addEventListener('click', function () { navigate('painting-page', null, pt.slug); });
+      mount.appendChild(b);
+    });
+  }
 
   /* ═══ SINGLE PAINTING PAGE ═══ */
   var ALL = [];
@@ -1425,6 +1486,8 @@ a { color:inherit; }
     var nxt = ALL[(idx + 1) % ALL.length];
     $('#pp-next').textContent = 'Next ›';
     $('#pp-next').setAttribute('aria-label', 'Next painting: ' + nxt.p.title);
+
+    buildAllWorks($('#allworks-work'), pt.slug);
 
     $('#pp-status').textContent = '';
     return true;
