@@ -424,28 +424,127 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 .gch-title { font-family:var(--serif); font-size:clamp(1.7rem,3.5vw,2.8rem); font-weight:400; font-style:italic; line-height:1; }
 .gch-desc  { font-size:.75rem; color:var(--muted); letter-spacing:.1em; margin-top:.4rem; }
 
-.gal-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border-bottom:1px solid var(--border); }
-.gg-item {
-  position:relative; overflow:hidden; aspect-ratio:4/5;
-  background:var(--white); border:none; padding:0; display:block; width:100%;
+/* ═══ CATEGORY LIST ═══ */
+.gal-list { padding:3.5rem var(--pad-x) 5rem; display:flex; flex-direction:column; gap:5rem; }
+.gl-row {
+  display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:3.5rem;
+  align-items:start; max-width:1200px; width:100%; margin:0 auto;
 }
-/* Panoramic works get a double-width cell so they are shown whole rather than
-   cropped to ~40% of their width. Applied by aspect ratio, not per painting. */
-.gg-item.wide { grid-column:span 2; aspect-ratio:2/1; }
-.gg-item img {
-  width:100%; height:100%; object-fit:cover; filter:brightness(.93);
-  transition:transform .65s cubic-bezier(.25,.46,.45,.94), filter .4s;
+.gl-figure {
+  background:none; border:none; padding:0; display:block; width:100%;
+  overflow:hidden; cursor:pointer;
 }
-.gg-item:hover img, .gg-item:focus-visible img { transform:scale(1.05); filter:brightness(1); }
-.gg-cap {
-  position:absolute; bottom:0; left:0; right:0; display:block;
-  padding:1.6rem 1rem .9rem; text-align:left;
-  background:linear-gradient(to top, rgba(26,23,20,.85) 0%, transparent 100%);
-  opacity:0; transform:translateY(6px); transition:opacity .3s, transform .3s;
+.gl-figure img {
+  width:100%; height:auto; display:block;
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94);
 }
-.gg-item:hover .gg-cap, .gg-item:focus-visible .gg-cap { opacity:1; transform:none; }
-.gg-title { display:block; font-family:var(--serif); font-size:1rem; font-style:italic; color:#fff; }
-.gg-med   { display:block; font-size:.6rem; color:rgba(255,255,255,.65); letter-spacing:.08em; text-transform:uppercase; margin-top:.15rem; }
+.gl-figure:hover img, .gl-figure:focus-visible img { transform:scale(1.02); }
+.gl-body { padding-top:.4rem; }
+.gl-title {
+  font-family:var(--serif); font-size:clamp(1.05rem,1.7vw,1.35rem); font-weight:400;
+  letter-spacing:.2em; text-transform:uppercase; line-height:1.4; margin-bottom:1.4rem;
+}
+.gl-med  { font-size:.88rem; color:var(--ink); margin-bottom:1rem; }
+.gl-desc { font-size:.88rem; line-height:1.9; color:var(--muted); max-width:34rem; margin-bottom:1.8rem; }
+.gl-more {
+  display:inline-block; background:none; border:1px solid var(--ink);
+  font-size:.63rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink);
+  padding:.95rem 2rem; min-height:44px;
+  transition:background .25s, color .25s, border-color .25s;
+}
+.gl-more:hover { background:var(--ink); color:var(--white); }
+
+/* ═══ PAINTING PAGE ═══ */
+#painting-page { padding-top:var(--nav-h); }
+.pp-bar {
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  padding:2.5rem var(--pad-x) 0; max-width:1300px; margin:0 auto; width:100%;
+}
+.pp-crumbs { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; min-width:0; }
+.pp-crumb {
+  background:none; border:none; padding:.5rem 0; position:relative;
+  font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+  transition:color .2s;
+}
+.pp-crumb::after { content:''; position:absolute; inset:-11px -6px; }
+.pp-crumb:hover { color:var(--gold); }
+.pp-crumb-sep { font-size:.6rem; color:var(--light); }
+.pp-crumb-current {
+  font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--ink);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.pp-next {
+  background:none; border:none; padding:.5rem 0; position:relative; flex-shrink:0;
+  font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+  transition:color .2s;
+}
+.pp-next::after { content:''; position:absolute; inset:-11px -6px; }
+.pp-next:hover { color:var(--gold); }
+
+.pp-main {
+  display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:4rem;
+  padding:2.5rem var(--pad-x) 4rem; max-width:1300px; margin:0 auto; width:100%;
+  align-items:start;
+}
+.pp-figure { overflow:hidden; }
+.pp-img {
+  width:100%; height:auto; display:block;
+  cursor:zoom-in; will-change:transform;
+  transition:transform .5s cubic-bezier(.25,.46,.45,.94);
+}
+.pp-figure.magnify { overflow:hidden; }
+.pp-hint {
+  font-size:.6rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--light); margin-top:.9rem;
+}
+.pp-title {
+  font-family:var(--serif); font-size:clamp(2rem,4vw,3.2rem); font-weight:400;
+  line-height:1.15; margin-bottom:2rem; text-wrap:balance;
+}
+.pp-med  { font-size:.9rem; color:var(--ink); margin-bottom:1.2rem; }
+.pp-desc { font-size:.9rem; line-height:1.95; color:var(--muted); margin-bottom:1.2rem; }
+.pp-inquire { font-size:.9rem; line-height:1.9; color:var(--muted); margin-top:1.6rem; }
+
+.pp-form-wrap { border-top:1px solid var(--border); background:var(--off); }
+.pp-form { padding:4rem var(--pad-x) 5rem; max-width:900px; margin:0 auto; }
+.pp-form-h {
+  font-family:var(--serif); font-size:clamp(1.5rem,3vw,2rem); font-weight:400; font-style:italic;
+  margin-bottom:.5rem;
+}
+.pp-form-sub { font-size:.85rem; color:var(--muted); margin-bottom:2.5rem; }
+.pp-fields { display:flex; flex-direction:column; gap:1.2rem; }
+.pp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+.pp-readonly { background:var(--border); color:var(--muted); }
+
+/* ═══ ZOOM OVERLAY ═══ */
+.zoom {
+  display:none; position:fixed; inset:0; z-index:600;
+  background:rgba(20,18,16,.96);
+  align-items:center; justify-content:center;
+  overflow:hidden; touch-action:none;
+}
+.zoom.open { display:flex; }
+.zoom img {
+  max-width:none; max-height:none; display:block;
+  cursor:zoom-out; will-change:transform;
+  transform-origin:center center;
+}
+.zoom-close {
+  position:fixed; top:1rem; right:1rem; z-index:602;
+  width:44px; height:44px; border-radius:50%;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3);
+  color:#fff; font-size:1rem;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s;
+}
+.zoom-close:hover { background:rgba(255,255,255,.25); }
+.zoom-cap {
+  position:fixed; left:0; right:0; bottom:1.2rem; z-index:602;
+  text-align:center; font-family:var(--serif); font-style:italic;
+  font-size:.85rem; color:rgba(255,255,255,.6); pointer-events:none;
+  padding:0 1rem;
+  padding-bottom:env(safe-area-inset-bottom);
+}
 
 /* ═══ ABOUT ═══ */
 #about-page { padding-top:var(--nav-h); }
@@ -656,7 +755,10 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   .cp-form        { max-width:none; }
 
   .gal-picker-grid { grid-template-columns:repeat(2,1fr); max-width:640px; gap:1.1rem; }
-  .gal-grid        { grid-template-columns:repeat(2,1fr); }
+  .gl-row          { grid-template-columns:1fr; gap:1.75rem; max-width:640px; }
+  .gal-list        { gap:4rem; }
+  .pp-main         { grid-template-columns:1fr; gap:2.5rem; padding-top:2rem; }
+  .pp-title        { margin-bottom:1.2rem; }
 }
 
 /* Phone */
@@ -701,11 +803,15 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   .gct { font-size:.95rem; padding:0 .8rem; }
   .gal-heading { padding:2rem 1.25rem 1.25rem; }
 
-  .gal-grid { grid-template-columns:1fr; }
-  .gg-item { aspect-ratio:1/1; }
-  /* Single column on phones — spanning two would overflow. */
-  .gg-item.wide { grid-column:auto; aspect-ratio:2/1; }
-  .gg-cap { opacity:1; transform:none; padding:2rem 1.25rem 1rem; }
+  .gal-list  { padding:2rem 1.25rem 3.5rem; gap:3.5rem; }
+  .gl-title  { letter-spacing:.16em; margin-bottom:1rem; }
+  .gl-desc   { margin-bottom:1.4rem; }
+  .gl-more   { width:100%; text-align:center; }
+  .pp-bar    { padding:1.5rem 1.25rem 0; }
+  .pp-crumb-current { max-width:42vw; }
+  .pp-main   { padding:1.5rem 1.25rem 3rem; gap:2rem; }
+  .pp-form   { padding:3rem 1.25rem 4rem; }
+  .pp-row2   { grid-template-columns:1fr; }
 
   .ah-text, .cp-left { padding:3rem 1.25rem; }
   .ah-q { font-size:1.15rem; padding-left:1rem; }
@@ -903,8 +1009,72 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
       <h2 class="gch-title" id="gal-heading-title"></h2>
       <p class="gch-desc" id="gal-heading-desc"></p>
     </div>
-    <div class="gal-grid" id="gal-grid"></div>
+    <div class="gal-list" id="gal-grid"></div>
   </section>
+
+  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
+</div>
+
+<!-- ═══ SINGLE PAINTING ═══ -->
+<div id="painting-page" class="page">
+  <div class="pp-bar">
+    <nav class="pp-crumbs" aria-label="Breadcrumb">
+      <button class="pp-crumb" id="pp-crumb-cat"></button>
+      <span class="pp-crumb-sep" aria-hidden="true">›</span>
+      <span class="pp-crumb-current" id="pp-crumb-now"></span>
+    </nav>
+    <button class="pp-next" id="pp-next">Next ›</button>
+  </div>
+
+  <div class="pp-main">
+    <figure class="pp-figure" id="pp-figure">
+      <img class="pp-img" id="pp-img" src="" alt="">
+      <figcaption class="pp-hint" id="pp-hint"></figcaption>
+    </figure>
+    <div class="pp-body">
+      <h1 class="pp-title" id="pp-title"></h1>
+      <p class="pp-med" id="pp-med"></p>
+      <p class="pp-desc" id="pp-desc"></p>
+      <p class="pp-inquire">For availability and further details, please feel free to inquire below.</p>
+    </div>
+  </div>
+
+  <div class="pp-form-wrap">
+    <form class="pp-form" id="pp-form" novalidate>
+      <h2 class="pp-form-h">Inquire about this work</h2>
+      <p class="pp-form-sub">Yehudis will get back to you personally.</p>
+      <div class="pp-fields">
+        <div class="pp-row2">
+          <div class="cp-field">
+            <label class="cp-label" for="pp-first">First name</label>
+            <input class="cp-input" id="pp-first" type="text" autocomplete="given-name" required>
+          </div>
+          <div class="cp-field">
+            <label class="cp-label" for="pp-last">Last name</label>
+            <input class="cp-input" id="pp-last" type="text" autocomplete="family-name" required>
+          </div>
+        </div>
+        <div class="cp-field">
+          <label class="cp-label" for="pp-email">Email</label>
+          <input class="cp-input" id="pp-email" type="email" inputmode="email" autocomplete="email" required>
+        </div>
+        <div class="cp-field">
+          <label class="cp-label" for="pp-phone">Phone number</label>
+          <input class="cp-input" id="pp-phone" type="tel" inputmode="tel" autocomplete="tel">
+        </div>
+        <div class="cp-field">
+          <label class="cp-label" for="pp-work">Title of painting</label>
+          <input class="cp-input pp-readonly" id="pp-work" type="text" readonly>
+        </div>
+        <div class="cp-field">
+          <label class="cp-label" for="pp-msg">Message</label>
+          <textarea class="cp-textarea" id="pp-msg" required></textarea>
+        </div>
+        <button type="submit" class="btn-dark cp-submit">Send inquiry</button>
+        <p class="cp-status" id="pp-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
 
   <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
 </div>
@@ -987,6 +1157,12 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
 
 </main>
 
+<div class="zoom" id="zoom" role="dialog" aria-modal="true" aria-label="Zoomed view" hidden>
+  <img id="zoom-img" src="" alt="">
+  <button class="zoom-close" id="zoom-close" aria-label="Close zoom">✕</button>
+  <p class="zoom-cap" id="zoom-cap"></p>
+</div>
+
 <!-- ═══ LIGHTBOX ═══ -->
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Painting viewer" hidden>
   <button class="lb-close" id="lb-close" aria-label="Close viewer">✕</button>
@@ -1020,11 +1196,15 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
      SITE SETTINGS — edit these three lines only
      ───────────────────────────────────────────── */
   var SITE = {
-    email:     'art@yehudis.com',
-    instagram: 'https://www.instagram.com/yehudisart',
-    facebook:  'https://www.facebook.com/yehudisart',
-    instagramHandle: '@yehudisart',
-    facebookName:    'Yehudis Art'
+    email: 'art@yehudis.com',
+
+    /* WhatsApp number in full international form, digits only — no +, spaces
+       or dashes. Israeli mobile 052-123-4567 becomes '972521234567'. */
+    whatsapp: '972500000000',
+    whatsappDisplay: '052-000-0000',
+
+    /* Pre-filled first line of the WhatsApp message. */
+    whatsappText: 'Hi Yehudis, I saw your paintings and would love to hear more.'
   };
 
   /* ─────────────────────────────────────────────
@@ -1036,25 +1216,25 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     {
       id: 'soul', label: 'Soul', desc: 'Portraits of inner light', cover: 'one',
       paintings: [
-        { img: 'one',      title: 'One',      medium: 'Oil on canvas · 60×80 cm', w: 445, h: 600 },
-        { img: 'torah',    title: 'Torah',    medium: 'Oil on canvas · 70×50 cm', w: 424, h: 600 },
-        { img: 'the-wall', title: 'The Wall', medium: 'Oil on canvas',            w: 533, h: 534 }
+        { img: 'one',      title: 'One',      medium: 'Oil on canvas · 60×80 cm', w: 445, h: 600 , slug: 'one', desc: '' },
+        { img: 'torah',    title: 'Torah',    medium: 'Oil on canvas · 70×50 cm', w: 424, h: 600 , slug: 'torah', desc: '' },
+        { img: 'the-wall', title: 'The Wall', medium: 'Oil on canvas',            w: 533, h: 534 , slug: 'the-wall', desc: '' }
       ]
     },
     {
       id: 'light', label: 'Light', desc: 'Colour as radiance', cover: 'flowers',
       paintings: [
-        { img: 'tower-of-david',  title: 'Tower of David',  medium: 'Oil on canvas · 50×60 cm',  w: 516, h: 600 },
-        { img: 'flowers',         title: 'Flowers',         medium: 'Oil on canvas · 70×70 cm',  w: 600, h: 593 },
-        { img: 'pouring-flowers', title: 'Pouring Flowers', medium: 'Oil on canvas · 90×100 cm', w: 536, h: 600 },
-        { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 }
+        { img: 'tower-of-david',  title: 'Tower of David',  medium: 'Oil on canvas · 50×60 cm',  w: 516, h: 600 , slug: 'tower-of-david', desc: '' },
+        { img: 'flowers',         title: 'Flowers',         medium: 'Oil on canvas · 70×70 cm',  w: 600, h: 593 , slug: 'flowers', desc: '' },
+        { img: 'pouring-flowers', title: 'Pouring Flowers', medium: 'Oil on canvas · 90×100 cm', w: 536, h: 600 , slug: 'pouring-flowers', desc: '' },
+        { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 , slug: 'mount-sinai', desc: '' }
       ]
     },
     {
       id: 'story', label: 'Story', desc: 'Sacred moments in time', cover: 'four-elements',
       paintings: [
-        { img: 'four-elements', title: 'Four Elements', medium: 'Pouring · 60×120 cm',      w: 1600, h: 820 },
-        { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 858,  h: 1400 }
+        { img: 'four-elements', title: 'Four Elements', medium: 'Pouring · 60×120 cm',      w: 1600, h: 820 , slug: 'four-elements', desc: '' },
+        { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 858,  h: 1400 , slug: 'prayer', desc: '' }
       ]
     }
   ];
@@ -1100,24 +1280,22 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   /* ═══ CONTACT LINKS ═══ */
   (function buildLinks() {
     var mail = 'mailto:' + SITE.email;
+    /* wa.me opens the app on mobile and WhatsApp Web on desktop. */
+    var wa = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(SITE.whatsappText);
 
     $('#hcf-links').innerHTML =
       '<a class="hcf-link" href="' + mail + '">' + esc(SITE.email) + '</a>' +
-      '<a class="hcf-link" href="' + esc(SITE.instagram) + '" target="_blank" rel="noopener noreferrer">Instagram</a>' +
-      '<a class="hcf-link" href="' + esc(SITE.facebook) + '" target="_blank" rel="noopener noreferrer">Facebook</a>';
+      '<a class="hcf-link" href="' + wa + '" target="_blank" rel="noopener noreferrer">WhatsApp</a>';
 
     $('#about-links').innerHTML =
       '<a class="clink" href="' + mail + '">' + esc(SITE.email) + '</a>' +
-      '<a class="clink" href="' + esc(SITE.instagram) + '" target="_blank" rel="noopener noreferrer">Instagram</a>' +
-      '<a class="clink" href="' + esc(SITE.facebook) + '" target="_blank" rel="noopener noreferrer">Facebook</a>';
+      '<a class="clink" href="' + wa + '" target="_blank" rel="noopener noreferrer">WhatsApp</a>';
 
     $('#cp-links').innerHTML =
       '<div class="cp-link-item"><span class="cp-link-label">Email</span>' +
         '<a class="cp-link-val" href="' + mail + '">' + esc(SITE.email) + '</a></div>' +
-      '<div class="cp-link-item"><span class="cp-link-label">Instagram</span>' +
-        '<a class="cp-link-val" href="' + esc(SITE.instagram) + '" target="_blank" rel="noopener noreferrer">' + esc(SITE.instagramHandle) + '</a></div>' +
-      '<div class="cp-link-item"><span class="cp-link-label">Facebook</span>' +
-        '<a class="cp-link-val" href="' + esc(SITE.facebook) + '" target="_blank" rel="noopener noreferrer">' + esc(SITE.facebookName) + '</a></div>';
+      '<div class="cp-link-item"><span class="cp-link-label">WhatsApp</span>' +
+        '<a class="cp-link-val" href="' + wa + '" target="_blank" rel="noopener noreferrer">' + esc(SITE.whatsappDisplay) + '</a></div>';
   })();
 
   /* ═══ HERO VIDEO — poster paints first, video fades in when idle ═══ */
@@ -1243,22 +1421,26 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     $('#gal-heading-title').textContent = c.label;
     $('#gal-heading-desc').textContent  = c.desc;
 
-    /* Grid */
+    /* List rows */
     var grid = $('#gal-grid');
     grid.innerHTML = '';
-    c.paintings.forEach(function (p, i) {
-      var b = document.createElement('button');
-      /* Anything meaningfully wider than it is tall gets the double-width cell. */
-      b.className = 'gg-item' + (p.w && p.h && (p.w / p.h) >= 1.6 ? ' wide' : '');
-      b.setAttribute('aria-label', 'View ' + p.title + ' full size');
-      b.innerHTML =
-        picture(p.img, p.title + ' — ' + p.medium, '-sm', null, null, i < 3) +
-        '<span class="gg-cap">' +
-          '<span class="gg-title">' + esc(p.title) + '</span>' +
-          '<span class="gg-med">' + esc(p.medium) + '</span>' +
-        '</span>';
-      b.addEventListener('click', function () { openLightbox(i, b); });
-      grid.appendChild(b);
+    c.paintings.forEach(function (pt, i) {
+      var row = document.createElement('div');
+      row.className = 'gl-row';
+      row.innerHTML =
+        '<button class="gl-figure" aria-label="View ' + esc(pt.title) + '">' +
+          picture(pt.img, pt.title + ' — ' + pt.medium, '-sm', pt.w, pt.h, i < 2) +
+        '</button>' +
+        '<div class="gl-body">' +
+          '<h3 class="gl-title">' + esc(pt.title) + '</h3>' +
+          '<p class="gl-med">' + esc(pt.medium) + '</p>' +
+          (pt.desc ? '<p class="gl-desc">' + esc(pt.desc) + '</p>' : '') +
+          '<button class="gl-more">Learn more</button>' +
+        '</div>';
+      var open = function () { navigate('painting-page', null, pt.slug); };
+      row.querySelector('.gl-figure').addEventListener('click', open);
+      row.querySelector('.gl-more').addEventListener('click', open);
+      grid.appendChild(row);
     });
 
     if (push) setHash('gallery/' + id);
@@ -1274,6 +1456,146 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   }
 
   $('#gal-back').addEventListener('click', function () { showPicker(true); });
+
+  var canHover = window.matchMedia('(hover: hover)').matches;
+
+  /* ═══ SINGLE PAINTING PAGE ═══ */
+  var ALL = [];
+  CATEGORIES.forEach(function (c) {
+    c.paintings.forEach(function (pt) { ALL.push({ p: pt, cat: c }); });
+  });
+  function findWork(slug) {
+    for (var i = 0; i < ALL.length; i++) { if (ALL[i].p.slug === slug) return ALL[i]; }
+    return null;
+  }
+
+  var currentWork = null;
+
+  function renderPainting(slug) {
+    var found = findWork(slug);
+    if (!found) return false;
+    currentWork = found;
+    var pt = found.p, cat = found.cat;
+
+    $('#pp-crumb-cat').textContent = cat.label;
+    $('#pp-crumb-now').textContent = pt.title;
+    $('#pp-title').textContent = pt.title;
+    $('#pp-med').textContent = pt.medium;
+
+    var d = $('#pp-desc');
+    d.textContent = pt.desc || '';
+    d.style.display = pt.desc ? '' : 'none';
+
+    var img = $('#pp-img');
+    img.src = '/assets/img/' + pt.img + '.jpg';
+    img.alt = pt.title + ' — ' + pt.medium;
+    img.width = pt.w; img.height = pt.h;
+
+    $('#pp-hint').textContent = canHover ? 'Click image to enlarge' : 'Tap image to enlarge';
+    $('#pp-work').value = pt.title;
+
+    /* Next cycles within the collection, then on to the next collection. */
+    var idx = ALL.indexOf(found);
+    var nxt = ALL[(idx + 1) % ALL.length];
+    $('#pp-next').textContent = 'Next ›';
+    $('#pp-next').setAttribute('aria-label', 'Next painting: ' + nxt.p.title);
+
+    $('#pp-status').textContent = '';
+    return true;
+  }
+
+  $('#pp-crumb-cat').addEventListener('click', function () {
+    if (currentWork) navigate('gallery', currentWork.cat.id);
+  });
+  $('#pp-next').addEventListener('click', function () {
+    if (!currentWork) return;
+    var idx = ALL.indexOf(currentWork);
+    navigate('painting-page', null, ALL[(idx + 1) % ALL.length].p.slug);
+  });
+
+  /* ═══ ZOOM OVERLAY ═══
+     Scales the painting to fill the screen but never beyond it, then follows
+     the pointer so you can travel across the surface. */
+  var zoomEl = $('#zoom'), zoomImg = $('#zoom-img');
+  var zScale = 1, zMaxX = 0, zMaxY = 0;
+
+  function layoutZoom() {
+    var nw = zoomImg.naturalWidth, nh = zoomImg.naturalHeight;
+    if (!nw || !nh) return;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    /* Cover the viewport, but never enlarge past the image's own pixels. */
+    var cover = Math.max(vw / nw, vh / nh);
+    /* Never shrink below 1x — a small painting still fills the screen. */
+    zScale = Math.max(cover, 1);
+    var w = nw * zScale, h = nh * zScale;
+    zoomImg.style.width = w + 'px';
+    zoomImg.style.height = h + 'px';
+    zMaxX = Math.max(0, (w - vw) / 2);
+    zMaxY = Math.max(0, (h - vh) / 2);
+    moveZoom(0.5, 0.5);
+  }
+
+  function moveZoom(rx, ry) {
+    var x = (0.5 - rx) * 2 * zMaxX;
+    var y = (0.5 - ry) * 2 * zMaxY;
+    zoomImg.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  }
+
+  function openZoom(pt) {
+    zoomImg.src = '/assets/img/' + pt.img + '.jpg';
+    zoomImg.alt = pt.title;
+    $('#zoom-cap').textContent = pt.title + ' · ' + pt.medium;
+    zoomEl.hidden = false;
+    zoomEl.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (zoomImg.complete) layoutZoom();
+    else zoomImg.addEventListener('load', layoutZoom, { once: true });
+    $('#zoom-close').focus();
+  }
+
+  function closeZoom() {
+    zoomEl.classList.remove('open');
+    zoomEl.hidden = true;
+    document.body.style.overflow = '';
+    var t = $('#pp-img');
+    if (t && $('#painting-page').classList.contains('active')) t.focus();
+  }
+
+  zoomEl.addEventListener('mousemove', function (e) {
+    moveZoom(e.clientX / window.innerWidth, e.clientY / window.innerHeight);
+  });
+  zoomEl.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    moveZoom(e.touches[0].clientX / window.innerWidth, e.touches[0].clientY / window.innerHeight);
+  }, { passive: false });
+  zoomEl.addEventListener('click', closeZoom);
+  $('#zoom-close').addEventListener('click', function (e) { e.stopPropagation(); closeZoom(); });
+  window.addEventListener('resize', function () { if (zoomEl.classList.contains('open')) layoutZoom(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && zoomEl.classList.contains('open')) closeZoom();
+  });
+
+  /* Before zooming: hovering the painting drifts it gently, hinting there is
+     more to see. Pointer devices only — it would fight scrolling on touch. */
+  (function hoverDrift() {
+    var fig = $('#pp-figure'), img = $('#pp-img');
+    if (!canHover || reduceMotion) return;
+    fig.addEventListener('mousemove', function (e) {
+      var r = fig.getBoundingClientRect();
+      var rx = (e.clientX - r.left) / r.width - 0.5;
+      var ry = (e.clientY - r.top) / r.height - 0.5;
+      img.style.transition = 'transform .18s ease-out';
+      img.style.transform = 'scale(1.06) translate(' + (-rx * 3.2) + '%,' + (-ry * 3.2) + '%)';
+    });
+    fig.addEventListener('mouseleave', function () {
+      img.style.transition = 'transform .5s cubic-bezier(.25,.46,.45,.94)';
+      img.style.transform = '';
+    });
+  })();
+
+  $('#pp-img').addEventListener('click', function () {
+    if (currentWork) openZoom(currentWork.p);
+  });
 
   /* ═══ LIGHTBOX ═══ */
   var lb = $('#lb'), lbImg = $('#lb-img'), lbCap = $('#lb-cap');
@@ -1317,7 +1639,6 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     });
   }
 
-  var canHover = window.matchMedia('(hover: hover)').matches;
   $('#lb-zoom-hint').textContent = canHover ? 'Click image to zoom' : 'Tap image to zoom';
 
   function renderLightbox() {
@@ -1493,13 +1814,14 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   });
 
   /* ═══ ROUTING ═══ */
-  var PAGES = ['home', 'gallery', 'about-page', 'contact-page'];
+  var PAGES = ['home', 'gallery', 'about-page', 'contact-page', 'painting-page'];
   var NAV_BTN = { home: 'nb-home', gallery: 'nb-gallery', 'about-page': 'nb-about', 'contact-page': 'nb-contact' };
   var PAGE_TITLE = {
     home: 'Yehudis Jacobs — Contemporary Jewish Art | Oil & Gold Leaf Paintings',
     gallery: 'Gallery — Yehudis Jacobs',
     'about-page': 'About Yehudis Jacobs — Jerusalem Artist',
-    'contact-page': 'Contact — Yehudis Jacobs'
+    'contact-page': 'Contact — Yehudis Jacobs',
+    'painting-page': 'Yehudis Jacobs'
   };
 
   function scrollTop() {
@@ -1522,6 +1844,8 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
       var m = $('#nb-contact-menu'); if (m) m.classList.add('active');
     }
 
+    if (id === 'painting-page') { $('#nb-gallery').classList.add('active'); }
+
     navEl.classList.toggle('solid', id !== 'home');
     navEl.classList.toggle('over',  id === 'home');
 
@@ -1530,8 +1854,18 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   }
 
   /* Public navigation used by every button */
-  function navigate(page, cat) {
+  function navigate(page, cat, workSlug) {
     if (PAGES.indexOf(page) === -1) page = 'home';
+
+    if (page === 'painting-page') {
+      if (!renderPainting(workSlug)) { navigate('gallery'); return; }
+      paintPage(page);
+      document.title = currentWork.p.title + ' — Yehudis Jacobs';
+      setHash('work/' + workSlug);
+      scrollTop();
+      return;
+    }
+
     paintPage(page);
 
     if (page === 'gallery') {
@@ -1550,7 +1884,18 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     var h = (window.location.hash || '').replace(/^#\/?/, '');
     var parts = h.split('/');
     var page = parts[0] || 'home';
-    if (PAGES.indexOf(page) === -1) page = 'home';
+
+    if (page === 'work') {
+      if (parts[1] && renderPainting(parts[1])) {
+        paintPage('painting-page');
+        document.title = currentWork.p.title + ' — Yehudis Jacobs';
+        scrollTop();
+        $$('.rev').forEach(function (el) { revObs.observe(el); });
+        return;
+      }
+      page = 'gallery';
+    }
+    if (PAGES.indexOf(page) === -1 || page === 'painting-page') page = 'home';
 
     paintPage(page);
     if (page === 'gallery') {
@@ -1563,6 +1908,7 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
   }
 
   window.addEventListener('popstate', function () {
+    if (zoomEl.classList.contains('open')) closeZoom();
     if (lb.classList.contains('open')) closeLightbox();
     applyRoute();
   });
@@ -1625,6 +1971,42 @@ nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(
     setTimeout(function () {
       status.textContent = 'If nothing opened, email ' + SITE.email + ' directly.';
       form.reset();
+    }, 2500);
+  });
+
+  /* ═══ PAINTING INQUIRY FORM ═══ */
+  $('#pp-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var status = $('#pp-status');
+    var first = $('#pp-first').value.trim(), last = $('#pp-last').value.trim();
+    var email = $('#pp-email').value.trim(), phone = $('#pp-phone').value.trim();
+    var work  = $('#pp-work').value, msg = $('#pp-msg').value.trim();
+
+    if (!first || !last || !email || !msg) {
+      status.style.color = '#c0564b';
+      status.textContent = 'Please fill in your name, email and message.';
+      (!first ? $('#pp-first') : !last ? $('#pp-last') : !email ? $('#pp-email') : $('#pp-msg')).focus();
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      status.style.color = '#c0564b';
+      status.textContent = 'That email address doesn\'t look right.';
+      $('#pp-email').focus();
+      return;
+    }
+
+    var body = 'Painting: ' + work + '\n' +
+               'Name: ' + first + ' ' + last + '\n' +
+               'Email: ' + email + '\n' +
+               (phone ? 'Phone: ' + phone + '\n' : '') + '\n' + msg;
+    status.style.color = '';
+    status.textContent = 'Opening your email app…';
+    window.location.href = 'mailto:' + SITE.email +
+      '?subject=' + encodeURIComponent('Inquiry: ' + work) +
+      '&body=' + encodeURIComponent(body);
+
+    setTimeout(function () {
+      status.textContent = 'If nothing opened, email ' + SITE.email + ' directly.';
     }, 2500);
   });
 
