@@ -57,7 +57,7 @@
   --ink:#111111; --white:#ffffff; --off:#fafafa;
   --paper:#ffffff; --canvas:#ffffff;
   --border:#e5e5e5; --muted:#767676; --light:#a8a8a8;
-  --nav-h:60px;
+  --nav-h:92px;
   --pad-x:2.5rem;
   /* Canela and Neue Haas Grotesk are licensed and cannot be bundled. They sit
      first in each stack, so the moment the licensed files are self-hosted (see
@@ -456,15 +456,19 @@ a { color:inherit; }
 .gch-desc  { font-size:.72rem; color:var(--muted); letter-spacing:.1em; margin-top:.4rem; }
 
 /* ═══ CATEGORY LIST ═══ */
-.gal-list { padding:3.5rem var(--pad-x) 4rem; display:flex; flex-direction:column; gap:5.5rem; }
+.gal-list { padding:3.5rem var(--pad-x) 4rem; display:flex; flex-direction:column; gap:4.5rem; }
 .gl-row {
-  display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:3.5rem;
-  align-items:start; max-width:1200px; width:100%; margin:0 auto;
+  /* A narrower image column reads as a considered plate rather than a
+     full-bleed thumbnail; the text column takes the space it releases. */
+  display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:4rem;
+  align-items:start; max-width:1180px; width:100%; margin:0 auto;
 }
 .gl-figure {
-  background:none; border:none; padding:0; display:block; width:100%;
+  background:none; border:none; padding:0; display:block;
   /* Every work occupies an identical square, so the column reads as one clean
-     edge down the page whatever each canvas's own proportions are. */
+     edge down the page whatever each canvas's own proportions are. Capped so
+     the plates stay modest on wide screens. */
+  width:100%; max-width:360px;
   aspect-ratio:1/1; overflow:hidden; cursor:pointer;
 }
 .gl-figure picture { display:contents; }
@@ -755,8 +759,9 @@ a { color:inherit; }
   .cp-form        { max-width:none; }
 
   .gal-picker-grid { grid-template-columns:repeat(2,1fr); max-width:640px; gap:1.1rem; }
-  .gl-row          { grid-template-columns:1fr; gap:1.75rem; max-width:640px; }
-  .gal-list        { gap:4.5rem; }
+  .gl-row          { grid-template-columns:1fr; gap:1.5rem; max-width:600px; }
+  .gl-figure       { max-width:320px; }
+  .gal-list        { gap:4rem; }
   .allworks-grid   { grid-template-columns:repeat(3,1fr); gap:2rem 1.25rem; }
   .allworks        { padding:3.5rem var(--pad-x) 4rem; }
   .pp-main         { grid-template-columns:1fr; gap:2.5rem; padding-top:2rem; }
@@ -765,7 +770,7 @@ a { color:inherit; }
 
 /* Phone */
 @media (max-width:640px) {
-  :root { --pad-x:1.25rem; --nav-h:56px; }
+  :root { --pad-x:1.25rem; --nav-h:72px; }
 
   .logo { font-size:1.25rem; }
 
@@ -805,7 +810,8 @@ a { color:inherit; }
   .gct { font-size:.95rem; padding:0 .8rem; }
   .gal-heading { padding:2rem 1.25rem 1.25rem; }
 
-  .gal-list  { padding:2rem 1.25rem 3rem; gap:3.5rem; }
+  .gal-list  { padding:2rem 1.25rem 3rem; gap:3rem; }
+  .gl-figure { max-width:100%; }
   .allworks       { padding:3rem 1.25rem 3.5rem; }
   .allworks-h     { margin-bottom:2rem; }
   .allworks-grid  { grid-template-columns:repeat(2,1fr); gap:1.5rem 1rem; }
