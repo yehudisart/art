@@ -52,8 +52,10 @@
      former accent now reads as emphasis rather than colour. --accent-on-dark
      is its counterpart for the hero and the zoom overlay. */
   --accent:#111111; --accent-on-dark:#ffffff;
+  /* White throughout. --off is the one permitted break: a near-imperceptible
+     tint used only where a block genuinely needs separating from the page. */
   --ink:#111111; --white:#ffffff; --off:#fafafa;
-  --paper:#ffffff; --canvas:#f5f5f5;
+  --paper:#ffffff; --canvas:#ffffff;
   --border:#e5e5e5; --muted:#767676; --light:#a8a8a8;
   --nav-h:60px;
   --pad-x:2.5rem;
@@ -122,6 +124,10 @@ a { color:inherit; }
 
 /* ═══ PAGES ═══ */
 .page { display:none; }
+.page.active { padding-top:var(--nav-h); }
+/* The gallery swaps between two child views; both inherit the offset from
+   .page.active, so neither may add its own. */
+#gallery #gal-grid-view { padding-top:0; }
 .page.active { display:block; }
 
 /* ═══ NAV ═══ */
@@ -133,16 +139,25 @@ a { color:inherit; }
   padding-top:env(safe-area-inset-top);
   transition:background .4s, border-color .4s;
 }
-#nav.solid { background:rgba(255,255,255,.97); border-bottom:1px solid var(--border); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
-#nav.over  { background:transparent; border-bottom:1px solid transparent; }
+/* Always a solid white bar — it sits above the hero rather than floating over
+   it, so nothing in it ever competes with the video for contrast. */
+#nav, #nav.solid, #nav.over {
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+}
 
+/* Logo slot. To swap in an image later, replace the button's contents with
+   <img src="/assets/img/logo.svg" alt="Yehudis Jacobs"> — the reserved space
+   and alignment below stay exactly as they are. */
 .logo {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   letter-spacing:.2em; text-transform:uppercase; color:var(--ink);
   background:none; border:none; padding:.4rem 0; line-height:1.2;
-  white-space:nowrap;
-  display:inline-flex; align-items:center; min-height:44px;
+  white-space:nowrap; flex-shrink:0;
+  display:inline-flex; align-items:center;
+  min-height:52px; max-width:min(40vw, 300px);
 }
+.logo img { max-height:42px; max-width:100%; width:auto; display:block; }
 
 .nav-center { display:flex; gap:.2rem; align-items:center; }
 .nb {
@@ -157,12 +172,9 @@ a { color:inherit; }
   background:var(--accent); transform:scaleX(0); transition:transform .25s;
 }
 .nb.active::after { transform:scaleX(1); }
-#nav.over  .nb            { color:rgba(255,255,255,.6); }
-#nav.over  .nb:hover      { color:rgba(255,255,255,.95); }
-#nav.over  .nb.active     { color:var(--white); }
-#nav.solid .nb            { color:var(--muted); }
-#nav.solid .nb:hover      { color:var(--ink); }
-#nav.solid .nb.active     { color:var(--ink); }
+#nav .nb        { color:var(--muted); }
+#nav .nb:hover  { color:var(--ink); }
+#nav .nb.active { color:var(--ink); }
 
 .nav-cta {
   font-size:.72rem; font-weight:400; letter-spacing:.15em; text-transform:uppercase; text-decoration:none;
@@ -173,10 +185,8 @@ a { color:inherit; }
 /* The drawer carries its own Contact button; it must only appear once the
    nav collapses, otherwise the bar shows CONTACT twice. */
 .nav-center .nav-cta { display:none; }
-#nav.solid .nav-cta        { color:var(--muted); border-color:var(--border); }
-#nav.solid .nav-cta:hover  { border-color:var(--accent); color:var(--accent); }
-#nav.over  .nav-cta        { color:rgba(255,255,255,.75); border-color:rgba(255,255,255,.3); }
-#nav.over  .nav-cta:hover  { border-color:var(--white); color:var(--white); }
+#nav .nav-cta       { color:var(--muted); border-color:var(--border); }
+#nav .nav-cta:hover { border-color:var(--ink); color:var(--ink); }
 
 /* Hamburger */
 .nav-toggle {
@@ -191,8 +201,7 @@ a { color:inherit; }
 .nav-toggle span:nth-child(1) { top:17px; }
 .nav-toggle span:nth-child(2) { top:22px; }
 .nav-toggle span:nth-child(3) { top:27px; }
-#nav.over  .nav-toggle { color:var(--white); }
-#nav.solid .nav-toggle { color:var(--ink); }
+#nav .nav-toggle { color:var(--ink); }
 #nav.menu-open .nav-toggle span:nth-child(1) { transform:translateY(5px) rotate(45deg); }
 #nav.menu-open .nav-toggle span:nth-child(2) { opacity:0; }
 #nav.menu-open .nav-toggle span:nth-child(3) { transform:translateY(-5px) rotate(-45deg); }
@@ -221,10 +230,12 @@ a { color:inherit; }
 /* ═══ HERO ═══ */
 .hero {
   position:relative; overflow:hidden; background:#0a0908;
-  height:100vh; height:100svh;
-  min-height:520px;
+  height:calc(100svh - var(--nav-h));
+  min-height:460px;
 }
-.hero-media { position:absolute; inset:0; }
+/* clip-path contains the Ken Burns scale so the poster can never bleed up
+   behind the fixed bar. */
+.hero-media { position:absolute; inset:0; clip-path:inset(0); }
 .hero-media img, .hero-media video {
   width:100%; height:100%; object-fit:cover;
 }
@@ -242,16 +253,11 @@ a { color:inherit; }
   position:absolute; inset:0; z-index:1;
   background:linear-gradient(135deg, rgba(15,13,11,.78) 0%, rgba(15,13,11,.12) 55%, rgba(15,13,11,.6) 100%);
 }
-.hero-fade {
-  position:absolute; bottom:0; left:0; right:0; height:22%; z-index:1;
-  background:linear-gradient(to top, var(--white) 0%, transparent 100%);
-  pointer-events:none;
-}
 .hcontent {
   position:absolute; inset:0; z-index:2;
   display:flex; flex-direction:column; justify-content:flex-end;
-  padding:var(--nav-h) 5rem 5.5rem;
-  padding-bottom:calc(5.5rem + env(safe-area-inset-bottom));
+  padding:2rem 5rem 5rem;
+  padding-bottom:calc(5rem + env(safe-area-inset-bottom));
 }
 .heyebrow {
   font-size:.72rem; letter-spacing:.42em; text-transform:uppercase; color:var(--accent);
@@ -284,7 +290,7 @@ a { color:inherit; }
 /* ═══ BANNER ═══ */
 .banner-strip { display:grid; grid-template-columns:1fr 1fr; min-height:500px; border-top:1px solid var(--border); }
 .banner-text {
-  background:#f5f4f1; padding:5rem;
+  background:var(--white); padding:5rem;
   display:flex; flex-direction:column; justify-content:center;
   border-right:1px solid var(--border);
 }
@@ -319,7 +325,7 @@ a { color:inherit; }
 }
 
 /* ═══ SELECTED WORKS ═══ */
-.selected { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); background:var(--off); }
+.selected { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); }
 .selected-h {
   font-family:var(--serif); font-size:clamp(1.2rem,2.2vw,1.6rem); font-weight:400;
   letter-spacing:.2em; text-transform:uppercase; margin-bottom:2.5rem;
@@ -333,7 +339,7 @@ a { color:inherit; }
   transition:transform .3s;
 }
 .sw:hover, .sw:focus-visible { transform:translateY(-4px); }
-.sw-img { display:block; overflow:hidden; aspect-ratio:4/5; background:var(--border); }
+.sw-img { display:block; overflow:hidden; aspect-ratio:4/5; }
 .sw-img img {
   width:100%; height:100%; object-fit:cover; filter:brightness(.94);
   transition:transform .65s cubic-bezier(.25,.46,.45,.94), filter .4s;
@@ -353,7 +359,7 @@ a { color:inherit; }
 
 /* ═══ ABOUT PREVIEW ═══ */
 .about-preview { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--border); }
-.ap-img { overflow:hidden; min-height:320px; background:var(--off); }
+.ap-img { overflow:hidden; min-height:320px; }
 .ap-img img { width:100%; height:100%; object-fit:cover; }
 .ap-text {
   padding:5rem; display:flex; flex-direction:column; justify-content:center;
@@ -390,8 +396,8 @@ a { color:inherit; }
 #gallery { background:var(--white); }
 
 .gal-picker {
-  padding:calc(var(--nav-h) + 3rem) var(--pad-x) 4rem;
-  min-height:100svh;
+  padding:3rem var(--pad-x) 4rem;
+  min-height:calc(100svh - var(--nav-h));
   display:flex; flex-direction:column; justify-content:center;
 }
 .gal-picker-head { text-align:center; margin-bottom:3rem; }
@@ -417,7 +423,7 @@ a { color:inherit; }
 .gpc-count { display:block; font-size:.7rem; color:var(--light); letter-spacing:.16em; text-transform:uppercase; margin-top:.5rem; }
 
 /* Gallery grid view */
-#gal-grid-view { display:none; padding-top:var(--nav-h); }
+#gal-grid-view { display:none; }
 .gal-bar {
   position:relative; z-index:1;
   min-height:52px; display:flex; align-items:center; gap:1rem;
@@ -510,7 +516,7 @@ a { color:inherit; }
 .aw.is-current .aw-t { color:var(--muted); }
 
 /* ═══ PAINTING PAGE ═══ */
-#painting-page { padding-top:var(--nav-h); }
+#painting-page { }
 .pp-bar {
   display:flex; align-items:center; justify-content:space-between; gap:1rem;
   padding:2.5rem var(--pad-x) 0; max-width:1300px; margin:0 auto; width:100%;
@@ -610,17 +616,17 @@ a { color:inherit; }
 }
 
 /* ═══ ABOUT ═══ */
-#about-page { padding-top:var(--nav-h); }
+#about-page { }
 .about-hero { display:grid; grid-template-columns:1fr 1fr; align-items:start; }
 /* The bio is long, so the portrait stays pinned while the text scrolls past it
    instead of being stretched to match the column height. */
 .ah-img {
   position:sticky; top:var(--nav-h);
   height:calc(100svh - var(--nav-h));
-  overflow:hidden; background:var(--off);
+  overflow:hidden;
 }
 .ah-img img { width:100%; height:100%; object-fit:cover; }
-.ah-text { padding:5rem; background:var(--off); border-left:1px solid var(--border); }
+.ah-text { padding:5rem; border-left:1px solid var(--border); }
 .ah-ey  { font-size:.72rem; letter-spacing:.38em; text-transform:uppercase; color:var(--accent); margin-bottom:1.4rem; }
 .ah-q   { font-family:var(--serif); font-size:clamp(1.3rem,2.4vw,1.6rem); font-style:italic; line-height:1.55; border-left:2px solid var(--accent); padding-left:1.3rem; margin-bottom:2.2rem; max-width:28rem; }
 .ah-p   { font-size:.87rem; line-height:1.9; color:var(--muted); margin-bottom:1.15rem; max-width:29rem; }
@@ -636,7 +642,7 @@ a { color:inherit; }
 .clink:hover { color:var(--accent); border-color:var(--accent); }
 
 /* ═══ CONTACT ═══ */
-#contact-page { padding-top:var(--nav-h); }
+#contact-page { }
 .contact-page-wrap { display:grid; grid-template-columns:1fr 1fr; min-height:calc(100svh - var(--nav-h)); }
 .cp-left { padding:5rem; display:flex; flex-direction:column; justify-content:center; border-right:1px solid var(--border); }
 .cp-eyebrow { font-size:.7rem; letter-spacing:.38em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:1.4rem; }
@@ -655,7 +661,7 @@ a { color:inherit; }
 .cp-field { display:flex; flex-direction:column; gap:.4rem; }
 .cp-label { font-size:.7rem; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
 .cp-input, .cp-textarea {
-  background:var(--off); border:1px solid var(--border);
+  background:var(--white); border:1px solid var(--border);
   padding:.85rem 1rem; font-family:var(--sans); font-size:16px; font-weight:400;
   color:var(--ink); outline:none; border-radius:2px;
   transition:border-color .2s;
@@ -668,7 +674,7 @@ a { color:inherit; }
 .cp-note { font-size:.72rem; color:var(--light); line-height:1.6; }
 .cp-status { font-family:var(--serif); font-size:1.05rem; font-style:italic; color:var(--accent); min-height:1.4em; }
 
-.cp-right { overflow:hidden; background:var(--off); min-height:300px; }
+.cp-right { overflow:hidden; min-height:300px; }
 .cp-right img { width:100%; height:100%; object-fit:cover; filter:brightness(.92); }
 
 /* ═══ FOOTER ═══ */
@@ -690,7 +696,7 @@ a { color:inherit; }
 @media (max-width:1024px) {
   :root { --pad-x:2rem; }
   .banner-text, .ah-text, .cp-left { padding:3.5rem 2.5rem; }
-  .hcontent { padding:var(--nav-h) 3rem 4.5rem; }
+  .hcontent { padding:2rem 3rem 4rem; }
   .scrl { right:1.75rem; }
 }
 
@@ -764,7 +770,7 @@ a { color:inherit; }
   .logo { font-size:1.25rem; }
 
   .hero { min-height:480px; }
-  .hcontent { padding:var(--nav-h) 1.5rem 3.5rem; padding-bottom:calc(3.5rem + env(safe-area-inset-bottom)); }
+  .hcontent { padding:1.5rem 1.5rem 3rem; padding-bottom:calc(3rem + env(safe-area-inset-bottom)); }
   .heyebrow { font-size:.68rem; letter-spacing:.32em; margin-bottom:.9rem; }
   .hh1 { font-size:clamp(1.75rem,8vw,2.6rem); letter-spacing:.04em; margin-bottom:.9rem; }
   .hsub { font-size:.72rem; letter-spacing:.28em; margin-bottom:1.8rem; }
@@ -788,7 +794,7 @@ a { color:inherit; }
   .hcf-links { gap:1.6rem 2rem; }
   .hcf-btns { flex-direction:column; align-items:stretch; }
 
-  .gal-picker { padding:calc(var(--nav-h) + 2rem) 1.25rem 3rem; min-height:0; }
+  .gal-picker { padding:2rem 1.25rem 3rem; min-height:0; }
   .gal-picker-head { margin-bottom:2rem; }
   .gal-picker-grid { grid-template-columns:1fr; max-width:400px; gap:1rem; }
   .gpc-img { aspect-ratio:16/10; }
@@ -896,7 +902,6 @@ a { color:inherit; }
              aria-hidden="true" tabindex="-1" disablepictureinpicture></video>
     </div>
     <div class="hero-ov"></div>
-    <div class="hero-fade"></div>
 
     <div class="hcontent">
       <h1 class="hh1">Yehudis Jacobs</h1>
