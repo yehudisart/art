@@ -57,7 +57,7 @@
   --ink:#111111; --white:#ffffff; --off:#fafafa;
   --paper:#ffffff; --canvas:#ffffff;
   --border:#e5e5e5; --muted:#767676; --light:#a8a8a8;
-  --nav-h:92px;
+  --nav-h:76px;
   --pad-x:2.5rem;
   /* Canela and Neue Haas Grotesk are licensed and cannot be bundled. They sit
      first in each stack, so the moment the licensed files are self-hosted (see
@@ -108,7 +108,7 @@ a { color:inherit; }
 :focus, :focus-visible { outline:none; }
 /* Keyboard navigation still needs a cue, so links and buttons underline
    rather than draw a box. */
-.nb:focus-visible, .nav-cta:focus-visible, .gl-more:focus-visible,
+.nb:focus-visible, .gl-more:focus-visible,
 .btn-dark:focus-visible, .btn-ghost:focus-visible, .btn-outline:focus-visible,
 .pp-crumb:focus-visible, .pp-next:focus-visible, .selected-more:focus-visible,
 .ap-cta:focus-visible, .gal-back:focus-visible,
@@ -173,7 +173,7 @@ a { color:inherit; }
 }
 .logo img { max-height:42px; max-width:100%; width:auto; display:block; }
 
-.nav-center { display:flex; gap:.2rem; align-items:center; }
+.nav-center { display:flex; gap:.2rem; align-items:center; margin-left:auto; }
 .nb {
   background:none; border:none;
   font-size:.7rem; font-weight:400; letter-spacing:.18em; text-transform:uppercase;
@@ -190,17 +190,6 @@ a { color:inherit; }
 #nav .nb:hover  { color:var(--ink); }
 #nav .nb.active { color:var(--ink); }
 
-.nav-cta {
-  font-size:.72rem; font-weight:400; letter-spacing:.15em; text-transform:uppercase; text-decoration:none;
-  border:1px solid var(--border); padding:.6rem 1.1rem; border-radius:3px;
-  background:none; transition:border-color .2s, color .2s;
-  display:inline-flex; align-items:center; justify-content:center; min-height:44px;
-}
-/* The drawer carries its own Contact button; it must only appear once the
-   nav collapses, otherwise the bar shows CONTACT twice. */
-.nav-center .nav-cta { display:none; }
-#nav .nav-cta       { color:var(--muted); border-color:var(--border); }
-#nav .nav-cta:hover { border-color:var(--ink); color:var(--ink); }
 
 /* Hamburger */
 .nav-toggle {
@@ -761,14 +750,6 @@ a { color:inherit; }
   .nb::after { display:none; }
   .nb.active { border-bottom-color:var(--accent); }
 
-  #nav > .nav-cta {
-    display:none;
-  }
-  .nav-center .nav-cta {
-    display:flex; margin-top:1.5rem; text-align:center;
-    color:var(--muted) !important; border-color:var(--border) !important;
-    padding:.85rem 1rem; font-size:.72rem;
-  }
 
   .ap-img         { aspect-ratio:16/9; }
   .selected-grid  { grid-template-columns:repeat(2,1fr); gap:1.2rem; }
@@ -799,7 +780,7 @@ a { color:inherit; }
 
 /* Phone */
 @media (max-width:640px) {
-  :root { --pad-x:1.25rem; --nav-h:72px; }
+  :root { --pad-x:1.25rem; --nav-h:62px; }
 
   .logo { font-size:1.25rem; }
 
@@ -909,7 +890,9 @@ a { color:inherit; }
 <a class="skip-link" href="#main">Skip to content</a>
 
 <nav id="nav">
-  <button class="logo" id="logo-btn" aria-label="Yehudis Jacobs — go to home page">Yehudis Jacobs</button>
+  <!-- Logo slot. Drop in the signature when ready:
+       <img src="/assets/img/logo.svg" alt="Yehudis Jacobs"> -->
+  <button class="logo" id="logo-btn" aria-label="Yehudis Jacobs — go to home page"></button>
 
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
     <span></span><span></span><span></span>
@@ -919,10 +902,8 @@ a { color:inherit; }
     <button class="nb active" id="nb-home"         data-page="home">Home</button>
     <button class="nb"        id="nb-gallery"      data-page="gallery">Gallery</button>
     <button class="nb"        id="nb-about"        data-page="about-page">About</button>
-    <button class="nav-cta"   id="nb-contact-menu" data-page="contact-page">Contact</button>
+    <button class="nb"        id="nb-contact" data-page="contact-page">Contact</button>
   </div>
-
-  <button class="nav-cta" id="nb-contact" data-page="contact-page">Contact</button>
 </nav>
 <div class="nav-backdrop" id="nav-backdrop" hidden></div>
 
@@ -939,8 +920,14 @@ a { color:inherit; }
              alt="Painting by Yehudis Jacobs, oil and gold leaf on canvas"
              width="1000" height="1333" fetchpriority="high" decoding="async">
       </picture>
-      <video class="hero-video" id="hero-video" muted loop playsinline preload="none"
-             aria-hidden="true" tabindex="-1" disablepictureinpicture></video>
+      <!-- Sources live in the markup and autoplay is a real attribute, so
+           playback never depends on JavaScript running first. MP4/H.264 is
+           listed ahead of WebM because Safari handles it most reliably. -->
+      <video class="hero-video" id="hero-video" autoplay muted loop playsinline
+             preload="auto" aria-hidden="true" tabindex="-1" disablepictureinpicture>
+        <source src="/assets/video/hero.mp4" type="video/mp4">
+        <source src="/assets/video/hero.webm" type="video/webm">
+      </video>
     </div>
     <div class="hero-ov"></div>
 
@@ -948,7 +935,7 @@ a { color:inherit; }
       <h1 class="hh1">Yehudis Jacobs</h1>
       <p class="hsub">Original Paintings</p>
       <div class="hcta">
-        <button class="btn-hero" data-page="gallery">View the gallery</button>
+        <button class="btn-hero" data-page="gallery">View Gallery</button>
       </div>
     </div>
 
@@ -1038,10 +1025,6 @@ a { color:inherit; }
     </div>
     <div class="gal-list" id="gal-grid"></div>
 
-    <section class="allworks" aria-labelledby="aw-h-cat">
-      <h2 class="allworks-h" id="aw-h-cat">All Works</h2>
-      <div class="allworks-grid" id="allworks-cat"></div>
-    </section>
   </section>
 
   <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
@@ -1318,57 +1301,41 @@ a { color:inherit; }
         '<a class="cp-link-val" href="' + tel + '">' + esc(SITE.phoneDisplay) + '</a></div>';
   })();
 
-  /* ═══ HERO VIDEO — poster paints first, video fades in when idle ═══ */
+  /* ═══ HERO VIDEO ═══
+     The element autoplays on its own. This only fades it in once frames are
+     running, and opts out where motion or data should be avoided. */
   (function heroVideo() {
     var v = $('#hero-video');
-    if (!v || reduceMotion) return;
+    if (!v) return;
 
     var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    if (conn) {
-      if (conn.saveData) return;
-      if (/^(slow-2g|2g|3g)$/.test(conn.effectiveType || '')) return;
-    }
+    var optOut = reduceMotion ||
+      (conn && (conn.saveData || /^(slow-2g|2g)$/.test(conn.effectiveType || '')));
 
-    var tryPlay = function () {
+    if (optOut) { v.pause(); v.removeAttribute('autoplay'); v.remove(); return; }
+
+    var reveal = function () { v.classList.add('ready'); };
+    if (!v.paused && v.readyState >= 3) reveal();
+    v.addEventListener('playing', reveal, { once: true });
+    v.addEventListener('loadeddata', function () {
       var pr = v.play();
-      if (pr && pr.catch) { pr.catch(function () { /* autoplay blocked — poster stays */ }); }
-    };
+      if (pr && pr.catch) pr.catch(function () { /* blocked — poster remains */ });
+    }, { once: true });
 
-    var start = function () {
-      /* WebM/VP9 first (smaller); Safari and older browsers fall back to H.264. */
-      [['/assets/video/hero.webm', 'video/webm'],
-       ['/assets/video/hero.mp4',  'video/mp4']].forEach(function (pair) {
-        var src = document.createElement('source');
-        src.src = pair[0];
-        src.type = pair[1];
-        v.appendChild(src);
-      });
-      /* preload="none" keeps the video off the critical path, but load() honours
-         it and never buffers — so canplay would never fire. Flip to auto here. */
-      v.preload = 'auto';
-      v.load();
-      /* Only reveal once frames are actually running, so we never cross-fade to black. */
-      v.addEventListener('playing', function () { v.classList.add('ready'); }, { once: true });
-      v.addEventListener('canplay', tryPlay, { once: true });
-      tryPlay();
-    };
-
-    if ('requestIdleCallback' in window) { requestIdleCallback(start, { timeout: 2500 }); }
-    else { setTimeout(start, 1200); }
-
-    /* Don't decode video while the hero is off screen or the tab is hidden */
+    /* Don't decode while off screen or in a hidden tab. */
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (!v.querySelector('source')) return;
-          if (e.isIntersecting) { tryPlay(); }
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); }
           else { v.pause(); }
         });
       }, { threshold: 0.05 }).observe($('.hero'));
     }
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden) { v.pause(); }
-      else if ($('#home').classList.contains('active') && v.querySelector('source')) { tryPlay(); }
+      if (document.hidden) v.pause();
+      else if ($('#home').classList.contains('active')) {
+        var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+      }
     });
   })();
 
@@ -1460,8 +1427,6 @@ a { color:inherit; }
       row.querySelector('.gl-more').addEventListener('click', open);
       grid.appendChild(row);
     });
-
-    buildAllWorks($('#allworks-cat'), null);
 
     if (push) setHash('gallery/' + id);
     scrollTop();
@@ -1681,12 +1646,9 @@ a { color:inherit; }
   function paintPage(id) {
     $$('.page').forEach(function (p) { p.classList.toggle('active', p.id === id); });
 
-    $$('.nb, #nb-contact, #nb-contact-menu').forEach(function (b) { b.classList.remove('active'); });
+    $$('.nb').forEach(function (b) { b.classList.remove('active'); });
     var btn = document.getElementById(NAV_BTN[id]);
     if (btn) btn.classList.add('active');
-    if (id === 'contact-page') {
-      var m = $('#nb-contact-menu'); if (m) m.classList.add('active');
-    }
 
     if (id === 'painting-page') { $('#nb-gallery').classList.add('active'); }
 
