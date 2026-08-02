@@ -414,20 +414,20 @@ a { color:inherit; }
 .gal-picker-title em { color:var(--accent); }
 
 .gal-picker-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; max-width:960px; margin:0 auto; width:100%; }
+/* No frame and no panel — the painting sits on the page with its name
+   beneath it, matching the collections block on the home page. */
 .gpc {
-  border:1px solid var(--border); overflow:hidden; background:var(--white);
+  border:none; background:none;
   padding:0; text-align:left; display:block; width:100%;
-  transition:border-color .3s, box-shadow .3s, transform .3s;
+  transition:transform .3s;
 }
-.gpc:hover, .gpc:focus-visible { border-color:var(--accent); box-shadow:0 6px 32px rgba(0,0,0,.09); transform:translateY(-3px); }
-.gpc-img { display:block; overflow:hidden; aspect-ratio:3/4; }
+.gpc:hover, .gpc:focus-visible { transform:translateY(-4px); }
+.gpc-img { display:block; overflow:hidden; aspect-ratio:4/5; }
 .gpc-img img { width:100%; height:100%; object-fit:cover; filter:brightness(.92); transition:transform .65s cubic-bezier(.25,.46,.45,.94), filter .4s; }
 .gpc:hover .gpc-img img, .gpc:focus-visible .gpc-img img { transform:scale(1.04); filter:brightness(1); }
-.gpc-body { display:block; padding:1.3rem 1.5rem 1.5rem; border-top:2px solid var(--border); transition:border-color .3s; }
-.gpc:hover .gpc-body, .gpc:focus-visible .gpc-body { border-top-color:var(--accent); }
-.gpc-label { display:block; font-family:var(--serif); font-size:1.6rem; font-style:italic; margin-bottom:.3rem; }
-.gpc-desc  { display:block; font-size:.72rem; color:var(--muted); letter-spacing:.05em; }
-.gpc-count { display:block; font-size:.7rem; color:var(--light); letter-spacing:.16em; text-transform:uppercase; margin-top:.5rem; }
+.gpc-body { display:block; padding:.9rem 0 0; }
+.gpc-label { display:block; font-family:var(--serif); font-size:1.5rem; font-style:italic; margin-bottom:.25rem; }
+.gpc-desc  { display:block; font-size:.8rem; color:var(--muted); letter-spacing:.02em; }
 
 /* Gallery grid view */
 #gal-grid-view { display:none; }
@@ -807,8 +807,8 @@ a { color:inherit; }
   .gal-picker { padding:2rem 1.25rem 3rem; min-height:0; }
   .gal-picker-head { margin-bottom:2rem; }
   .gal-picker-grid { grid-template-columns:1fr; max-width:400px; gap:1rem; }
-  .gpc-img { aspect-ratio:16/10; }
-  .gpc-body { padding:1.1rem 1.25rem 1.25rem; }
+  .gpc-img { aspect-ratio:4/5; }
+  .gpc-body { padding:.8rem 0 0; }
 
   .gal-bar { padding:0 1rem; gap:.5rem; }
   .gal-back { font-size:.7rem; letter-spacing:.08em; gap:.35rem; }
@@ -1363,7 +1363,6 @@ a { color:inherit; }
         '<span class="gpc-body">' +
           '<span class="gpc-label">' + esc(c.label) + '</span>' +
           '<span class="gpc-desc">' + esc(c.desc) + '</span>' +
-          '<span class="gpc-count">' + n + (n === 1 ? ' painting' : ' paintings') + '</span>' +
         '</span>';
       b.addEventListener('click', function () { navigate('gallery', c.id); });
       grid.appendChild(b);
