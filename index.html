@@ -111,7 +111,7 @@ a { color:inherit; }
 .nb:focus-visible, .nav-cta:focus-visible, .gl-more:focus-visible,
 .btn-dark:focus-visible, .btn-ghost:focus-visible, .btn-outline:focus-visible,
 .pp-crumb:focus-visible, .pp-next:focus-visible, .selected-more:focus-visible,
-.banner-cta:focus-visible, .ap-cta:focus-visible, .gal-back:focus-visible,
+.ap-cta:focus-visible, .gal-back:focus-visible,
 .hcf-link:focus-visible, .clink:focus-visible, .cp-link-val:focus-visible {
   text-decoration:underline; text-underline-offset:4px;
 }
@@ -236,6 +236,16 @@ a { color:inherit; }
 }
 .btn-dark    { background:var(--ink); color:var(--white); border:1px solid var(--ink); }
 .btn-dark:hover { background:#333; border-color:#333; transform:translateY(-1px); }
+/* Hero button: type with a rule under it, no filled block. */
+.btn-hero {
+  position:relative; background:none; border:none;
+  padding:.5rem 0; font-family:inherit;
+  font-size:.8rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--white); border-bottom:1px solid var(--white);
+  transition:opacity .25s;
+}
+.btn-hero::after { content:''; position:absolute; inset:-12px -8px; }
+.btn-hero:hover { opacity:.7; }
 .btn-outline { background:none; border:1px solid rgba(255,255,255,.35); color:rgba(255,255,255,.85); }
 .btn-outline:hover { border-color:var(--white); color:var(--white); background:rgba(255,255,255,.08); }
 .btn-ghost   { background:none; border:1px solid var(--border); color:var(--muted); }
@@ -317,15 +327,6 @@ a { color:inherit; }
 .banner-eyebrow { font-size:.7rem; letter-spacing:.38em; text-transform:uppercase; color:var(--accent); margin-bottom:1.4rem; }
 .banner-heading { font-family:var(--serif); font-size:clamp(1.4rem,2.4vw,1.9rem); font-weight:400; line-height:1.4; margin-bottom:1.8rem; text-wrap:balance; }
 .banner-body    { font-size:.95rem; line-height:1.85; color:var(--muted); margin:0 auto 1.2rem; max-width:44rem; }
-.banner-cta {
-  display:inline-block; width:fit-content; margin-top:.8rem; position:relative;
-  font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--accent);
-  background:none; border:none; border-bottom:1px solid var(--accent);
-  padding:.4rem 0; font-family:inherit;
-  transition:color .2s, border-color .2s;
-}
-.banner-cta::after { content:''; position:absolute; inset:-11px -8px; }
-.banner-cta:hover { color:var(--ink); border-color:var(--ink); }
 .banner-img {
   /* Pinned: holds still in the viewport while the white panel below scrolls
      up over it, then releases at the end of the section. */
@@ -945,9 +946,9 @@ a { color:inherit; }
 
     <div class="hcontent">
       <h1 class="hh1">Yehudis Jacobs</h1>
-      <p class="hsub">Paintings</p>
+      <p class="hsub">Original Paintings</p>
       <div class="hcta">
-        <button class="btn-dark" data-page="gallery">View the work</button>
+        <button class="btn-hero" data-page="gallery">View the gallery</button>
       </div>
     </div>
 
@@ -974,7 +975,6 @@ a { color:inherit; }
     </div>
     <div class="banner-text">
       <h2 class="banner-heading">Every painting tells a different story to every person who lives with it.</h2>
-      <button class="banner-cta" data-page="contact-page">Contact</button>
     </div>
   </section>
 
@@ -995,7 +995,7 @@ a { color:inherit; }
     <div class="ap-text">
       <h2 class="ap-h">About the Artist</h2>
       <p class="ap-p">Art has always been my way of exploring what words cannot fully express. Through painting, I hope to create works that invite reflection, inspire the spirit, and continue to reveal themselves over time.</p>
-      <button class="ap-cta" data-page="about-page">Read more →</button>
+      <button class="ap-cta" data-page="about-page">Learn more about the artist</button>
     </div>
   </section>
 
