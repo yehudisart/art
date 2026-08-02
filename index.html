@@ -173,7 +173,13 @@ a { color:inherit; }
 }
 .logo img { max-height:42px; max-width:100%; width:auto; display:block; }
 
-.nav-center { display:flex; gap:.2rem; align-items:center; margin-left:auto; }
+/* Centred in the bar on desktop, so the links stay put whatever the logo's
+   width. The mobile drawer overrides this below. */
+.nav-center {
+  display:flex; gap:.2rem; align-items:center;
+  position:absolute; left:50%; transform:translateX(-50%);
+}
+@media (max-width:900px) { .nav-center { position:fixed; left:auto; transform:translateX(100%); } }
 .nb {
   background:none; border:none;
   font-size:.7rem; font-weight:400; letter-spacing:.18em; text-transform:uppercase;
@@ -277,18 +283,13 @@ a { color:inherit; }
   margin-bottom:1.2rem; opacity:0; animation:fadeUp 1s ease .25s forwards;
 }
 .hh1 {
-  font-family:var(--serif); font-size:clamp(1.9rem,4.6vw,3.8rem); font-weight:400;
-  line-height:1.05; color:var(--white); margin-bottom:1.1rem;
-  text-transform:uppercase; letter-spacing:.06em;
+  font-family:var(--serif); font-size:clamp(1.5rem,3.4vw,2.6rem); font-weight:400;
+  line-height:1.15; color:var(--white); margin-bottom:2rem;
+  text-transform:uppercase; letter-spacing:.24em;
   opacity:0; animation:fadeUp 1s ease .25s forwards;
   text-wrap:balance;
 }
 .hh1 em { font-style:italic; color:var(--accent-on-dark); display:block; font-size:1.08em; }
-.hsub {
-  font-size:.72rem; letter-spacing:.34em; text-transform:uppercase;
-  color:var(--accent-on-dark); margin-bottom:2.4rem;
-  opacity:0; animation:fadeUp 1s ease .4s forwards;
-}
 .hcta { display:flex; gap:.9rem; flex-wrap:wrap; opacity:0; animation:fadeUp 1s ease .55s forwards; }
 
 .scrl {
@@ -515,12 +516,8 @@ a { color:inherit; }
 
 /* ═══ ALL WORKS GRID ═══ */
 .allworks {
-  padding:4.5rem var(--pad-x) 5rem; max-width:1400px; margin:0 auto; width:100%;
+  padding:3.5rem var(--pad-x) 5rem; max-width:1400px; margin:0 auto; width:100%;
   border-top:1px solid var(--border);
-}
-.allworks-h {
-  font-family:var(--serif); font-size:clamp(1.05rem,1.7vw,1.3rem); font-weight:400;
-  letter-spacing:.24em; text-transform:uppercase; text-align:center; margin-bottom:3rem;
 }
 .allworks-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2.5rem 1.75rem; }
 .aw {
@@ -787,8 +784,7 @@ a { color:inherit; }
   .hero { min-height:480px; }
   .hcontent { padding:1.5rem 1.5rem 3rem; padding-bottom:calc(3rem + env(safe-area-inset-bottom)); }
   .heyebrow { font-size:.68rem; letter-spacing:.32em; margin-bottom:.9rem; }
-  .hh1 { font-size:clamp(1.75rem,8vw,2.6rem); letter-spacing:.04em; margin-bottom:.9rem; }
-  .hsub { font-size:.72rem; letter-spacing:.28em; margin-bottom:1.8rem; }
+  .hh1 { font-size:clamp(1.05rem,4.4vw,1.5rem); letter-spacing:.2em; margin-bottom:1.5rem; }
   .hcta { gap:.6rem; }
   .hcta .btn-dark, .hcta .btn-outline { flex:1 1 auto; min-width:0; padding:.85rem 1rem; font-size:.75rem; letter-spacing:.12em; }
   .scrl { display:none; }
@@ -826,7 +822,6 @@ a { color:inherit; }
   .gal-list  { padding:2rem 1.25rem 3rem; gap:3rem; }
   .gl-figure { max-width:100%; }
   .allworks       { padding:3rem 1.25rem 3.5rem; }
-  .allworks-h     { margin-bottom:2rem; }
   .allworks-grid  { grid-template-columns:repeat(2,1fr); gap:1.5rem 1rem; }
   .aw-t           { font-size:.7rem; letter-spacing:.12em; margin-top:.7rem; }
   .gl-title  { letter-spacing:.16em; margin-bottom:1rem; }
@@ -848,7 +843,7 @@ a { color:inherit; }
 }
 
 @media (max-width:380px) {
-  .hh1 { font-size:1.6rem; }
+  .hh1 { font-size:1rem; letter-spacing:.16em; }
   .hcta { flex-direction:column; }
   .hcta .btn-dark, .hcta .btn-outline { width:100%; }
 }
@@ -857,8 +852,7 @@ a { color:inherit; }
 @media (max-height:480px) and (orientation:landscape) {
   .hero { min-height:100svh; }
   .hcontent { padding-bottom:2rem; }
-  .hh1 { font-size:2rem; margin-bottom:.75rem; }
-  .hsub { display:none; }
+  .hh1 { font-size:1.2rem; margin-bottom:1rem; }
   .scrl { display:none; }
 }
 
@@ -870,7 +864,7 @@ a { color:inherit; }
     transition-duration:.01ms !important;
     scroll-behavior:auto !important;
   }
-  .heyebrow, .hh1, .hsub, .hcta, .scrl { opacity:1 !important; }
+  .heyebrow, .hh1, .hcta, .scrl { opacity:1 !important; }
   .hero-poster { animation:none; transform:none; }
   /* Pinning is motion — release it so the image simply sits in the flow. */
   .banner-img { position:static; height:auto; aspect-ratio:21/9; }
@@ -892,7 +886,7 @@ a { color:inherit; }
 <nav id="nav">
   <!-- Logo slot. Drop in the signature when ready:
        <img src="/assets/img/logo.svg" alt="Yehudis Jacobs"> -->
-  <button class="logo" id="logo-btn" aria-label="Yehudis Jacobs — go to home page"></button>
+  <button class="logo" id="logo-btn" aria-label="Yehudis Jacobs — go to home page">Yehudis Jacobs</button>
 
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
     <span></span><span></span><span></span>
@@ -932,8 +926,7 @@ a { color:inherit; }
     <div class="hero-ov"></div>
 
     <div class="hcontent">
-      <h1 class="hh1">Yehudis Jacobs</h1>
-      <p class="hsub">Original Paintings</p>
+      <h1 class="hh1">Original Paintings</h1>
       <div class="hcta">
         <button class="btn-hero" data-page="gallery">View Gallery</button>
       </div>
@@ -1090,8 +1083,7 @@ a { color:inherit; }
     </form>
   </div>
 
-  <section class="allworks" aria-labelledby="aw-h-work">
-    <h2 class="allworks-h" id="aw-h-work">All Works</h2>
+  <section class="allworks" aria-label="More works">
     <div class="allworks-grid" id="allworks-work"></div>
   </section>
 
