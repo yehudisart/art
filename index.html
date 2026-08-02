@@ -293,7 +293,8 @@ a { color:inherit; }
 
 /* ═══ BANNER ═══ */
 /* Full-bleed image band with the words beneath it, not beside it. */
-.banner-strip { display:block; border-top:1px solid var(--border); padding:4rem var(--pad-x) 0; }
+/* Full bleed — spans the whole width, edge to edge. */
+.banner-strip { display:block; border-top:1px solid var(--border); }
 .banner-text {
   background:var(--white); padding:3.5rem var(--pad-x) 4.5rem;
   max-width:820px; margin:0 auto; text-align:center;
@@ -362,11 +363,13 @@ a { color:inherit; }
 .selected-more:hover { color:var(--ink); border-color:var(--ink); }
 
 /* ═══ ABOUT PREVIEW ═══ */
-.about-preview { display:block; border-top:1px solid var(--border); padding:4rem var(--pad-x) 0; }
-.ap-img { overflow:hidden; aspect-ratio:21/9; }
+/* Deliberately inset — this one sits inside the page with a white margin
+   holding it away from the edges, unlike the full-bleed banner above. */
+.about-preview { display:block; border-top:1px solid var(--border); padding:5rem clamp(1.5rem,7vw,7rem) 0; }
+.ap-img { overflow:hidden; aspect-ratio:21/9; max-width:1100px; margin:0 auto; }
 .ap-img img { width:100%; height:100%; object-fit:cover; }
 .ap-text {
-  padding:3.5rem var(--pad-x) 4.5rem;
+  padding:2.5rem 0 4.5rem;
   max-width:820px; margin:0 auto; text-align:center;
 }
 .ap-h { font-family:var(--serif); font-size:clamp(1.6rem,3vw,2.2rem); font-weight:400; font-style:italic; margin-bottom:1.2rem; }
@@ -481,17 +484,17 @@ a { color:inherit; }
   transition:transform .8s cubic-bezier(.25,.46,.45,.94), opacity .35s ease;
 }
 .gl-figure:hover img, .gl-figure:focus-visible img { transform:scale(1.03); opacity:.92; }
-.gl-body { padding-top:.6rem; align-self:center; }
+.gl-body { padding-top:.25rem; align-self:start; }
 .gl-title {
-  font-family:var(--serif); font-size:clamp(1.05rem,1.7vw,1.3rem); font-weight:400;
-  letter-spacing:.2em; text-transform:uppercase; line-height:1.4; margin-bottom:1.3rem;
+  font-family:var(--serif); font-size:clamp(.95rem,1.25vw,1.1rem); font-weight:500;
+  letter-spacing:.2em; text-transform:uppercase; line-height:1.4; margin-bottom:1.1rem;
 }
-.gl-med  { font-size:.88rem; color:var(--ink); margin-bottom:1rem; }
-.gl-desc { font-size:.88rem; line-height:1.9; color:var(--muted); max-width:34rem; margin-bottom:1.8rem; }
+.gl-med  { font-size:.85rem; color:var(--ink); margin-bottom:.7rem; }
+.gl-desc { font-size:.85rem; line-height:1.75; color:var(--muted); max-width:44rem; margin-bottom:1.5rem; }
 .gl-more {
   display:inline-block; background:none; border:1px solid var(--ink);
-  font-size:.76rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--ink);
-  padding:.95rem 2rem; min-height:44px;
+  font-size:.7rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--ink);
+  padding:.8rem 1.6rem; min-height:44px;
   transition:background .25s, color .25s, border-color .25s;
 }
 .gl-more:hover { background:var(--ink); color:var(--white); }
@@ -783,8 +786,9 @@ a { color:inherit; }
   .hcta .btn-dark, .hcta .btn-outline { flex:1 1 auto; min-width:0; padding:.85rem 1rem; font-size:.75rem; letter-spacing:.12em; }
   .scrl { display:none; }
 
-  .banner-strip, .about-preview { padding:2.5rem 1.25rem 0; }
-  .banner-text { padding:2rem 0 3rem; }
+  .banner-strip  { padding:0; }
+  .about-preview { padding:3rem 1.25rem 0; }
+  .banner-text { padding:2rem 1.25rem 3rem; }
   .banner-img  { aspect-ratio:4/3; }
 
 
