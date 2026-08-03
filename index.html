@@ -97,12 +97,23 @@
      is one of these; nothing sets its own size or weight ad hoc. */
   --t-display: clamp(1.5rem, 2.9vw, 2.1rem);   /* page and section headings */
   --t-sub:     clamp(1.15rem, 2.1vw, 1.45rem); /* sub-headings              */
-  --t-quote:   clamp(1.2rem, 2.2vw, 1.6rem);   /* pull-quotes               */
+  /* --t-quote (the old lowercase pull-quote size) was retired when the quotes
+     moved to tracked capitals; --t-statement below replaces it. */
   /* Cormorant has a markedly smaller x-height than EB Garamond, so running
      text set at the old .95rem read noticeably smaller once the faces were
      unified. Nudged up to hold the same apparent size. */
   --t-body:    1.05rem;                        /* running text              */
   --t-label:   .72rem;                         /* small caps labels         */
+  /* Tracked capitals read larger than lowercase at the same font-size, because
+     the eye measures cap height rather than x-height. The quotes therefore get
+     their own smaller size rather than borrowing --t-quote, and their own
+     tracking: tighter than the hero's, which is tuned for two short words. */
+  --t-statement: clamp(.92rem, 1.4vw, 1.12rem);
+  /* .08em, not the hero's .2em. Tracking has to fall as string length rises:
+     two short words can carry wide tracking, a fifteen-word sentence cannot —
+     past roughly .1em the words stop cohering and the line reads as stretched.
+     This is the value that fixes the "too wide" look. */
+  --ls-statement:.08em;
   --ls-display:.2em;
   --ls-label:  .18em;
 }
@@ -362,7 +373,10 @@ a { color:inherit; }
    roman, which is why these quotes looked off-family. Tracking is .16em rather
    than the hero's .24em because these lines are far longer and .24em pulls them
    apart at this length. */
-.banner-heading { font-family:var(--serif); font-size:var(--t-quote); font-weight:400; font-style:normal; text-transform:uppercase; letter-spacing:.16em; line-height:1.75; margin-bottom:0; max-width:42rem; margin-left:auto; margin-right:auto; text-wrap:balance; }
+/* max-width is set so the line breaks at roughly 40 characters — the point
+   where tracked capitals stop reading as a sentence and start reading as a
+   banner. text-wrap:balance then evens out the resulting lines. */
+.banner-heading { font-family:var(--serif); font-size:var(--t-statement); font-weight:400; font-style:normal; text-transform:uppercase; letter-spacing:var(--ls-statement); line-height:1.75; margin-bottom:0; max-width:26rem; margin-left:auto; margin-right:auto; text-wrap:balance; }
 .banner-body    { font-size:.95rem; line-height:1.85; color:var(--muted); margin:0 auto 1.2rem; max-width:44rem; }
 .banner-img {
   /* Pinned: holds still in the viewport while the white panel below scrolls
@@ -383,9 +397,9 @@ a { color:inherit; }
   border-top:1px solid var(--border); background:var(--white);
 }
 .statement-lead {
-  font-family:var(--serif); font-size:var(--t-quote); font-style:normal; font-weight:400;
-  text-transform:uppercase; letter-spacing:.16em;
-  line-height:1.75; max-width:42rem; margin:0 auto 1.6rem; text-wrap:balance;
+  font-family:var(--serif); font-size:var(--t-statement); font-style:normal; font-weight:400;
+  text-transform:uppercase; letter-spacing:var(--ls-statement);
+  line-height:1.75; max-width:26rem; margin:0 auto 1.8rem; text-wrap:balance;
 }
 .statement-body {
   font-size:var(--t-body); line-height:1.9; color:var(--muted);
@@ -709,7 +723,7 @@ a { color:inherit; }
 .ah-img img { width:100%; height:100%; object-fit:cover; }
 .ah-text { padding:5rem; border-left:1px solid var(--border); }
 .ah-ey  { font-size:.72rem; letter-spacing:.38em; text-transform:uppercase; color:var(--accent); margin-bottom:1.4rem; }
-.ah-q   { font-family:var(--serif); font-size:var(--t-quote); font-style:normal; font-weight:400; text-transform:uppercase; letter-spacing:.16em; line-height:1.75; border-left:2px solid var(--accent); padding-left:1.3rem; margin-bottom:2.2rem; max-width:30rem; }
+.ah-q   { font-family:var(--serif); font-size:var(--t-statement); font-style:normal; font-weight:400; text-transform:uppercase; letter-spacing:var(--ls-statement); line-height:1.75; border-left:2px solid var(--accent); padding-left:1.3rem; margin-bottom:2.2rem; max-width:20rem; }
 .ah-p   { font-size:var(--t-body); line-height:1.9; color:var(--muted); margin-bottom:1.15rem; max-width:29rem; }
 .ah-sig { font-family:var(--serif); font-size:var(--t-sub); font-style:italic; color:var(--accent); margin-top:1.2rem; }
 
@@ -727,28 +741,31 @@ a { color:inherit; }
    occupies roughly a third of the content width, the form two thirds, with a
    wide channel of white between them and the whole block floated well down the
    page. Capped at 1500px so the gap cannot stretch absurdly on a 4K display. */
+/* Deliberately narrow. The page holds one painting and one form, and pulling
+   the whole block well inside the viewport gives it the composure of a printed
+   page rather than a browser window filled edge to edge. */
 .contact-page-wrap {
-  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,2fr); gap:4.5rem;
-  max-width:1120px; margin:0 auto; padding:5rem var(--pad-x) 5rem; align-items:start;
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.7fr); gap:3rem;
+  max-width:780px; margin:0 auto; padding:3.5rem var(--pad-x) 4rem; align-items:start;
 }
 .cp-art { overflow:hidden; }
 .cp-art img { width:100%; height:auto; display:block; }
 
 /* The rule under the intro. In the reference this is a hairline spanning the
    full width of the form column, separating the greeting from the fields. */
-.cp-rule { border:none; border-top:1px solid var(--border); margin:0 0 2.25rem; }
+.cp-rule { border:none; border-top:1px solid var(--border); margin:0 0 1.9rem; }
 
 /* Group heading ("Name") sitting above a paired row, larger than the field
    labels beneath it. */
 .cp-group-h {
-  font-size:1.05rem; font-weight:400; letter-spacing:.02em;
+  font-size:1rem; font-weight:400; letter-spacing:.02em;
   color:var(--ink); margin-bottom:.6rem;
 }
 /* A plain page title, set like every other section heading on the site. */
 .cp-heading {
-  font-family:var(--serif); font-size:var(--t-display); font-weight:600;
+  font-family:var(--serif); font-size:var(--t-sub); font-weight:600;
   letter-spacing:var(--ls-display); text-transform:uppercase; line-height:1.3;
-  color:var(--ink); margin-bottom:1.75rem;
+  color:var(--ink); margin-bottom:1.4rem;
 }
 /* Contact details live in the footer rather than beside the form, as in the
    reference: one centred line, values only, divided by hairline separators.
@@ -773,8 +790,8 @@ a { color:inherit; }
 }
 .cp-link-val::after { content:''; position:absolute; inset:-11px -6px; }
 .cp-link-val:hover { color:var(--accent); border-bottom-color:var(--accent); }
-.cp-form { display:flex; flex-direction:column; gap:1.35rem; }
-.cp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+.cp-form { display:flex; flex-direction:column; gap:1.15rem; }
+.cp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
 .cp-field { display:flex; flex-direction:column; gap:.5rem; }
 /* The Name pair and its shared heading form one unit, so the gap inside it is
    tighter than the gap between questions. */
@@ -783,20 +800,20 @@ a { color:inherit; }
    label, while the paired First/Last row sits under a shared "Name" heading and
    uses a reduced one, so the pair reads as a single question. */
 .cp-label {
-  font-family:var(--sans); font-size:1rem; font-weight:400;
+  font-family:var(--sans); font-size:.95rem; font-weight:400;
   letter-spacing:0; text-transform:none; color:var(--ink); line-height:1.4;
 }
-.cp-row2 .cp-label { font-size:.88rem; }
+.cp-row2 .cp-label { font-size:.84rem; }
 .cp-label span { font-size:.78em; color:var(--light); letter-spacing:0; }
 .cp-input, .cp-textarea {
   background:var(--off); border:1px solid var(--border);
-  padding:.8rem .9rem; font-family:var(--sans); font-size:16px; font-weight:400;
+  padding:.7rem .85rem; font-family:var(--sans); font-size:16px; font-weight:400;
   color:var(--ink); outline:none; border-radius:0;
   transition:border-color .2s; width:100%;
 }
 .cp-input:focus, .cp-textarea:focus { border-color:var(--ink); }
 .cp-input:user-invalid, .cp-textarea:user-invalid { border-color:#9b1c1c; }
-.cp-textarea { resize:vertical; min-height:140px; }
+.cp-textarea { resize:vertical; min-height:120px; }
 
 /* Reference submit: an outlined box, not a filled block — a thin dark rule on
    white with the word in italic. Deliberately quiet; the button is the only
@@ -805,8 +822,8 @@ a { color:inherit; }
   align-self:flex-start; margin-top:1rem;
   background:var(--white); color:var(--ink);
   border:1px solid var(--ink); border-radius:0;
-  padding:.85rem 2.1rem; min-height:44px;
-  font-family:var(--sans); font-size:.95rem; font-style:italic; font-weight:400;
+  padding:.75rem 1.8rem; min-height:44px;
+  font-family:var(--sans); font-size:.9rem; font-style:italic; font-weight:400;
   letter-spacing:.02em; text-transform:none;
   transition:background .25s, color .25s;
 }
@@ -1069,7 +1086,7 @@ a { color:inherit; }
   .pp-row2   { grid-template-columns:1fr; }
 
   .ah-text { padding:3rem 1.25rem; }
-  .ah-q { font-size:1.15rem; padding-left:1rem; }
+  .ah-q { padding-left:1rem; }
   .cblock { padding:3.5rem 1.25rem; }
   .clinks { gap:1.6rem 2rem; }
   .cp-submit { align-self:stretch; text-align:center; }
