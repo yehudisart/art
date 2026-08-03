@@ -25,10 +25,10 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="/assets/img/hero.webp" type="image/webp" fetchpriority="high">
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="preload" as="font" href="/assets/fonts/cormorant.ttf" type="font/ttf" crossorigin>
+<link rel="preload" as="font" href="/assets/fonts/ebgaramond.ttf" type="font/ttf" crossorigin>
+
 
 <script type="application/ld+json">
 {
@@ -44,6 +44,32 @@
 }
 </script>
 
+<style>
+/* ── SELF-HOSTED TYPEFACES ────────────────────────────────────────────────
+   Served from this site rather than Google, so nothing can silently fail to
+   load and fall back to a system font. Variable files: one per style covers
+   the whole weight range. */
+@font-face {
+  font-family:'Cormorant Garamond';
+  src:url('/assets/fonts/cormorant.ttf') format('truetype');
+  font-weight:300 700; font-style:normal; font-display:swap;
+}
+@font-face {
+  font-family:'Cormorant Garamond';
+  src:url('/assets/fonts/cormorant-italic.ttf') format('truetype');
+  font-weight:300 700; font-style:italic; font-display:swap;
+}
+@font-face {
+  font-family:'EB Garamond';
+  src:url('/assets/fonts/ebgaramond.ttf') format('truetype');
+  font-weight:400 800; font-style:normal; font-display:swap;
+}
+@font-face {
+  font-family:'EB Garamond';
+  src:url('/assets/fonts/ebgaramond-italic.ttf') format('truetype');
+  font-weight:400 800; font-style:italic; font-display:swap;
+}
+</style>
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
@@ -66,7 +92,7 @@
   /* One serif across the entire site — headings, navigation, body and labels.
      Cormorant for display, EB Garamond for running text: the same voice at two
      optical sizes. No sans anywhere. */
-  --serif:'EB Garamond', Georgia, 'Times New Roman', serif;
+  --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --sans:'EB Garamond', Georgia, 'Times New Roman', serif;
 
   /* ── TYPE SCALE ──────────────────────────────────────────────────────────
@@ -691,6 +717,205 @@ a { color:inherit; }
 .clink:hover { color:var(--accent); border-color:var(--accent); }
 
 /* ═══ CONTACT ═══ */
+.contact-page-wrap {
+  display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:5rem;
+  max-width:1300px; margin:0 auto; padding:4rem var(--pad-x) 5rem; align-items:start;
+}
+.cp-art { overflow:hidden; }
+.cp-art img { width:100%; height:auto; display:block; }
+.cp-intro {
+  font-family:var(--serif); font-size:var(--t-sub); font-weight:400;
+  letter-spacing:.1em; text-transform:uppercase; line-height:1.8;
+  color:var(--ink); margin-bottom:2.5rem;
+}
+.cp-links {
+  display:flex; flex-wrap:wrap; gap:.5rem 2.5rem;
+  padding-bottom:2rem; margin-bottom:2.5rem; border-bottom:1px solid var(--border);
+}
+.cp-link-item { display:flex; align-items:baseline; gap:.75rem; }
+.cp-link-label {
+  font-size:var(--t-label); letter-spacing:var(--ls-label); text-transform:uppercase;
+  color:var(--light); flex-shrink:0;
+}
+.cp-link-val {
+  position:relative; font-size:var(--t-body); text-decoration:none;
+  border-bottom:1px solid transparent; padding:.35rem 0 2px;
+  transition:color .2s, border-color .2s;
+}
+.cp-link-val::after { content:''; position:absolute; inset:-11px -6px; }
+.cp-link-val:hover { color:var(--accent); border-bottom-color:var(--accent); }
+.cp-form { display:flex; flex-direction:column; gap:1.4rem; }
+.cp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; }
+.cp-field { display:flex; flex-direction:column; gap:.45rem; }
+.cp-label {
+  font-family:var(--sans); font-size:var(--t-body); font-weight:400;
+  letter-spacing:0; text-transform:none; color:var(--ink);
+}
+.cp-label span { font-size:.82em; color:var(--light); }
+.cp-input, .cp-textarea {
+  background:var(--off); border:1px solid var(--border);
+  padding:.85rem 1rem; font-family:var(--sans); font-size:16px; font-weight:400;
+  color:var(--ink); outline:none; border-radius:0;
+  transition:border-color .2s; width:100%;
+}
+.cp-input:focus, .cp-textarea:focus { border-color:var(--ink); }
+.cp-input:user-invalid, .cp-textarea:user-invalid { border-color:#9b1c1c; }
+.cp-textarea { resize:vertical; min-height:150px; }
+.cp-submit { align-self:flex-start; margin-top:.5rem; }
+.cp-status { font-family:var(--serif); font-size:var(--t-body); font-style:italic; color:var(--accent); min-height:1.4em; }
+
+/* ═══ ALL WORKS GRID ═══ */
+.allworks {
+  padding:3.5rem var(--pad-x) 5rem; max-width:1400px; margin:0 auto; width:100%;
+  border-top:1px solid var(--border);
+}
+.allworks-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2.5rem 1.75rem; }
+.aw {
+  background:none; border:none; padding:0; display:block; width:100%; text-align:center;
+  cursor:pointer;
+}
+.aw-img { display:block; overflow:hidden; aspect-ratio:3/2; }
+.aw-img img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94), opacity .3s;
+}
+.aw:hover .aw-img img, .aw:focus-visible .aw-img img { transform:scale(1.04); opacity:.9; }
+.aw-t {
+  display:block; margin-top:.9rem;
+  font-size:.74rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink); line-height:1.45;
+}
+.aw.is-current .aw-t { color:var(--muted); }
+
+/* ═══ PAINTING PAGE ═══ */
+#painting-page { }
+.pp-bar {
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  padding:2.5rem var(--pad-x) 0; max-width:1300px; margin:0 auto; width:100%;
+}
+.pp-crumbs { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; min-width:0; }
+.pp-crumb {
+  background:none; border:none; padding:.5rem 0; position:relative;
+  font-size:.76rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+  transition:color .2s;
+}
+.pp-crumb::after { content:''; position:absolute; inset:-11px -6px; }
+.pp-crumb:hover { color:var(--accent); }
+.pp-crumb-sep { font-size:.7rem; color:var(--light); }
+.pp-crumb-current {
+  font-size:.76rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--ink);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.pp-next {
+  background:none; border:none; padding:.5rem 0; position:relative; flex-shrink:0;
+  font-size:.76rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+  transition:color .2s;
+}
+.pp-next::after { content:''; position:absolute; inset:-11px -6px; }
+.pp-next:hover { color:var(--accent); }
+
+.pp-main {
+  display:grid; grid-template-columns:minmax(0,8fr) minmax(0,4fr); gap:3.5rem;
+  padding:2.5rem var(--pad-x) 4rem; max-width:1400px; margin:0 auto; width:100%;
+  align-items:start;
+}
+.pp-figure {
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.pp-img {
+  /* Fills its column, capped by the viewport so tall canvases still fit. */
+  max-width:100%; max-height:82svh; width:auto; height:auto; display:block;
+  cursor:zoom-in; will-change:transform;
+}
+
+.pp-title {
+  font-family:var(--serif); font-size:clamp(1.5rem,2.9vw,2.1rem); font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase;
+  line-height:1.35; margin-bottom:1.75rem; text-wrap:balance;
+}
+.pp-med  { font-size:var(--t-body); color:var(--ink); margin-bottom:1.2rem; }
+.pp-desc { font-size:var(--t-body); line-height:1.95; color:var(--muted); margin-bottom:1.2rem; }
+.pp-inquire { font-size:var(--t-body); line-height:1.9; color:var(--muted); margin-top:1.6rem; }
+
+.pp-form-wrap { border-top:1px solid var(--border); background:var(--off); }
+.pp-form { padding:4rem var(--pad-x) 5rem; max-width:900px; margin:0 auto; }
+.pp-form-h {
+  font-family:var(--serif); font-size:clamp(1.15rem,2.1vw,1.45rem); font-weight:600;
+  letter-spacing:.18em; text-transform:uppercase;
+  margin-bottom:.5rem;
+}
+.pp-form-sub { font-size:var(--t-body); color:var(--muted); margin-bottom:2.5rem; }
+.pp-fields { display:flex; flex-direction:column; gap:1.2rem; }
+.pp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+.pp-readonly { background:var(--border); color:var(--muted); }
+
+/* ═══ ZOOM OVERLAY ═══ */
+.zoom {
+  display:none; position:fixed; inset:0; z-index:600;
+  background:#000;
+  align-items:center; justify-content:center;
+  overflow:hidden; padding:0;
+  opacity:0; transition:opacity .3s ease;
+}
+.zoom.open { display:flex; }
+.zoom.shown { opacity:1; }
+.zoom img {
+  /* Fills the window — as large as the screen allows, nothing beside it. */
+  max-width:100vw; max-height:100svh; width:auto; height:auto; display:block;
+  cursor:zoom-out;
+  opacity:0; transform:scale(.97);
+  transition:opacity .35s ease, transform .35s cubic-bezier(.25,.46,.45,.94);
+}
+.zoom.shown img { opacity:1; transform:none; }
+.zoom-close {
+  position:fixed; top:1rem; right:1rem; z-index:602;
+  width:44px; height:44px; border-radius:50%;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3);
+  color:#fff; font-size:1rem;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s;
+}
+.zoom-close:hover { background:rgba(255,255,255,.25); }
+.zoom-cap {
+  position:fixed; left:0; right:0; bottom:0; z-index:602;
+  text-align:center; font-family:var(--serif);
+  font-size:.9rem; color:rgba(255,255,255,.8); pointer-events:none;
+  padding:3rem 1rem 1.2rem;
+  padding-bottom:calc(1.2rem + env(safe-area-inset-bottom));
+  background:linear-gradient(to top, rgba(0,0,0,.6), transparent);
+  /* Hidden until the pointer moves, so the work is never framed by text. */
+  opacity:0; transition:opacity .3s;
+}
+.zoom:hover .zoom-cap { opacity:1; }
+
+/* ═══ ABOUT ═══ */
+#about-page { }
+.about-hero { display:grid; grid-template-columns:1fr 1fr; align-items:start; }
+/* The bio is long, so the portrait stays pinned while the text scrolls past it
+   instead of being stretched to match the column height. */
+.ah-img {
+  position:sticky; top:1.5rem;
+  height:calc(100svh - 3rem);
+  overflow:hidden;
+}
+.ah-img img { width:100%; height:100%; object-fit:cover; }
+.ah-text { padding:5rem; border-left:1px solid var(--border); }
+.ah-ey  { font-size:.72rem; letter-spacing:.38em; text-transform:uppercase; color:var(--accent); margin-bottom:1.4rem; }
+.ah-q   { font-family:var(--serif); font-size:var(--t-quote); font-style:italic; font-weight:400; line-height:1.55; border-left:2px solid var(--accent); padding-left:1.3rem; margin-bottom:2.2rem; max-width:28rem; }
+.ah-p   { font-size:var(--t-body); line-height:1.9; color:var(--muted); margin-bottom:1.15rem; max-width:29rem; }
+.ah-sig { font-family:var(--serif); font-size:var(--t-sub); font-style:italic; color:var(--accent); margin-top:1.2rem; }
+
+.cblock { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); }
+.cblock-ey { font-size:.7rem; letter-spacing:.4em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:1rem; }
+.cblock h2 { font-family:var(--serif); font-size:clamp(1.5rem,2.9vw,2.1rem); font-weight:600; letter-spacing:.2em; text-transform:uppercase; margin-bottom:.6rem; }
+.cblock-sub { font-size:var(--t-body); color:var(--muted); margin-bottom:2.5rem; }
+.clinks { display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap; }
+.clink { position:relative; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); text-decoration:none; padding:.5rem 0 3px; border-bottom:1px solid var(--border); transition:color .2s, border-color .2s; }
+.clink::after { content:''; position:absolute; inset:-11px -6px; }
+.clink:hover { color:var(--accent); border-color:var(--accent); }
+
+/* ═══ CONTACT ═══ */
 #contact-page { }
 .contact-page-wrap { display:grid; grid-template-columns:1fr 1fr; min-height:calc(100svh - var(--nav-h)); }
 .cp-left { padding:5rem; display:flex; flex-direction:column; justify-content:center; border-right:1px solid var(--border); }
@@ -744,7 +969,7 @@ a { color:inherit; }
 /* Tablet / small laptop */
 @media (max-width:1024px) {
   :root { --pad-x:2rem; }
-  .ah-text, .cp-left { padding:3.5rem 2.5rem; }
+  .ah-text { padding:3.5rem 2.5rem; }
   .hcontent { padding:2rem 3rem 4rem; }
   .scrl { right:1.75rem; }
 }
@@ -787,10 +1012,7 @@ a { color:inherit; }
   .ah-img         { position:static; height:auto; aspect-ratio:4/3; min-height:0; }
   .ah-text        { border-left:none; border-top:1px solid var(--border); }
 
-  .contact-page-wrap { grid-template-columns:1fr; min-height:0; }
-  .cp-left        { border-right:none; order:2; border-top:1px solid var(--border); }
-  .cp-right       { order:1; aspect-ratio:16/10; min-height:0; }
-  .cp-form        { max-width:none; }
+  .contact-page-wrap { grid-template-columns:1fr; gap:2.5rem; padding:2.5rem var(--pad-x) 4rem; }
 
   .gal-picker-grid { grid-template-columns:repeat(2,1fr); max-width:640px; gap:1.1rem; }
   .gl-row          { grid-template-columns:1fr; gap:1.5rem; max-width:600px; }
@@ -859,12 +1081,12 @@ a { color:inherit; }
   .pp-form   { padding:3rem 1.25rem 4rem; }
   .pp-row2   { grid-template-columns:1fr; }
 
-  .ah-text, .cp-left { padding:3rem 1.25rem; }
+  .ah-text { padding:3rem 1.25rem; }
   .ah-q { font-size:1.15rem; padding-left:1rem; }
   .cblock { padding:3.5rem 1.25rem; }
   .clinks { gap:1.6rem 2rem; }
-  .cp-right { aspect-ratio:4/3; }
   .cp-submit { align-self:stretch; text-align:center; }
+  .cp-row2 { grid-template-columns:1fr; }
 
 }
 
@@ -1150,38 +1372,50 @@ a { color:inherit; }
 <!-- ═══ CONTACT ═══ -->
 <div id="contact-page" class="page">
   <div class="contact-page-wrap">
-    <div class="cp-left">
-      <span class="cp-eyebrow">Get in touch</span>
-      <h1 class="cp-title">Let&rsquo;s <em>Connect</em></h1>
-      <p class="cp-sub">For questions about a particular painting, about commissions, or about the work in general.</p>
-
-      <div class="cp-links" id="cp-links"></div>
-
-      <form class="cp-form" id="cp-form" novalidate>
-        <div class="cp-field">
-          <label class="cp-label" for="cp-name">Name</label>
-          <input class="cp-input" id="cp-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
-        </div>
-        <div class="cp-field">
-          <label class="cp-label" for="cp-email">Email</label>
-          <input class="cp-input" id="cp-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="your@email.com" required>
-        </div>
-        <div class="cp-field">
-          <label class="cp-label" for="cp-msg">Message</label>
-          <textarea class="cp-textarea" id="cp-msg" name="message" placeholder="Tell us what you're looking for…" required></textarea>
-        </div>
-        <button type="submit" class="btn-dark cp-submit">Send message</button>
-        <p class="cp-status" id="cp-status" role="status" aria-live="polite"></p>
-        <p class="cp-note">This opens your email app with the message ready to send.</p>
-      </form>
-    </div>
-
-    <div class="cp-right">
+    <div class="cp-art">
       <picture>
         <source srcset="/assets/img/prayer.webp" type="image/webp">
         <img src="/assets/img/prayer.jpg" alt="Prayer — oil on canvas by Yehudis Jacobs"
              width="858" height="1400" loading="lazy" decoding="async">
       </picture>
+    </div>
+
+    <div class="cp-main">
+      <p class="cp-intro">We&rsquo;d love to hear from you. Send any questions or requests
+        in the form below, and Yehudis will respond as soon as she can.</p>
+
+      <div class="cp-links" id="cp-links"></div>
+
+      <form class="cp-form" id="cp-form" novalidate>
+        <div class="cp-row2">
+          <div class="cp-field">
+            <label class="cp-label" for="cp-first">First name <span>(required)</span></label>
+            <input class="cp-input" id="cp-first" type="text" autocomplete="given-name" required>
+          </div>
+          <div class="cp-field">
+            <label class="cp-label" for="cp-last">Last name <span>(required)</span></label>
+            <input class="cp-input" id="cp-last" type="text" autocomplete="family-name" required>
+          </div>
+        </div>
+        <div class="cp-field">
+          <label class="cp-label" for="cp-email">Email address <span>(required)</span></label>
+          <input class="cp-input" id="cp-email" type="email" inputmode="email" autocomplete="email" required>
+        </div>
+        <div class="cp-field">
+          <label class="cp-label" for="cp-phone">Phone number</label>
+          <input class="cp-input" id="cp-phone" type="tel" inputmode="tel" autocomplete="tel">
+        </div>
+        <div class="cp-field">
+          <label class="cp-label" for="cp-subject">Subject <span>(required)</span></label>
+          <input class="cp-input" id="cp-subject" type="text" required>
+        </div>
+        <div class="cp-field">
+          <label class="cp-label" for="cp-msg">Message <span>(required)</span></label>
+          <textarea class="cp-textarea" id="cp-msg" required></textarea>
+        </div>
+        <button type="submit" class="btn-dark cp-submit">Submit</button>
+        <p class="cp-status" id="cp-status" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </div>
   <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
@@ -1738,17 +1972,16 @@ a { color:inherit; }
   /* ═══ CONTACT FORM ═══ */
   $('#cp-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    var form = e.target;
     var status = $('#cp-status');
+    var first = $('#cp-first').value.trim(), last = $('#cp-last').value.trim();
+    var email = $('#cp-email').value.trim(), phone = $('#cp-phone').value.trim();
+    var subject = $('#cp-subject').value.trim(), msg = $('#cp-msg').value.trim();
 
-    var name  = $('#cp-name').value.trim();
-    var email = $('#cp-email').value.trim();
-    var msg   = $('#cp-msg').value.trim();
-
-    if (!name || !email || !msg) {
+    if (!first || !last || !email || !subject || !msg) {
       status.style.color = '#9b1c1c';
-      status.textContent = 'Please fill in your name, email and message.';
-      (!name ? $('#cp-name') : !email ? $('#cp-email') : $('#cp-msg')).focus();
+      status.textContent = 'Please complete the required fields.';
+      (!first ? $('#cp-first') : !last ? $('#cp-last') : !email ? $('#cp-email')
+        : !subject ? $('#cp-subject') : $('#cp-msg')).focus();
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
@@ -1758,18 +1991,17 @@ a { color:inherit; }
       return;
     }
 
-    var body = 'Name: ' + name + '\nEmail: ' + email + '\n\n' + msg;
-    var href = 'mailto:' + SITE.email +
-               '?subject=' + encodeURIComponent('Enquiry from yehudis.art — ' + name) +
-               '&body=' + encodeURIComponent(body);
-
+    var body = 'Name: ' + first + ' ' + last + '\n' +
+               'Email: ' + email + '\n' +
+               (phone ? 'Phone: ' + phone + '\n' : '') + '\n' + msg;
     status.style.color = '';
     status.textContent = 'Opening your email app…';
-    window.location.href = href;
+    window.location.href = 'mailto:' + SITE.email +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
 
     setTimeout(function () {
       status.textContent = 'If nothing opened, email ' + SITE.email + ' directly.';
-      form.reset();
     }, 2500);
   });
 
