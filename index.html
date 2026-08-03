@@ -573,6 +573,12 @@ a { color:inherit; }
   width:100%; max-width:360px;
   aspect-ratio:1/1; overflow:hidden; cursor:pointer;
 }
+/* A 90x30 canvas cropped to a square shows a third of the painting. Anything
+   wider than 1.6 therefore keeps its own ratio, set inline from the real pixel
+   dimensions. The column edge stops being perfectly flush; that is the lesser
+   cost. */
+.gl-figure.gl-wide { aspect-ratio:auto; max-width:min(100%, 620px); }
+.gl-figure.gl-wide img { object-fit:contain; }
 .gl-figure picture { display:contents; }
 .gl-figure img {
   width:100%; height:100%; object-fit:cover; display:block;
@@ -605,6 +611,11 @@ a { color:inherit; }
   cursor:pointer;
 }
 .aw-img { display:block; overflow:hidden; aspect-ratio:3/2; }
+/* Panoramic works take two columns in the all-works grid so their proportion
+   survives the thumbnail. */
+.aw.aw-wide { grid-column:span 2; }
+.aw.aw-wide .aw-img { aspect-ratio:var(--aw-ratio, 3/2); }
+.aw.aw-wide .aw-img img { object-fit:contain; }
 .aw-img img {
   width:100%; height:100%; object-fit:cover; display:block;
   transition:transform .7s cubic-bezier(.25,.46,.45,.94), opacity .3s;
@@ -1374,7 +1385,8 @@ a { color:inherit; }
       paintings: [
         { img: 'one',      title: 'One',      medium: 'Oil on canvas · 60×80 cm', w: 445, h: 600 , slug: 'one', desc: '' },
         { img: 'torah',    title: 'Torah',    medium: 'Oil on canvas · 70×50 cm', w: 424, h: 600 , slug: 'torah', desc: '' },
-        { img: 'the-wall', title: 'The Wall', medium: 'Oil on canvas',            w: 533, h: 534 , slug: 'the-wall', desc: '' }
+        { img: 'the-wall', title: 'The Wall', medium: 'Oil on canvas',            w: 533, h: 534 , slug: 'the-wall', desc: '' },
+        { img: 'eyes-of-the-nation', title: 'Eyes of the Nation', medium: 'Oil on canvas · 100×90 cm', w: 2000, h: 1789, slug: 'eyes-of-the-nation', desc: '' }
       ]
     },
     {
@@ -1383,16 +1395,29 @@ a { color:inherit; }
         { img: 'tower-of-david',  title: 'Tower of David',  medium: 'Oil on canvas · 50×60 cm',  w: 516, h: 600 , slug: 'tower-of-david', desc: '' },
         { img: 'flowers',         title: 'Flowers',         medium: 'Oil on canvas · 70×70 cm',  w: 600, h: 593 , slug: 'flowers', desc: '' },
         { img: 'pouring-flowers', title: 'Pouring Flowers', medium: 'Oil on canvas · 90×100 cm', w: 536, h: 600 , slug: 'pouring-flowers', desc: '' },
-        { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 , slug: 'mount-sinai', desc: '' }
+        { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 , slug: 'mount-sinai', desc: '' },
+        { img: 'birds-of-paradise', title: 'Birds of Paradise', medium: 'Oil on canvas · 50×60 cm', w: 1621, h: 2000, slug: 'birds-of-paradise', desc: '' },
+        { img: 'flowers-ii',  title: 'Flowers II',  medium: 'Oil on canvas · 90×30 cm', w: 2000, h: 638,  slug: 'flowers-ii', desc: '' }
       ]
     },
     {
       id: 'story', label: 'Story', desc: 'Sacred moments in time', cover: 'four-elements',
       paintings: [
         { img: 'four-elements', title: 'Four Elements', medium: 'Pouring · 60×120 cm',      w: 1600, h: 820 , slug: 'four-elements', desc: '' },
-        { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 858,  h: 1400 , slug: 'prayer', desc: '' }
+        { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 858,  h: 1400 , slug: 'prayer', desc: '' },
+        { img: 'splitting-of-the-sea', title: 'The Splitting of the Sea', medium: 'Oil on canvas · 90×60 cm', w: 1966, h: 1325, slug: 'splitting-of-the-sea', desc: '' },
+        { img: 'wedding-i',            title: 'Wedding I',                medium: 'Oil on canvas · 60×70 cm', w: 974,  h: 1116, slug: 'wedding-i', desc: '' },
+        { img: 'chuppah-ii',           title: 'Chuppah II',               medium: 'Oil on canvas · 90×60 cm', w: 2000, h: 822,  slug: 'chuppah-ii', desc: '' }
       ]
     }
+  ];
+
+  /* Works that belong to no collection. They never appear in a category view or
+     in the collection picker; they surface only in the all-works grid and on
+     their own painting page. Kept as a separate list rather than given a hidden
+     category, so nothing downstream has to filter them back out. */
+  var LOOSE = [
+    { img: 'song-of-miriam', title: 'The Song of Miriam', medium: 'Palette knife on canvas', w: 1278, h: 2000, slug: 'song-of-miriam', desc: '' }
   ];
 
   var WALL_COLOURS = [
@@ -1568,8 +1593,11 @@ a { color:inherit; }
     c.paintings.forEach(function (pt, i) {
       var row = document.createElement('div');
       row.className = 'gl-row';
+      var wide = pt.w && pt.h && (pt.w / pt.h) > 1.6;
       row.innerHTML =
-        '<button class="gl-figure" aria-label="View ' + esc(pt.title) + '">' +
+        '<button class="gl-figure' + (wide ? ' gl-wide' : '') + '"' +
+        (wide ? ' style="aspect-ratio:' + pt.w + '/' + pt.h + '"' : '') +
+        ' aria-label="View ' + esc(pt.title) + '">' +
           picture(pt.img, pt.title + ' — ' + pt.medium, '-sm', pt.w, pt.h, i < 2) +
         '</button>' +
         '<div class="gl-body">' +
@@ -1611,7 +1639,9 @@ a { color:inherit; }
     ALL.forEach(function (entry) {
       var pt = entry.p;
       var b = document.createElement('button');
-      b.className = 'aw' + (pt.slug === currentSlug ? ' is-current' : '');
+      var wide = pt.w && pt.h && (pt.w / pt.h) > 1.6;
+      b.className = 'aw' + (wide ? ' aw-wide' : '') + (pt.slug === currentSlug ? ' is-current' : '');
+      if (wide) b.style.setProperty('--aw-ratio', pt.w + '/' + pt.h);
       b.setAttribute('aria-label', 'View ' + pt.title);
       if (pt.slug === currentSlug) b.setAttribute('aria-current', 'true');
       b.innerHTML =
@@ -1627,6 +1657,7 @@ a { color:inherit; }
   CATEGORIES.forEach(function (c) {
     c.paintings.forEach(function (pt) { ALL.push({ p: pt, cat: c }); });
   });
+  LOOSE.forEach(function (pt) { ALL.push({ p: pt, cat: null }); });
   function findWork(slug) {
     for (var i = 0; i < ALL.length; i++) { if (ALL[i].p.slug === slug) return ALL[i]; }
     return null;
@@ -1640,7 +1671,9 @@ a { color:inherit; }
     currentWork = found;
     var pt = found.p, cat = found.cat;
 
-    $('#pp-crumb-cat').textContent = cat.label;
+    /* A loose work has no collection to go back to, so the crumb points at the
+       all-works grid instead of a category. */
+    $('#pp-crumb-cat').textContent = cat ? cat.label : 'All works';
     $('#pp-crumb-now').textContent = pt.title;
     $('#pp-title').textContent = pt.title;
     $('#pp-med').textContent = pt.medium;
@@ -1668,7 +1701,9 @@ a { color:inherit; }
   }
 
   $('#pp-crumb-cat').addEventListener('click', function () {
-    if (currentWork) navigate('gallery', currentWork.cat.id);
+    if (!currentWork) return;
+    if (currentWork.cat) navigate('gallery', currentWork.cat.id);
+    else navigate('gallery');
   });
   $('#pp-next').addEventListener('click', function () {
     if (!currentWork) return;

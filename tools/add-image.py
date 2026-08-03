@@ -5,7 +5,7 @@ Generate the four web variants for a new painting.
     python3 tools/add-image.py ~/Desktop/new-painting.jpg bloom-ii
 
 Writes into assets/img/:
-    bloom-ii.jpg      bloom-ii.webp        (full size, used in the lightbox)
+    bloom-ii.jpg      bloom-ii.webp        (up to 2000px, used in the lightbox)
     bloom-ii-sm.jpg   bloom-ii-sm.webp     (700px, used in grids and cards)
 
 Then add an entry to CATEGORIES in index.html:
@@ -26,7 +26,7 @@ def build(src_path, name):
     os.makedirs(OUT, exist_ok=True)
 
     full = im.copy()
-    full.thumbnail((1400, 1400), Image.LANCZOS)
+    full.thumbnail((2000, 2000), Image.LANCZOS)
     full.save(os.path.join(OUT, name + '.jpg'), 'JPEG',
               quality=84, optimize=True, progressive=True, subsampling=1)
     full.save(os.path.join(OUT, name + '.webp'), 'WEBP', quality=80, method=6)
