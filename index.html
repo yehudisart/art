@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<!-- build-0803-1426 · self-hosted fonts · contact redesign -->
-<html lang="en" data-build="build-0803-1426">
+<!-- build-0803-1954 · self-hosted fonts · contact redesign -->
+<html lang="en" data-build="build-0803-1954">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -1135,7 +1135,10 @@ a { color:inherit; }
 <nav id="nav">
   <!-- Logo slot. Drop in the signature when ready:
        <img src="/assets/img/logo.svg" alt="Yehudis Jacobs"> -->
-  <button class="logo" id="logo-btn" aria-label="Yehudis Jacobs — go to home page">Yehudis Jacobs</button>
+  <button class="logo" id="logo-btn" aria-label="Yehudis Jacobs — go to home page">
+    <img src="/assets/img/signature.png" srcset="/assets/img/signature.png 1x, /assets/img/signature@2x.png 2x"
+         alt="Yehudis Jacobs" width="900" height="347">
+  </button>
 
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
     <span></span><span></span><span></span>
@@ -1442,15 +1445,17 @@ a { color:inherit; }
 
     /* WhatsApp number in full international form, digits only — no +, spaces
        or dashes. Israeli mobile 052-123-4567 becomes '972521234567'. */
-    whatsapp: '972500000000',
-    whatsappDisplay: '052-000-0000',
+    whatsapp: '972587706991',
+    whatsappDisplay: '058-770-6991',
 
     /* Dial-able form (digits, may start with +) and the form shown on screen. */
     phone: '+972500000000',
     phoneDisplay: '052-000-0000',
 
     /* Pre-filled first line of the WhatsApp message. */
-    whatsappText: 'Hello, I have a question about your work.'
+    whatsappText: 'Hello, I have a question about your work.',
+    phone: '972587706991',
+    phoneDisplay: '058-770-6991'
   };
 
   /* ─────────────────────────────────────────────
@@ -2052,7 +2057,7 @@ a { color:inherit; }
     : { observe: function (el) { el.classList.add('vis'); }, unobserve: function () {} };
 
   /* Build marker — lets you confirm which version is live. */
-  console.log('Yehudis Jacobs — build-0803-1426');
+  console.log('Yehudis Jacobs — build-0803-1954');
 
   /* ═══ GO ═══ */
   applyRoute();
