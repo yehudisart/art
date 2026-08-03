@@ -60,16 +60,10 @@
   src:url('/assets/fonts/cormorant-italic.ttf') format('truetype');
   font-weight:300 700; font-style:italic; font-display:swap;
 }
-@font-face {
-  font-family:'EB Garamond';
-  src:url('/assets/fonts/ebgaramond.ttf') format('truetype');
-  font-weight:400 800; font-style:normal; font-display:swap;
-}
-@font-face {
-  font-family:'EB Garamond';
-  src:url('/assets/fonts/ebgaramond-italic.ttf') format('truetype');
-  font-weight:400 800; font-style:italic; font-display:swap;
-}
+/* EB Garamond was the former running-text face. The site now uses a single
+   typeface throughout, so its two declarations were removed and the files
+   assets/fonts/ebgaramond.ttf and ebgaramond-italic.ttf (452 KB together) can
+   be deleted from the repository. */
 </style>
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -90,11 +84,13 @@
      first in each stack, so the moment the licensed files are self-hosted (see
      the commented @font-face block below) they take over automatically.
      Until then the next name in each stack is used. */
-  /* One serif across the entire site — headings, navigation, body and labels.
-     Cormorant for display, EB Garamond for running text: the same voice at two
-     optical sizes. No sans anywhere. */
+  /* ONE typeface across the entire site — Cormorant Garamond, the face already
+     used by the logo in the header and the H1 in the hero. Headings, nav, body,
+     labels and form fields all resolve to it.
+     Both variables are kept and point at the same stack so no rule anywhere in
+     the file needs rewriting; --sans is a historical name, not a second face. */
   --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --sans:'EB Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
 
   /* ── TYPE SCALE ──────────────────────────────────────────────────────────
      Five roles, used everywhere. Any heading, label or body text on the site
@@ -102,7 +98,10 @@
   --t-display: clamp(1.5rem, 2.9vw, 2.1rem);   /* page and section headings */
   --t-sub:     clamp(1.15rem, 2.1vw, 1.45rem); /* sub-headings              */
   --t-quote:   clamp(1.2rem, 2.2vw, 1.6rem);   /* pull-quotes               */
-  --t-body:    .95rem;                         /* running text              */
+  /* Cormorant has a markedly smaller x-height than EB Garamond, so running
+     text set at the old .95rem read noticeably smaller once the faces were
+     unified. Nudged up to hold the same apparent size. */
+  --t-body:    1.05rem;                        /* running text              */
   --t-label:   .72rem;                         /* small caps labels         */
   --ls-display:.2em;
   --ls-label:  .18em;
@@ -130,7 +129,7 @@ html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
 body {
   color:var(--ink);
   background:var(--white);
-  font-family:var(--sans); font-weight:400; font-size:1rem; letter-spacing:0;
+  font-family:var(--sans); font-weight:400; font-size:1.08rem; letter-spacing:0;
   /* 'clip' contains overflow WITHOUT creating a scroll container, which is what
      'hidden' does — and a scroll container silently breaks position:sticky. */
   overflow-x:hidden;
@@ -718,51 +717,93 @@ a { color:inherit; }
 .clink:hover { color:var(--accent); border-color:var(--accent); }
 
 /* ═══ CONTACT ═══ */
+/* Column ratio, gap and top offset are taken from the reference: the painting
+   occupies roughly a third of the content width, the form two thirds, with a
+   wide channel of white between them and the whole block floated well down the
+   page. Capped at 1500px so the gap cannot stretch absurdly on a 4K display. */
 .contact-page-wrap {
-  display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:5rem;
-  max-width:1300px; margin:0 auto; padding:4rem var(--pad-x) 5rem; align-items:start;
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,2fr); gap:6rem;
+  max-width:1500px; margin:0 auto; padding:7rem var(--pad-x) 6rem; align-items:start;
 }
 .cp-art { overflow:hidden; }
 .cp-art img { width:100%; height:auto; display:block; }
+
+/* The rule under the intro. In the reference this is a hairline spanning the
+   full width of the form column, separating the greeting from the fields. */
+.cp-rule { border:none; border-top:1px solid var(--border); margin:0 0 2.75rem; }
+
+/* Group heading ("Name") sitting above a paired row, larger than the field
+   labels beneath it. */
+.cp-group-h {
+  font-size:var(--t-sub); font-weight:400; letter-spacing:.02em;
+  color:var(--ink); margin-bottom:.75rem;
+}
 .cp-intro {
   font-family:var(--serif); font-size:var(--t-sub); font-weight:400;
   letter-spacing:.1em; text-transform:uppercase; line-height:1.8;
   color:var(--ink); margin-bottom:2.5rem;
 }
+/* Contact details live in the footer rather than beside the form, as in the
+   reference: one centred line, values only, divided by hairline separators.
+   The labels stay in the markup for screen readers and are hidden visually. */
 .cp-links {
-  display:flex; flex-wrap:wrap; gap:.5rem 2.5rem;
-  padding-bottom:2rem; margin-bottom:2.5rem; border-bottom:1px solid var(--border);
+  display:flex; flex-wrap:wrap; justify-content:center; align-items:center;
+  gap:.4rem 1.1rem; margin-bottom:1.1rem;
 }
-.cp-link-item { display:flex; align-items:baseline; gap:.75rem; }
+.cp-link-item { display:flex; align-items:center; }
+.cp-link-item + .cp-link-item::before {
+  content:'|'; color:var(--border); margin-right:1.1rem;
+}
 .cp-link-label {
-  font-size:var(--t-label); letter-spacing:var(--ls-label); text-transform:uppercase;
-  color:var(--light); flex-shrink:0;
+  position:absolute; width:1px; height:1px; overflow:hidden;
+  clip-path:inset(50%); white-space:nowrap;
 }
 .cp-link-val {
-  position:relative; font-size:var(--t-body); text-decoration:none;
-  border-bottom:1px solid transparent; padding:.35rem 0 2px;
+  position:relative; font-size:.82rem; text-decoration:none;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+  border-bottom:1px solid var(--border); padding:.35rem 0 2px;
   transition:color .2s, border-color .2s;
 }
 .cp-link-val::after { content:''; position:absolute; inset:-11px -6px; }
 .cp-link-val:hover { color:var(--accent); border-bottom-color:var(--accent); }
-.cp-form { display:flex; flex-direction:column; gap:1.4rem; }
-.cp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; }
-.cp-field { display:flex; flex-direction:column; gap:.45rem; }
+.cp-form { display:flex; flex-direction:column; gap:1.7rem; }
+.cp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.cp-field { display:flex; flex-direction:column; gap:.5rem; }
+/* The Name pair and its shared heading form one unit, so the gap inside it is
+   tighter than the gap between questions. */
+.cp-namegroup { display:flex; flex-direction:column; }
+/* Two label sizes, as in the reference: standalone fields carry a full-size
+   label, while the paired First/Last row sits under a shared "Name" heading and
+   uses a reduced one, so the pair reads as a single question. */
 .cp-label {
-  font-family:var(--sans); font-size:var(--t-body); font-weight:400;
-  letter-spacing:0; text-transform:none; color:var(--ink);
+  font-family:var(--sans); font-size:1.15rem; font-weight:400;
+  letter-spacing:0; text-transform:none; color:var(--ink); line-height:1.4;
 }
-.cp-label span { font-size:.82em; color:var(--light); }
+.cp-row2 .cp-label { font-size:.95rem; }
+.cp-label span { font-size:.78em; color:var(--light); letter-spacing:0; }
 .cp-input, .cp-textarea {
   background:var(--off); border:1px solid var(--border);
-  padding:.85rem 1rem; font-family:var(--sans); font-size:16px; font-weight:400;
+  padding:1rem 1rem; font-family:var(--sans); font-size:16px; font-weight:400;
   color:var(--ink); outline:none; border-radius:0;
   transition:border-color .2s; width:100%;
 }
 .cp-input:focus, .cp-textarea:focus { border-color:var(--ink); }
 .cp-input:user-invalid, .cp-textarea:user-invalid { border-color:#9b1c1c; }
-.cp-textarea { resize:vertical; min-height:150px; }
-.cp-submit { align-self:flex-start; margin-top:.5rem; }
+.cp-textarea { resize:vertical; min-height:170px; }
+
+/* Reference submit: an outlined box, not a filled block — a thin dark rule on
+   white with the word in italic. Deliberately quiet; the button is the only
+   interactive element on the page and does not need to shout. */
+.cp-submit {
+  align-self:flex-start; margin-top:1rem;
+  background:var(--white); color:var(--ink);
+  border:1px solid var(--ink); border-radius:0;
+  padding:1.1rem 2.6rem; min-height:44px;
+  font-family:var(--sans); font-size:1.05rem; font-style:italic; font-weight:400;
+  letter-spacing:.02em; text-transform:none;
+  transition:background .25s, color .25s;
+}
+.cp-submit:hover { background:var(--ink); color:var(--white); }
 .cp-status { font-family:var(--serif); font-size:var(--t-body); font-style:italic; color:var(--accent); min-height:1.4em; }
 
 /* ═══ ALL WORKS GRID ═══ */
@@ -889,68 +930,6 @@ a { color:inherit; }
   opacity:0; transition:opacity .3s;
 }
 .zoom:hover .zoom-cap { opacity:1; }
-
-/* ═══ ABOUT ═══ */
-#about-page { }
-.about-hero { display:grid; grid-template-columns:1fr 1fr; align-items:start; }
-/* The bio is long, so the portrait stays pinned while the text scrolls past it
-   instead of being stretched to match the column height. */
-.ah-img {
-  position:sticky; top:1.5rem;
-  height:calc(100svh - 3rem);
-  overflow:hidden;
-}
-.ah-img img { width:100%; height:100%; object-fit:cover; }
-.ah-text { padding:5rem; border-left:1px solid var(--border); }
-.ah-ey  { font-size:.72rem; letter-spacing:.38em; text-transform:uppercase; color:var(--accent); margin-bottom:1.4rem; }
-.ah-q   { font-family:var(--serif); font-size:var(--t-quote); font-style:italic; font-weight:400; line-height:1.55; border-left:2px solid var(--accent); padding-left:1.3rem; margin-bottom:2.2rem; max-width:28rem; }
-.ah-p   { font-size:var(--t-body); line-height:1.9; color:var(--muted); margin-bottom:1.15rem; max-width:29rem; }
-.ah-sig { font-family:var(--serif); font-size:var(--t-sub); font-style:italic; color:var(--accent); margin-top:1.2rem; }
-
-.cblock { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); }
-.cblock-ey { font-size:.7rem; letter-spacing:.4em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:1rem; }
-.cblock h2 { font-family:var(--serif); font-size:clamp(1.5rem,2.9vw,2.1rem); font-weight:600; letter-spacing:.2em; text-transform:uppercase; margin-bottom:.6rem; }
-.cblock-sub { font-size:var(--t-body); color:var(--muted); margin-bottom:2.5rem; }
-.clinks { display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap; }
-.clink { position:relative; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); text-decoration:none; padding:.5rem 0 3px; border-bottom:1px solid var(--border); transition:color .2s, border-color .2s; }
-.clink::after { content:''; position:absolute; inset:-11px -6px; }
-.clink:hover { color:var(--accent); border-color:var(--accent); }
-
-/* ═══ CONTACT ═══ */
-#contact-page { }
-.contact-page-wrap { display:grid; grid-template-columns:1fr 1fr; min-height:calc(100svh - var(--nav-h)); }
-.cp-left { padding:5rem; display:flex; flex-direction:column; justify-content:center; border-right:1px solid var(--border); }
-.cp-eyebrow { font-size:.7rem; letter-spacing:.38em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:1.4rem; }
-.cp-title { font-family:var(--serif); font-size:clamp(1.5rem,2.9vw,2.1rem); font-weight:600; letter-spacing:.2em; text-transform:uppercase; line-height:1.3; margin-bottom:.8rem; }
-.cp-title em { color:var(--accent); }
-.cp-sub { font-size:var(--t-body); line-height:1.85; color:var(--muted); max-width:400px; margin-bottom:2.5rem; }
-
-.cp-links { display:flex; flex-direction:column; gap:1.5rem; margin-bottom:3rem; }
-.cp-link-item { display:flex; align-items:center; gap:1rem; }
-.cp-link-label { font-size:.7rem; letter-spacing:.26em; text-transform:uppercase; color:var(--light); width:84px; flex-shrink:0; }
-.cp-link-val { position:relative; font-size:var(--t-body); text-decoration:none; border-bottom:1px solid transparent; padding:.35rem 0 2px; transition:color .2s, border-color .2s; }
-.cp-link-val::after { content:''; position:absolute; inset:-11px -6px; }
-.cp-link-val:hover { color:var(--accent); border-bottom-color:var(--accent); }
-
-.cp-form { display:flex; flex-direction:column; gap:1.1rem; max-width:520px; }
-.cp-field { display:flex; flex-direction:column; gap:.4rem; }
-.cp-label { font-size:.7rem; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
-.cp-input, .cp-textarea {
-  background:var(--white); border:1px solid var(--border);
-  padding:.85rem 1rem; font-family:var(--sans); font-size:16px; font-weight:400;
-  color:var(--ink); outline:none; border-radius:2px;
-  transition:border-color .2s;
-  width:100%;
-}
-.cp-input:focus, .cp-textarea:focus { border-color:var(--accent); }
-.cp-input:user-invalid, .cp-textarea:user-invalid { border-color:#9b1c1c; }
-.cp-textarea { resize:vertical; min-height:130px; }
-.cp-submit { align-self:flex-start; }
-.cp-note { font-size:.72rem; color:var(--light); line-height:1.6; }
-.cp-status { font-family:var(--serif); font-size:1.05rem; font-style:italic; color:var(--accent); min-height:1.4em; }
-
-.cp-right { overflow:hidden; min-height:300px; }
-.cp-right img { width:100%; height:100%; object-fit:cover; filter:brightness(.92); }
 
 /* ═══ FOOTER ═══ */
 .site-footer {
@@ -1324,7 +1303,7 @@ a { color:inherit; }
           <label class="cp-label" for="pp-msg">Message</label>
           <textarea class="cp-textarea" id="pp-msg" required></textarea>
         </div>
-        <button type="submit" class="btn-dark cp-submit">Send</button>
+        <button type="submit" class="cp-submit">Send</button>
         <p class="cp-status" id="pp-status" role="status" aria-live="polite"></p>
       </div>
     </form>
@@ -1388,17 +1367,20 @@ a { color:inherit; }
       <p class="cp-intro">We&rsquo;d love to hear from you. Send any questions or requests
         in the form below, and Yehudis will respond as soon as she can.</p>
 
-      <div class="cp-links" id="cp-links"></div>
+      <hr class="cp-rule">
 
       <form class="cp-form" id="cp-form" novalidate>
-        <div class="cp-row2">
-          <div class="cp-field">
-            <label class="cp-label" for="cp-first">First name <span>(required)</span></label>
-            <input class="cp-input" id="cp-first" type="text" autocomplete="given-name" required>
-          </div>
-          <div class="cp-field">
-            <label class="cp-label" for="cp-last">Last name <span>(required)</span></label>
-            <input class="cp-input" id="cp-last" type="text" autocomplete="family-name" required>
+        <div class="cp-namegroup">
+          <p class="cp-group-h">Name</p>
+          <div class="cp-row2">
+            <div class="cp-field">
+              <label class="cp-label" for="cp-first">First name <span>(required)</span></label>
+              <input class="cp-input" id="cp-first" type="text" autocomplete="given-name" required>
+            </div>
+            <div class="cp-field">
+              <label class="cp-label" for="cp-last">Last name <span>(required)</span></label>
+              <input class="cp-input" id="cp-last" type="text" autocomplete="family-name" required>
+            </div>
           </div>
         </div>
         <div class="cp-field">
@@ -1417,12 +1399,15 @@ a { color:inherit; }
           <label class="cp-label" for="cp-msg">Message <span>(required)</span></label>
           <textarea class="cp-textarea" id="cp-msg" required></textarea>
         </div>
-        <button type="submit" class="btn-dark cp-submit">Submit</button>
+        <button type="submit" class="cp-submit">Submit</button>
         <p class="cp-status" id="cp-status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div>
-  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
+  <footer class="site-footer">
+    <div class="cp-links" id="cp-links"></div>
+    <p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p>
+  </footer>
 </div>
 
 </main>
@@ -1448,10 +1433,12 @@ a { color:inherit; }
     whatsapp: '972587706991',
     whatsappDisplay: '058-770-6991',
 
+    /* Dial-able form (digits, may start with +) and the form shown on screen. */
+    phone: '+972500000000',
+    phoneDisplay: '052-000-0000',
+
     /* Pre-filled first line of the WhatsApp message. */
     whatsappText: 'Hello, I have a question about your work.',
-
-    /* Dial-able form (digits only) and the form shown on screen. */
     phone: '972587706991',
     phoneDisplay: '058-770-6991'
   };
