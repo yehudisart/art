@@ -110,7 +110,7 @@ a { color:inherit; }
    rather than draw a box. */
 .nb:focus-visible, .gl-more:focus-visible,
 .btn-dark:focus-visible, .btn-ghost:focus-visible, .btn-outline:focus-visible,
-.pp-crumb:focus-visible, .pp-next:focus-visible, .selected-more:focus-visible,
+.pp-crumb:focus-visible, .pp-next:focus-visible,
 .ap-cta:focus-visible, .gal-back:focus-visible,
 .hcf-link:focus-visible, .clink:focus-visible, .cp-link-val:focus-visible {
   text-decoration:underline; text-underline-offset:4px;
@@ -310,7 +310,7 @@ a { color:inherit; }
      inside stays narrow. Its height gives the image its travel. */
   position:relative; z-index:1;
   background:var(--white);
-  padding:clamp(6rem,26vh,14rem) var(--pad-x) clamp(6rem,26vh,14rem);
+  padding:clamp(3.5rem,12vh,6rem) var(--pad-x) clamp(3.5rem,12vh,6rem);
   text-align:center;
 }
 .banner-text > * { max-width:820px; margin-left:auto; margin-right:auto; }
@@ -366,16 +366,7 @@ a { color:inherit; }
 }
 .sw:hover .sw-img img, .sw:focus-visible .sw-img img { transform:scale(1.05); filter:brightness(1); }
 .sw-title { display:block; font-family:var(--serif); font-size:1.3rem; margin-top:.9rem; }
-.sw-desc  { display:block; font-size:.72rem; color:var(--muted); margin-top:.25rem; }
 .sw-med   { display:block; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--light); margin-top:.45rem; }
-.selected-more {
-  margin-top:2.5rem; position:relative;
-  background:none; border:none; border-bottom:1px solid var(--accent);
-  font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent);
-  padding:.4rem 0; transition:color .2s, border-color .2s;
-}
-.selected-more::after { content:''; position:absolute; inset:-11px -8px; }
-.selected-more:hover { color:var(--ink); border-color:var(--ink); }
 
 /* ═══ ABOUT PREVIEW ═══ */
 /* Deliberately inset — this one sits inside the page with a white margin
@@ -401,8 +392,12 @@ a { color:inherit; }
 /* ═══ HOME CONTACT FOOTER ═══ */
 .home-contact-footer { padding:6rem var(--pad-x) 5rem; text-align:center; border-top:1px solid var(--border); }
 .hcf-eyebrow { font-size:.7rem; letter-spacing:.42em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:1.4rem; }
-.hcf-heading { font-family:var(--serif); font-size:clamp(1.7rem,4vw,3.4rem); font-weight:400; line-height:1.1; margin-bottom:1rem; text-wrap:balance; }
-.hcf-heading em { font-style:italic; color:var(--accent); }
+.hcf-heading {
+  font-family:var(--serif); font-size:clamp(1.2rem,2.2vw,1.6rem); font-weight:400;
+  letter-spacing:.2em; text-transform:uppercase; line-height:1.4;
+  margin-bottom:1rem; text-wrap:balance;
+}
+.hcf-heading em { font-style:normal; color:inherit; }
 .hcf-sub { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:2.5rem; }
 .hcf-links { display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap; margin-bottom:2.5rem; }
 .hcf-link { position:relative;
@@ -442,7 +437,6 @@ a { color:inherit; }
 .gpc:hover .gpc-img img, .gpc:focus-visible .gpc-img img { transform:scale(1.04); filter:brightness(1); }
 .gpc-body { display:block; padding:.9rem 0 0; }
 .gpc-label { display:block; font-family:var(--serif); font-size:1.3rem; margin-bottom:.25rem; }
-.gpc-desc  { display:block; font-size:.8rem; color:var(--muted); letter-spacing:.02em; }
 
 /* Gallery grid view */
 #gal-grid-view { display:none; }
@@ -961,7 +955,6 @@ a { color:inherit; }
   <section class="selected" aria-labelledby="selected-h">
     <h2 class="selected-h" id="selected-h">Collections</h2>
     <div class="selected-grid" id="selected-grid"></div>
-    <button class="selected-more" data-page="gallery">All work</button>
   </section>
 
   <section class="about-preview">
@@ -1341,8 +1334,7 @@ a { color:inherit; }
       b.setAttribute('aria-label', 'Open the ' + c.label + ' collection, ' + n + (n === 1 ? ' painting' : ' paintings'));
       b.innerHTML =
         '<span class="sw-img">' + picture(c.cover, '', '-sm', null, null, false) + '</span>' +
-        '<span class="sw-title">' + esc(c.label) + '</span>' +
-        '<span class="sw-desc">' + esc(c.desc) + '</span>';
+        '<span class="sw-title">' + esc(c.label) + '</span>';
       b.addEventListener('click', function () { navigate('gallery', c.id); });
       grid.appendChild(b);
     });
@@ -1360,7 +1352,6 @@ a { color:inherit; }
         '<span class="gpc-img">' + picture(c.cover, '', '-sm', null, null, true) + '</span>' +
         '<span class="gpc-body">' +
           '<span class="gpc-label">' + esc(c.label) + '</span>' +
-          '<span class="gpc-desc">' + esc(c.desc) + '</span>' +
         '</span>';
       b.addEventListener('click', function () { navigate('gallery', c.id); });
       grid.appendChild(b);
