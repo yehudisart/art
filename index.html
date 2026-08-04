@@ -226,17 +226,13 @@ a { color:inherit; }
   background:none; border:none; padding:.4rem 0; line-height:1.2;
   white-space:nowrap; flex-shrink:0;
   display:inline-flex; align-items:center;
-  min-height:52px; max-width:min(44vw, 340px);
+  min-height:44px; max-width:min(50vw, 380px);
 }
-/* Kept deliberately light: a hint of stroke plus a touch of contrast reads as
-   a crisper printing of the same signature, not a different, heavier mark. */
-.logo img {
-  max-height:52px; max-width:100%; width:auto; display:block;
-  filter:
-    drop-shadow(0.12px 0 0 var(--ink))
-    drop-shadow(-0.12px 0 0 var(--ink))
-    contrast(1.08);
-}
+/* The source file carried a lot of transparent padding above and below the
+   signature, so the mark rendered small and cramped no matter the box
+   height. Cropped tight to the ink itself, the same box now shows a bigger,
+   wider signature — clean and classic, no artificial weight added. */
+.logo img { max-height:38px; max-width:100%; width:auto; display:block; }
 
 /* Centred in the bar on desktop, so the links stay put whatever the logo's
    width. The mobile drawer overrides this below. */
@@ -777,32 +773,31 @@ a { color:inherit; }
    width — a standing plate on the left, the form close beside it on the
    right, both scaled down together. */
 .contact-page-wrap {
-  display:grid; grid-template-columns:minmax(0,0.8fr) minmax(0,1.15fr); gap:2.75rem;
-  max-width:760px; margin:0 auto; padding:4.5rem var(--pad-x) 5rem;
-  align-items:start;
+  display:grid; grid-template-columns:minmax(0,0.62fr) minmax(0,1fr); gap:2.25rem;
+  max-width:680px; margin:0 auto; padding:4.5rem var(--pad-x) 5rem;
+  align-items:stretch;
 }
-/* Forced into a standing rectangle regardless of the canvas's own
-   proportions — the same cropped-to-the-frame treatment used in the works
-   grids elsewhere on the site. */
-.cp-art { overflow:hidden; aspect-ratio:3/4; }
+/* A true standing column, not a capped box — it stretches to match the
+   height of the form beside it, so the painting runs the full length of the
+   text rather than sitting as a separate, shorter block above it. */
+.cp-art { overflow:hidden; align-self:stretch; }
 .cp-art img { width:100%; height:100%; object-fit:cover; display:block; }
 
 /* The rule under the intro. A hairline spanning the form column, separating
    the title from the fields. */
-.cp-rule { border:none; border-top:1px solid var(--border); margin:0 0 1.6rem; }
+.cp-rule { border:none; border-top:1px solid var(--border); margin:0 0 1.3rem; }
 
 /* Group heading ("Name") sitting above a paired row, larger than the field
    labels beneath it. */
 .cp-group-h {
-  font-size:.8rem; font-weight:400; letter-spacing:.02em;
-  color:var(--ink); margin-bottom:.5rem;
+  font-size:.74rem; font-weight:400; letter-spacing:.02em;
+  color:var(--ink); margin-bottom:.4rem;
 }
-/* Set two sizes down from the site's page-title scale — a quiet heading for
-   a compact block, not a section banner. */
+/* A quiet heading for a compact block, condensed further still. */
 .cp-heading {
-  font-family:var(--serif); font-size:clamp(1.1rem,1.8vw,1.35rem); font-weight:600;
-  letter-spacing:.14em; text-transform:uppercase; line-height:1.3;
-  color:var(--ink); margin:0 0 1.1rem;
+  font-family:var(--serif); font-size:clamp(1rem,1.6vw,1.2rem); font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; line-height:1.3;
+  color:var(--ink); margin:0 0 .9rem;
 }
 /* Contact details live in the footer rather than beside the form, as in the
    reference: one centred line, values only, divided by hairline separators.
@@ -827,48 +822,48 @@ a { color:inherit; }
 }
 .cp-link-val::after { content:''; position:absolute; inset:-11px -6px; }
 .cp-link-val:hover { color:var(--accent); border-bottom-color:var(--accent); }
-.cp-form { display:flex; flex-direction:column; gap:.95rem; }
-.cp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:.9rem; }
-.cp-field { display:flex; flex-direction:column; gap:.4rem; }
+.cp-form { display:flex; flex-direction:column; gap:.8rem; }
+.cp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+.cp-field { display:flex; flex-direction:column; gap:.35rem; }
 /* The Name pair and its shared heading form one unit, so the gap inside it is
    tighter than the gap between questions. */
 .cp-namegroup { display:flex; flex-direction:column; }
 /* Two label sizes, as in the reference: standalone fields carry a full-size
    label, while the paired First/Last row sits under a shared "Name" heading and
-   uses a reduced one, so the pair reads as a single question. Both trimmed
-   down a step from before. */
+   uses a reduced one, so the pair reads as a single question. Condensed a
+   further notch, quiet and small. */
 .cp-label {
-  font-family:var(--sans); font-size:.8rem; font-weight:400;
+  font-family:var(--sans); font-size:.72rem; font-weight:400;
   letter-spacing:0; text-transform:none; color:var(--ink); line-height:1.4;
 }
-.cp-row2 .cp-label { font-size:.72rem; }
+.cp-row2 .cp-label { font-size:.66rem; }
 .cp-label span { font-size:.78em; color:var(--light); letter-spacing:0; }
 .cp-input, .cp-textarea {
   background:var(--off); border:1px solid var(--border);
   /* Font-size held at 16px on purpose — iOS zooms the page on focus for
      anything smaller, which would fight the compact layout, not suit it. */
-  padding:.55rem .7rem; font-family:var(--sans); font-size:16px; font-weight:400;
+  padding:.5rem .65rem; font-family:var(--sans); font-size:16px; font-weight:400;
   color:var(--ink); outline:none; border-radius:0;
   transition:border-color .2s; width:100%;
 }
 .cp-input:focus, .cp-textarea:focus { border-color:var(--ink); }
 .cp-input:user-invalid, .cp-textarea:user-invalid { border-color:#9b1c1c; }
-.cp-textarea { resize:vertical; min-height:90px; }
+.cp-textarea { resize:vertical; min-height:76px; }
 
 /* Reference submit: an outlined box, not a filled block — a thin dark rule on
    white with the word in italic. Deliberately quiet; the button is the only
    interactive element on the page and does not need to shout. */
 .cp-submit {
-  align-self:flex-start; margin-top:.4rem;
+  align-self:flex-start; margin-top:.3rem;
   background:var(--white); color:var(--ink);
   border:1px solid var(--ink); border-radius:0;
-  padding:.6rem 1.5rem; min-height:40px;
-  font-family:var(--sans); font-size:.8rem; font-style:italic; font-weight:400;
+  padding:.5rem 1.3rem; min-height:38px;
+  font-family:var(--sans); font-size:.76rem; font-style:italic; font-weight:400;
   letter-spacing:.02em; text-transform:none;
   transition:background .25s, color .25s;
 }
 .cp-submit:hover { background:var(--ink); color:var(--white); }
-.cp-status { font-family:var(--serif); font-size:.9rem; font-style:italic; color:var(--accent); min-height:1.4em; }
+.cp-status { font-family:var(--serif); font-size:.82rem; font-style:italic; color:var(--accent); min-height:1.4em; }
 
 /* ═══ FOOTER ═══ */
 .site-footer {
@@ -946,7 +941,7 @@ a { color:inherit; }
   :root { --pad-x:1.25rem; --nav-h:62px; }
 
   .logo { font-size:1.25rem; min-height:auto; }
-  .logo img { max-height:44px; }
+  .logo img { max-height:32px; }
 
   .hero { min-height:480px; }
   .hcontent { padding:1.5rem 1.5rem 3rem; padding-bottom:calc(3rem + env(safe-area-inset-bottom)); }
@@ -1055,7 +1050,7 @@ a { color:inherit; }
        <img src="/assets/img/logo.svg" alt="Yehudis Jacobs"> -->
   <button class="logo" id="logo-btn" aria-label="Yehudis Jacobs — go to home page">
     <img src="/assets/img/logo.png" srcset="/assets/img/logo.png 1x, /assets/img/logo@2x.png 2x"
-         alt="Yehudis Jacobs" width="116" height="58">
+         alt="Yehudis Jacobs" width="105" height="38">
   </button>
 
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
@@ -1137,9 +1132,9 @@ a { color:inherit; }
   <section class="about-preview">
     <div class="ap-img">
       <picture>
-        <source srcset="/assets/img/torah.webp" type="image/webp">
-        <img src="/assets/img/torah.jpg" alt="Torah — oil on canvas by Yehudis Jacobs"
-             width="424" height="600" loading="lazy" decoding="async">
+        <source srcset="/assets/img/gates-of-heaven.webp" type="image/webp">
+        <img src="/assets/img/gates-of-heaven.jpg" alt="Gates of Heaven — oil on canvas by Yehudis Jacobs"
+             width="1200" height="800" loading="lazy" decoding="async">
       </picture>
     </div>
     <div class="ap-text">
@@ -1272,9 +1267,9 @@ a { color:inherit; }
 
     <figure class="ab-figure">
       <picture>
-        <source srcset="/assets/img/gates-of-heaven.webp" type="image/webp">
-        <img src="/assets/img/gates-of-heaven.jpg" alt="Gates of Heaven — oil on canvas by Yehudis Jacobs"
-             width="1200" height="800" loading="lazy" decoding="async">
+        <source srcset="/assets/img/eyes-of-the-nation.webp" type="image/webp">
+        <img src="/assets/img/eyes-of-the-nation.jpg" alt="Eyes of the Nation — oil on canvas by Yehudis Jacobs"
+             width="2000" height="1789" loading="lazy" decoding="async">
       </picture>
     </figure>
 
