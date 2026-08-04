@@ -610,14 +610,12 @@ a { color:inherit; }
   background:none; border:none; padding:0; display:block; width:100%; text-align:center;
   cursor:pointer;
 }
-.aw-img { display:block; overflow:hidden; aspect-ratio:3/2; }
-/* Panoramic works take two columns in the all-works grid so their proportion
-   survives the thumbnail. */
-.aw.aw-wide { grid-column:span 2; }
-.aw.aw-wide .aw-img { aspect-ratio:var(--aw-ratio, 3/2); }
-.aw.aw-wide .aw-img img { object-fit:contain; }
+.aw-img {
+  display:block; overflow:hidden; aspect-ratio:1/1;
+  display:flex; align-items:center; justify-content:center;
+}
 .aw-img img {
-  width:100%; height:100%; object-fit:cover; display:block;
+  width:100%; height:100%; object-fit:contain; display:block;
   transition:transform .7s cubic-bezier(.25,.46,.45,.94), opacity .3s;
 }
 .aw:hover .aw-img img, .aw:focus-visible .aw-img img { transform:scale(1.04); opacity:.9; }
@@ -1161,6 +1159,11 @@ a { color:inherit; }
       <p class="gal-picker-intro">The work is grouped into three collections.</p>
     </div>
     <div class="gal-picker-grid" id="gal-picker-grid"></div>
+
+    <section class="allworks" aria-label="Every work">
+      <h2 class="allworks-h">All works</h2>
+      <div class="allworks-grid" id="allworks-every"></div>
+    </section>
   </section>
 
   <section id="gal-grid-view" aria-label="Paintings">
@@ -1177,8 +1180,8 @@ a { color:inherit; }
     </div>
     <div class="gal-list" id="gal-grid"></div>
 
-    <section class="allworks" aria-label="All works">
-      <h2 class="allworks-h">All works</h2>
+    <section class="allworks" aria-label="Works in this collection">
+      <h2 class="allworks-h" id="allworks-cat-h">In this collection</h2>
       <div class="allworks-grid" id="allworks-gallery"></div>
     </section>
 
@@ -1397,7 +1400,8 @@ a { color:inherit; }
         { img: 'pouring-flowers', title: 'Pouring Flowers', medium: 'Oil on canvas · 90×100 cm', w: 536, h: 600 , slug: 'pouring-flowers', desc: '' },
         { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 , slug: 'mount-sinai', desc: '' },
         { img: 'birds-of-paradise', title: 'Birds of Paradise', medium: 'Oil on canvas · 50×60 cm', w: 1621, h: 2000, slug: 'birds-of-paradise', desc: '' },
-        { img: 'flowers-ii',  title: 'Flowers II',  medium: 'Oil on canvas · 90×30 cm', w: 2000, h: 638,  slug: 'flowers-ii', desc: '' }
+        { img: 'flowers-ii',  title: 'Flowers II',  medium: 'Oil on canvas · 90×30 cm', w: 2000, h: 638,  slug: 'flowers-ii', desc: '' },
+        { img: 'jerusalem-in-light', title: 'Jerusalem in Light', medium: 'Oil on canvas · 50×70 cm', w: 1370, h: 2000, slug: 'jerusalem-in-light', desc: '' }
       ]
     },
     {
@@ -1540,6 +1544,10 @@ a { color:inherit; }
 
   /* ═══ GALLERY PICKER ═══ */
   (function picker() {
+    /* The picker carries the complete catalogue. Since each collection view now
+       shows only its own works, this is the one place every painting appears —
+       and the only route to works that belong to no collection at all. */
+    buildAllWorks($('#allworks-every'), null);
     var grid = $('#gal-picker-grid');
     CATEGORIES.forEach(function (c) {
       var n = c.paintings.length;
@@ -1614,7 +1622,8 @@ a { color:inherit; }
 
     /* Every painting on the site, shown under the rows of the open category.
        No current-item highlight here: nothing on this view is "current". */
-    buildAllWorks($('#allworks-gallery'), null);
+    buildAllWorks($('#allworks-gallery'), null, c.paintings);
+    $('#allworks-cat-h').textContent = c.label;
 
     if (push) setHash('gallery/' + id);
     scrollTop();
@@ -1633,15 +1642,13 @@ a { color:inherit; }
   var canHover = window.matchMedia('(hover: hover)').matches;
 
   /* ═══ ALL WORKS GRID ═══ */
-  function buildAllWorks(mount, currentSlug) {
+  /* `list` is an array of painting objects. Omit it for every work on the site. */
+  function buildAllWorks(mount, currentSlug, list) {
     if (!mount) return;
     mount.innerHTML = '';
-    ALL.forEach(function (entry) {
-      var pt = entry.p;
+    (list || ALL.map(function (e) { return e.p; })).forEach(function (pt) {
       var b = document.createElement('button');
-      var wide = pt.w && pt.h && (pt.w / pt.h) > 1.6;
-      b.className = 'aw' + (wide ? ' aw-wide' : '') + (pt.slug === currentSlug ? ' is-current' : '');
-      if (wide) b.style.setProperty('--aw-ratio', pt.w + '/' + pt.h);
+      b.className = 'aw' + (pt.slug === currentSlug ? ' is-current' : '');
       b.setAttribute('aria-label', 'View ' + pt.title);
       if (pt.slug === currentSlug) b.setAttribute('aria-current', 'true');
       b.innerHTML =
