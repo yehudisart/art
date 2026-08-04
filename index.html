@@ -228,16 +228,14 @@ a { color:inherit; }
   display:inline-flex; align-items:center;
   min-height:52px; max-width:min(44vw, 340px);
 }
-/* The signature is a thin script; a straight upscale would only make it
-   bigger, not more present. A very light offset in each direction gives the
-   stroke a touch more weight without losing the classic, hand-written feel. */
+/* Kept deliberately light: a hint of stroke plus a touch of contrast reads as
+   a crisper printing of the same signature, not a different, heavier mark. */
 .logo img {
-  max-height:56px; max-width:100%; width:auto; display:block;
+  max-height:52px; max-width:100%; width:auto; display:block;
   filter:
-    drop-shadow(0.25px 0 0 var(--ink))
-    drop-shadow(-0.25px 0 0 var(--ink))
-    drop-shadow(0 0.25px 0 var(--ink))
-    drop-shadow(0 -0.25px 0 var(--ink));
+    drop-shadow(0.12px 0 0 var(--ink))
+    drop-shadow(-0.12px 0 0 var(--ink))
+    contrast(1.08);
 }
 
 /* Centred in the bar on desktop, so the links stay put whatever the logo's
@@ -374,15 +372,13 @@ a { color:inherit; }
 .banner-strip { display:block; border-top:1px solid var(--border); position:relative; }
 .banner-text {
   /* Full-width white panel that scrolls up over the pinned image; the copy
-     inside stays narrow. Its height gives the image its travel. */
+     inside stays narrow. Its height gives the image its travel — kept modest
+     so the banner reads as one beat in the page, not a full second hero. */
   position:relative; z-index:1;
   background:var(--white);
-  /* min-height is what gives the pinned image its travel, and being a fixed
-     multiple of the viewport it behaves the same on every screen — padding in
-     vh alone left phones with almost no pin at all. */
-  min-height:90svh;
+  min-height:55svh;
   display:flex; flex-direction:column; justify-content:center;
-  padding:4rem var(--pad-x);
+  padding:3.5rem var(--pad-x);
   text-align:center;
 }
 .banner-text > * { max-width:820px; margin-left:auto; margin-right:auto; }
@@ -396,12 +392,14 @@ a { color:inherit; }
    where tracked capitals stop reading as a sentence and start reading as a
    banner. text-wrap:balance then evens out the resulting lines. */
 .banner-heading { font-family:var(--serif); font-size:var(--t-statement); font-weight:400; font-style:normal; text-transform:uppercase; letter-spacing:var(--ls-statement); line-height:1.7; margin-bottom:0; max-width:46rem; margin-left:auto; margin-right:auto; text-wrap:pretty; }
+.banner-attrib { font-size:.76rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-top:1.3rem; }
 .banner-body    { font-size:.95rem; line-height:1.85; color:var(--muted); margin:0 auto 1.2rem; max-width:44rem; }
 .banner-img {
   /* Pinned: holds still in the viewport while the white panel below scrolls
-     up over it, then releases at the end of the section. */
+     up over it, then releases at the end of the section. Shorter than a full
+     viewport to match the shorter text panel it's paired with. */
   position:sticky; top:0; z-index:0;
-  overflow:hidden; height:100svh;
+  overflow:hidden; height:70svh;
 }
 /* display:contents removes the wrapper from layout entirely, so the sticky
    image is positioned against .banner-strip (image + text) and its travel is
@@ -592,11 +590,11 @@ a { color:inherit; }
 .gl-figure:hover img, .gl-figure:focus-visible img { transform:scale(1.03); opacity:.92; }
 .gl-body { padding-top:.25rem; align-self:start; }
 .gl-title {
-  font-family:var(--serif); font-size:var(--t-sub); font-weight:600;
+  font-family:var(--serif); font-size:clamp(.92rem,1.4vw,1.08rem); font-weight:600;
   letter-spacing:var(--ls-label); text-transform:uppercase; line-height:1.4; margin-bottom:1.1rem;
 }
-.gl-med  { font-size:var(--t-body); color:var(--ink); margin-bottom:.7rem; }
-.gl-desc { font-size:var(--t-body); line-height:1.75; color:var(--muted); max-width:44rem; margin-bottom:1.5rem; }
+.gl-med  { font-size:.84rem; color:var(--ink); margin-bottom:.7rem; }
+.gl-desc { font-size:.84rem; line-height:1.75; color:var(--muted); max-width:44rem; margin-bottom:1.5rem; }
 .gl-more {
   display:inline-block; background:none; border:1px solid var(--ink);
   font-size:.7rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--ink);
@@ -683,13 +681,13 @@ a { color:inherit; }
 }
 
 .pp-title {
-  font-family:var(--serif); font-size:clamp(1.5rem,2.9vw,2.1rem); font-weight:600;
-  letter-spacing:.2em; text-transform:uppercase;
-  line-height:1.35; margin-bottom:1.75rem; text-wrap:balance;
+  font-family:var(--serif); font-size:clamp(1.05rem,1.8vw,1.35rem); font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase;
+  line-height:1.35; margin-bottom:1.5rem; text-wrap:balance;
 }
-.pp-med  { font-size:var(--t-body); color:var(--ink); margin-bottom:1.2rem; }
-.pp-desc { font-size:var(--t-body); line-height:1.95; color:var(--muted); margin-bottom:1.2rem; }
-.pp-inquire { font-size:var(--t-body); line-height:1.9; color:var(--muted); margin-top:1.6rem; }
+.pp-med  { font-size:.84rem; color:var(--ink); margin-bottom:1.2rem; }
+.pp-desc { font-size:.84rem; line-height:1.9; color:var(--muted); margin-bottom:1.2rem; }
+.pp-inquire { font-size:.84rem; line-height:1.85; color:var(--muted); margin-top:1.6rem; }
 
 .pp-form-wrap { border-top:1px solid var(--border); background:var(--off); }
 .pp-form { padding:4rem var(--pad-x) 5rem; max-width:900px; margin:0 auto; }
@@ -763,22 +761,7 @@ a { color:inherit; }
    page — the source image is cropped to this ratio, never stretched. */
 .ab-figure { overflow:hidden; aspect-ratio:21/9; max-width:1100px; margin:3.5rem auto; }
 .ab-figure img { width:100%; height:100%; object-fit:cover; display:block; }
-.ab-foot { padding-bottom:1rem; }
-/* Closing flourish before the page hands off to the Contact banner: a
-   hairline, a small portrait, and the artist's full name set as a proper
-   sign-off rather than a first name trailing the last paragraph. */
-.ab-close { text-align:center; padding:3rem var(--pad-x) 4rem; border-top:1px solid var(--border); margin-top:2.5rem; }
-.ab-portrait {
-  width:92px; height:92px; margin:0 auto 1.3rem; overflow:hidden; border-radius:50%;
-}
-.ab-portrait img { width:100%; height:100%; object-fit:cover; display:block; }
-/* Placeholder monogram — shown only until a real portrait photo replaces it. */
-.ab-portrait.ab-portrait-ph {
-  display:flex; align-items:center; justify-content:center;
-  background:var(--off); border:1px solid var(--border);
-  font-family:var(--serif); font-size:1.9rem; color:var(--accent);
-}
-.ab-sig { font-family:var(--serif); font-size:var(--t-sub); font-style:italic; color:var(--accent); }
+.ab-foot { padding-bottom:3rem; }
 
 .cblock { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); }
 .cblock-ey { font-size:.7rem; letter-spacing:.4em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:1rem; }
@@ -790,29 +773,36 @@ a { color:inherit; }
 .clink:hover { color:var(--accent); border-color:var(--accent); }
 
 /* ═══ CONTACT ═══ */
-/* One centred column running the width of the page, the same measure the
-   About page and the rest of the site use for a block of content — no side
-   image competing with the form for space or proportion. */
+/* One compact block, centred on the page rather than stretched to its full
+   width — a standing plate on the left, the form close beside it on the
+   right, both scaled down together. */
 .contact-page-wrap {
-  max-width:640px; margin:0 auto; padding:5rem var(--pad-x) 5.5rem;
+  display:grid; grid-template-columns:minmax(0,0.8fr) minmax(0,1.15fr); gap:2.75rem;
+  max-width:760px; margin:0 auto; padding:4.5rem var(--pad-x) 5rem;
+  align-items:start;
 }
+/* Forced into a standing rectangle regardless of the canvas's own
+   proportions — the same cropped-to-the-frame treatment used in the works
+   grids elsewhere on the site. */
+.cp-art { overflow:hidden; aspect-ratio:3/4; }
+.cp-art img { width:100%; height:100%; object-fit:cover; display:block; }
 
-/* The rule under the intro. A hairline spanning the full width of the form
-   column, separating the title from the fields. */
-.cp-rule { border:none; border-top:1px solid var(--border); margin:0 0 2.2rem; }
+/* The rule under the intro. A hairline spanning the form column, separating
+   the title from the fields. */
+.cp-rule { border:none; border-top:1px solid var(--border); margin:0 0 1.6rem; }
 
 /* Group heading ("Name") sitting above a paired row, larger than the field
    labels beneath it. */
 .cp-group-h {
-  font-size:1rem; font-weight:400; letter-spacing:.02em;
-  color:var(--ink); margin-bottom:.6rem;
+  font-size:.8rem; font-weight:400; letter-spacing:.02em;
+  color:var(--ink); margin-bottom:.5rem;
 }
-/* Centred like every other page title on the site (.gal-picker-title,
-   .ab-head), now that it isn't anchored beside a side image. */
+/* Set two sizes down from the site's page-title scale — a quiet heading for
+   a compact block, not a section banner. */
 .cp-heading {
-  font-family:var(--serif); font-size:var(--t-display); font-weight:600;
-  letter-spacing:var(--ls-display); text-transform:uppercase; line-height:1.2;
-  color:var(--ink); margin:0 0 1.6rem; text-align:center;
+  font-family:var(--serif); font-size:clamp(1.1rem,1.8vw,1.35rem); font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; line-height:1.3;
+  color:var(--ink); margin:0 0 1.1rem;
 }
 /* Contact details live in the footer rather than beside the form, as in the
    reference: one centred line, values only, divided by hairline separators.
@@ -837,45 +827,48 @@ a { color:inherit; }
 }
 .cp-link-val::after { content:''; position:absolute; inset:-11px -6px; }
 .cp-link-val:hover { color:var(--accent); border-bottom-color:var(--accent); }
-.cp-form { display:flex; flex-direction:column; gap:1.3rem; }
-.cp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
-.cp-field { display:flex; flex-direction:column; gap:.5rem; }
+.cp-form { display:flex; flex-direction:column; gap:.95rem; }
+.cp-row2 { display:grid; grid-template-columns:1fr 1fr; gap:.9rem; }
+.cp-field { display:flex; flex-direction:column; gap:.4rem; }
 /* The Name pair and its shared heading form one unit, so the gap inside it is
    tighter than the gap between questions. */
 .cp-namegroup { display:flex; flex-direction:column; }
 /* Two label sizes, as in the reference: standalone fields carry a full-size
    label, while the paired First/Last row sits under a shared "Name" heading and
-   uses a reduced one, so the pair reads as a single question. */
+   uses a reduced one, so the pair reads as a single question. Both trimmed
+   down a step from before. */
 .cp-label {
-  font-family:var(--sans); font-size:.95rem; font-weight:400;
+  font-family:var(--sans); font-size:.8rem; font-weight:400;
   letter-spacing:0; text-transform:none; color:var(--ink); line-height:1.4;
 }
-.cp-row2 .cp-label { font-size:.84rem; }
+.cp-row2 .cp-label { font-size:.72rem; }
 .cp-label span { font-size:.78em; color:var(--light); letter-spacing:0; }
 .cp-input, .cp-textarea {
   background:var(--off); border:1px solid var(--border);
-  padding:.7rem .85rem; font-family:var(--sans); font-size:16px; font-weight:400;
+  /* Font-size held at 16px on purpose — iOS zooms the page on focus for
+     anything smaller, which would fight the compact layout, not suit it. */
+  padding:.55rem .7rem; font-family:var(--sans); font-size:16px; font-weight:400;
   color:var(--ink); outline:none; border-radius:0;
   transition:border-color .2s; width:100%;
 }
 .cp-input:focus, .cp-textarea:focus { border-color:var(--ink); }
 .cp-input:user-invalid, .cp-textarea:user-invalid { border-color:#9b1c1c; }
-.cp-textarea { resize:vertical; min-height:120px; }
+.cp-textarea { resize:vertical; min-height:90px; }
 
 /* Reference submit: an outlined box, not a filled block — a thin dark rule on
    white with the word in italic. Deliberately quiet; the button is the only
    interactive element on the page and does not need to shout. */
 .cp-submit {
-  align-self:flex-start; margin-top:1rem;
+  align-self:flex-start; margin-top:.4rem;
   background:var(--white); color:var(--ink);
   border:1px solid var(--ink); border-radius:0;
-  padding:.75rem 1.8rem; min-height:44px;
-  font-family:var(--sans); font-size:.9rem; font-style:italic; font-weight:400;
+  padding:.6rem 1.5rem; min-height:40px;
+  font-family:var(--sans); font-size:.8rem; font-style:italic; font-weight:400;
   letter-spacing:.02em; text-transform:none;
   transition:background .25s, color .25s;
 }
 .cp-submit:hover { background:var(--ink); color:var(--white); }
-.cp-status { font-family:var(--serif); font-size:var(--t-body); font-style:italic; color:var(--accent); min-height:1.4em; }
+.cp-status { font-family:var(--serif); font-size:.9rem; font-style:italic; color:var(--accent); min-height:1.4em; }
 
 /* ═══ FOOTER ═══ */
 .site-footer {
@@ -929,13 +922,14 @@ a { color:inherit; }
   .selected-grid  { grid-template-columns:repeat(2,1fr); gap:1.2rem; }
   .statement      { padding:4rem var(--pad-x); }
 
-  .banner-img     { height:70svh; }
+  .banner-img     { height:55svh; }
 
   .banner-body    { max-width:none; }
 
   .ab-figure      { aspect-ratio:16/9; }
 
-  .contact-page-wrap { padding:2.5rem var(--pad-x) 4rem; }
+  .contact-page-wrap { grid-template-columns:1fr; gap:2rem; padding:2.5rem var(--pad-x) 4rem; max-width:460px; }
+  .cp-art { aspect-ratio:16/9; }
 
   .gal-picker-grid { grid-template-columns:repeat(2,1fr); max-width:640px; gap:1.1rem; }
   .gl-row          { grid-template-columns:1fr; gap:1.5rem; max-width:600px; }
@@ -964,8 +958,8 @@ a { color:inherit; }
 
   .banner-strip  { padding:0; }
   .about-preview { padding:3rem 1.25rem 0; }
-  .banner-text { padding:2rem 1.25rem 3rem; }
-  .banner-img  { height:60svh; }
+  .banner-text { padding:2rem 1.25rem 3rem; min-height:42svh; }
+  .banner-img  { height:45svh; }
 
 
 
@@ -1131,6 +1125,7 @@ a { color:inherit; }
     </div>
     <div class="banner-text">
       <blockquote class="banner-heading">&ldquo;Every painting tells a different story to every person who lives with it.&rdquo;</blockquote>
+      <p class="banner-attrib">&mdash; Yehudis Jacobs</p>
     </div>
   </section>
 
@@ -1277,22 +1272,15 @@ a { color:inherit; }
 
     <figure class="ab-figure">
       <picture>
-        <source srcset="/assets/img/one.webp" type="image/webp">
-        <img src="/assets/img/one.jpg" alt="One — oil on canvas by Yehudis Jacobs"
-             width="445" height="600" loading="lazy" decoding="async">
+        <source srcset="/assets/img/gates-of-heaven.webp" type="image/webp">
+        <img src="/assets/img/gates-of-heaven.jpg" alt="Gates of Heaven — oil on canvas by Yehudis Jacobs"
+             width="1200" height="800" loading="lazy" decoding="async">
       </picture>
     </figure>
 
     <p class="ab-p">My background as an Art Therapist has deepened my understanding of the quiet ways creativity can reveal, connect, and heal. That experience continues to shape not only how I see the world, but also how I paint.</p>
     <p class="ab-p">My artistic education includes studies at the Bezalel Academy of Arts and Design, followed by years of private study with internationally recognized artists. While I am deeply grateful for my teachers, life itself has remained my greatest source of inspiration. Every encounter, every challenge, every moment of faith, joy, longing, and growth has found its way into my work.</p>
     <p class="ab-p ab-foot">My aspiration is to create paintings that continue to reveal themselves over time, becoming lasting companions in the homes and lives of those who welcome them.</p>
-  </section>
-
-  <section class="ab-close">
-    <!-- Swap for the artist's own portrait when ready:
-         <div class="ab-portrait"><picture>...</picture></div> -->
-    <div class="ab-portrait ab-portrait-ph" aria-hidden="true">Y</div>
-    <p class="ab-sig">Yehudis Jacobs</p>
   </section>
 
   <section class="cblock">
@@ -1308,6 +1296,14 @@ a { color:inherit; }
 <!-- ═══ CONTACT ═══ -->
 <div id="contact-page" class="page">
   <div class="contact-page-wrap">
+    <div class="cp-art">
+      <picture>
+        <source srcset="/assets/img/flowers-ii.webp" type="image/webp">
+        <img src="/assets/img/flowers-ii.jpg" alt="Flowers II — oil on canvas by Yehudis Jacobs"
+             width="2000" height="638" loading="lazy" decoding="async">
+      </picture>
+    </div>
+
     <div class="cp-main">
       <h1 class="cp-heading">Contact</h1>
 
@@ -1398,8 +1394,9 @@ a { color:inherit; }
       paintings: [
         { img: 'one',      title: 'One',      medium: 'Oil on canvas · 60×80 cm', w: 445, h: 600 , slug: 'one', desc: '' },
         { img: 'torah',    title: 'Torah',    medium: 'Oil on canvas · 70×50 cm', w: 424, h: 600 , slug: 'torah', desc: '' },
-        { img: 'the-wall', title: 'The Wall', medium: 'Oil on canvas',            w: 533, h: 534 , slug: 'the-wall', desc: '' },
-        { img: 'eyes-of-the-nation', title: 'Eyes of the Nation', medium: 'Oil on canvas · 100×90 cm', w: 2000, h: 1789, slug: 'eyes-of-the-nation', desc: '' }
+        { img: 'eyes-of-the-nation', title: 'Eyes of the Nation', medium: 'Oil on canvas · 100×90 cm', w: 2000, h: 1789, slug: 'eyes-of-the-nation', desc: '' },
+        { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 , slug: 'mount-sinai', desc: '' },
+        { img: 'gates-of-heaven', title: 'Gates of Heaven', medium: 'Oil on canvas · 90×60 cm', w: 1200, h: 800, slug: 'gates-of-heaven', desc: '' }
       ]
     },
     {
@@ -1408,7 +1405,6 @@ a { color:inherit; }
         { img: 'tower-of-david',  title: 'Tower of David',  medium: 'Oil on canvas · 50×60 cm',  w: 516, h: 600 , slug: 'tower-of-david', desc: '' },
         { img: 'flowers',         title: 'Flowers',         medium: 'Oil on canvas · 70×70 cm',  w: 600, h: 593 , slug: 'flowers', desc: '' },
         { img: 'pouring-flowers', title: 'Pouring Flowers', medium: 'Oil on canvas · 90×100 cm', w: 536, h: 600 , slug: 'pouring-flowers', desc: '' },
-        { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 , slug: 'mount-sinai', desc: '' },
         { img: 'birds-of-paradise', title: 'Birds of Paradise', medium: 'Oil on canvas · 50×60 cm', w: 1621, h: 2000, slug: 'birds-of-paradise', desc: '' },
         { img: 'flowers-ii',  title: 'Flowers II',  medium: 'Oil on canvas · 90×30 cm', w: 2000, h: 638,  slug: 'flowers-ii', desc: '' },
         { img: 'jerusalem-in-light', title: 'Jerusalem in Light', medium: 'Oil on canvas · 50×70 cm', w: 1370, h: 2000, slug: 'jerusalem-in-light', desc: '' }
@@ -1421,7 +1417,8 @@ a { color:inherit; }
         { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 858,  h: 1400 , slug: 'prayer', desc: '' },
         { img: 'splitting-of-the-sea', title: 'The Splitting of the Sea', medium: 'Oil on canvas · 90×60 cm', w: 1966, h: 1325, slug: 'splitting-of-the-sea', desc: '' },
         { img: 'wedding-i',            title: 'Wedding I',                medium: 'Oil on canvas · 60×70 cm', w: 974,  h: 1116, slug: 'wedding-i', desc: '' },
-        { img: 'chuppah-ii',           title: 'Chuppah II',               medium: 'Oil on canvas · 90×60 cm', w: 2000, h: 822,  slug: 'chuppah-ii', desc: '' }
+        { img: 'chuppah-ii',           title: 'Chuppah II',               medium: 'Oil on canvas · 90×60 cm', w: 2000, h: 822,  slug: 'chuppah-ii', desc: '' },
+        { img: 'song-of-miriam', title: 'The Song of Miriam', medium: 'Palette knife on canvas', w: 1278, h: 2000, slug: 'song-of-miriam', desc: '' }
       ]
     }
   ];
@@ -1431,7 +1428,6 @@ a { color:inherit; }
      their own painting page. Kept as a separate list rather than given a hidden
      category, so nothing downstream has to filter them back out. */
   var LOOSE = [
-    { img: 'song-of-miriam', title: 'The Song of Miriam', medium: 'Palette knife on canvas', w: 1278, h: 2000, slug: 'song-of-miriam', desc: '' }
   ];
 
   var WALL_COLOURS = [
