@@ -80,10 +80,10 @@
   --border:#e5e5e5; --muted:#767676; --light:#a8a8a8;
   --nav-h:76px;
   --pad-x:2.5rem;
-  /* Canela and Neue Haas Grotesk are licensed and cannot be bundled. They sit
-     first in each stack, so the moment the licensed files are self-hosted (see
-     the commented @font-face block below) they take over automatically.
-     Until then the next name in each stack is used. */
+  /* Note: the commented @font-face block further down is a leftover from an
+     earlier direction that used licensed Canela and Neue Haas Grotesk. Neither
+     name appears in any stack any more, so uncommenting it alone would change
+     nothing — the stacks below would also have to be edited. */
   /* ONE typeface across the entire site — Cormorant Garamond, the face already
      used by the logo in the header and the H1 in the hero. Headings, nav, body,
      labels and form fields all resolve to it.
@@ -1544,10 +1544,6 @@ a { color:inherit; }
 
   /* ═══ GALLERY PICKER ═══ */
   (function picker() {
-    /* The picker carries the complete catalogue. Since each collection view now
-       shows only its own works, this is the one place every painting appears —
-       and the only route to works that belong to no collection at all. */
-    buildAllWorks($('#allworks-every'), null);
     var grid = $('#gal-picker-grid');
     CATEGORIES.forEach(function (c) {
       var n = c.paintings.length;
@@ -1665,6 +1661,13 @@ a { color:inherit; }
     c.paintings.forEach(function (pt) { ALL.push({ p: pt, cat: c }); });
   });
   LOOSE.forEach(function (pt) { ALL.push({ p: pt, cat: null }); });
+
+  /* The picker carries the complete catalogue. Since each collection view shows
+     only its own works, this is the one place every painting appears — and the
+     only route to works that belong to no collection at all.
+     This must run AFTER ALL is populated: the picker IIFE above executes at
+     parse time, when `var ALL` is still hoisted-but-undefined. */
+  buildAllWorks($('#allworks-every'), null);
   function findWork(slug) {
     for (var i = 0; i < ALL.length; i++) { if (ALL[i].p.slug === slug) return ALL[i]; }
     return null;
