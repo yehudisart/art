@@ -80,10 +80,10 @@
   --border:#e5e5e5; --muted:#767676; --light:#a8a8a8;
   --nav-h:76px;
   --pad-x:2.5rem;
-  /* Note: the commented @font-face block further down is a leftover from an
-     earlier direction that used licensed Canela and Neue Haas Grotesk. Neither
-     name appears in any stack any more, so uncommenting it alone would change
-     nothing — the stacks below would also have to be edited. */
+  /* Canela and Neue Haas Grotesk are licensed and cannot be bundled. They sit
+     first in each stack, so the moment the licensed files are self-hosted (see
+     the commented @font-face block below) they take over automatically.
+     Until then the next name in each stack is used. */
   /* ONE typeface across the entire site — Cormorant Garamond, the face already
      used by the logo in the header and the H1 in the hero. Headings, nav, body,
      labels and form fields all resolve to it.
@@ -605,15 +605,23 @@ a { color:inherit; }
   padding:3.5rem var(--pad-x) 5rem; max-width:1400px; margin:0 auto; width:100%;
   border-top:1px solid var(--border);
 }
-.allworks-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2.5rem 1.75rem; }
+/* Flex rather than grid so a last row that does not fill the track count is
+   centred instead of left-hanging. Every tile is the same width and the same
+   height, whatever the proportion of the canvas inside it. */
+.allworks-grid {
+  --aw-cols:4; --aw-gap:1.75rem;
+  display:flex; flex-wrap:wrap; justify-content:center;
+  row-gap:2.5rem; column-gap:var(--aw-gap);
+}
 .aw {
-  background:none; border:none; padding:0; display:block; width:100%; text-align:center;
+  background:none; border:none; padding:0; display:block; text-align:center;
   cursor:pointer;
+  flex:0 0 calc((100% - (var(--aw-cols) - 1) * var(--aw-gap)) / var(--aw-cols));
+  max-width:calc((100% - (var(--aw-cols) - 1) * var(--aw-gap)) / var(--aw-cols));
 }
-.aw-img {
-  display:block; overflow:hidden; aspect-ratio:1/1;
-  display:flex; align-items:center; justify-content:center;
-}
+/* One square frame for every work. `contain` keeps panoramas and tall
+   portraits uncropped — the frame is uniform, the canvas is untouched. */
+.aw-img { display:block; overflow:hidden; aspect-ratio:1/1; background:var(--off); }
 .aw-img img {
   width:100%; height:100%; object-fit:contain; display:block;
   transition:transform .7s cubic-bezier(.25,.46,.45,.94), opacity .3s;
@@ -929,7 +937,7 @@ a { color:inherit; }
   .gl-row          { grid-template-columns:1fr; gap:1.5rem; max-width:600px; }
   .gl-figure       { max-width:320px; }
   .gal-list        { gap:4rem; }
-  .allworks-grid   { grid-template-columns:repeat(3,1fr); gap:2rem 1.25rem; }
+  .allworks-grid   { --aw-cols:3; --aw-gap:1.25rem; row-gap:2rem; }
   .allworks        { padding:3.5rem var(--pad-x) 4rem; }
   .pp-main         { grid-template-columns:1fr; gap:2.5rem; padding-top:2rem; }
   .pp-title        { margin-bottom:1.2rem; }
@@ -981,7 +989,7 @@ a { color:inherit; }
   .gal-list  { padding:2rem 1.25rem 3rem; gap:3rem; }
   .gl-figure { max-width:100%; }
   .allworks       { padding:3rem 1.25rem 3.5rem; }
-  .allworks-grid  { grid-template-columns:repeat(2,1fr); gap:1.5rem 1rem; }
+  .allworks-grid  { --aw-cols:2; --aw-gap:1rem; row-gap:1.5rem; }
   .aw-t           { font-size:.7rem; letter-spacing:.12em; margin-top:.7rem; }
   .gl-title  { letter-spacing:.16em; margin-bottom:1rem; }
   .gl-desc   { margin-bottom:1.4rem; }
@@ -1159,11 +1167,6 @@ a { color:inherit; }
       <p class="gal-picker-intro">The work is grouped into three collections.</p>
     </div>
     <div class="gal-picker-grid" id="gal-picker-grid"></div>
-
-    <section class="allworks" aria-label="Every work">
-      <h2 class="allworks-h">All works</h2>
-      <div class="allworks-grid" id="allworks-every"></div>
-    </section>
   </section>
 
   <section id="gal-grid-view" aria-label="Paintings">
@@ -1180,8 +1183,8 @@ a { color:inherit; }
     </div>
     <div class="gal-list" id="gal-grid"></div>
 
-    <section class="allworks" aria-label="Works in this collection">
-      <h2 class="allworks-h" id="allworks-cat-h">In this collection</h2>
+    <section class="allworks" id="allworks-sec" aria-label="Works in this collection">
+      <h2 class="allworks-h" id="allworks-h">All works</h2>
       <div class="allworks-grid" id="allworks-gallery"></div>
     </section>
 
@@ -1400,8 +1403,7 @@ a { color:inherit; }
         { img: 'pouring-flowers', title: 'Pouring Flowers', medium: 'Oil on canvas · 90×100 cm', w: 536, h: 600 , slug: 'pouring-flowers', desc: '' },
         { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 , slug: 'mount-sinai', desc: '' },
         { img: 'birds-of-paradise', title: 'Birds of Paradise', medium: 'Oil on canvas · 50×60 cm', w: 1621, h: 2000, slug: 'birds-of-paradise', desc: '' },
-        { img: 'flowers-ii',  title: 'Flowers II',  medium: 'Oil on canvas · 90×30 cm', w: 2000, h: 638,  slug: 'flowers-ii', desc: '' },
-        { img: 'jerusalem-in-light', title: 'Jerusalem in Light', medium: 'Oil on canvas · 50×70 cm', w: 1370, h: 2000, slug: 'jerusalem-in-light', desc: '' }
+        { img: 'flowers-ii',  title: 'Flowers II',  medium: 'Oil on canvas · 90×30 cm', w: 2000, h: 638,  slug: 'flowers-ii', desc: '' }
       ]
     },
     {
@@ -1616,10 +1618,12 @@ a { color:inherit; }
       grid.appendChild(row);
     });
 
-    /* Every painting on the site, shown under the rows of the open category.
-       No current-item highlight here: nothing on this view is "current". */
+    /* Only the works of the open collection, as a uniform thumbnail grid under
+       the rows. No current-item highlight here: nothing on this view is
+       "current". */
+    $('#allworks-h').textContent = 'All works in ' + c.label;
+    $('#allworks-sec').setAttribute('aria-label', 'All works in ' + c.label);
     buildAllWorks($('#allworks-gallery'), null, c.paintings);
-    $('#allworks-cat-h').textContent = c.label;
 
     if (push) setHash('gallery/' + id);
     scrollTop();
@@ -1638,11 +1642,13 @@ a { color:inherit; }
   var canHover = window.matchMedia('(hover: hover)').matches;
 
   /* ═══ ALL WORKS GRID ═══ */
-  /* `list` is an array of painting objects. Omit it for every work on the site. */
-  function buildAllWorks(mount, currentSlug, list) {
+  /* `items` is a list of paintings. Defaults to every work on the site so the
+     signature still reads as an all-works grid where that is what is wanted. */
+  function buildAllWorks(mount, currentSlug, items) {
     if (!mount) return;
+    var list = items || ALL.map(function (entry) { return entry.p; });
     mount.innerHTML = '';
-    (list || ALL.map(function (e) { return e.p; })).forEach(function (pt) {
+    list.forEach(function (pt) {
       var b = document.createElement('button');
       b.className = 'aw' + (pt.slug === currentSlug ? ' is-current' : '');
       b.setAttribute('aria-label', 'View ' + pt.title);
@@ -1661,13 +1667,6 @@ a { color:inherit; }
     c.paintings.forEach(function (pt) { ALL.push({ p: pt, cat: c }); });
   });
   LOOSE.forEach(function (pt) { ALL.push({ p: pt, cat: null }); });
-
-  /* The picker carries the complete catalogue. Since each collection view shows
-     only its own works, this is the one place every painting appears — and the
-     only route to works that belong to no collection at all.
-     This must run AFTER ALL is populated: the picker IIFE above executes at
-     parse time, when `var ALL` is still hoisted-but-undefined. */
-  buildAllWorks($('#allworks-every'), null);
   function findWork(slug) {
     for (var i = 0; i < ALL.length; i++) { if (ALL[i].p.slug === slug) return ALL[i]; }
     return null;
