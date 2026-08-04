@@ -226,9 +226,20 @@ a { color:inherit; }
   background:none; border:none; padding:.4rem 0; line-height:1.2;
   white-space:nowrap; flex-shrink:0;
   display:inline-flex; align-items:center;
-  min-height:52px; max-width:min(40vw, 300px);
+  min-height:52px; max-width:min(44vw, 340px);
 }
-.logo img { max-height:48px; max-width:100%; width:auto; display:block; }
+/* The signature is a thin script; a straight upscale would only make it
+   bigger, not more present. Stacking small-offset drop-shadows in each
+   direction fills in the stroke the way a heavier pen would, so the mark
+   reads as bolder rather than just larger. */
+.logo img {
+  max-height:58px; max-width:100%; width:auto; display:block;
+  filter:
+    drop-shadow(0.55px 0 0 var(--ink))
+    drop-shadow(-0.55px 0 0 var(--ink))
+    drop-shadow(0 0.55px 0 var(--ink))
+    drop-shadow(0 -0.55px 0 var(--ink));
+}
 
 /* Centred in the bar on desktop, so the links stay put whatever the logo's
    width. The mobile drawer overrides this below. */
@@ -734,20 +745,27 @@ a { color:inherit; }
 
 /* ═══ ABOUT ═══ */
 #about-page { }
-.about-hero { display:grid; grid-template-columns:1fr 1fr; align-items:start; }
-/* The bio is long, so the portrait stays pinned while the text scrolls past it
-   instead of being stretched to match the column height. */
-.ah-img {
-  position:sticky; top:1.5rem;
-  height:calc(100svh - 3rem);
-  overflow:hidden;
+/* Same measure and centring as the other page headers on the site
+   (.gal-picker-head, .cp-heading) rather than a boxed side panel. */
+.ab-head { text-align:center; padding:5rem var(--pad-x) 0; }
+.ab-eyebrow { font-size:.72rem; letter-spacing:.38em; text-transform:uppercase; color:var(--accent); margin-bottom:1.4rem; }
+.ab-q {
+  font-family:var(--serif); font-size:var(--t-statement); font-weight:400;
+  text-transform:uppercase; letter-spacing:var(--ls-statement); line-height:1.7;
+  max-width:42rem; margin:0 auto; text-wrap:pretty;
 }
-.ah-img img { width:100%; height:100%; object-fit:cover; }
-.ah-text { padding:5rem; border-left:1px solid var(--border); }
-.ah-ey  { font-size:.72rem; letter-spacing:.38em; text-transform:uppercase; color:var(--accent); margin-bottom:1.4rem; }
-.ah-q   { font-family:var(--serif); font-size:var(--t-statement); font-style:normal; font-weight:400; text-transform:uppercase; letter-spacing:var(--ls-statement); line-height:1.75; border-left:2px solid var(--accent); padding-left:1.3rem; margin-bottom:2.2rem; max-width:26rem; }
-.ah-p   { font-size:var(--t-body); line-height:1.9; color:var(--muted); margin-bottom:1.15rem; max-width:29rem; }
-.ah-sig { font-family:var(--serif); font-size:var(--t-sub); font-style:italic; color:var(--accent); margin-top:1.2rem; }
+/* The bio itself runs the full measure of the page — one centred column,
+   the same width the rest of the site uses for a body of text — instead of
+   being squeezed into a narrow side panel next to a pinned portrait. */
+.ab-body { padding:3.5rem var(--pad-x) 0; max-width:46rem; margin:0 auto; }
+.ab-p { font-size:var(--t-body); line-height:1.9; color:var(--muted); margin-bottom:1.3rem; }
+/* A wide, landscape plate sitting in the middle of the page and the middle
+   of the text, the same treatment as the about-preview strip on the home
+   page — the source image is cropped to this ratio, never stretched. */
+.ab-figure { overflow:hidden; aspect-ratio:21/9; max-width:1100px; margin:3.5rem auto; }
+.ab-figure img { width:100%; height:100%; object-fit:cover; display:block; }
+.ab-sig { font-family:var(--serif); font-size:var(--t-sub); font-style:italic; color:var(--accent); margin-top:.6rem; }
+.ab-foot { padding-bottom:1rem; }
 
 .cblock { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); }
 .cblock-ey { font-size:.7rem; letter-spacing:.4em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:1rem; }
@@ -880,7 +898,6 @@ a { color:inherit; }
 /* Tablet / small laptop */
 @media (max-width:1024px) {
   :root { --pad-x:2rem; }
-  .ah-text { padding:3.5rem 2.5rem; }
   .hcontent { padding:2rem 3rem 4rem; }
   .scrl { right:1.75rem; }
 }
@@ -919,9 +936,7 @@ a { color:inherit; }
 
   .banner-body    { max-width:none; }
 
-  .about-hero     { grid-template-columns:1fr; min-height:0; }
-  .ah-img         { position:static; height:auto; aspect-ratio:4/3; min-height:0; }
-  .ah-text        { border-left:none; border-top:1px solid var(--border); }
+  .ab-figure      { aspect-ratio:16/9; }
 
   .contact-page-wrap { grid-template-columns:1fr; gap:2.5rem; padding:2.5rem var(--pad-x) 4rem; }
   /* Stacked, the full-height painting would push the form a screen and a half
@@ -943,7 +958,8 @@ a { color:inherit; }
 @media (max-width:640px) {
   :root { --pad-x:1.25rem; --nav-h:62px; }
 
-  .logo { font-size:1.25rem; }
+  .logo { font-size:1.25rem; min-height:auto; }
+  .logo img { max-height:44px; }
 
   .hero { min-height:480px; }
   .hcontent { padding:1.5rem 1.5rem 3rem; padding-bottom:calc(3rem + env(safe-area-inset-bottom)); }
@@ -996,8 +1012,9 @@ a { color:inherit; }
   .pp-form   { padding:3rem 1.25rem 4rem; }
   .pp-row2   { grid-template-columns:1fr; }
 
-  .ah-text { padding:3rem 1.25rem; }
-  .ah-q { padding-left:1rem; }
+  .ab-head { padding:3.5rem 1.25rem 0; }
+  .ab-body { padding:2.5rem 1.25rem 0; }
+  .ab-figure { aspect-ratio:4/3; margin:2.5rem auto; }
   .cblock { padding:3.5rem 1.25rem; }
   .clinks { gap:1.6rem 2rem; }
   .cp-submit { align-self:stretch; text-align:center; }
@@ -1051,7 +1068,7 @@ a { color:inherit; }
        <img src="/assets/img/logo.svg" alt="Yehudis Jacobs"> -->
   <button class="logo" id="logo-btn" aria-label="Yehudis Jacobs — go to home page">
     <img src="/assets/img/logo.png" srcset="/assets/img/logo.png 1x, /assets/img/logo@2x.png 2x"
-         alt="Yehudis Jacobs" width="96" height="48">
+         alt="Yehudis Jacobs" width="116" height="58">
   </button>
 
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
@@ -1255,25 +1272,28 @@ a { color:inherit; }
 
 <!-- ═══ ABOUT ═══ -->
 <div id="about-page" class="page">
-  <section class="about-hero">
-    <div class="ah-img">
+  <section class="ab-head">
+    <p class="ab-eyebrow">About the artist</p>
+    <blockquote class="ab-q">For me, art has always been the language of the soul.</blockquote>
+  </section>
+
+  <section class="ab-body">
+    <p class="ab-p">Some experiences, emotions, and truths exist beyond words. Through art, they can be seen, felt, and quietly understood.</p>
+    <p class="ab-p">I hope that everyone who encounters my work experiences it in a deeply personal way. I don&rsquo;t believe a painting should tell the viewer what to see. I believe it should create space for discovery. The same painting may speak differently to different people, and even to the same person at different moments in life.</p>
+    <p class="ab-p">If my paintings invite reflection, offer comfort, awaken wonder, or gently reveal a new way of seeing, then they have fulfilled their purpose.</p>
+
+    <figure class="ab-figure">
       <picture>
         <source srcset="/assets/img/one.webp" type="image/webp">
         <img src="/assets/img/one.jpg" alt="One — oil on canvas by Yehudis Jacobs"
              width="445" height="600" loading="lazy" decoding="async">
       </picture>
-    </div>
-    <div class="ah-text">
-      <p class="ah-ey">About the artist</p>
-      <blockquote class="ah-q">For me, art has always been the language of the soul.</blockquote>
-      <p class="ah-p">Some experiences, emotions, and truths exist beyond words. Through art, they can be seen, felt, and quietly understood.</p>
-      <p class="ah-p">I hope that everyone who encounters my work experiences it in a deeply personal way. I don&rsquo;t believe a painting should tell the viewer what to see. I believe it should create space for discovery. The same painting may speak differently to different people, and even to the same person at different moments in life.</p>
-      <p class="ah-p">If my paintings invite reflection, offer comfort, awaken wonder, or gently reveal a new way of seeing, then they have fulfilled their purpose.</p>
-      <p class="ah-p">My background as an Art Therapist has deepened my understanding of the quiet ways creativity can reveal, connect, and heal. That experience continues to shape not only how I see the world, but also how I paint.</p>
-      <p class="ah-p">My artistic education includes studies at the Bezalel Academy of Arts and Design, followed by years of private study with internationally recognized artists. While I am deeply grateful for my teachers, life itself has remained my greatest source of inspiration. Every encounter, every challenge, every moment of faith, joy, longing, and growth has found its way into my work.</p>
-      <p class="ah-p">My aspiration is to create paintings that continue to reveal themselves over time, becoming lasting companions in the homes and lives of those who welcome them.</p>
-      <p class="ah-sig">Yehudis</p>
-    </div>
+    </figure>
+
+    <p class="ab-p">My background as an Art Therapist has deepened my understanding of the quiet ways creativity can reveal, connect, and heal. That experience continues to shape not only how I see the world, but also how I paint.</p>
+    <p class="ab-p">My artistic education includes studies at the Bezalel Academy of Arts and Design, followed by years of private study with internationally recognized artists. While I am deeply grateful for my teachers, life itself has remained my greatest source of inspiration. Every encounter, every challenge, every moment of faith, joy, longing, and growth has found its way into my work.</p>
+    <p class="ab-p ab-foot">My aspiration is to create paintings that continue to reveal themselves over time, becoming lasting companions in the homes and lives of those who welcome them.</p>
+    <p class="ab-sig">Yehudis</p>
   </section>
 
   <section class="cblock">
@@ -1400,7 +1420,7 @@ a { color:inherit; }
         { img: 'mount-sinai',     title: 'Mount Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 , slug: 'mount-sinai', desc: '' },
         { img: 'birds-of-paradise', title: 'Birds of Paradise', medium: 'Oil on canvas · 50×60 cm', w: 1621, h: 2000, slug: 'birds-of-paradise', desc: '' },
         { img: 'flowers-ii',  title: 'Flowers II',  medium: 'Oil on canvas · 90×30 cm', w: 2000, h: 638,  slug: 'flowers-ii', desc: '' },
-        { img: 'jerusalem-in-light', title: 'ירושלים באור', medium: 'Oil on canvas · 50×70 cm', w: 1370, h: 2000, slug: 'jerusalem-in-light', desc: '' }
+        { img: 'jerusalem-in-light', title: 'Jerusalem in Light', medium: 'Oil on canvas · 50×70 cm', w: 1370, h: 2000, slug: 'jerusalem-in-light', desc: '' }
       ]
     },
     {
