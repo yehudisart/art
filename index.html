@@ -755,8 +755,10 @@ a { color:inherit; }
 /* A wide, landscape plate sitting in the middle of the page and the middle
    of the text, the same treatment as the about-preview strip on the home
    page — the source image is cropped to this ratio, never stretched. */
-.ab-figure { overflow:hidden; aspect-ratio:21/9; max-width:1100px; margin:3.5rem auto; }
-.ab-figure img { width:100%; height:100%; object-fit:cover; display:block; }
+/* No forced crop here — the painting is shown whole, at its own proportions,
+   simply capped so it doesn't overrun the page. */
+.ab-figure { overflow:hidden; max-width:1100px; margin:3.5rem auto; }
+.ab-figure img { width:100%; height:auto; display:block; }
 .ab-foot { padding-bottom:3rem; }
 
 .cblock { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); }
@@ -780,8 +782,16 @@ a { color:inherit; }
 /* A true standing column, not a capped box — it stretches to match the
    height of the form beside it, so the painting runs the full length of the
    text rather than sitting as a separate, shorter block above it. */
-.cp-art { overflow:hidden; align-self:stretch; }
-.cp-art img { width:100%; height:100%; object-fit:cover; display:block; }
+/* A true standing column, not a capped box — it stretches to match the
+   height of the form beside it, so the painting runs the full length of the
+   text rather than sitting as a separate, shorter block above it. The
+   painting itself is shown whole: object-fit:contain, never cropped. */
+.cp-art {
+  overflow:hidden; align-self:stretch;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--off);
+}
+.cp-art img { width:100%; height:100%; object-fit:contain; display:block; }
 
 /* The rule under the intro. A hairline spanning the form column, separating
    the title from the fields. */
@@ -921,8 +931,6 @@ a { color:inherit; }
 
   .banner-body    { max-width:none; }
 
-  .ab-figure      { aspect-ratio:16/9; }
-
   .contact-page-wrap { grid-template-columns:1fr; gap:2rem; padding:2.5rem var(--pad-x) 4rem; max-width:460px; }
   .cp-art { aspect-ratio:16/9; }
 
@@ -996,7 +1004,7 @@ a { color:inherit; }
 
   .ab-head { padding:3.5rem 1.25rem 0; }
   .ab-body { padding:2.5rem 1.25rem 0; }
-  .ab-figure { aspect-ratio:4/3; margin:2.5rem auto; }
+  .ab-figure { margin:2.5rem auto; }
   .cblock { padding:3.5rem 1.25rem; }
   .clinks { gap:1.6rem 2rem; }
   .cp-submit { align-self:stretch; text-align:center; }
@@ -1409,11 +1417,11 @@ a { color:inherit; }
       id: 'story', label: 'Story', desc: 'Sacred moments in time', cover: 'four-elements',
       paintings: [
         { img: 'four-elements', title: 'Four Elements', medium: 'Pouring · 60×120 cm',      w: 1600, h: 820 , slug: 'four-elements', desc: '' },
-        { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 858,  h: 1400 , slug: 'prayer', desc: '' },
+        { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 1138, h: 2000 , slug: 'prayer', desc: '' },
         { img: 'splitting-of-the-sea', title: 'The Splitting of the Sea', medium: 'Oil on canvas · 90×60 cm', w: 1966, h: 1325, slug: 'splitting-of-the-sea', desc: '' },
         { img: 'wedding-i',            title: 'Wedding I',                medium: 'Oil on canvas · 60×70 cm', w: 974,  h: 1116, slug: 'wedding-i', desc: '' },
         { img: 'chuppah-ii',           title: 'Chuppah II',               medium: 'Oil on canvas · 90×60 cm', w: 2000, h: 822,  slug: 'chuppah-ii', desc: '' },
-        { img: 'song-of-miriam', title: 'The Song of Miriam', medium: 'Palette knife on canvas', w: 1278, h: 2000, slug: 'song-of-miriam', desc: '' }
+        { img: 'song-of-miriam', title: 'The Song of Miriam', medium: 'Palette knife on canvas', w: 1398, h: 2000, slug: 'song-of-miriam', desc: '' }
       ]
     }
   ];
