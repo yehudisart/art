@@ -565,20 +565,15 @@ a { color:inherit; }
   display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:4rem;
   align-items:start; max-width:1180px; width:100%; margin:0 auto;
 }
+/* Every work occupies an identical square, so the column reads as one clean
+   edge down the page whatever each canvas's own proportions are — including
+   panoramic canvases, which are cropped here the same as everything else.
+   The original proportion is preserved on the painting's own page. */
 .gl-figure {
   background:none; border:none; padding:0; display:block;
-  /* Every work occupies an identical square, so the column reads as one clean
-     edge down the page whatever each canvas's own proportions are. Capped so
-     the plates stay modest on wide screens. */
   width:100%; max-width:360px;
   aspect-ratio:1/1; overflow:hidden; cursor:pointer;
 }
-/* A 90x30 canvas cropped to a square shows a third of the painting. Anything
-   wider than 1.6 therefore keeps its own ratio, set inline from the real pixel
-   dimensions. The column edge stops being perfectly flush; that is the lesser
-   cost. */
-.gl-figure.gl-wide { aspect-ratio:auto; max-width:min(100%, 620px); }
-.gl-figure.gl-wide img { object-fit:contain; }
 .gl-figure picture { display:contents; }
 .gl-figure img {
   width:100%; height:100%; object-fit:cover; display:block;
@@ -1601,11 +1596,8 @@ a { color:inherit; }
     c.paintings.forEach(function (pt, i) {
       var row = document.createElement('div');
       row.className = 'gl-row';
-      var wide = pt.w && pt.h && (pt.w / pt.h) > 1.6;
       row.innerHTML =
-        '<button class="gl-figure' + (wide ? ' gl-wide' : '') + '"' +
-        (wide ? ' style="aspect-ratio:' + pt.w + '/' + pt.h + '"' : '') +
-        ' aria-label="View ' + esc(pt.title) + '">' +
+        '<button class="gl-figure" aria-label="View ' + esc(pt.title) + '">' +
           picture(pt.img, pt.title + ' — ' + pt.medium, '-sm', pt.w, pt.h, i < 2) +
         '</button>' +
         '<div class="gl-body">' +
