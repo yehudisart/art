@@ -619,11 +619,12 @@ a { color:inherit; }
   flex:0 0 calc((100% - (var(--aw-cols) - 1) * var(--aw-gap)) / var(--aw-cols));
   max-width:calc((100% - (var(--aw-cols) - 1) * var(--aw-gap)) / var(--aw-cols));
 }
-/* One square frame for every work. `contain` keeps panoramas and tall
-   portraits uncropped — the frame is uniform, the canvas is untouched. */
-.aw-img { display:block; overflow:hidden; aspect-ratio:1/1; background:var(--off); }
+/* One frame, one proportion, for every work — the image fills it edge to
+   edge with no letterboxing. Panoramas and portraits alike get cropped to
+   fit, the same way a real gallery wall of same-size frames would. */
+.aw-img { display:block; overflow:hidden; aspect-ratio:3/2; }
 .aw-img img {
-  width:100%; height:100%; object-fit:contain; display:block;
+  width:100%; height:100%; object-fit:cover; display:block;
   transition:transform .7s cubic-bezier(.25,.46,.45,.94), opacity .3s;
 }
 .aw:hover .aw-img img, .aw:focus-visible .aw-img img { transform:scale(1.04); opacity:.9; }
