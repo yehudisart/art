@@ -229,16 +229,15 @@ a { color:inherit; }
   min-height:52px; max-width:min(44vw, 340px);
 }
 /* The signature is a thin script; a straight upscale would only make it
-   bigger, not more present. Stacking small-offset drop-shadows in each
-   direction fills in the stroke the way a heavier pen would, so the mark
-   reads as bolder rather than just larger. */
+   bigger, not more present. A very light offset in each direction gives the
+   stroke a touch more weight without losing the classic, hand-written feel. */
 .logo img {
-  max-height:58px; max-width:100%; width:auto; display:block;
+  max-height:56px; max-width:100%; width:auto; display:block;
   filter:
-    drop-shadow(0.55px 0 0 var(--ink))
-    drop-shadow(-0.55px 0 0 var(--ink))
-    drop-shadow(0 0.55px 0 var(--ink))
-    drop-shadow(0 -0.55px 0 var(--ink));
+    drop-shadow(0.25px 0 0 var(--ink))
+    drop-shadow(-0.25px 0 0 var(--ink))
+    drop-shadow(0 0.25px 0 var(--ink))
+    drop-shadow(0 -0.25px 0 var(--ink));
 }
 
 /* Centred in the bar on desktop, so the links stay put whatever the logo's
@@ -764,8 +763,22 @@ a { color:inherit; }
    page — the source image is cropped to this ratio, never stretched. */
 .ab-figure { overflow:hidden; aspect-ratio:21/9; max-width:1100px; margin:3.5rem auto; }
 .ab-figure img { width:100%; height:100%; object-fit:cover; display:block; }
-.ab-sig { font-family:var(--serif); font-size:var(--t-sub); font-style:italic; color:var(--accent); margin-top:.6rem; }
 .ab-foot { padding-bottom:1rem; }
+/* Closing flourish before the page hands off to the Contact banner: a
+   hairline, a small portrait, and the artist's full name set as a proper
+   sign-off rather than a first name trailing the last paragraph. */
+.ab-close { text-align:center; padding:3rem var(--pad-x) 4rem; border-top:1px solid var(--border); margin-top:2.5rem; }
+.ab-portrait {
+  width:92px; height:92px; margin:0 auto 1.3rem; overflow:hidden; border-radius:50%;
+}
+.ab-portrait img { width:100%; height:100%; object-fit:cover; display:block; }
+/* Placeholder monogram — shown only until a real portrait photo replaces it. */
+.ab-portrait.ab-portrait-ph {
+  display:flex; align-items:center; justify-content:center;
+  background:var(--off); border:1px solid var(--border);
+  font-family:var(--serif); font-size:1.9rem; color:var(--accent);
+}
+.ab-sig { font-family:var(--serif); font-size:var(--t-sub); font-style:italic; color:var(--accent); }
 
 .cblock { padding:5rem var(--pad-x); text-align:center; border-top:1px solid var(--border); }
 .cblock-ey { font-size:.7rem; letter-spacing:.4em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:1rem; }
@@ -777,32 +790,15 @@ a { color:inherit; }
 .clink:hover { color:var(--accent); border-color:var(--accent); }
 
 /* ═══ CONTACT ═══ */
-/* The painting here is 858x1400 — a 0.61 ratio, far taller than it is wide.
-   Sitting it in a narrow column beside a form produced two shapes with no
-   relationship to each other, which is what read as "unclear proportion".
-   The fix is to let the artwork set the measure rather than fight it: the
-   columns are sized so the painting's natural height and the form's natural
-   height land close together, and the whole block is centred as one composition
-   rather than two stacked-up rectangles.
-
-   The artwork is never cropped. On an art site the work sets its own frame;
-   object-fit:cover would trim the canvas to suit the layout, which is the wrong
-   trade at any width. */
+/* One centred column running the width of the page, the same measure the
+   About page and the rest of the site use for a block of content — no side
+   image competing with the form for space or proportion. */
 .contact-page-wrap {
-  display:grid; grid-template-columns:minmax(0,0.82fr) minmax(0,1fr); gap:4rem;
-  max-width:1000px; margin:0 auto; padding:5rem var(--pad-x) 5.5rem;
-  align-items:start;
-}
-.cp-art { overflow:hidden; }
-.cp-art img {
-  width:100%; height:auto; display:block;
-  /* The painting and the form now begin on the same baseline and finish within
-     a hair of each other, so the eye reads one block, not two. */
-  max-height:none;
+  max-width:640px; margin:0 auto; padding:5rem var(--pad-x) 5.5rem;
 }
 
-/* The rule under the intro. In the reference this is a hairline spanning the
-   full width of the form column, separating the greeting from the fields. */
+/* The rule under the intro. A hairline spanning the full width of the form
+   column, separating the title from the fields. */
 .cp-rule { border:none; border-top:1px solid var(--border); margin:0 0 2.2rem; }
 
 /* Group heading ("Name") sitting above a paired row, larger than the field
@@ -811,11 +807,12 @@ a { color:inherit; }
   font-size:1rem; font-weight:400; letter-spacing:.02em;
   color:var(--ink); margin-bottom:.6rem;
 }
-/* A plain page title, set like every other section heading on the site. */
+/* Centred like every other page title on the site (.gal-picker-title,
+   .ab-head), now that it isn't anchored beside a side image. */
 .cp-heading {
   font-family:var(--serif); font-size:var(--t-display); font-weight:600;
   letter-spacing:var(--ls-display); text-transform:uppercase; line-height:1.2;
-  color:var(--ink); margin:0 0 1.6rem;
+  color:var(--ink); margin:0 0 1.6rem; text-align:center;
 }
 /* Contact details live in the footer rather than beside the form, as in the
    reference: one centred line, values only, divided by hairline separators.
@@ -938,11 +935,7 @@ a { color:inherit; }
 
   .ab-figure      { aspect-ratio:16/9; }
 
-  .contact-page-wrap { grid-template-columns:1fr; gap:2.5rem; padding:2.5rem var(--pad-x) 4rem; }
-  /* Stacked, the full-height painting would push the form a screen and a half
-     down the page, so it is capped and centred. Still uncropped — the frame
-     shrinks, the canvas does not. */
-  .cp-art img { max-height:52svh; width:auto; margin:0 auto; }
+  .contact-page-wrap { padding:2.5rem var(--pad-x) 4rem; }
 
   .gal-picker-grid { grid-template-columns:repeat(2,1fr); max-width:640px; gap:1.1rem; }
   .gl-row          { grid-template-columns:1fr; gap:1.5rem; max-width:600px; }
@@ -1293,7 +1286,13 @@ a { color:inherit; }
     <p class="ab-p">My background as an Art Therapist has deepened my understanding of the quiet ways creativity can reveal, connect, and heal. That experience continues to shape not only how I see the world, but also how I paint.</p>
     <p class="ab-p">My artistic education includes studies at the Bezalel Academy of Arts and Design, followed by years of private study with internationally recognized artists. While I am deeply grateful for my teachers, life itself has remained my greatest source of inspiration. Every encounter, every challenge, every moment of faith, joy, longing, and growth has found its way into my work.</p>
     <p class="ab-p ab-foot">My aspiration is to create paintings that continue to reveal themselves over time, becoming lasting companions in the homes and lives of those who welcome them.</p>
-    <p class="ab-sig">Yehudis</p>
+  </section>
+
+  <section class="ab-close">
+    <!-- Swap for the artist's own portrait when ready:
+         <div class="ab-portrait"><picture>...</picture></div> -->
+    <div class="ab-portrait ab-portrait-ph" aria-hidden="true">Y</div>
+    <p class="ab-sig">Yehudis Jacobs</p>
   </section>
 
   <section class="cblock">
@@ -1309,14 +1308,6 @@ a { color:inherit; }
 <!-- ═══ CONTACT ═══ -->
 <div id="contact-page" class="page">
   <div class="contact-page-wrap">
-    <div class="cp-art">
-      <picture>
-        <source srcset="/assets/img/prayer.webp" type="image/webp">
-        <img src="/assets/img/prayer.jpg" alt="Prayer — oil on canvas by Yehudis Jacobs"
-             width="858" height="1400" loading="lazy" decoding="async">
-      </picture>
-    </div>
-
     <div class="cp-main">
       <h1 class="cp-heading">Contact</h1>
 
@@ -1412,7 +1403,7 @@ a { color:inherit; }
       ]
     },
     {
-      id: 'light', label: 'Light', desc: 'Colour as radiance', cover: 'flowers',
+      id: 'light', label: 'Light', desc: 'Colour as radiance', cover: 'birds-of-paradise',
       paintings: [
         { img: 'tower-of-david',  title: 'Tower of David',  medium: 'Oil on canvas · 50×60 cm',  w: 516, h: 600 , slug: 'tower-of-david', desc: '' },
         { img: 'flowers',         title: 'Flowers',         medium: 'Oil on canvas · 70×70 cm',  w: 600, h: 593 , slug: 'flowers', desc: '' },
