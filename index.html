@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="Paintings by Yehudis Jacobs, an artist working in Jerusalem.">
 <meta name="twitter:image" content="https://yehudis.art/assets/img/hero.jpg">
 
-<link rel="icon" href="/assets/img/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <link rel="preload" as="image" href="/assets/img/hero.webp" type="image/webp" fetchpriority="high">
@@ -676,14 +676,18 @@ a { color:inherit; }
 .pp-figure {
   display:flex; align-items:flex-start; justify-content:center;
   overflow:hidden;
-  flex:0 1 auto; max-width:100%;
+  /* A fixed pixel cap, not a percentage: inside an auto-width flex item, a
+     percentage max-width on the image can't resolve during the browser's
+     intrinsic-size pass, so a wide, panoramic canvas (Four Elements, Flowers
+     II) was rendering at its full natural width and shoving the caption
+     onto its own line below. An absolute cap here — for the image's own
+     max-width to resolve against — fixes that regardless of the painting's
+     proportions. */
+  flex:0 1 auto; max-width:min(calc(100vw - 2 * var(--pad-x)), 780px);
 }
 .pp-body { flex:1 1 340px; max-width:440px; }
 .pp-img {
-  /* Capped on both axes now that the figure sizes to the image itself
-     rather than a fixed column — this keeps a very wide canvas from pushing
-     the caption below the fold, while a tall one is still capped by height. */
-  max-width:min(100%, 780px); max-height:82svh; width:auto; height:auto; display:block;
+  max-width:100%; max-height:82svh; width:auto; height:auto; display:block;
   cursor:zoom-in; will-change:transform;
 }
 
@@ -1384,14 +1388,13 @@ a { color:inherit; }
     whatsapp: '972587706991',
     whatsappDisplay: '058-770-6991',
 
-    /* Dial-able form (digits, may start with +) and the form shown on screen. */
+    /* Dial-able form (digits, may start with +) and the form shown on screen.
+       TODO — placeholder: replace with the real phone number. */
     phone: '+972500000000',
     phoneDisplay: '052-000-0000',
 
     /* Pre-filled first line of the WhatsApp message. */
-    whatsappText: 'Hello, I have a question about your work.',
-    phone: '972587706991',
-    phoneDisplay: '058-770-6991'
+    whatsappText: 'Hello, I have a question about your work.'
   };
 
   /* ─────────────────────────────────────────────
@@ -1427,7 +1430,7 @@ a { color:inherit; }
         { img: 'four-elements', title: 'Four Elements', medium: 'Pouring · 60×120 cm',      w: 1600, h: 820 , slug: 'four-elements', desc: '' },
         { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 1138, h: 2000 , slug: 'prayer', desc: '' },
         { img: 'splitting-of-the-sea', title: 'The Splitting of the Sea', medium: 'Oil on canvas · 90×60 cm', w: 1966, h: 1325, slug: 'splitting-of-the-sea', desc: '' },
-        { img: 'wedding-i',            title: 'Wedding I',                medium: 'Oil on canvas · 60×70 cm', w: 974,  h: 1116, slug: 'wedding-i', desc: '' },
+        { img: 'wedding-i',            title: 'Wedding I',                medium: 'Oil on canvas · 60×70 cm', w: 556,  h: 641, slug: 'wedding-i', desc: '' },
         { img: 'chuppah-ii',           title: 'Chuppah II',               medium: 'Oil on canvas · 90×60 cm', w: 2000, h: 822,  slug: 'chuppah-ii', desc: '' },
         { img: 'song-of-miriam', title: 'The Song of Miriam', medium: 'Palette knife on canvas', w: 1398, h: 2000, slug: 'song-of-miriam', desc: '' }
       ]
