@@ -226,13 +226,9 @@ a { color:inherit; }
   background:none; border:none; padding:.4rem 0; line-height:1.2;
   white-space:nowrap; flex-shrink:0;
   display:inline-flex; align-items:center;
-  min-height:44px; max-width:min(50vw, 380px);
+  min-height:44px; max-width:min(60vw, 520px);
 }
-/* The source file carried a lot of transparent padding above and below the
-   signature, so the mark rendered small and cramped no matter the box
-   height. Cropped tight to the ink itself, the same box now shows a bigger,
-   wider signature — clean and classic, no artificial weight added. */
-.logo img { max-height:38px; max-width:100%; width:auto; display:block; }
+.logo img { max-height:58px; max-width:100%; width:auto; display:block; }
 
 /* Centred in the bar on desktop, so the links stay put whatever the logo's
    width. The mobile drawer overrides this below. */
@@ -484,7 +480,7 @@ a { color:inherit; }
 .hcf-link:hover { color:var(--accent); border-color:var(--accent); }
 
 .gal-picker-title, .gch-title, .cp-title, .pp-title,
-.cblock h2, .hcf-heading, .selected-h, .allworks-h {
+.cblock h2, .hcf-heading, .selected-h {
   font-family:var(--serif); font-size:var(--t-display); font-weight:600;
   letter-spacing:var(--ls-display); text-transform:uppercase; line-height:1.35;
   font-style:normal;
@@ -784,14 +780,11 @@ a { color:inherit; }
    text rather than sitting as a separate, shorter block above it. */
 /* A true standing column, not a capped box — it stretches to match the
    height of the form beside it, so the painting runs the full length of the
-   text rather than sitting as a separate, shorter block above it. The
-   painting itself is shown whole: object-fit:contain, never cropped. */
-.cp-art {
-  overflow:hidden; align-self:stretch;
-  display:flex; align-items:center; justify-content:center;
-  background:var(--off);
-}
-.cp-art img { width:100%; height:100%; object-fit:contain; display:block; }
+   text rather than sitting as a separate, shorter block above it. The image
+   itself is now a rotated, portrait-oriented crop, so it fills this frame
+   completely rather than needing to be letterboxed inside it. */
+.cp-art { overflow:hidden; align-self:stretch; }
+.cp-art img { width:100%; height:100%; object-fit:cover; display:block; }
 
 /* The rule under the intro. A hairline spanning the form column, separating
    the title from the fields. */
@@ -949,7 +942,7 @@ a { color:inherit; }
   :root { --pad-x:1.25rem; --nav-h:62px; }
 
   .logo { font-size:1.25rem; min-height:auto; }
-  .logo img { max-height:32px; }
+  .logo img { max-height:42px; }
 
   .hero { min-height:480px; }
   .hcontent { padding:1.5rem 1.5rem 3rem; padding-bottom:calc(3rem + env(safe-area-inset-bottom)); }
@@ -1058,7 +1051,7 @@ a { color:inherit; }
        <img src="/assets/img/logo.svg" alt="Yehudis Jacobs"> -->
   <button class="logo" id="logo-btn" aria-label="Yehudis Jacobs — go to home page">
     <img src="/assets/img/logo.png" srcset="/assets/img/logo.png 1x, /assets/img/logo@2x.png 2x"
-         alt="Yehudis Jacobs" width="105" height="38">
+         alt="Yehudis Jacobs" width="160" height="58">
   </button>
 
   <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
@@ -1188,7 +1181,6 @@ a { color:inherit; }
     <div class="gal-list" id="gal-grid"></div>
 
     <section class="allworks" id="allworks-sec" aria-label="Works in this collection">
-      <h2 class="allworks-h" id="allworks-h">All works</h2>
       <div class="allworks-grid" id="allworks-gallery"></div>
     </section>
 
@@ -1301,9 +1293,9 @@ a { color:inherit; }
   <div class="contact-page-wrap">
     <div class="cp-art">
       <picture>
-        <source srcset="/assets/img/flowers-ii.webp" type="image/webp">
-        <img src="/assets/img/flowers-ii.jpg" alt="Flowers II — oil on canvas by Yehudis Jacobs"
-             width="2000" height="638" loading="lazy" decoding="async">
+        <source srcset="/assets/img/flowers-ii-vert.webp" type="image/webp">
+        <img src="/assets/img/flowers-ii-vert.jpg" alt="Flowers II — oil on canvas by Yehudis Jacobs"
+             width="638" height="2000" loading="lazy" decoding="async">
       </picture>
     </div>
 
@@ -1623,9 +1615,8 @@ a { color:inherit; }
     });
 
     /* Only the works of the open collection, as a uniform thumbnail grid under
-       the rows. No current-item highlight here: nothing on this view is
-       "current". */
-    $('#allworks-h').textContent = 'All works in ' + c.label;
+       the rows — no visible caption. The aria-label still names the
+       collection for screen readers even though there's no heading on screen. */
     $('#allworks-sec').setAttribute('aria-label', 'All works in ' + c.label);
     buildAllWorks($('#allworks-gallery'), null, c.paintings);
 
