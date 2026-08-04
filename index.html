@@ -528,7 +528,8 @@ a { color:inherit; }
 #gal-grid-view { display:none; }
 .gal-bar {
   position:relative; z-index:1;
-  min-height:52px; display:flex; align-items:center; gap:1rem;
+  min-height:52px;
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:1rem;
   padding:.5rem var(--pad-x);
   border-bottom:1px solid var(--border);
 }
@@ -537,11 +538,16 @@ a { color:inherit; }
   font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
   padding:.6rem .5rem; flex-shrink:0; transition:color .2s;
   min-height:44px; min-width:44px; margin-left:-.5rem;
+  justify-self:start;
 }
 .gal-back:hover { color:var(--accent); }
+/* Centred in the bar — an empty, equally-sized track sits on the other side
+   (grid-template-columns:1fr auto 1fr) so the tabs land in the true middle
+   of the page rather than just the middle of the remaining space. */
 .gal-tabs {
-  display:flex; margin-left:auto;
+  display:flex; justify-self:center;
   overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  max-width:100%;
 }
 .gal-tabs::-webkit-scrollbar { display:none; }
 .gct {
@@ -657,18 +663,27 @@ a { color:inherit; }
 .pp-next::after { content:''; position:absolute; inset:-11px -6px; }
 .pp-next:hover { color:var(--accent); }
 
+/* Flex, not a fixed-ratio grid: the figure only ever takes the width its
+   image actually renders at (up to a cap), so the caption sits right next
+   to the real edge of the painting instead of the edge of an oversized
+   column track — a tall, narrow canvas no longer leaves a dead gap between
+   itself and the text. */
 .pp-main {
-  display:grid; grid-template-columns:minmax(0,8fr) minmax(0,4fr); gap:3.5rem;
+  display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center;
+  gap:2.75rem;
   padding:2.5rem var(--pad-x) 4rem; max-width:1400px; margin:0 auto; width:100%;
-  align-items:start;
 }
 .pp-figure {
-  display:flex; align-items:center; justify-content:center;
+  display:flex; align-items:flex-start; justify-content:center;
   overflow:hidden;
+  flex:0 1 auto; max-width:100%;
 }
+.pp-body { flex:1 1 340px; max-width:440px; }
 .pp-img {
-  /* Fills its column, capped by the viewport so tall canvases still fit. */
-  max-width:100%; max-height:82svh; width:auto; height:auto; display:block;
+  /* Capped on both axes now that the figure sizes to the image itself
+     rather than a fixed column — this keeps a very wide canvas from pushing
+     the caption below the fold, while a tall one is still capped by height. */
+  max-width:min(100%, 780px); max-height:82svh; width:auto; height:auto; display:block;
   cursor:zoom-in; will-change:transform;
 }
 
@@ -933,7 +948,8 @@ a { color:inherit; }
   .gal-list        { gap:4rem; }
   .allworks-grid   { --aw-cols:3; --aw-gap:1.25rem; row-gap:2rem; }
   .allworks        { padding:3.5rem var(--pad-x) 4rem; }
-  .pp-main         { grid-template-columns:1fr; gap:2.5rem; padding-top:2rem; }
+  .pp-main         { gap:2.5rem; padding-top:2rem; }
+  .pp-body         { flex-basis:100%; max-width:560px; }
   .pp-title        { margin-bottom:1.2rem; }
 }
 
