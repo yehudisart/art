@@ -894,6 +894,126 @@ a { color:inherit; }
   padding-bottom:calc(1.6rem + env(safe-area-inset-bottom));
 }
 
+/* ═══ ACCESSIBILITY WIDGET ═══ */
+/* Floating toggle, bottom-left (the conventional placement on Israeli
+   sites) — a universal accessibility icon in a circle, always present,
+   sitting outside `main` so nothing inside it (grayscale, etc.) touches it. */
+.a11y-btn {
+  position:fixed; left:1.1rem; bottom:1.1rem; z-index:80;
+  width:48px; height:48px; border-radius:50%;
+  background:var(--ink); border:none; color:var(--white);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,.25);
+  transition:transform .2s;
+}
+.a11y-btn:hover { transform:scale(1.06); }
+.a11y-btn svg { width:26px; height:26px; }
+
+.a11y-panel {
+  position:fixed; left:1.1rem; bottom:4.4rem; z-index:80;
+  width:288px; max-width:calc(100vw - 2.2rem); max-height:calc(100svh - 6rem);
+  overflow-y:auto;
+  background:var(--white); border:1px solid var(--border); border-radius:4px;
+  box-shadow:0 8px 30px rgba(0,0,0,.18);
+  padding:1.1rem; text-align:left;
+  opacity:0; transform:translateY(8px); pointer-events:none;
+  transition:opacity .2s, transform .2s;
+}
+.a11y-panel.open { opacity:1; transform:none; pointer-events:auto; }
+.a11y-panel h2 {
+  font-family:var(--serif); font-size:1rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; margin-bottom:.9rem;
+}
+.a11y-row { margin-bottom:.9rem; }
+.a11y-row-label {
+  display:block; font-size:.78rem; font-weight:600; color:var(--ink);
+  margin-bottom:.4rem;
+}
+.a11y-btnrow { display:flex; gap:.4rem; flex-wrap:wrap; }
+.a11y-chip {
+  flex:1 1 auto; background:var(--off); border:1px solid var(--border);
+  color:var(--ink); font-family:var(--sans); font-size:.8rem;
+  padding:.45rem .6rem; cursor:pointer; border-radius:3px;
+  transition:background .15s, color .15s, border-color .15s;
+  min-height:38px;
+}
+.a11y-chip[aria-pressed="true"] { background:var(--ink); color:var(--white); border-color:var(--ink); }
+.a11y-chip:hover { border-color:var(--ink); }
+.a11y-reset {
+  width:100%; margin-top:.3rem; background:none; border:1px solid var(--border);
+  color:var(--muted); font-size:.78rem; padding:.5rem; cursor:pointer; border-radius:3px;
+}
+.a11y-reset:hover { color:var(--ink); border-color:var(--ink); }
+.a11y-statement-link {
+  display:block; text-align:center; margin-top:.9rem; padding-top:.8rem;
+  border-top:1px solid var(--border);
+  font-size:.76rem; letter-spacing:.05em; color:var(--muted);
+  text-decoration:underline; background:none; border-left:none; border-right:none; border-bottom:none;
+  cursor:pointer; width:100%;
+}
+.a11y-statement-link:hover { color:var(--ink); }
+
+/* ── Modes, applied to <html> and read everywhere via the site's own theme
+   variables — no separate "accessible" stylesheet to keep in sync. ── */
+html.a11y-contrast {
+  --ink:#000000; --white:#ffffff; --off:#ffffff;
+  --border:#000000; --muted:#000000; --light:#000000;
+  --accent:#000000;
+}
+html.a11y-contrast .a11y-btn { background:#000; outline:2px solid #fff; }
+html.a11y-contrast a, html.a11y-contrast button, html.a11y-contrast [data-page] {
+  text-decoration:underline;
+}
+
+/* Grayscale is scoped to the nav/content/footer, not <html> itself, so the
+   widget's own button and panel — which the visitor needs to be able to
+   read clearly to turn features back off — are never affected. */
+html.a11y-grayscale #nav, html.a11y-grayscale main, html.a11y-grayscale .site-footer {
+  filter:grayscale(100%);
+}
+
+html.a11y-underline a, html.a11y-underline .nb, html.a11y-underline [data-page],
+html.a11y-underline .gl-more, html.a11y-underline .cp-link-val {
+  text-decoration:underline !important;
+}
+
+html.a11y-readable { --serif:Arial, Helvetica, sans-serif; --sans:Arial, Helvetica, sans-serif; }
+html.a11y-readable body { letter-spacing:.01em; }
+
+html.a11y-stop-motion *, html.a11y-stop-motion *::before, html.a11y-stop-motion *::after {
+  animation-duration:0.001ms !important; animation-iteration-count:1 !important;
+  transition-duration:0.001ms !important; scroll-behavior:auto !important;
+}
+
+/* ═══ LEGAL PAGES (Privacy / Accessibility) ═══ */
+/* Same measure and centring as the About page — one readable column, in
+   keeping with the rest of the site rather than a boxed legal document. */
+.legal-head { text-align:center; padding:5rem var(--pad-x) 0; }
+.legal-eyebrow { font-size:.8rem; letter-spacing:.08em; color:var(--accent); margin-bottom:.6rem; font-weight:600; }
+.legal-updated { font-size:.72rem; letter-spacing:.05em; color:var(--light); margin-top:.6rem; }
+.legal-body { padding:3rem var(--pad-x) 4rem; max-width:46rem; margin:0 auto; }
+.legal-body h2 {
+  font-family:var(--serif); font-size:1.15rem; font-weight:600;
+  letter-spacing:.04em; margin:2.2rem 0 .9rem;
+}
+.legal-body h2:first-child { margin-top:0; }
+.legal-body p { font-size:var(--t-body); line-height:1.85; color:var(--muted); margin-bottom:1rem; }
+.legal-body ul { margin:0 0 1rem 0; padding-inline-start:1.4rem; }
+.legal-body li { font-size:var(--t-body); line-height:1.85; color:var(--muted); margin-bottom:.5rem; }
+.legal-body a { color:var(--ink); text-decoration:underline; }
+.legal-note {
+  font-size:.82rem; line-height:1.7; color:var(--light); border-top:1px solid var(--border);
+  margin-top:2.5rem; padding-top:1.5rem;
+}
+.legal-links {
+  font-size:.72rem; letter-spacing:.06em; color:var(--light); margin-top:.5rem;
+}
+.legal-links button {
+  background:none; border:none; color:var(--light); font-size:.72rem;
+  letter-spacing:.06em; text-decoration:underline; cursor:pointer; padding:0;
+}
+.legal-links button:hover { color:var(--muted); }
+
 /* ═══ ANIMATION ═══ */
 @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
@@ -1057,7 +1177,7 @@ a { color:inherit; }
 
 /* Print */
 @media print {
-  #nav, .scrl, .zoom, .nav-backdrop { display:none !important; }
+  #nav, .scrl, .zoom, .nav-backdrop, .a11y-btn, .a11y-panel { display:none !important; }
   .page { display:block !important; }
 }
 </style>
@@ -1086,6 +1206,52 @@ a { color:inherit; }
   </div>
 </nav>
 <div class="nav-backdrop" id="nav-backdrop" hidden></div>
+
+<!-- ═══ ACCESSIBILITY WIDGET ═══ -->
+<button class="a11y-btn" id="a11y-btn" aria-haspopup="true" aria-expanded="false" aria-controls="a11y-panel" aria-label="Accessibility options">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <circle cx="12" cy="4" r="2"/>
+    <path d="M21 8.5c0-.9-.7-1.5-1.5-1.6L15 6.2V4a1 1 0 0 0-2 0v2.05L9.3 6.9C8.6 6.7 8 7.2 8 8s.7 1.4 1.4 1.2l3.1-.75v3.3l-3.6 8.7a1.25 1.25 0 0 0 2.3 1l2.8-6.75 2.8 6.75a1.25 1.25 0 0 0 2.3-1L15.5 11.75v-3.3l3.9.95c.9.15 1.6-.5 1.6-1.4v-.5z"/>
+  </svg>
+</button>
+<div class="a11y-panel" id="a11y-panel" role="dialog" aria-modal="false" aria-labelledby="a11y-panel-h">
+  <h2 id="a11y-panel-h">Accessibility</h2>
+
+  <div class="a11y-row">
+    <span class="a11y-row-label">Text size</span>
+    <div class="a11y-btnrow">
+      <button class="a11y-chip" id="a11y-text-minus" aria-label="Decrease text size">A−</button>
+      <button class="a11y-chip" id="a11y-text-reset" aria-label="Reset text size">A</button>
+      <button class="a11y-chip" id="a11y-text-plus" aria-label="Increase text size">A+</button>
+    </div>
+  </div>
+
+  <div class="a11y-row">
+    <span class="a11y-row-label">Display</span>
+    <div class="a11y-btnrow">
+      <button class="a11y-chip" id="a11y-contrast" aria-pressed="false">High contrast</button>
+      <button class="a11y-chip" id="a11y-grayscale" aria-pressed="false">Grayscale</button>
+    </div>
+  </div>
+
+  <div class="a11y-row">
+    <span class="a11y-row-label">Reading</span>
+    <div class="a11y-btnrow">
+      <button class="a11y-chip" id="a11y-underline" aria-pressed="false">Underline links</button>
+      <button class="a11y-chip" id="a11y-readable" aria-pressed="false">Readable font</button>
+    </div>
+  </div>
+
+  <div class="a11y-row">
+    <span class="a11y-row-label">Motion</span>
+    <div class="a11y-btnrow">
+      <button class="a11y-chip" id="a11y-motion" aria-pressed="false">Stop animations</button>
+    </div>
+  </div>
+
+  <button class="a11y-reset" id="a11y-reset-all">Reset all</button>
+  <button class="a11y-statement-link" data-page="accessibility-page">Accessibility statement</button>
+</div>
 
 <main id="main">
 
@@ -1172,7 +1338,7 @@ a { color:inherit; }
     <div class="hcf-links" id="hcf-links"></div>
   </section>
 
-  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
+  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p><p class="legal-links"><button data-page="privacy-page">Privacy Policy</button> · <button data-page="accessibility-page">Accessibility</button></p></footer>
 </div>
 
 <!-- ═══ GALLERY ═══ -->
@@ -1206,7 +1372,7 @@ a { color:inherit; }
 
   </section>
 
-  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
+  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p><p class="legal-links"><button data-page="privacy-page">Privacy Policy</button> · <button data-page="accessibility-page">Accessibility</button></p></footer>
 </div>
 
 <!-- ═══ SINGLE PAINTING ═══ -->
@@ -1270,7 +1436,7 @@ a { color:inherit; }
   </div>
 
 
-  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
+  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p><p class="legal-links"><button data-page="privacy-page">Privacy Policy</button> · <button data-page="accessibility-page">Accessibility</button></p></footer>
 </div>
 
 <!-- ═══ ABOUT ═══ -->
@@ -1305,7 +1471,7 @@ a { color:inherit; }
     <div class="clinks" id="about-links"></div>
   </section>
 
-  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p></footer>
+  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p><p class="legal-links"><button data-page="privacy-page">Privacy Policy</button> · <button data-page="accessibility-page">Accessibility</button></p></footer>
 </div>
 
 <!-- ═══ CONTACT ═══ -->
@@ -1362,7 +1528,75 @@ a { color:inherit; }
   <footer class="site-footer">
     <div class="cp-links" id="cp-links"></div>
     <p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p>
+    <p class="legal-links"><button data-page="privacy-page">Privacy Policy</button> · <button data-page="accessibility-page">Accessibility</button></p>
   </footer>
+</div>
+
+<!-- ═══ PRIVACY POLICY ═══ -->
+<div id="privacy-page" class="page">
+  <section class="legal-head" dir="rtl" lang="he">
+    <p class="legal-eyebrow">מדיניות פרטיות</p>
+    <p class="legal-updated">עודכן לאחרונה: אוגוסט 2026</p>
+  </section>
+  <section class="legal-body" dir="rtl" lang="he">
+    <p>אתר זה מופעל על ידי יהודית ג'ייקובס ("האתר", "אנחנו"). מדיניות זו מסבירה אילו מידע נאסף בעת השימוש באתר, כיצד הוא נשמר, ולאילו מטרות הוא משמש — בהתאם לחוק הגנת הפרטיות, התשמ"א-1981, ותיקוניו.</p>
+
+    <h2>אילו נתונים נאספים</h2>
+    <p>האתר עצמו אינו אוסף ואינו שומר מידע אישי על מבקריו באופן שוטף. המידע היחיד שנאסף הוא זה שהמבקר בוחר להזין ביוזמתו בטופס יצירת הקשר — שם, כתובת אימייל, מספר טלפון ותוכן הפנייה.</p>
+    <p>חשוב לדעת: טופס יצירת הקשר אינו שולח את הפרטים לשרת כלשהו. לחיצה על "שליחה" פותחת את תוכנת הדואר האלקטרוני שמותקנת במכשיר של המבקר עצמו, עם הודעה שמוכנה מראש — והמבקר הוא זה שמחליט לבסוף אם לשלוח אותה. כלומר, האתר אינו מאחסן ואינו מעבד את פרטי הפנייה בשום שלב; הם הופכים לדואר אלקטרוני רגיל שנשלח ישירות מהמבקר לבעלת האתר.</p>
+
+    <h2>עוגיות ואחסון מקומי</h2>
+    <p>האתר אינו משתמש בעוגיות מעקב, כלי אנליטיקס או פרסום. האתר כן משתמש באחסון מקומי בדפדפן (localStorage) למטרה אחת בלבד — לזכור העדפות נגישות שנבחרו על ידי המבקר (כגון גודל טקסט, ניגודיות או גווני אפור), כך שהן יישמרו בביקורים חוזרים. מידע זה נשמר במכשיר של המבקר בלבד, אינו מזהה אותו אישית, ואינו מועבר לשום שרת או גורם שלישי.</p>
+
+    <h2>שיתוף מידע עם צדדים שלישיים</h2>
+    <p>האתר אינו משתף, מוכר או מעביר מידע על מבקריו לצדדים שלישיים. משום שהאתר אינו אוסף מידע במסד נתונים כלשהו, אין גם מאגר מידע הכפוף לחובת רישום.</p>
+
+    <h2>אבטחת מידע</h2>
+    <p>האתר מוגש באמצעות חיבור מוצפן (HTTPS). מאחר שאין איסוף או אחסון של נתונים אישיים בצד השרת, אין גם סיכון של דליפת מידע ממסד נתונים של האתר.</p>
+
+    <h2>זכויותייך</h2>
+    <p>בהתאם לחוק הגנת הפרטיות, כל אדם שפנה לבעלת האתר בדוא"ל רשאי לבקש לעיין במידע שנמסר על ידיו, לתקן אותו או לבקש את מחיקתו. ניתן לפנות בכל עת לכתובת המופיעה בתחתית עמוד זה.</p>
+
+    <h2>שינויים במדיניות</h2>
+    <p>מדיניות זו עשויה להתעדכן מעת לעת, למשל אם יתווספו כלים חדשים לאתר. תאריך העדכון האחרון מופיע בראש העמוד.</p>
+
+    <h2>יצירת קשר</h2>
+    <p>לשאלות בנוגע למדיניות זו ניתן לפנות בדוא"ל: <a id="privacy-email-link" href="#">art@yehudis.com</a></p>
+
+    <p class="legal-note">מסמך זה נכתב ככלי עזר כללי ואינו מהווה ייעוץ משפטי. מומלץ להיוועץ בעורך דין המתמחה בדיני פרטיות לצורך התאמה מדויקת לפעילות האתר, בפרט לאור תיקון 13 לחוק הגנת הפרטיות שנכנס לתוקף באוגוסט 2025.</p>
+  </section>
+  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p><p class="legal-links"><button data-page="accessibility-page">Accessibility Statement</button></p></footer>
+</div>
+
+<!-- ═══ ACCESSIBILITY STATEMENT ═══ -->
+<div id="accessibility-page" class="page">
+  <section class="legal-head" dir="rtl" lang="he">
+    <p class="legal-eyebrow">הצהרת נגישות</p>
+    <p class="legal-updated">עודכן לאחרונה: אוגוסט 2026</p>
+  </section>
+  <section class="legal-body" dir="rtl" lang="he">
+    <p>אתר זה שואף לעמוד בדרישות תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013, ובהנחיות התקן הישראלי (ת"י) 5568 המבוסס על WCAG 2.0 ברמה AA.</p>
+
+    <h2>ההתאמות הקיימות באתר</h2>
+    <ul>
+      <li>ניווט מלא באמצעות מקלדת, כולל קישור "דלג לתוכן" בראש כל עמוד.</li>
+      <li>טקסט חלופי (alt) לתמונות ולציורים באתר.</li>
+      <li>מבנה סמנטי וכותרות מסודרות, לשימוש נוח עם קוראי מסך.</li>
+      <li>תפריט נגישות (הכפתור בפינת המסך) המאפשר הגדלת טקסט, מצב ניגודיות גבוהה, גווני אפור, הדגשת קישורים בקו תחתון, גופן קריא, ועצירת אנימציות.</li>
+      <li>עיצוב מותאם לתצוגה בכל גודל מסך — נייד, טאבלט ומחשב.</li>
+    </ul>
+
+    <h2>רמת ההתאמה</h2>
+    <p>האתר נמצא בתהליך מתמשך של שיפור נגישות. אנו פועלים להשגת התאמה מלאה לרמה AA, וממשיכים לבדוק ולשפר את האתר באופן שוטף.</p>
+
+    <h2>פנייה בנושאי נגישות</h2>
+    <p>נתקלת בבעיה או קושי בגלישה נגישה באתר? נשמח שתפני אלינו ונטפל בכך בהקדם.</p>
+    <p>רכזת נגישות: יהודית ג'ייקובס<br>
+    דוא"ל: <a id="a11y-email-link" href="#">art@yehudis.com</a></p>
+
+    <p class="legal-note">הצהרה זו נכתבה ככלי עזר כללי. לצורך אימות תאימות מלאה לתקן הישראלי 5568, מומלץ לבצע בדיקת נגישות מקצועית על ידי בודק/ת נגישות מוסמך/ת.</p>
+  </section>
+  <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p><p class="legal-links"><button data-page="privacy-page">Privacy Policy</button></p></footer>
 </div>
 
 </main>
@@ -1839,15 +2073,113 @@ a { color:inherit; }
     if (window.innerWidth > 900 && navEl.classList.contains('menu-open')) setMenu(false);
   });
 
+  /* ═══ ACCESSIBILITY WIDGET ═══
+     Every toggle is a class on <html>, which the CSS above hooks into via
+     the site's own theme variables — so there's no separate "accessible"
+     stylesheet to keep in sync with the real one. Preferences persist in
+     localStorage (device-only, never sent anywhere — see the privacy
+     policy) so a visitor doesn't have to reselect them on every page. */
+  (function () {
+    var root = document.documentElement;
+    var STORE_KEY = 'a11y-prefs';
+    var TEXT_STEPS = [100, 112, 125, 137, 150]; // percent
+    var defaults = { textStep: 0, contrast: false, grayscale: false, underline: false, readable: false, motion: false };
+    var prefs;
+    try {
+      prefs = Object.assign({}, defaults, JSON.parse(localStorage.getItem(STORE_KEY) || '{}'));
+    } catch (e) { prefs = Object.assign({}, defaults); }
+
+    function save() {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(prefs)); } catch (e) { /* ignore (private mode etc.) */ }
+    }
+
+    var TOGGLES = [
+      { key: 'contrast',  cls: 'a11y-contrast',  btn: 'a11y-contrast' },
+      { key: 'grayscale', cls: 'a11y-grayscale', btn: 'a11y-grayscale' },
+      { key: 'underline', cls: 'a11y-underline', btn: 'a11y-underline' },
+      { key: 'readable',  cls: 'a11y-readable',  btn: 'a11y-readable' },
+      { key: 'motion',    cls: 'a11y-stop-motion', btn: 'a11y-motion' }
+    ];
+
+    function applyAll() {
+      root.style.fontSize = TEXT_STEPS[prefs.textStep] + '%';
+      TOGGLES.forEach(function (t) {
+        root.classList.toggle(t.cls, !!prefs[t.key]);
+        var b = document.getElementById(t.btn);
+        if (b) b.setAttribute('aria-pressed', prefs[t.key] ? 'true' : 'false');
+      });
+    }
+    applyAll();
+
+    TOGGLES.forEach(function (t) {
+      var b = document.getElementById(t.btn);
+      if (!b) return;
+      b.addEventListener('click', function () {
+        prefs[t.key] = !prefs[t.key];
+        save();
+        applyAll();
+      });
+    });
+
+    $('#a11y-text-plus').addEventListener('click', function () {
+      prefs.textStep = Math.min(prefs.textStep + 1, TEXT_STEPS.length - 1);
+      save(); applyAll();
+    });
+    $('#a11y-text-minus').addEventListener('click', function () {
+      prefs.textStep = Math.max(prefs.textStep - 1, 0);
+      save(); applyAll();
+    });
+    $('#a11y-text-reset').addEventListener('click', function () {
+      prefs.textStep = 0;
+      save(); applyAll();
+    });
+    $('#a11y-reset-all').addEventListener('click', function () {
+      prefs = Object.assign({}, defaults);
+      save(); applyAll();
+    });
+
+    /* Panel open/close */
+    var a11yBtn = $('#a11y-btn'), a11yPanel = $('#a11y-panel');
+    function setPanel(open) {
+      a11yPanel.classList.toggle('open', open);
+      a11yBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    a11yBtn.addEventListener('click', function () {
+      setPanel(!a11yPanel.classList.contains('open'));
+    });
+    document.addEventListener('click', function (e) {
+      if (a11yPanel.classList.contains('open') &&
+          !a11yPanel.contains(e.target) && e.target !== a11yBtn && !a11yBtn.contains(e.target)) {
+        setPanel(false);
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && a11yPanel.classList.contains('open')) { setPanel(false); a11yBtn.focus(); }
+    });
+
+    /* The statement link inside the panel both navigates and closes the
+       panel — otherwise it would still be open, floating over the new page. */
+    $('.a11y-statement-link').addEventListener('click', function () { setPanel(false); });
+  })();
+
+  /* Legal-page mailto links follow the single SITE.email source of truth
+     rather than being hardcoded twice. */
+  ['privacy-email-link', 'a11y-email-link'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) { el.href = 'mailto:' + SITE.email; el.textContent = SITE.email; }
+  });
+
   /* ═══ ROUTING ═══ */
-  var PAGES = ['home', 'gallery', 'about-page', 'contact-page', 'painting-page'];
+  var PAGES = ['home', 'gallery', 'about-page', 'contact-page', 'painting-page', 'privacy-page', 'accessibility-page'];
   var NAV_BTN = { home: 'nb-home', gallery: 'nb-gallery', 'about-page': 'nb-about', 'contact-page': 'nb-contact' };
   var PAGE_TITLE = {
     home: 'Yehudis Jacobs — Paintings',
     gallery: 'Gallery — Yehudis Jacobs',
     'about-page': 'About — Yehudis Jacobs',
     'contact-page': 'Contact — Yehudis Jacobs',
-    'painting-page': 'Yehudis Jacobs'
+    'painting-page': 'Yehudis Jacobs',
+    'privacy-page': 'מדיניות פרטיות — Yehudis Jacobs',
+    'accessibility-page': 'הצהרת נגישות — Yehudis Jacobs'
   };
 
   function scrollTop() {
