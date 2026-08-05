@@ -1534,7 +1534,7 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     <div class="cp-art">
       <picture>
         <source srcset="/assets/img/flowers-ii-vert.webp" type="image/webp">
-        <img src="/assets/img/flowers-ii-vert.jpg" alt="Flowers II — oil on canvas by Yehudis Jacobs"
+        <img src="/assets/img/flowers-ii-vert.jpg" alt="Flowers of Paradise — oil on canvas by Yehudis Jacobs"
              width="638" height="2000" loading="lazy" decoding="async">
       </picture>
     </div>
@@ -1682,9 +1682,9 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     whatsappDisplay: '058-770-6991',
 
     /* Dial-able form (digits, may start with +) and the form shown on screen.
-       TODO — placeholder: replace with the real phone number. */
-    phone: '+972500000000',
-    phoneDisplay: '052-000-0000',
+       Same number as WhatsApp above — one real phone number for the whole site. */
+    phone: '+972587706991',
+    phoneDisplay: '058-770-6991',
 
     /* Pre-filled first line of the WhatsApp message. */
     whatsappText: 'Hello, I have a question about your work.'
@@ -1713,7 +1713,7 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
         { img: 'flowers',         title: 'Flowers',         medium: 'Oil on canvas · 70×70 cm',  w: 600, h: 593 , slug: 'flowers', desc: '' },
         { img: 'pouring-flowers', title: 'Pouring Flowers', medium: 'Oil on canvas · 90×100 cm', w: 536, h: 600 , slug: 'pouring-flowers', desc: '' },
         { img: 'birds-of-paradise', title: 'Birds of Paradise', medium: 'Oil on canvas · 50×60 cm', w: 1621, h: 2000, slug: 'birds-of-paradise', desc: '' },
-        { img: 'flowers-ii',  title: 'Flowers II',  medium: 'Oil on canvas · 90×30 cm', w: 2000, h: 638,  slug: 'flowers-ii', desc: '' },
+        { img: 'flowers-ii',  title: 'Flowers of Paradise',  medium: 'Oil on canvas · 90×30 cm', w: 2000, h: 638,  slug: 'flowers-ii', desc: '' },
         { img: 'jerusalem-in-light', title: 'Jerusalem in Light', medium: 'Oil on canvas · 50×70 cm', w: 1370, h: 2000, slug: 'jerusalem-in-light', desc: '' }
       ]
     },
@@ -1723,8 +1723,8 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
         { img: 'four-elements', title: 'Four Elements', medium: 'Pouring · 60×120 cm',      w: 1600, h: 820 , slug: 'four-elements', desc: '' },
         { img: 'prayer',        title: 'Prayer',        medium: 'Oil on canvas · 70×40 cm', w: 1138, h: 2000 , slug: 'prayer', desc: '' },
         { img: 'splitting-of-the-sea', title: 'The Splitting of the Sea', medium: 'Oil on canvas · 90×60 cm', w: 1966, h: 1325, slug: 'splitting-of-the-sea', desc: '' },
-        { img: 'wedding-i',            title: 'Wedding I',                medium: 'Oil on canvas · 60×70 cm', w: 556,  h: 641, slug: 'wedding-i', desc: '' },
-        { img: 'chuppah-ii',           title: 'Chuppah II',               medium: 'Oil on canvas · 90×60 cm', w: 2000, h: 822,  slug: 'chuppah-ii', desc: '' },
+        { img: 'wedding-i',            title: 'Wedding',                medium: 'Oil on canvas · 60×70 cm', w: 556,  h: 641, slug: 'wedding-i', desc: '' },
+        { img: 'chuppah-ii',           title: 'Chuppah',               medium: 'Oil on canvas · 90×60 cm', w: 2000, h: 822,  slug: 'chuppah-ii', desc: '' },
         { img: 'song-of-miriam', title: 'The Song of Miriam', medium: 'Palette knife on canvas', w: 1398, h: 2000, slug: 'song-of-miriam', desc: '' }
       ]
     }
@@ -1795,8 +1795,8 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     $('#cp-links').innerHTML =
       '<div class="cp-link-item"><span class="cp-link-label">Email</span>' +
         '<a class="cp-link-val" href="' + mail + '">' + esc(SITE.email) + '</a></div>' +
-      '<div class="cp-link-item"><span class="cp-link-label">WhatsApp</span>' +
-        '<a class="cp-link-val" href="' + wa + '" target="_blank" rel="noopener noreferrer">' + esc(SITE.whatsappDisplay) + '</a></div>' +
+      '<div class="cp-link-item">' +
+        '<a class="cp-link-val" href="' + wa + '" target="_blank" rel="noopener noreferrer">WhatsApp</a></div>' +
       '<div class="cp-link-item"><span class="cp-link-label">Phone</span>' +
         '<a class="cp-link-val" href="' + tel + '">' + esc(SITE.phoneDisplay) + '</a></div>';
   })();
