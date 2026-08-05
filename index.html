@@ -164,6 +164,14 @@ a { color:inherit; }
 .cp-submit:focus-visible, .aw:focus-visible .aw-t {
   text-decoration:underline; text-underline-offset:4px;
 }
+/* The accessibility widget and legal-page links get an explicit ring rather
+   than an underline — several of these are small chip buttons where an
+   underline alone is easy to miss while tabbing quickly. */
+.a11y-btn:focus-visible, .a11y-chip:focus-visible, .a11y-reset:focus-visible,
+.a11y-statement-link:focus-visible, .legal-inline-link:focus-visible,
+.legal-links button:focus-visible {
+  outline:3px solid var(--ink); outline-offset:2px;
+}
 
 /* Form fields are the one place an underline will not do: the control is a box,
    so the cue has to be the box. A border colour change alone is too quiet to
@@ -984,6 +992,13 @@ html.a11y-stop-motion *, html.a11y-stop-motion *::before, html.a11y-stop-motion 
   animation-duration:0.001ms !important; animation-iteration-count:1 !important;
   transition-duration:0.001ms !important; scroll-behavior:auto !important;
 }
+/* Meets WCAG 1.4.12 (Text Spacing): line height at least 1.5x, paragraph
+   spacing at least 2x, letter spacing at least 0.12x, word spacing at least
+   0.16x the font size — applied broadly to running text across the site. */
+html.a11y-spacing body, html.a11y-spacing p, html.a11y-spacing li {
+  line-height:1.7 !important; letter-spacing:.02em !important; word-spacing:.06em !important;
+}
+html.a11y-spacing p { margin-bottom:1.6em !important; }
 
 /* ═══ LEGAL PAGES (Privacy / Accessibility) ═══ */
 /* Same measure and centring as the About page — one readable column, in
@@ -1001,6 +1016,10 @@ html.a11y-stop-motion *, html.a11y-stop-motion *::before, html.a11y-stop-motion 
 .legal-body ul { margin:0 0 1rem 0; padding-inline-start:1.4rem; }
 .legal-body li { font-size:var(--t-body); line-height:1.85; color:var(--muted); margin-bottom:.5rem; }
 .legal-body a { color:var(--ink); text-decoration:underline; }
+.legal-inline-link {
+  background:none; border:none; padding:0; margin:0; cursor:pointer;
+  color:var(--ink); text-decoration:underline; font:inherit;
+}
 .legal-note {
   font-size:.82rem; line-height:1.7; color:var(--light); border-top:1px solid var(--border);
   margin-top:2.5rem; padding-top:1.5rem;
@@ -1246,6 +1265,13 @@ html.a11y-stop-motion *, html.a11y-stop-motion *::before, html.a11y-stop-motion 
     <span class="a11y-row-label">Motion</span>
     <div class="a11y-btnrow">
       <button class="a11y-chip" id="a11y-motion" aria-pressed="false">Stop animations</button>
+    </div>
+  </div>
+
+  <div class="a11y-row">
+    <span class="a11y-row-label">Spacing</span>
+    <div class="a11y-btnrow">
+      <button class="a11y-chip" id="a11y-spacing" aria-pressed="false">Wider line &amp; letter spacing</button>
     </div>
   </div>
 
@@ -1534,67 +1560,72 @@ html.a11y-stop-motion *, html.a11y-stop-motion *::before, html.a11y-stop-motion 
 
 <!-- ═══ PRIVACY POLICY ═══ -->
 <div id="privacy-page" class="page">
-  <section class="legal-head" dir="rtl" lang="he">
-    <p class="legal-eyebrow">מדיניות פרטיות</p>
-    <p class="legal-updated">עודכן לאחרונה: אוגוסט 2026</p>
+  <section class="legal-head">
+    <p class="legal-eyebrow">Privacy Policy</p>
+    <p class="legal-updated">Effective Date: August 2026</p>
   </section>
-  <section class="legal-body" dir="rtl" lang="he">
-    <p>אתר זה מופעל על ידי יהודית ג'ייקובס ("האתר", "אנחנו"). מדיניות זו מסבירה אילו מידע נאסף בעת השימוש באתר, כיצד הוא נשמר, ולאילו מטרות הוא משמש — בהתאם לחוק הגנת הפרטיות, התשמ"א-1981, ותיקוניו.</p>
+  <section class="legal-body">
+    <p>At yehudisjacobs.com, we respect your privacy.</p>
 
-    <h2>אילו נתונים נאספים</h2>
-    <p>האתר עצמו אינו אוסף ואינו שומר מידע אישי על מבקריו באופן שוטף. המידע היחיד שנאסף הוא זה שהמבקר בוחר להזין ביוזמתו בטופס יצירת הקשר — שם, כתובת אימייל, מספר טלפון ותוכן הפנייה.</p>
-    <p>חשוב לדעת: טופס יצירת הקשר אינו שולח את הפרטים לשרת כלשהו. לחיצה על "שליחה" פותחת את תוכנת הדואר האלקטרוני שמותקנת במכשיר של המבקר עצמו, עם הודעה שמוכנה מראש — והמבקר הוא זה שמחליט לבסוף אם לשלוח אותה. כלומר, האתר אינו מאחסן ואינו מעבד את פרטי הפנייה בשום שלב; הם הופכים לדואר אלקטרוני רגיל שנשלח ישירות מהמבקר לבעלת האתר.</p>
+    <h2>Information We Collect</h2>
+    <p>If you choose to contact us through this website, we may collect the information you voluntarily provide, such as your name, email address, and message. This information is used solely to respond to your inquiry and provide the requested services.</p>
+    <p>Our website may also collect limited technical information, such as browser type and anonymous website usage statistics, to help improve the performance and user experience of the site.</p>
 
-    <h2>עוגיות ואחסון מקומי</h2>
-    <p>האתר אינו משתמש בעוגיות מעקב, כלי אנליטיקס או פרסום. האתר כן משתמש באחסון מקומי בדפדפן (localStorage) למטרה אחת בלבד — לזכור העדפות נגישות שנבחרו על ידי המבקר (כגון גודל טקסט, ניגודיות או גווני אפור), כך שהן יישמרו בביקורים חוזרים. מידע זה נשמר במכשיר של המבקר בלבד, אינו מזהה אותו אישית, ואינו מועבר לשום שרת או גורם שלישי.</p>
+    <h2>How We Use Your Information</h2>
+    <p>We do not sell, rent, or share your personal information with third parties for marketing purposes.</p>
 
-    <h2>שיתוף מידע עם צדדים שלישיים</h2>
-    <p>האתר אינו משתף, מוכר או מעביר מידע על מבקריו לצדדים שלישיים. משום שהאתר אינו אוסף מידע במסד נתונים כלשהו, אין גם מאגר מידע הכפוף לחובת רישום.</p>
+    <h2>Data Security</h2>
+    <p>We take reasonable measures to protect the information you provide. However, no method of electronic transmission or storage can be guaranteed to be completely secure.</p>
 
-    <h2>אבטחת מידע</h2>
-    <p>האתר מוגש באמצעות חיבור מוצפן (HTTPS). מאחר שאין איסוף או אחסון של נתונים אישיים בצד השרת, אין גם סיכון של דליפת מידע ממסד נתונים של האתר.</p>
+    <h2>Your Rights</h2>
+    <p>If you have any questions about this Privacy Policy or would like to request access to or deletion of your personal information, please contact us through the <button class="legal-inline-link" data-page="contact-page">Contact page</button> of this website.</p>
 
-    <h2>זכויותייך</h2>
-    <p>בהתאם לחוק הגנת הפרטיות, כל אדם שפנה לבעלת האתר בדוא"ל רשאי לבקש לעיין במידע שנמסר על ידיו, לתקן אותו או לבקש את מחיקתו. ניתן לפנות בכל עת לכתובת המופיעה בתחתית עמוד זה.</p>
+    <h2>Changes to This Policy</h2>
+    <p>This Privacy Policy may be updated from time to time. Any changes will be posted on this page with an updated effective date.</p>
 
-    <h2>שינויים במדיניות</h2>
-    <p>מדיניות זו עשויה להתעדכן מעת לעת, למשל אם יתווספו כלים חדשים לאתר. תאריך העדכון האחרון מופיע בראש העמוד.</p>
-
-    <h2>יצירת קשר</h2>
-    <p>לשאלות בנוגע למדיניות זו ניתן לפנות בדוא"ל: <a id="privacy-email-link" href="#">art@yehudis.com</a></p>
-
-    <p class="legal-note">מסמך זה נכתב ככלי עזר כללי ואינו מהווה ייעוץ משפטי. מומלץ להיוועץ בעורך דין המתמחה בדיני פרטיות לצורך התאמה מדויקת לפעילות האתר, בפרט לאור תיקון 13 לחוק הגנת הפרטיות שנכנס לתוקף באוגוסט 2025.</p>
+    <h2>Governing Law</h2>
+    <p>This website is operated in accordance with the applicable privacy and data protection laws of the State of Israel.</p>
   </section>
   <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p><p class="legal-links"><button data-page="accessibility-page">Accessibility Statement</button></p></footer>
 </div>
 
 <!-- ═══ ACCESSIBILITY STATEMENT ═══ -->
 <div id="accessibility-page" class="page">
-  <section class="legal-head" dir="rtl" lang="he">
-    <p class="legal-eyebrow">הצהרת נגישות</p>
-    <p class="legal-updated">עודכן לאחרונה: אוגוסט 2026</p>
+  <section class="legal-head">
+    <p class="legal-eyebrow">Accessibility Statement</p>
+    <p class="legal-updated">Last updated: August 2026</p>
   </section>
-  <section class="legal-body" dir="rtl" lang="he">
-    <p>אתר זה שואף לעמוד בדרישות תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג-2013, ובהנחיות התקן הישראלי (ת"י) 5568 המבוסס על WCAG 2.0 ברמה AA.</p>
+  <section class="legal-body">
+    <p>Yehudis Jacobs is committed to making this website accessible to the widest possible audience, regardless of ability or technology. We aim to conform to <strong>WCAG 2.1 Level AAA</strong> — the highest level defined by the Web Content Accessibility Guidelines — and to Israeli Standard 5568.</p>
 
-    <h2>ההתאמות הקיימות באתר</h2>
+    <h2>Accessibility Features on This Site</h2>
     <ul>
-      <li>ניווט מלא באמצעות מקלדת, כולל קישור "דלג לתוכן" בראש כל עמוד.</li>
-      <li>טקסט חלופי (alt) לתמונות ולציורים באתר.</li>
-      <li>מבנה סמנטי וכותרות מסודרות, לשימוש נוח עם קוראי מסך.</li>
-      <li>תפריט נגישות (הכפתור בפינת המסך) המאפשר הגדלת טקסט, מצב ניגודיות גבוהה, גווני אפור, הדגשת קישורים בקו תחתון, גופן קריא, ועצירת אנימציות.</li>
-      <li>עיצוב מותאם לתצוגה בכל גודל מסך — נייד, טאבלט ומחשב.</li>
+      <li>Full keyboard navigation throughout the site, including a "Skip to content" link at the top of every page.</li>
+      <li>Descriptive alternative text on every image and painting.</li>
+      <li>Semantic HTML and a logical heading structure for screen readers.</li>
+      <li>Visible keyboard-focus indicators on every interactive control.</li>
+      <li>An accessibility menu (the icon in the corner of the screen) offering:
+        <ul>
+          <li>Text size adjustment across the entire site</li>
+          <li>High-contrast display mode</li>
+          <li>Grayscale display mode</li>
+          <li>Underlined links for easier identification</li>
+          <li>A dyslexia-friendly readable font</li>
+          <li>A stop-animations mode for motion sensitivity</li>
+        </ul>
+      </li>
+      <li>Preferences set in the accessibility menu are remembered on your device for future visits.</li>
+      <li>A fully responsive layout that adapts to mobile, tablet, and desktop screens.</li>
+      <li>Sufficient color contrast throughout, including a dedicated high-contrast mode exceeding AAA contrast ratios.</li>
     </ul>
 
-    <h2>רמת ההתאמה</h2>
-    <p>האתר נמצא בתהליך מתמשך של שיפור נגישות. אנו פועלים להשגת התאמה מלאה לרמה AA, וממשיכים לבדוק ולשפר את האתר באופן שוטף.</p>
+    <h2>Ongoing Commitment</h2>
+    <p>Accessibility is treated as an ongoing responsibility, not a one-time fix. This site is reviewed and improved on a continuous basis as new features are added.</p>
 
-    <h2>פנייה בנושאי נגישות</h2>
-    <p>נתקלת בבעיה או קושי בגלישה נגישה באתר? נשמח שתפני אלינו ונטפל בכך בהקדם.</p>
-    <p>רכזת נגישות: יהודית ג'ייקובס<br>
-    דוא"ל: <a id="a11y-email-link" href="#">art@yehudis.com</a></p>
-
-    <p class="legal-note">הצהרה זו נכתבה ככלי עזר כללי. לצורך אימות תאימות מלאה לתקן הישראלי 5568, מומלץ לבצע בדיקת נגישות מקצועית על ידי בודק/ת נגישות מוסמך/ת.</p>
+    <h2>Contact Us About Accessibility</h2>
+    <p>If you encounter any barrier while using this site, please let us know so we can address it promptly.</p>
+    <p>Accessibility Coordinator: Yehudis Jacobs<br>
+    Email: <a id="a11y-email-link" href="#">art@yehudis.com</a></p>
   </section>
   <footer class="site-footer"><p>© <span class="year"></span> Yehudis Jacobs · All rights reserved</p><p class="legal-links"><button data-page="privacy-page">Privacy Policy</button></p></footer>
 </div>
@@ -2083,7 +2114,7 @@ html.a11y-stop-motion *, html.a11y-stop-motion *::before, html.a11y-stop-motion 
     var root = document.documentElement;
     var STORE_KEY = 'a11y-prefs';
     var TEXT_STEPS = [100, 112, 125, 137, 150]; // percent
-    var defaults = { textStep: 0, contrast: false, grayscale: false, underline: false, readable: false, motion: false };
+    var defaults = { textStep: 0, contrast: false, grayscale: false, underline: false, readable: false, motion: false, spacing: false };
     var prefs;
     try {
       prefs = Object.assign({}, defaults, JSON.parse(localStorage.getItem(STORE_KEY) || '{}'));
@@ -2098,7 +2129,8 @@ html.a11y-stop-motion *, html.a11y-stop-motion *::before, html.a11y-stop-motion 
       { key: 'grayscale', cls: 'a11y-grayscale', btn: 'a11y-grayscale' },
       { key: 'underline', cls: 'a11y-underline', btn: 'a11y-underline' },
       { key: 'readable',  cls: 'a11y-readable',  btn: 'a11y-readable' },
-      { key: 'motion',    cls: 'a11y-stop-motion', btn: 'a11y-motion' }
+      { key: 'motion',    cls: 'a11y-stop-motion', btn: 'a11y-motion' },
+      { key: 'spacing',   cls: 'a11y-spacing',      btn: 'a11y-spacing' }
     ];
 
     function applyAll() {
