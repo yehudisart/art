@@ -1448,7 +1448,7 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
       <h1 class="pp-title" id="pp-title"></h1>
       <p class="pp-med" id="pp-med"></p>
       <p class="pp-desc" id="pp-desc"></p>
-      <p class="pp-inquire">Questions about this work can be sent below.</p>
+      <p class="pp-inquire">Details about this work can be sent below.</p>
     </div>
   </div>
 
@@ -1707,7 +1707,7 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
       ]
     },
     {
-      id: 'light', label: 'Light', desc: 'Colour as radiance', cover: 'birds-of-paradise',
+      id: 'light', label: 'Light', desc: 'Color as radiance', cover: 'birds-of-paradise',
       paintings: [
         { img: 'tower-of-david',  title: 'Tower of David',  medium: 'Oil on canvas · 50×60 cm',  w: 516, h: 600 , slug: 'tower-of-david', desc: '' },
         { img: 'flowers',         title: 'Flowers',         medium: 'Oil on canvas · 70×70 cm',  w: 600, h: 593 , slug: 'flowers', desc: '' },
@@ -1815,7 +1815,6 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     if (optOut) { v.pause(); v.removeAttribute('autoplay'); v.remove(); return; }
 
     var reveal = function () { v.classList.add('ready'); };
-    v.playbackRate = 0.6; /* calmer pace than the source footage's native speed */
     if (!v.paused && v.readyState >= 3) reveal();
     v.addEventListener('playing', reveal, { once: true });
     v.addEventListener('loadeddata', function () {
