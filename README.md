@@ -34,7 +34,7 @@ var SITE = {
 
 Change them there and every link on every page updates.
 
-Then, if the domain is not `yehudis.art`, search `index.html` for that string and
+Then, if the domain is not `yehudisjacobs.com`, search `index.html` for that string and
 replace it — it appears in the canonical URL, the Open Graph tags and the
 structured data. Also update `sitemap.xml` and `robots.txt`.
 

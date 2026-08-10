@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yehudis.art/sitemap.xml
+Sitemap: https://yehudisjacobs.com/sitemap.xml
