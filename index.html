@@ -1932,7 +1932,7 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     $('#allworks-sec').setAttribute('aria-label', 'All works in ' + c.label);
     buildAllWorks($('#allworks-gallery'), null, c.paintings);
 
-    if (push) setHash('gallery/' + id);
+    if (push) setUrl('/gallery', id);
     scrollTop();
   }
 
@@ -1940,7 +1940,7 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     currentCat = null;
     $('#gal-grid-view').style.display = 'none';
     $('#gal-picker').style.display = 'flex';
-    if (push) setHash('gallery');
+    if (push) setUrl('/gallery', '');
     scrollTop();
   }
 
@@ -2252,6 +2252,29 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     }
   }
 
+  /* Real, crawlable paths for exactly the four main pages Google should
+     index. Everything else (a category inside Gallery, a single painting,
+     the legal pages) stays exactly as it was — a hash on top of whichever
+     of these four paths is currently active — so nothing else becomes a
+     separate indexable URL. */
+  var REAL_PATH = { home: '/', gallery: '/gallery', 'about-page': '/about', 'contact-page': '/contact' };
+
+  function setUrl(pathname, hash) {
+    var target = pathname + (hash ? '#' + hash : '');
+    var current = window.location.pathname + window.location.hash;
+    if (target !== current) {
+      history.pushState({ path: pathname, hash: hash || '' }, '', target);
+    }
+  }
+
+  function updateCanonical(pathname) {
+    var url = 'https://yehudisjacobs.com' + (pathname === '/' ? '/' : pathname);
+    var link = document.querySelector('link[rel="canonical"]');
+    if (link) link.setAttribute('href', url);
+    var og = document.querySelector('meta[property="og:url"]');
+    if (og) og.setAttribute('content', url);
+  }
+
   function paintPage(id) {
     $$('.page').forEach(function (p) { p.classList.toggle('active', p.id === id); });
 
@@ -2273,7 +2296,8 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
       if (!renderPainting(workSlug)) { navigate('gallery'); return; }
       paintPage(page);
       document.title = currentWork.p.title + ' — Yehudis Jacobs';
-      setHash('work/' + workSlug);
+      setUrl('/gallery', 'work/' + workSlug);
+      updateCanonical('/gallery');
       scrollTop();
       return;
     }
@@ -2281,10 +2305,18 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     paintPage(page);
 
     if (page === 'gallery') {
-      if (cat && catById(cat)) { openCategory(cat, false); setHash('gallery/' + cat); }
-      else { showPicker(false); setHash('gallery'); }
+      if (cat && catById(cat)) { openCategory(cat, false); setUrl('/gallery', cat); }
+      else { showPicker(false); setUrl('/gallery', ''); }
+      updateCanonical('/gallery');
+    } else if (REAL_PATH[page]) {
+      setUrl(REAL_PATH[page], '');
+      updateCanonical(REAL_PATH[page]);
+      scrollTop();
     } else {
-      setHash(page === 'home' ? '' : page);
+      /* privacy-page, accessibility-page — unchanged, still a hash on
+         whichever real path happens to be current. Not part of what was
+         asked to become a real URL. */
+      setHash(page);
       scrollTop();
     }
 
@@ -2293,6 +2325,43 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
 
   /* Read the URL and render it — used on load and on back/forward */
   function applyRoute() {
+    var rawPath = window.location.pathname.replace(/\/+$/, '');
+    var path = rawPath === '' ? '/' : rawPath;
+    var hash = (window.location.hash || '').replace(/^#\/?/, '');
+
+    /* New-style: one of the four real paths, with an optional hash on top
+       for a category or a painting — never a separate indexable URL. */
+    if (path === '/gallery' || path === '/about' || path === '/contact') {
+      var rp = path === '/gallery' ? 'gallery' : (path === '/about' ? 'about-page' : 'contact-page');
+
+      if (rp === 'gallery' && hash.indexOf('work/') === 0) {
+        var wSlug = hash.split('/')[1];
+        if (wSlug && renderPainting(wSlug)) {
+          paintPage('painting-page');
+          document.title = currentWork.p.title + ' — Yehudis Jacobs';
+          updateCanonical('/gallery');
+          scrollTop();
+          $$('.rev').forEach(function (el) { revObs.observe(el); });
+          return;
+        }
+      }
+
+      paintPage(rp);
+      updateCanonical(path);
+      if (rp === 'gallery') {
+        var cSlug = hash.replace(/^gallery\//, '').split('/')[0];
+        if (cSlug && catById(cSlug)) openCategory(cSlug, false);
+        else showPicker(false);
+      } else {
+        scrollTop();
+      }
+      $$('.rev').forEach(function (el) { revObs.observe(el); });
+      return;
+    }
+
+    /* Legacy / root hash-based routing — unchanged, so any link shared or
+       indexed before this update (e.g. #gallery/soul, #work/slug,
+       #about-page) keeps working exactly as it always did. */
     var h = (window.location.hash || '').replace(/^#\/?/, '');
     var parts = h.split('/');
     var page = parts[0] || 'home';
@@ -2310,6 +2379,7 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     if (PAGES.indexOf(page) === -1 || page === 'painting-page') page = 'home';
 
     paintPage(page);
+    if (REAL_PATH[page]) updateCanonical(REAL_PATH[page]);
     if (page === 'gallery') {
       if (parts[1] && catById(parts[1])) openCategory(parts[1], false);
       else showPicker(false);

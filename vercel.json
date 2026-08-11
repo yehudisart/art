@@ -2,6 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/gallery", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -34,7 +39,7 @@
       ]
     },
     {
-      "source": "/",
+      "source": "/(|gallery|about|contact)",
       "headers": [
         {
           "key": "Cache-Control",
