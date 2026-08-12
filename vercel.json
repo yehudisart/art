@@ -2,10 +2,29 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
-    { "source": "/gallery", "destination": "/" },
-    { "source": "/about", "destination": "/" },
-    { "source": "/contact", "destination": "/" }
+  "redirects": [
+    { "source": "/es", "destination": "/", "permanent": true },
+    { "source": "/es/:path*", "destination": "/", "permanent": true },
+    { "source": "/fittings", "destination": "/contact", "permanent": true },
+    { "source": "/fittings/:path*", "destination": "/contact", "permanent": true },
+    { "source": "/gallery-store", "destination": "/gallery", "permanent": true },
+    { "source": "/gallery-store/:path*", "destination": "/gallery", "permanent": true },
+    { "source": "/shop", "destination": "/gallery", "permanent": true },
+    { "source": "/shop/:path*", "destination": "/gallery", "permanent": true },
+    { "source": "/success", "destination": "/", "permanent": true },
+    { "source": "/checkout", "destination": "/", "permanent": true },
+    { "source": "/cart", "destination": "/", "permanent": true },
+    { "source": "/my-account", "destination": "/", "permanent": true },
+    { "source": "/my-account/:path*", "destination": "/", "permanent": true },
+    { "source": "/wp-content/:path*", "destination": "/", "permanent": true },
+    { "source": "/wp-admin/:path*", "destination": "/", "permanent": true },
+    { "source": "/wp-includes/:path*", "destination": "/", "permanent": true },
+    { "source": "/wp-login.php", "destination": "/", "permanent": true },
+    { "source": "/xmlrpc.php", "destination": "/", "permanent": true },
+    { "source": "/category/:path*", "destination": "/gallery", "permanent": true },
+    { "source": "/product/:path*", "destination": "/gallery", "permanent": true },
+    { "source": "/feed", "destination": "/", "permanent": true },
+    { "source": "/feed/:path*", "destination": "/", "permanent": true }
   ],
   "headers": [
     {

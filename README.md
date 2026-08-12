@@ -40,6 +40,24 @@ structured data. Also update `sitemap.xml` and `robots.txt`.
 
 ---
 
+## IMPORTANT — after editing index.html
+
+`gallery.html`, `about.html` and `contact.html` are **generated files**. They
+are copies of `index.html` with their own `<title>`, description, canonical
+and Open Graph tags, so that Google sees four genuinely distinct pages rather
+than one page served four times. (That distinction is what allows sitelinks.)
+
+Never edit them by hand. After any change to `index.html`, run:
+
+```bash
+python3 tools/build-pages.py
+```
+
+Then commit all four HTML files together. If you skip this step, the sub-pages
+will keep serving the previous version of the site.
+
+---
+
 ## Deploy
 
 ```bash
