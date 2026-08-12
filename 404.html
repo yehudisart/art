@@ -6,21 +6,23 @@
 <title>Page not found — Yehudis Jacobs</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family:'Cormorant Garamond';
+    src:url('/assets/fonts/cormorant-italic.ttf') format('truetype');
+    font-weight:300 700; font-style:italic; font-display:swap;
+  }
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   :root{--gold:#c9a84c;--ink:#1a1714;--muted:#8c857d;--border:#e8e4de}
   body{
     min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:1.25rem;padding:2rem 1.5rem;text-align:center;
     background:#fff;color:var(--ink);
-    font-family:'Inter',system-ui,sans-serif;font-weight:300;
+    font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-weight:300;
     -webkit-font-smoothing:antialiased;
   }
   .ey{font-size:.6rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold)}
-  h1{font-family:'EB Garamond',Georgia,serif;font-size:clamp(2rem,7vw,3.2rem);font-weight:400;font-style:italic;line-height:1.15}
+  h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,7vw,3.2rem);font-weight:400;font-style:italic;line-height:1.15}
   p{font-size:.9rem;line-height:1.8;color:var(--muted);max-width:34ch}
   a{
     margin-top:.75rem;display:inline-block;min-height:44px;

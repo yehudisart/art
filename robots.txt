@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+# Utility paths — never content, and nothing here should ever be indexed.
+Disallow: /tools/
+Disallow: /404.html
+Disallow: /*.json$
+
 Sitemap: https://yehudisjacobs.com/sitemap.xml
