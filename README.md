@@ -6,10 +6,10 @@ Static single-page site. No build step, no dependencies — deploy the folder as
 index.html          the whole site (markup, styles, script)
 404.html            not-found page
 vercel.json         cache + security headers
-favicon.svg         browser icon
 apple-touch-icon.png
 robots.txt
 sitemap.xml
+assets/img/favicon.png   browser icon (also apple-touch-icon.png above)
 assets/img/         paintings (jpg + webp, full + -sm variants)
 assets/video/       hero video + poster frame
 tools/add-image.py  generates image variants for a new painting
