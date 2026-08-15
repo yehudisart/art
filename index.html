@@ -157,7 +157,7 @@ a { color:inherit; }
    underline alone is easy to miss while tabbing quickly. */
 .a11y-btn:focus-visible, .a11y-chip:focus-visible, .a11y-reset:focus-visible,
 .a11y-statement-link:focus-visible, .legal-inline-link:focus-visible,
-.legal-links button:focus-visible {
+.legal-links button:focus-visible, .cp-success-again:focus-visible {
   outline:3px solid var(--ink); outline-offset:2px;
 }
 
@@ -889,6 +889,39 @@ a { color:inherit; }
 .cp-submit:hover { background:var(--ink); color:var(--white); }
 .cp-status { font-family:var(--serif); font-size:.82rem; font-style:italic; color:var(--accent); min-height:1.4em; }
 
+/* ── Send confirmation ──
+   Replaces the form in place once a message sends successfully. Kept in the
+   site's own idiom — thin serif, generous quiet space, a hairline circle
+   rather than a bright green checkmark — so it reads as this site's own
+   moment of confirmation, not a generic form-plugin toast. */
+.cp-success { text-align:center; padding:1.5rem 0 .5rem; }
+.cp-success-check {
+  width:52px; height:52px; margin:0 auto 1.3rem; display:block;
+}
+.cp-success-check circle {
+  fill:none; stroke:var(--border); stroke-width:1.5;
+}
+.cp-success-check path {
+  fill:none; stroke:var(--accent); stroke-width:2.5;
+  stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:30; stroke-dashoffset:30;
+  animation:cp-draw-check .5s ease-out .3s forwards;
+}
+@keyframes cp-draw-check { to { stroke-dashoffset:0; } }
+.cp-success-title {
+  font-family:var(--serif); font-size:1.1rem; font-weight:600;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--ink);
+  margin-bottom:.6rem;
+}
+.cp-success-sub { font-size:.9rem; line-height:1.7; color:var(--muted); }
+.cp-success-again {
+  background:none; border:none; margin-top:1.4rem; padding:0;
+  font-family:var(--serif); font-size:.82rem; font-style:italic;
+  color:var(--light); text-decoration:underline; cursor:pointer;
+}
+.cp-success-again:hover { color:var(--accent); }
+html.a11y-stop-motion .cp-success-check path { animation:none; stroke-dashoffset:0; }
+
 /* ═══ FOOTER ═══ */
 .site-footer {
   padding:1.6rem var(--pad-x); text-align:center; border-top:1px solid var(--border);
@@ -1470,6 +1503,15 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
         <p class="cp-status" id="pp-status" role="status" aria-live="polite"></p>
       </div>
     </form>
+    <div class="cp-success" id="pp-success" role="status" aria-live="polite" hidden>
+      <svg class="cp-success-check" viewBox="0 0 52 52" aria-hidden="true">
+        <circle cx="26" cy="26" r="24"/>
+        <path d="M15 27l7.5 7.5L37 18"/>
+      </svg>
+      <p class="cp-success-title">Message sent</p>
+      <p class="cp-success-sub">Thank you — Yehudis will be in touch soon.</p>
+      <button type="button" class="cp-success-again" id="pp-success-again">Send another message</button>
+    </div>
   </div>
 
 
@@ -1561,6 +1603,15 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
         <button type="submit" class="cp-submit" id="cp-submit-btn">Submit</button>
         <p class="cp-status" id="cp-status" role="status" aria-live="polite"></p>
       </form>
+      <div class="cp-success" id="cp-success" role="status" aria-live="polite" hidden>
+        <svg class="cp-success-check" viewBox="0 0 52 52" aria-hidden="true">
+          <circle cx="26" cy="26" r="24"/>
+          <path d="M15 27l7.5 7.5L37 18"/>
+        </svg>
+        <p class="cp-success-title">Message sent</p>
+        <p class="cp-success-sub">Thank you — Yehudis will be in touch soon.</p>
+        <button type="button" class="cp-success-again" id="cp-success-again">Send another message</button>
+      </div>
     </div>
   </div>
   <footer class="site-footer">
@@ -1660,19 +1711,10 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
   var SITE = {
     email: 'yehudisart@gmail.com',
 
-    /* ─── Sending the forms without opening the visitor's mail app ───
-       A static site cannot send email by itself, so both forms post to
-       FormSubmit, which forwards each submission straight to the address
-       above. No account, no API key, nothing to paste in here.
-
-       ONE-TIME ACTIVATION: the very first time someone submits a form,
-       FormSubmit emails yehudisart@gmail.com asking to confirm the address.
-       Click that link once and every submission from then on arrives
-       automatically. (Send a test message yourself after going live.)
-
-       If the service is ever unreachable, the forms quietly fall back to
-       opening the visitor's mail app, so a message is never lost. */
-    formEndpoint: 'https://formsubmit.co/ajax/',
+    /* Sends via our own Vercel serverless function (api/contact.js), which
+       relays to Resend using a server-side API key — the key is never
+       visible to the browser. See README.md for the one-time setup. */
+    formEndpoint: '/api/contact',
 
     /* WhatsApp number in full international form, digits only — no +, spaces
        or dashes. Israeli mobile 052-123-4567 becomes '972521234567'. */
@@ -2401,24 +2443,12 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
   });
   $('#logo-btn').addEventListener('click', function () { navigate('home'); });
 
-  /* ═══ CONTACT FORM ═══ */
   /* ═══ FORM DELIVERY ═══
-     Sends the form in the background and keeps the visitor on the page.
-     Falls back to the mail app only when sending isn't configured yet or
-     the request fails, so a submission is never silently lost. */
+     Sends straight from the page to our own serverless function
+     (api/contact.js), which relays to the artist's inbox server-side. The
+     visitor never leaves the site and no mail app is ever opened. */
   function sendForm(opts) {
     var status = opts.status, btn = opts.button;
-    var mailtoFallback = function (note) {
-      status.style.color = '';
-      status.textContent = note || 'Opening your email app…';
-      window.location.href = 'mailto:' + SITE.email +
-        '?subject=' + encodeURIComponent(opts.subject) +
-        '&body=' + encodeURIComponent(opts.body);
-      setTimeout(function () {
-        status.textContent = 'If nothing opened, email ' + SITE.email + ' directly.';
-      }, 2500);
-    };
-
     var original = btn ? btn.textContent : '';
     if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
     status.style.color = '';
@@ -2427,41 +2457,51 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     var payload = {
       name: opts.name,
       email: opts.email,
-      message: opts.body,
-      _subject: opts.subject,
-      /* Reply-To is set to the visitor so hitting reply in Gmail answers
-         them directly rather than the form service. */
-      _replyto: opts.email,
-      _template: 'table',
-      _captcha: 'false'
+      phone: opts.phone || '',
+      subject: opts.subject || '',
+      message: opts.message,
+      work: opts.work || '',
+      hp: opts.botcheck || ''
     };
-    /* Honeypot: a hidden field only an automated script would fill in. */
-    if (opts.botcheck) payload._honey = opts.botcheck;
 
-    fetch(SITE.formEndpoint + SITE.email, {
+    fetch(SITE.formEndpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-      .then(function (r) { return r.json().catch(function () { return { success: r.ok }; }); })
+      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
       .then(function (data) {
         if (btn) { btn.disabled = false; btn.textContent = original; }
-        /* FormSubmit returns success as the string "true", not a boolean,
-           so a plain truthiness check on the wrong shape would misreport. */
-        var ok = data && (data.success === true || data.success === 'true');
-        if (ok) {
-          status.style.color = '';
-          status.textContent = 'Thank you — your message has been sent.';
-          if (opts.form) opts.form.reset();
-          if (opts.afterReset) opts.afterReset();
+        if (data && data.ok) {
+          status.textContent = '';
+          if (opts.form) opts.form.hidden = true;
+          if (opts.successEl) {
+            opts.successEl.hidden = false;
+            /* Move focus to the confirmation so screen-reader users hear it
+               immediately rather than landing on a now-hidden form. */
+            opts.successEl.setAttribute('tabindex', '-1');
+            opts.successEl.focus();
+          }
         } else {
-          mailtoFallback('Could not send — opening your email app instead…');
+          status.style.color = '#9b1c1c';
+          status.textContent = 'Something went wrong — please email ' + SITE.email + ' directly.';
         }
       })
       .catch(function () {
         if (btn) { btn.disabled = false; btn.textContent = original; }
-        mailtoFallback('Could not send — opening your email app instead…');
+        status.style.color = '#9b1c1c';
+        status.textContent = 'Something went wrong — please email ' + SITE.email + ' directly.';
       });
+  }
+
+  /* Restores a form to a fresh, empty state after "Send another message". */
+  function resetFormUI(form, successEl, extra) {
+    form.reset();
+    form.hidden = false;
+    successEl.hidden = true;
+    if (extra) extra();
+    var firstField = form.querySelector('input, textarea');
+    if (firstField) firstField.focus();
   }
 
   $('#cp-form').addEventListener('submit', function (e) {
@@ -2488,15 +2528,18 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     sendForm({
       status: status,
       form: this,
+      successEl: $('#cp-success'),
       button: $('#cp-submit-btn'),
       name: first + ' ' + last,
       email: email,
+      phone: phone,
       subject: subject,
-      botcheck: $('#cp-botcheck') && $('#cp-botcheck').checked ? 'on' : '',
-      body: 'Name: ' + first + ' ' + last + '\n' +
-            'Email: ' + email + '\n' +
-            (phone ? 'Phone: ' + phone + '\n' : '') + '\n' + msg
+      message: msg,
+      botcheck: $('#cp-botcheck') && $('#cp-botcheck').checked ? 'on' : ''
     });
+  });
+  $('#cp-success-again').addEventListener('click', function () {
+    resetFormUI($('#cp-form'), $('#cp-success'));
   });
 
   /* ═══ PAINTING INQUIRY FORM ═══ */
@@ -2523,19 +2566,21 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     sendForm({
       status: status,
       form: this,
+      successEl: $('#pp-success'),
       button: $('#pp-submit-btn'),
       name: first + ' ' + last,
       email: email,
-      subject: 'Inquiry: ' + work,
-      botcheck: $('#pp-botcheck') && $('#pp-botcheck').checked ? 'on' : '',
-      body: 'Painting: ' + work + '\n' +
-            'Name: ' + first + ' ' + last + '\n' +
-            'Email: ' + email + '\n' +
-            (phone ? 'Phone: ' + phone + '\n' : '') + '\n' + msg,
-      /* The work field is populated from the painting being viewed, so it
-         must survive the reset that clears the visitor's own entries. */
-      afterReset: function () { $('#pp-work').value = work; }
+      phone: phone,
+      work: work,
+      message: msg,
+      botcheck: $('#pp-botcheck') && $('#pp-botcheck').checked ? 'on' : ''
     });
+  });
+  $('#pp-success-again').addEventListener('click', function () {
+    /* The work field is populated from the painting being viewed, so it
+       must survive the reset that clears the visitor's own entries. */
+    var work = $('#pp-work').value;
+    resetFormUI($('#pp-form'), $('#pp-success'), function () { $('#pp-work').value = work; });
   });
 
   /* ═══ SCROLL REVEAL ═══ */

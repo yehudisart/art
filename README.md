@@ -83,6 +83,37 @@ protocol breaks the absolute `/assets/...` paths.
 
 ---
 
+## Making the contact forms actually send email
+
+Both forms (Contact page, and "Send" on a painting page) post to
+`api/contact.js`, a serverless function that runs on Vercel. It relays each
+message to **yehudisart@gmail.com** using [Resend](https://resend.com) — a
+transactional email API. The visitor never leaves the site and no mail app
+opens; they see a confirmation on the page instead.
+
+**One thing must be set up before this works — it will not send without it:**
+
+1. Go to **resend.com** and sign up free using **yehudisart@gmail.com** as
+   the account email. (Free tier: 3,000 emails/month — far more than this
+   site will ever need.)
+2. In the Resend dashboard, open **API Keys → Create API Key**. Copy it.
+3. In the **Vercel** project: **Settings → Environment Variables** →
+   add a variable named exactly `RESEND_API_KEY`, paste the key as its
+   value, and save.
+4. Redeploy the project (Vercel → Deployments → ⋯ → Redeploy). Environment
+   variables only take effect on the next deploy.
+5. Send yourself a test message through the site to confirm it arrives.
+
+No DNS changes and no domain verification are needed: because the account
+was created with yehudisart@gmail.com, Resend allows sending to that same
+address out of the box. If a different destination address is ever wanted,
+Resend will require verifying a sending domain first.
+
+The API key lives only in Vercel's environment variables — it is never
+present in any file in this repository and never reaches the browser.
+
+---
+
 ## Adding a painting
 
 **1. Generate the image variants.**
