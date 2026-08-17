@@ -1,11 +1,20 @@
 # Yehudis Jacobs — Art Site
 
-Static single-page site. No build step, no dependencies — deploy the folder as-is.
+Six real, separate static pages. No framework, no build tooling beyond one
+small Python script — deploy the folder as-is.
 
 ```
-index.html          the whole site (markup, styles, script)
-404.html            not-found page
-vercel.json         cache + security headers
+tools/template.html   the ONE file you edit — every page's markup, styles
+                       and script, all in one place (not deployed itself)
+tools/build-pages.py  generates the six real pages below from the template
+index.html            Home            (generated — do not edit directly)
+gallery.html          Gallery         (generated — do not edit directly)
+about.html            About           (generated — do not edit directly)
+contact.html          Contact         (generated — do not edit directly)
+privacy.html          Privacy Policy  (generated — do not edit directly)
+accessibility.html    Accessibility Statement (generated)
+404.html             not-found page
+vercel.json           cache + security headers
 apple-touch-icon.png
 robots.txt
 sitemap.xml
@@ -15,46 +24,50 @@ assets/video/       hero video + poster frame
 tools/add-image.py  generates image variants for a new painting
 ```
 
+**Each generated page contains only its own content** — gallery.html has
+Gallery's markup and nothing else; about.html has only About's, and so on.
+Nothing is hidden with CSS. That's what makes each one a genuinely distinct
+page to Google (necessary for sitelinks) instead of one page served six
+times with five-sixths of it hidden.
+
+---
+
+## Making a change
+
+1. Edit **`tools/template.html`** — never the six generated pages directly;
+   they get overwritten every time the build script runs.
+2. Run:
+   ```bash
+   python3 tools/build-pages.py
+   ```
+3. Commit the template *and* all six generated HTML files together.
+
 ---
 
 ## Before you go live
 
-Three things need real values. All three live in one place — the `SITE` object at
-the top of the `<script>` block in `index.html`:
+Contact details live in one place — the `SITE` object near the top of the
+`<script>` block in `tools/template.html`:
 
 ```js
 var SITE = {
-  email:     'art@yehudis.com',
-  instagram: 'https://www.instagram.com/yehudisart',
-  facebook:  'https://www.facebook.com/yehudisart',
-  instagramHandle: '@yehudisart',
-  facebookName:    'Yehudis Art'
+  email: 'yehudisart@gmail.com',
+  formEndpoint: '/api/contact',
+  whatsapp: '972587706991',        // digits only, international form
+  whatsappDisplay: '058-770-6991', // shown on screen
+  phone: '+972587706991',
+  phoneDisplay: '058-770-6991',
+  whatsappText: 'Hello, I have a question about your work.'
 };
 ```
 
-Change them there and every link on every page updates.
+Change any of these, then run `python3 tools/build-pages.py` — every link on
+every page updates.
 
-Then, if the domain is not `yehudisjacobs.com`, search `index.html` for that string and
-replace it — it appears in the canonical URL, the Open Graph tags and the
-structured data. Also update `sitemap.xml` and `robots.txt`.
-
----
-
-## IMPORTANT — after editing index.html
-
-`gallery.html`, `about.html` and `contact.html` are **generated files**. They
-are copies of `index.html` with their own `<title>`, description, canonical
-and Open Graph tags, so that Google sees four genuinely distinct pages rather
-than one page served four times. (That distinction is what allows sitelinks.)
-
-Never edit them by hand. After any change to `index.html`, run:
-
-```bash
-python3 tools/build-pages.py
-```
-
-Then commit all four HTML files together. If you skip this step, the sub-pages
-will keep serving the previous version of the site.
+If the domain is not `yehudisjacobs.com`, search `tools/template.html` for
+that string and replace it — it appears in the canonical URL, the Open Graph
+tags and the structured data — then rebuild. Also update `sitemap.xml` and
+`robots.txt`.
 
 ---
 
@@ -125,7 +138,7 @@ python3 tools/add-image.py ~/Desktop/new-painting.jpg bloom-ii
 This writes four files into `assets/img/`: a full-size JPEG and WebP for the
 lightbox, and 700px versions for the grid.
 
-**2. Add it to `CATEGORIES`** in `index.html`:
+**2. Add it to `CATEGORIES`** in `tools/template.html`, then run `python3 tools/build-pages.py`:
 
 ```js
 {
@@ -148,24 +161,37 @@ new `id`, and set `cover` to the slug of the image you want on its card.
 
 ## How it is put together
 
-**Everything is one file.** Markup, CSS and JavaScript all live in `index.html`.
-That is deliberate for a site this size: one request, nothing to bundle.
-Images and video are separate files so the browser can cache them independently
-and load them lazily.
+**One template, six real pages.** Markup, CSS and JavaScript for the whole
+site live in `tools/template.html`. `tools/build-pages.py` splits that into
+six separate files — `index.html`, `gallery.html`, `about.html`,
+`contact.html`, `privacy.html`, `accessibility.html` — each containing only
+its own page's content, plus the shared header/nav/footer and the site's
+script (identical across all six, since every page needs it). Nothing is
+hidden with CSS; if a page's markup isn't in a given file, that page simply
+doesn't exist there. Images and video are separate files so the browser can
+cache them independently and load them lazily.
 
-**Navigation uses the URL hash.** `#gallery`, `#gallery/story`, `#about-page`,
-`#contact-page`. Deep links work, and so does the browser back button. Anything
-unrecognised falls back to the home page.
+**Navigation is real URLs**, not hash fragments: `/`, `/gallery`, `/about`,
+`/contact`, `/privacy`, `/accessibility`. Vercel's `cleanUrls` maps each path
+to its file automatically. A category or a single painting stays a hash on
+top of `/gallery` (`/gallery#story`, `/gallery#work/slug`) rather than a URL
+of its own, so those never become separately indexable pages — only the six
+above are meant to be. Clicking between Gallery's categories or paintings
+swaps content in place; clicking between Home/Gallery/About/Contact/the
+legal pages is a real navigation to that file, since each one only exists in
+its own document. Old-style links from before this change
+(`/#about-page`, `/#gallery/story`, `/#work/slug`) still work — the script
+recognises them on load and forwards the browser to the real URL.
 
-**The hero shows a poster image first**, then swaps in the video once the page is
-idle. The video is skipped entirely when the visitor has data-saver on, is on a
-2G/3G connection, or has asked for reduced motion — in those cases the poster
-stays, with a slow zoom that mimics the video.
+**The hero shows a poster image first**, then swaps in the video once the
+page is idle. The video is skipped entirely when the visitor has data-saver
+on, is on a 2G/3G connection, or has asked for reduced motion — in those
+cases the poster stays, with a slow zoom that mimics the video.
 
-**The contact form opens the visitor's mail app** with the message pre-filled.
-There is no server. If you would rather receive submissions directly, a form
-service like Formspree drops in with a few lines — replace the `mailto:` build
-in the submit handler with a `fetch()` POST.
+**Both forms (Contact, and "Send" on a painting page) send directly** via
+`api/contact.js`, a Vercel serverless function that relays to the artist's
+inbox through Resend — see "Making the contact forms actually send email"
+above. The visitor never leaves the page and no mail app opens.
 
 ---
 
@@ -174,9 +200,6 @@ in the submit handler with a `fetch()` POST.
 - Image sources are modest resolution (424–894px on the long edge). They look
   right at current sizes, but if you ever want a full-screen zoom, re-export the
   originals larger and re-run `add-image.py`.
-- The `story` collection's `Matan Torah` is the only image large enough for the
-  `-sm` variant to differ meaningfully; the rest are already small.
 - Interface text is English throughout, including the wall-colour picker in the
-  lightbox. The original had a few Hebrew labels mixed in; they were translated
-  for consistency. If the site should be Hebrew, that is a larger change —
+  lightbox. If the site should be Hebrew, that is a larger change —
   `dir="rtl"` on `<html>` plus mirrored padding.
