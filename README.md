@@ -53,10 +53,10 @@ Contact details live in one place — the `SITE` object near the top of the
 var SITE = {
   email: 'yehudisart@gmail.com',
   formEndpoint: '/api/contact',
-  whatsapp: '972587706991',        // digits only, international form
-  whatsappDisplay: '058-770-6991', // shown on screen
-  phone: '+972587706991',
-  phoneDisplay: '058-770-6991',
+  whatsapp: '972587709661',        // digits only, international form
+  whatsappDisplay: '058-770-9661', // shown on screen
+  phone: '+972587709661',
+  phoneDisplay: '058-770-9661',
   whatsappText: 'Hello, I have a question about your work.'
 };
 ```
