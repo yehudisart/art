@@ -57,6 +57,8 @@ var SITE = {
   whatsappDisplay: '058-770-9661', // shown on screen
   phone: '+972587709661',
   phoneDisplay: '058-770-9661',
+  phoneUs: '+19299966978',          // US line; clear both to remove it
+  phoneUsDisplay: '+1 929-996-6978',
   whatsappText: 'Hello, I have a question about your work.'
 };
 ```

@@ -49,7 +49,7 @@
       "url": "https://yehudisjacobs.com/",
       "jobTitle": ["Painter", "Art Therapist"],
       "email": "yehudisart@gmail.com",
-      "telephone": "+972-58-770-9661",
+      "telephone": ["+972-58-770-9661", "+1-929-996-6978"],
       "address": { "@type": "PostalAddress", "addressLocality": "Jerusalem", "addressCountry": "IL" },
       "alumniOf": { "@type": "CollegeOrUniversity", "name": "Bezalel Academy of Arts and Design" },
       "description": "Contemporary Jewish artist creating original works, living and working in Jerusalem."
@@ -727,6 +727,44 @@ a { color:inherit; }
   transition:opacity .35s ease, transform .35s cubic-bezier(.25,.46,.45,.94);
 }
 .zoom.shown img { opacity:1; transform:none; }
+/* Swapping between works inside the overlay: the outgoing painting dips out
+   and the incoming one rises in from the side it came from, so the direction
+   of travel is legible. Shorter than the opening transition on purpose —
+   this happens repeatedly while browsing. */
+.zoom.swap img { opacity:0; transition:opacity .16s ease, transform .16s ease; }
+.zoom.swap-next img { transform:translateX(-2.5%) scale(.99); }
+.zoom.swap-prev img { transform:translateX(2.5%) scale(.99); }
+.zoom-nav {
+  position:fixed; top:50%; transform:translateY(-50%); z-index:602;
+  width:52px; height:52px; border-radius:50%;
+  /* Dark rather than light: on a narrow screen these sit over the painting
+     itself, and a pale wash would vanish against the pale canvases. */
+  background:rgba(0,0,0,.38); border:1px solid rgba(255,255,255,.32);
+  color:#fff; backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
+  display:flex; align-items:center; justify-content:center;
+  /* Understated until wanted: the paintings lead, the chrome follows. */
+  opacity:.5; transition:opacity .25s, background .2s, border-color .2s;
+}
+.zoom-nav svg {
+  width:22px; height:22px; fill:none; stroke:currentColor;
+  stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;
+}
+.zoom-nav:hover, .zoom-nav:focus-visible {
+  opacity:1; background:rgba(0,0,0,.62); border-color:rgba(255,255,255,.6);
+}
+.zoom-prev { left:1rem; }
+.zoom-next { right:1rem; }
+@media (min-width:900px) { .zoom-prev { left:2rem; } .zoom-next { right:2rem; } }
+/* Touch: no hover to reveal them, so they sit a little clearer and move out
+   of the thumb's way at the screen edges. */
+@media (hover:none) {
+  .zoom-nav { opacity:.72; width:46px; height:46px; }
+  .zoom-prev { left:.5rem; }
+  .zoom-next { right:.5rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .zoom.swap img { transition:opacity .01s; transform:none; }
+}
 .zoom-close {
   position:fixed; top:1rem; right:1rem; z-index:602;
   width:44px; height:44px; border-radius:50%;
@@ -747,6 +785,14 @@ a { color:inherit; }
   opacity:0; transition:opacity .3s;
 }
 .zoom:hover .zoom-cap { opacity:1; }
+/* Shown briefly after each move, and on touch where there is no hover —
+   otherwise you would never learn which painting you had landed on. */
+.zoom.cap-on .zoom-cap { opacity:1; }
+.zoom-count {
+  display:block; margin-top:.35rem;
+  font-family:var(--sans); font-size:.7rem; letter-spacing:.18em;
+  text-transform:uppercase; color:rgba(255,255,255,.55);
+}
 
 /* ═══ ABOUT ═══ */
 #about-page { }
@@ -1412,6 +1458,12 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
 <div class="zoom" id="zoom" role="dialog" aria-modal="true" aria-label="Zoomed view" hidden>
   <img id="zoom-img" src="" alt="">
   <button class="zoom-close" id="zoom-close" aria-label="Close zoom">✕</button>
+  <button class="zoom-nav zoom-prev" id="zoom-prev" aria-label="Previous painting">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 4 7 12l8 8"/></svg>
+  </button>
+  <button class="zoom-nav zoom-next" id="zoom-next" aria-label="Next painting">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4l8 8-8 8"/></svg>
+  </button>
   <p class="zoom-cap" id="zoom-cap"></p>
 </div>
 
@@ -1436,9 +1488,15 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     whatsappDisplay: '058-770-9661',
 
     /* Dial-able form (digits, may start with +) and the form shown on screen.
-       Same number as WhatsApp above — one phone number for the whole site. */
+       Same number as WhatsApp above — the Israeli line for the whole site. */
     phone: '+972587709661',
     phoneDisplay: '058-770-9661',
+
+    /* Second line for callers in the United States. Shown in international
+       form so it reads as the US number beside the local Israeli one.
+       Leave both blank to drop it from the site again. */
+    phoneUs: '+19299966978',
+    phoneUsDisplay: '+1 929-996-6978',
 
     /* Pre-filled first line of the WhatsApp message. */
     whatsappText: 'Hello, I have a question about your work.'
@@ -1538,18 +1596,34 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     /* wa.me opens the app on mobile and WhatsApp Web on desktop. */
     var wa = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(SITE.whatsappText);
     var tel = 'tel:' + SITE.phone.replace(/[^\d+]/g, '');
+    /* The US line is optional — clear both SITE.phoneUs fields and every
+       block below simply goes back to showing one number. */
+    var hasUs = !!(SITE.phoneUs && SITE.phoneUsDisplay);
+    var telUs = hasUs ? 'tel:' + SITE.phoneUs.replace(/[^\d+]/g, '') : '';
+
+    /* Screen readers get told which country each number is, since on screen
+       that is carried by the +1 and by the order alone. */
+    function phoneLinks(cls) {
+      var out = '<a class="' + cls + '" href="' + tel + '" aria-label="Phone, Israel: ' +
+                esc(SITE.phoneDisplay) + '">' + esc(SITE.phoneDisplay) + '</a>';
+      if (hasUs) {
+        out += '<a class="' + cls + '" href="' + telUs + '" aria-label="Phone, United States: ' +
+               esc(SITE.phoneUsDisplay) + '">' + esc(SITE.phoneUsDisplay) + '</a>';
+      }
+      return out;
+    }
 
     var hcf = $('#hcf-links');
     if (hcf) hcf.innerHTML =
       '<a class="hcf-link" href="' + mail + '">' + esc(SITE.email) + '</a>' +
       '<a class="hcf-link" href="' + wa + '" target="_blank" rel="noopener noreferrer">WhatsApp</a>' +
-      '<a class="hcf-link" href="' + tel + '">' + esc(SITE.phoneDisplay) + '</a>';
+      phoneLinks('hcf-link');
 
     var about = $('#about-links');
     if (about) about.innerHTML =
       '<a class="clink" href="' + mail + '">' + esc(SITE.email) + '</a>' +
       '<a class="clink" href="' + wa + '" target="_blank" rel="noopener noreferrer">WhatsApp</a>' +
-      '<a class="clink" href="' + tel + '">' + esc(SITE.phoneDisplay) + '</a>';
+      phoneLinks('clink');
 
     var cp = $('#cp-links');
     if (cp) cp.innerHTML =
@@ -1557,8 +1631,12 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
         '<a class="cp-link-val" href="' + mail + '">' + esc(SITE.email) + '</a></div>' +
       '<div class="cp-link-item">' +
         '<a class="cp-link-val" href="' + wa + '" target="_blank" rel="noopener noreferrer">WhatsApp</a></div>' +
-      '<div class="cp-link-item"><span class="cp-link-label">Phone</span>' +
-        '<a class="cp-link-val" href="' + tel + '">' + esc(SITE.phoneDisplay) + '</a></div>';
+      '<div class="cp-link-item"><span class="cp-link-label">Phone, Israel</span>' +
+        '<a class="cp-link-val" href="' + tel + '">' + esc(SITE.phoneDisplay) + '</a></div>' +
+      (hasUs
+        ? '<div class="cp-link-item"><span class="cp-link-label">Phone, United States</span>' +
+            '<a class="cp-link-val" href="' + telUs + '">' + esc(SITE.phoneUsDisplay) + '</a></div>'
+        : '');
   })();
 
   /* ═══ HERO VIDEO ═══
@@ -1794,23 +1872,132 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
 
   /* ═══ ZOOM OVERLAY ═══
      Scales the painting to fill the screen but never beyond it, then follows
-     the pointer so you can travel across the surface. */
-  var zoomEl = $('#zoom'), zoomImg = $('#zoom-img');
+     the pointer so you can travel across the surface.
+
+     You can also walk the whole collection from in here — arrows, the keyboard
+     or a swipe — without dropping back to the page between works. The page
+     underneath is kept in step as you go, so closing the overlay leaves you on
+     the painting you are actually looking at, and the address bar stays
+     shareable. */
+  var zoomEl   = $('#zoom'),      zoomImg  = $('#zoom-img'),
+      zoomCap  = $('#zoom-cap'),  zoomPrev = $('#zoom-prev'),
+      zoomNext = $('#zoom-next');
+
+  var zoomIdx = -1;        /* where we are in ALL while the overlay is open */
+  var swapToken = 0;       /* so a slow image can't land after a newer one */
+  var capTimer = null;
+
+  function zoomSrc(pt) { return '/assets/img/' + pt.img + '.jpg'; }
+
+  /* Title, medium, and position in the collection. Built as nodes rather than
+     innerHTML — these strings come from the painting data, not from markup. */
+  function setZoomCap(pt) {
+    zoomCap.textContent = pt.title + ' · ' + pt.medium;
+    if (ALL.length > 1 && zoomIdx >= 0) {
+      var n = document.createElement('span');
+      n.className = 'zoom-count';
+      n.textContent = (zoomIdx + 1) + ' / ' + ALL.length;
+      zoomCap.appendChild(n);
+    }
+  }
+
+  /* Hover reveals the caption on a desktop; after a move — and always on
+     touch — show it briefly so you know where you have landed. */
+  function flashCap() {
+    zoomEl.classList.add('cap-on');
+    clearTimeout(capTimer);
+    capTimer = setTimeout(function () { zoomEl.classList.remove('cap-on'); }, 2200);
+  }
+
+  /* The next and previous works, fetched quietly while you look at this one,
+     so a move is instant rather than a wait on a full-size painting. */
+  function preloadNeighbours() {
+    if (ALL.length < 2 || zoomIdx < 0) return;
+    [1, -1].forEach(function (d) {
+      var w = ALL[(zoomIdx + d + ALL.length) % ALL.length];
+      var im = new Image();
+      im.src = zoomSrc(w.p);
+    });
+  }
+
+  /* Keep the page behind the overlay, its title and the URL on the work now
+     being shown. Only the gallery file carries the painting page, so every
+     other page simply skips this. */
+  function syncPaintingPage(pt) {
+    if (!pageExists('painting-page')) return;
+    if (!renderPainting(pt.slug)) return;
+    document.title = pt.title + ' — Yehudis Jacobs';
+    var target = '/gallery#work/' + pt.slug;
+    if (window.location.pathname + window.location.hash !== target) {
+      /* Replace rather than push: browsing ten works in here should not put
+         ten entries between you and the gallery you came from. */
+      history.replaceState({ path: '/gallery', hash: 'work/' + pt.slug }, '', target);
+    }
+  }
+
+  function showZoomWork(idx, dir) {
+    var pt = ALL[idx].p, src = zoomSrc(pt);
+    zoomIdx = idx;
+
+    var token = ++swapToken;
+    zoomEl.classList.add('swap', dir === 'prev' ? 'swap-prev' : 'swap-next');
+
+    var loaded = false, faded = false, done = false;
+    function apply() {
+      if (done || token !== swapToken || !(loaded && faded)) return;
+      done = true;
+      zoomImg.src = src;
+      zoomImg.alt = pt.title;
+      setZoomCap(pt);
+      flashCap();
+      syncPaintingPage(pt);
+      requestAnimationFrame(function () {
+        zoomEl.classList.remove('swap', 'swap-prev', 'swap-next');
+      });
+      preloadNeighbours();
+    }
+
+    var pre = new Image();
+    pre.onload = pre.onerror = function () { loaded = true; apply(); };
+    pre.src = src;
+    if (pre.complete) loaded = true;
+    /* Hold the fade-out for its own duration even on a cached image, so the
+       move is readable instead of a jump cut. */
+    setTimeout(function () { faded = true; apply(); }, reduceMotion ? 0 : 170);
+    /* And never sit on a black screen waiting for a slow connection. */
+    setTimeout(function () { loaded = true; apply(); }, 1500);
+  }
+
+  function zoomGo(delta) {
+    if (zoomIdx < 0 || ALL.length < 2) return;
+    showZoomWork((zoomIdx + delta + ALL.length) % ALL.length, delta > 0 ? 'next' : 'prev');
+  }
 
   function openZoom(pt) {
-    zoomImg.src = '/assets/img/' + pt.img + '.jpg';
+    zoomImg.src = zoomSrc(pt);
     zoomImg.alt = pt.title;
-    $('#zoom-cap').textContent = pt.title + ' · ' + pt.medium;
+    zoomIdx = -1;
+    for (var i = 0; i < ALL.length; i++) { if (ALL[i].p.slug === pt.slug) { zoomIdx = i; break; } }
+    setZoomCap(pt);
+    /* One work in the collection means nothing to step to. */
+    var many = ALL.length > 1 && zoomIdx >= 0;
+    zoomPrev.hidden = !many;
+    zoomNext.hidden = !many;
     zoomEl.hidden = false;
     zoomEl.classList.add('open');
     /* Next frame, so the opacity transition actually runs. */
     requestAnimationFrame(function () { zoomEl.classList.add('shown'); });
     document.body.style.overflow = 'hidden';
     $('#zoom-close').focus();
+    if (many) flashCap();
+    preloadNeighbours();
   }
 
   function closeZoom() {
-    zoomEl.classList.remove('shown');
+    zoomEl.classList.remove('shown', 'cap-on', 'swap', 'swap-prev', 'swap-next');
+    clearTimeout(capTimer);
+    swapToken++;
+    zoomIdx = -1;
     setTimeout(function () {
       zoomEl.classList.remove('open');
       zoomEl.hidden = true;
@@ -1820,11 +2007,46 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     if (t && $('#painting-page').classList.contains('active')) t.focus();
   }
 
-  zoomEl.addEventListener('click', closeZoom);
-  $('#zoom-close').addEventListener('click', function (e) { e.stopPropagation(); closeZoom(); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && zoomEl.classList.contains('open')) closeZoom();
+  /* A click anywhere on the backdrop closes — except on the controls, and
+     except when the click is the tail end of a swipe. */
+  var swipeHandled = false;
+  zoomEl.addEventListener('click', function () {
+    if (swipeHandled) { swipeHandled = false; return; }
+    closeZoom();
   });
+  $('#zoom-close').addEventListener('click', function (e) { e.stopPropagation(); closeZoom(); });
+  zoomPrev.addEventListener('click', function (e) { e.stopPropagation(); zoomGo(-1); });
+  zoomNext.addEventListener('click', function (e) { e.stopPropagation(); zoomGo(1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (!zoomEl.classList.contains('open')) return;
+    if (e.key === 'Escape') { closeZoom(); return; }
+    if (e.key === 'ArrowRight') { e.preventDefault(); zoomGo(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); zoomGo(-1); }
+  });
+
+  /* Swipe across the painting on a touch screen. Deliberately strict about
+     direction so it never steals a vertical scroll or a pinch. */
+  (function zoomSwipe() {
+    var x0 = 0, y0 = 0, t0 = 0, tracking = false;
+    zoomEl.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) { tracking = false; return; }
+      tracking = true;
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+    }, { passive: true });
+    zoomEl.addEventListener('touchend', function (e) {
+      if (!tracking) return;
+      tracking = false;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - x0, dy = t.clientY - y0;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+      if (Date.now() - t0 > 800) return;
+      /* Stop the click this gesture is about to synthesise from closing. */
+      swipeHandled = true;
+      setTimeout(function () { swipeHandled = false; }, 400);
+      zoomGo(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  })();
 
   /* Before zooming: hovering the painting drifts it gently, hinting there is
      more to see. Pointer devices only — it would fight scrolling on touch. */
