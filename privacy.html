@@ -122,8 +122,13 @@
   --ls-label:  .18em;
 }
 
-html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
-:target, [id] { scroll-margin-top:1rem; }
+html {
+  scroll-behavior:smooth; -webkit-text-size-adjust:100%;
+  /* The bar is fixed, so anything scrolled to must stop below it rather than
+     slide underneath. */
+  scroll-padding-top:calc(var(--nav-h) + 1rem);
+}
+:target, [id] { scroll-margin-top:calc(var(--nav-h) + 1rem); }
 body {
   color:var(--ink);
   background:var(--white);
@@ -196,19 +201,38 @@ a { color:inherit; }
 
 /* ═══ NAV ═══ */
 #nav {
-  /* Scrolls away with the page rather than staying pinned. */
-  position:absolute; top:0; left:0; right:0; z-index:300;
+  /* Stays pinned at the top for the whole scroll. The page already reserves
+     var(--nav-h) of padding, so nothing moves by its being fixed. */
+  position:fixed; top:0; left:0; right:0; z-index:300;
   min-height:var(--nav-h);
   display:flex; align-items:center; justify-content:space-between;
   padding:0 var(--pad-x);
   padding-top:env(safe-area-inset-top);
-  transition:background .4s, border-color .4s;
+  transition:background .4s, border-color .4s, backdrop-filter .4s;
 }
-/* Always a solid white bar — it sits above the hero rather than floating over
-   it, so nothing in it ever competes with the video for contrast. */
+/* At the top of the page it is a solid white bar, so nothing in it competes
+   with the hero video for contrast. */
 #nav, #nav.solid, #nav.over {
   background:var(--white);
   border-bottom:1px solid var(--border);
+}
+/* Once the page has moved, the bar lets the work show through it. Frosted
+   rather than clear: the logo and the links still have to be readable over
+   whatever painting happens to be passing underneath. */
+#nav.scrolled {
+  background:rgba(255,255,255,.72);
+  border-bottom-color:rgba(17,17,17,.06);
+  backdrop-filter:blur(14px) saturate(1.4);
+  -webkit-backdrop-filter:blur(14px) saturate(1.4);
+}
+/* Without backdrop blur there is nothing softening what shows through, so the
+   bar stays mostly opaque instead of letting text collide with the art. */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+  #nav.scrolled { background:rgba(255,255,255,.93); }
+}
+/* The mobile drawer needs a solid bar behind it. */
+#nav.menu-open, #nav.menu-open.scrolled {
+  background:var(--white); backdrop-filter:none; -webkit-backdrop-filter:none;
 }
 
 .logo {
@@ -695,6 +719,73 @@ a { color:inherit; }
 .pp-med  { font-size:.84rem; color:var(--ink); margin-bottom:1.2rem; }
 .pp-desc { font-size:.84rem; line-height:1.9; color:var(--muted); margin-bottom:1.2rem; }
 .pp-inquire { font-size:.84rem; line-height:1.85; color:var(--muted); margin-top:1.6rem; }
+
+/* ─── Buying options on the painting page ───
+   A quiet list rather than a shop: hairline rows that take an outline when
+   chosen, so the panel still reads as part of a gallery wall and not a cart. */
+.pp-buy { margin-top:1.8rem; }
+.pp-buy-eyebrow {
+  font-family:var(--serif); font-size:.68rem; letter-spacing:.25em;
+  text-transform:uppercase; color:var(--light); margin-bottom:.75rem;
+}
+.pp-tracks, .pp-sizes { display:flex; flex-direction:column; gap:.45rem; }
+.pp-tracks { margin-bottom:1.6rem; }
+.pp-track, .pp-size {
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  width:100%; text-align:start; cursor:pointer;
+  background:none; border:1px solid var(--border); padding:.8rem 1rem;
+  transition:border-color .2s, background-color .2s;
+}
+.pp-track:hover, .pp-size:hover { border-color:var(--muted); }
+.pp-track[aria-pressed="true"], .pp-size[aria-pressed="true"] {
+  border-color:var(--ink); background:var(--off);
+}
+.pp-track-name, .pp-size-dim {
+  font-family:var(--serif); color:var(--ink); min-width:0;
+}
+.pp-track-name {
+  font-size:.74rem; letter-spacing:.16em; text-transform:uppercase; font-weight:600;
+}
+.pp-size-dim { font-size:.95rem; letter-spacing:.04em; font-variant-numeric:tabular-nums; }
+.pp-track-note, .pp-size-note {
+  display:block; font-family:var(--serif); font-size:.8rem; color:var(--light);
+  font-weight:400; letter-spacing:0; text-transform:none; margin-top:.15rem;
+}
+.pp-track-from, .pp-size-price {
+  font-family:var(--serif); color:var(--muted); white-space:nowrap;
+  font-variant-numeric:tabular-nums; font-size:.86rem;
+}
+.pp-size-price { color:var(--ink); font-size:1rem; }
+.pp-track-more { flex:none; display:flex; color:var(--light); transition:color .2s; }
+.pp-track-more svg {
+  width:16px; height:16px; fill:none; stroke:currentColor;
+  stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round;
+}
+.pp-track:hover .pp-track-more { color:var(--muted); }
+/* A sold original stays on the page as a record of the work, so it is dimmed
+   rather than removed, and takes no hover or outline. */
+.pp-track.is-sold { cursor:default; border-style:dashed; }
+.pp-track.is-sold:hover { border-color:var(--border); }
+.pp-track.is-sold .pp-track-name { color:var(--light); }
+.pp-track.is-sold .pp-track-from {
+  color:var(--muted); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+}
+.pp-track[aria-pressed="true"] .pp-track-more { color:var(--ink); transform:rotate(90deg); }
+.pp-buy-cta {
+  display:block; width:100%; margin-top:1.5rem; cursor:pointer;
+  font-family:var(--serif); font-size:.72rem; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--white); background:var(--ink);
+  border:1px solid var(--ink); padding:.95rem 1rem;
+  transition:background-color .2s, color .2s;
+}
+.pp-buy-cta:hover { background:var(--white); color:var(--ink); }
+.pp-buy-note {
+  font-family:var(--serif); font-size:.8rem; color:var(--light);
+  text-align:center; margin-top:.7rem;
+}
+@media (prefers-reduced-motion:reduce) {
+  .pp-track, .pp-size, .pp-buy-cta { transition:none; }
+}
 
 .pp-form-wrap { border-top:1px solid var(--border); background:var(--off); }
 .pp-form { padding:4rem var(--pad-x) 5rem; max-width:900px; margin:0 auto; }
@@ -1504,6 +1595,138 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
   var LOOSE = [
   ];
 
+  /* ─────────────────────────────────────────────
+     WHAT EACH WORK CAN BE BOUGHT AS
+
+     Every painting offers the original, plus exactly ONE print track: either
+     an open edition or a limited edition, never both. A painting listed in
+     LIMITED_EDITION below gets the limited one in place of the open one.
+
+     The three print sizes are not typed in. They are worked out from the
+     painting's own dimensions: the middle size is the painting at its true
+     size, the one above is 25% larger and the one below 25% smaller, so a
+     60×80 cm painting prints at 45×60, 60×80 and 75×100. Only the prices are
+     entered here.
+
+     TO SET THE PRICES: fill in the numbers below. A price of 0 means "not set
+     yet" and shows as "On request", so the site stays correct and usable
+     before any number exists.
+     ───────────────────────────────────────────── */
+  var CURRENCY = '₪';
+
+  /* How much the small and large prints differ from the painting's own size. */
+  var SIZE_STEP = 0.25;
+
+  /* One price per size, for every painting. */
+  var PRINT_PRICES   = { small: 0, medium: 0, large: 0 };
+  var LIMITED_PRICES = { small: 0, medium: 0, large: 0 };
+
+  /* Paintings whose print is a limited, numbered edition instead of the open
+     one, by slug. Everything not listed here gets the open edition. */
+  var LIMITED_EDITION = [
+    'eyes-of-the-nation',   /* the Hasidim      */
+    'torah',                /* Torah            */
+    'one',                  /* One              */
+    'mount-sinai',          /* Sinai            */
+    'gates-of-heaven',      /* Gates of Heaven  */
+    'four-elements',        /* Four Elements    */
+    'prayer'                /* Longing          */
+  ];
+
+  /* Copies in a limited edition. Set to 0 to leave the number unsaid. */
+  var LIMITED_RUN = 0;
+
+  /* Originals that are no longer on offer. The painting stays on the site — a
+     work whose original is gone is often the most wanted one there is, and its
+     prints go on selling — but its original row is dimmed, cannot be enquired
+     about, and the page opens on the print track instead.
+
+     The value is the word shown on the row. Use 'Sold' wherever that is true:
+     it reads better than 'Not available' and it sells prints. */
+  var ORIGINAL_UNAVAILABLE = {
+    'one':   'Sold',
+    'torah': 'Sold'
+  };
+
+  /* Works with nothing on offer at all — no original, no print. They stay in
+     the gallery as part of the body of work, and their page simply carries no
+     buying panel. */
+  var NOT_FOR_SALE = [
+    'song-of-miriam'
+  ];
+
+  function unavailableLabel(pt) {
+    return Object.prototype.hasOwnProperty.call(ORIGINAL_UNAVAILABLE, pt.slug)
+      ? ORIGINAL_UNAVAILABLE[pt.slug] : '';
+  }
+  function isSold(pt) { return !!unavailableLabel(pt); }
+  function isNotForSale(pt) { return NOT_FOR_SALE.indexOf(pt.slug) !== -1; }
+
+  /* Shown under each track name. */
+  var TRACK_NOTES = {
+    original: 'One of a kind, oil on canvas, signed',
+    limited:  LIMITED_RUN > 0
+                ? 'Limited edition of ' + LIMITED_RUN + ', numbered and signed'
+                : 'Limited edition, numbered and signed',
+    print:    'Open edition, fine art paper'
+  };
+
+  /* Originals are priced in conversation, as galleries normally do. Put a
+     number here to show a price on every original, or a
+     `prices: { original: 8500 }` on a single painting. */
+  var ORIGINAL_PRICE = 0;
+
+  /* The painting's own dimensions in centimetres, read from its `medium`
+     line ("Oil on canvas · 60×80 cm"). A painting whose line carries no
+     measurement can state them itself with `size: '60×80'`. */
+  function baseSize(pt) {
+    var src = pt.size || pt.medium || '';
+    var m = src.match(/(\d+(?:\.\d+)?)\s*[×x]\s*(\d+(?:\.\d+)?)/);
+    if (!m) return null;
+    return { w: parseFloat(m[1]), h: parseFloat(m[2]) };
+  }
+
+  /* The three print sizes for one painting, each with its price. Without a
+     measurement to scale from there are no sizes to offer, and the page falls
+     back to a plain enquiry. */
+  function priceList(pt, track) {
+    var own = pt.prices && pt.prices[track];
+    if (own) return own;
+
+    var base = baseSize(pt);
+    if (!base) return [];
+
+    var prices = track === 'limited' ? LIMITED_PRICES : PRINT_PRICES;
+    function at(factor, label, key) {
+      return {
+        dim: Math.round(base.w * factor) + ' × ' + Math.round(base.h * factor) + ' cm',
+        label: label,
+        price: prices[key] || 0
+      };
+    }
+    return [
+      at(1 - SIZE_STEP, 'Small', 'small'),
+      /* The middle one is the painting itself, so it is named as such. */
+      at(1, 'The size of the painting', 'medium'),
+      at(1 + SIZE_STEP, 'Large', 'large')
+    ];
+  }
+
+  function originalPrice(pt) {
+    if (pt.prices && typeof pt.prices.original === 'number') return pt.prices.original;
+    return ORIGINAL_PRICE;
+  }
+
+  /* Which tracks this painting offers, in the order they are shown: the
+     original, then its one print track. */
+  function tracksFor(pt) {
+    return ['original', LIMITED_EDITION.indexOf(pt.slug) !== -1 ? 'limited' : 'print'];
+  }
+
+  function money(n) {
+    return CURRENCY + Number(n).toLocaleString('en-US');
+  }
+
   var WALL_COLOURS = [
     { hex: '#FFFFFF', name: 'White'      },
     { hex: '#F5F0E8', name: 'Cream'      },
@@ -1809,8 +2032,181 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
 
 
     $('#pp-status').textContent = '';
+    renderBuy(pt);
     return true;
   }
+
+  /* ═══ BUYING OPTIONS ═══
+     Three tracks — the original, a special collection print, an open-edition
+     print — and, inside a print track, three sizes with a price. The original
+     has no size to choose; it is the size it is.
+
+     Everything here is driven by the pricing block near the artwork data, so
+     a price of 0 reads as "not set yet" and the page shows "On request"
+     instead of a wrong number. */
+  var buyEl    = $('#pp-buy'),       trackMount = $('#pp-tracks'),
+      sizeWrap = $('#pp-sizes-wrap'), sizeMount = $('#pp-sizes'),
+      buyCta   = $('#pp-buy-cta'),    buyNote   = $('#pp-buy-note');
+
+  var buyState = { pt: null, track: null, size: null };
+  /* The last message this panel wrote, so a visitor's own words are never
+     overwritten when they change their mind about a size. */
+  var lastDraft = '';
+
+  var TRACK_LABEL = { original: 'Original', limited: 'Limited Edition Print', print: 'Print' };
+
+  /* Only the original carries a figure out here. Print prices depend on the
+     size, so they wait until a track is open and a size is in front of you. */
+  function trackPrice(pt, track) {
+    if (track !== 'original') return '';
+    var gone = unavailableLabel(pt);
+    if (gone) return gone;
+    var p = originalPrice(pt);
+    return p > 0 ? money(p) : 'On request';
+  }
+
+  function renderBuy(pt) {
+    if (!buyEl) return;
+    var inquireLine = document.querySelector('.pp-inquire');
+
+    /* Nothing on offer: no panel at all, and the standing line that points at
+       the form comes back, so there is still a way to ask about the work. */
+    if (isNotForSale(pt)) {
+      buyEl.hidden = true;
+      trackMount.innerHTML = '';
+      sizeMount.innerHTML = '';
+      buyState = { pt: pt, track: null, size: null };
+      if (inquireLine) inquireLine.hidden = false;
+      return;
+    }
+
+    var tracks = tracksFor(pt);
+    var sold = isSold(pt);
+    buyState.pt = pt;
+    /* A sold painting opens on its prints: the original is no longer on offer,
+       and the prints are what is left to want. */
+    buyState.track = sold ? tracks[tracks.length - 1] : tracks[0];
+    buyState.size = null;
+
+    trackMount.innerHTML = '';
+    tracks.forEach(function (t) {
+      var dead = sold && t === 'original';
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'pp-track' + (dead ? ' is-sold' : '');
+      b.setAttribute('aria-pressed', String(!dead && t === buyState.track));
+      if (dead) b.disabled = true;
+      var right = trackPrice(pt, t);
+      b.innerHTML =
+        '<span class="pp-track-name">' + esc(TRACK_LABEL[t]) +
+          '<span class="pp-track-note">' +
+            esc(dead
+                  /* 'Sold' earns the warmer line; anything else might simply
+                     be a painting the artist is keeping. */
+                  ? (/sold/i.test(unavailableLabel(pt))
+                       ? 'This painting has found its home'
+                       : 'The original is not currently on offer')
+                  : TRACK_NOTES[t]) +
+          '</span></span>' +
+        (right
+          ? '<span class="pp-track-from">' + esc(right) + '</span>'
+          /* No figure yet: a chevron says the row opens into something. */
+          : '<span class="pp-track-more" aria-hidden="true">' +
+              '<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span>');
+      if (!dead) b.addEventListener('click', function () { selectTrack(t); });
+      trackMount.appendChild(b);
+    });
+
+    buyEl.hidden = false;
+    /* The panel's own note already points at the form, so the standing line
+       below it would just say the same thing twice. */
+    if (inquireLine) inquireLine.hidden = true;
+    paintTrack();
+  }
+
+  function selectTrack(track) {
+    if (buyState.track === track) return;
+    buyState.track = track;
+    buyState.size = null;
+    var btns = trackMount.querySelectorAll('.pp-track');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].setAttribute('aria-pressed', String(tracksFor(buyState.pt)[i] === track));
+    }
+    paintTrack();
+  }
+
+  /* Draw the size list for the chosen track, and the button that follows it. */
+  function paintTrack() {
+    var pt = buyState.pt, track = buyState.track;
+    if (!pt) return;
+
+    if (track === 'original') {
+      sizeWrap.hidden = true;
+      sizeMount.innerHTML = '';
+    } else {
+      var sizes = priceList(pt, track);
+      /* Start on the painting's own size — the one the other two are measured
+         against — rather than on whichever happens to be first. */
+      var start = sizes.length > 1 ? 1 : 0;
+      sizeMount.innerHTML = '';
+      sizes.forEach(function (s, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'pp-size';
+        b.setAttribute('aria-pressed', String(i === start));
+        b.innerHTML =
+          '<span class="pp-size-dim">' + esc(s.dim) +
+            (s.label ? '<span class="pp-size-note">' + esc(s.label) + '</span>' : '') + '</span>' +
+          '<span class="pp-size-price">' + esc(s.price > 0 ? money(s.price) : 'On request') + '</span>';
+        b.addEventListener('click', function () { selectSize(i); });
+        sizeMount.appendChild(b);
+      });
+      buyState.size = sizes.length ? start : null;
+      sizeWrap.hidden = !sizes.length;
+    }
+
+    buyCta.textContent = 'Enquire about this ' +
+      (track === 'original' ? 'painting' : track === 'limited' ? 'edition' : 'print');
+    buyNote.textContent = 'Fills in the message below — Yehudis answers these herself.';
+  }
+
+  function selectSize(idx) {
+    buyState.size = idx;
+    var btns = sizeMount.querySelectorAll('.pp-size');
+    for (var i = 0; i < btns.length; i++) btns[i].setAttribute('aria-pressed', String(i === idx));
+  }
+
+  /* The sentence the enquiry form opens with. */
+  function buyDraft() {
+    var pt = buyState.pt, track = buyState.track;
+    if (!pt) return '';
+    if (track === 'original') {
+      var op = originalPrice(pt);
+      return 'I am interested in the original of "' + pt.title + '" (' + pt.medium + ')' +
+             (op > 0 ? ', listed at ' + money(op) : '') + '. Could you tell me more?';
+    }
+    var sizes = priceList(pt, track);
+    var s = sizes[buyState.size] || sizes[0];
+    if (!s) return 'I am interested in a print of "' + pt.title + '". Could you tell me more?';
+    var what = track === 'limited' ? 'a limited edition print' : 'a print';
+    return 'I am interested in ' + what + ' of "' + pt.title + '" at ' + s.dim +
+           (s.price > 0 ? ' (' + money(s.price) + ')' : '') + '. Could you tell me more?';
+  }
+
+  if (buyCta) buyCta.addEventListener('click', function () {
+    var msg = $('#pp-msg');
+    if (msg) {
+      /* Only replace an empty box or a sentence this panel wrote itself. */
+      if (!msg.value.trim() || msg.value === lastDraft) {
+        lastDraft = buyDraft();
+        msg.value = lastDraft;
+      }
+    }
+    var form = $('#pp-form');
+    if (form) form.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    var first = $('#pp-first');
+    if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, reduceMotion ? 0 : 500);
+  });
 
   var ppCrumbCat = $('#pp-crumb-cat');
   if (ppCrumbCat) ppCrumbCat.addEventListener('click', function () {
@@ -2074,6 +2470,33 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
   window.addEventListener('resize', function () {
     if (window.innerWidth > 900 && navEl.classList.contains('menu-open')) setMenu(false);
   });
+
+  /* ═══ NAV ON SCROLL ═══
+     Solid while the page is at the top, frosted once it has moved, so the bar
+     stays reachable without sitting opaquely on top of the paintings. */
+  (function navOnScroll() {
+    if (!navEl) return;
+    var on = false, ticking = false;
+
+    function apply() {
+      ticking = false;
+      /* A little past the fold of the bar itself, so a one-pixel nudge or the
+         bounce at the top of a phone scroll doesn't flicker it. */
+      var next = (window.pageYOffset || document.documentElement.scrollTop || 0) > 24;
+      if (next === on) return;
+      on = next;
+      navEl.classList.toggle('scrolled', on);
+    }
+
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(apply);
+    }, { passive: true });
+
+    /* Reloading halfway down a page should already show the frosted bar. */
+    apply();
+  })();
 
   /* ═══ ACCESSIBILITY WIDGET ═══
      Every toggle is a class on <html>, which the CSS above hooks into via
