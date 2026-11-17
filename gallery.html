@@ -783,6 +783,38 @@ a { color:inherit; }
   font-family:var(--serif); font-size:.8rem; color:var(--light);
   text-align:center; margin-top:.7rem;
 }
+
+/* ─── A work that is still being painted ───
+   The blur is baked into the image file that ships, so the finished painting
+   never sits on the server waiting to be found. What is layered on here is
+   only the wording. */
+.soon-veil {
+  position:absolute; inset:0; pointer-events:none;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:1rem;
+  /* A breath of white at the centre lifts the words off the colour. */
+  background:radial-gradient(ellipse at center, rgba(255,255,255,.55), rgba(255,255,255,.12) 70%);
+}
+/* An explicit display beats the hidden attribute's own display:none, so a
+   veil switched off with .hidden would otherwise stay on screen — over a
+   finished painting that has nothing to do with it. */
+.soon-veil[hidden] { display:none; }
+.soon-label {
+  font-family:var(--serif); font-size:.72rem; letter-spacing:.34em;
+  text-transform:uppercase; color:var(--ink); font-weight:600;
+  text-shadow:0 1px 10px rgba(255,255,255,.9);
+}
+/* In the thumbnail strip the caption underneath already says Coming Soon, and
+   type at that size would be unreadable, so only the wash carries over. */
+.aw .soon-label { display:none; }
+.gl-figure, .aw-img, .pp-figure { position:relative; }
+/* Nothing to magnify behind the veil. */
+.pp-figure.is-soon .pp-img { cursor:default; }
+.pp-soon { margin-top:1.8rem; }
+/* The same outlined button the gallery rows use, so this reads as one button
+   wherever it appears rather than as the filled, commercial one. */
+#pp-soon-cta { background:none; color:var(--ink); margin-top:0; }
+#pp-soon-cta:hover { background:var(--ink); color:var(--white); }
 @media (prefers-reduced-motion:reduce) {
   .pp-track, .pp-size, .pp-buy-cta { transition:none; }
 }
@@ -1517,6 +1549,9 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
   <div class="pp-main">
     <figure class="pp-figure" id="pp-figure">
       <img class="pp-img" id="pp-img" src="" alt="">
+      <span class="soon-veil" id="pp-veil" hidden>
+        <span class="soon-label">Coming Soon</span>
+      </span>
     </figure>
     <div class="pp-body">
       <h1 class="pp-title" id="pp-title"></h1>
@@ -1536,6 +1571,12 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
 
         <button type="button" class="pp-buy-cta" id="pp-buy-cta">Enquire about this work</button>
         <p class="pp-buy-note" id="pp-buy-note"></p>
+      </div>
+
+      <!-- A painting still on the easel: nothing to buy, but people who want it
+           can ask to be told when it is finished. -->
+      <div class="pp-soon" id="pp-soon" hidden>
+        <button type="button" class="pp-buy-cta" id="pp-soon-cta">Tell me when it is ready</button>
       </div>
 
       <p class="pp-inquire">Details about this work can be sent below.</p>
@@ -1655,7 +1696,8 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
         { img: 'torah',    title: 'Torah',    medium: 'Oil on canvas · 70×50 cm', w: 424, h: 600 , slug: 'torah', desc: '' },
         { img: 'eyes-of-the-nation', title: 'Eyes of the Nation', medium: 'Oil on canvas · 100×90 cm', w: 2000, h: 1789, slug: 'eyes-of-the-nation', desc: '' },
         { img: 'mount-sinai',     title: 'Sinai',     medium: 'Oil on canvas · 60×80 cm',  w: 894, h: 1200 , slug: 'mount-sinai', desc: '' },
-        { img: 'gates-of-heaven', title: 'Gates of Heaven', medium: 'Oil on canvas · 90×60 cm', w: 1200, h: 800, slug: 'gates-of-heaven', desc: '' }
+        { img: 'gates-of-heaven', title: 'Gates of Heaven', medium: 'Oil on canvas · 90×60 cm', w: 1200, h: 800, slug: 'gates-of-heaven', desc: '' },
+        { img: 'unity',    title: 'Unity',    medium: 'Oil on canvas · 60×90 cm', w: 1267, h: 2000, slug: 'unity', desc: '' }
       ]
     },
     {
@@ -1677,7 +1719,12 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
         { img: 'splitting-of-the-sea', title: 'The Splitting of the Sea', medium: 'Oil on canvas · 90×60 cm', w: 1966, h: 1325, slug: 'splitting-of-the-sea', desc: '' },
         { img: 'wedding-i',            title: 'Wedding',                medium: 'Oil on canvas · 60×70 cm', w: 556,  h: 641, slug: 'wedding-i', desc: '' },
         { img: 'chuppah-ii',           title: 'Chuppah',               medium: 'Oil on canvas · 90×60 cm', w: 2000, h: 822,  slug: 'chuppah-ii', desc: '' },
-        { img: 'song-of-miriam', title: 'The Song of Miriam', medium: 'Palette knife on canvas', w: 1398, h: 2000, slug: 'song-of-miriam', desc: '' }
+        { img: 'song-of-miriam', title: 'The Song of Miriam', medium: 'Palette knife on canvas', w: 1398, h: 2000, slug: 'song-of-miriam', desc: '' },
+        /* Still being painted. `comingSoon` carries the whole behaviour: the
+           veil over the card, no buying panel, no zoom, and a button that
+           collects people to tell when it is finished. The image files
+           themselves are already obscured — see the note on SOON below. */
+        { img: 'coming-soon', title: 'Coming Soon', medium: 'Oil over acrylic on canvas · 140×100 cm', w: 2000, h: 1429, slug: 'coming-soon', desc: '', comingSoon: true }
       ]
     }
   ];
@@ -2023,14 +2070,21 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
       var row = document.createElement('div');
       row.className = 'gl-row';
       row.innerHTML =
-        '<button class="gl-figure" aria-label="View ' + esc(pt.title) + '">' +
-          picture(pt.img, pt.title + ' — ' + pt.medium, '-sm', pt.w, pt.h, i < 2) +
+        '<button class="gl-figure" aria-label="' +
+            (pt.comingSoon ? 'A painting still in progress, shown blurred'
+                           : 'View ' + esc(pt.title)) + '">' +
+          picture(pt.img, pt.comingSoon ? 'A painting still in progress, shown blurred'
+                                        : pt.title + ' — ' + pt.medium,
+                  '-sm', pt.w, pt.h, i < 2) +
+          (pt.comingSoon ? soonVeil() : '') +
         '</button>' +
         '<div class="gl-body">' +
           '<h3 class="gl-title">' + esc(pt.title) + '</h3>' +
           '<p class="gl-med">' + esc(pt.medium) + '</p>' +
           (pt.desc ? '<p class="gl-desc">' + esc(pt.desc) + '</p>' : '') +
-          '<button class="gl-more">Learn more</button>' +
+          '<button class="gl-more">' +
+            (pt.comingSoon ? 'Tell me when it is ready' : 'Learn more') +
+          '</button>' +
         '</div>';
       var open = function () { navigate('painting-page', null, pt.slug); };
       row.querySelector('.gl-figure').addEventListener('click', open);
@@ -2074,7 +2128,8 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
       b.setAttribute('aria-label', 'View ' + pt.title);
       if (pt.slug === currentSlug) b.setAttribute('aria-current', 'true');
       b.innerHTML =
-        '<span class="aw-img">' + picture(pt.img, pt.title, '-sm', null, null, false) + '</span>' +
+        '<span class="aw-img">' + picture(pt.img, pt.title, '-sm', null, null, false) +
+          (pt.comingSoon ? soonVeil() : '') + '</span>' +
         '<span class="aw-t">' + esc(pt.title) + '</span>';
       b.addEventListener('click', function () { navigate('painting-page', null, pt.slug); });
       mount.appendChild(b);
@@ -2090,6 +2145,16 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
   function findWork(slug) {
     for (var i = 0; i < ALL.length; i++) { if (ALL[i].p.slug === slug) return ALL[i]; }
     return null;
+  }
+
+  /* The works the zoom view steps through. A painting that is still being
+     made is reachable from the gallery, but full screen it would be a wall of
+     blur with nothing to say why, so it stays out of that sequence. */
+  var ZOOMABLE = ALL.filter(function (e) { return !e.p.comingSoon; });
+
+  /* The veil that goes over an unfinished work, wherever its image appears. */
+  function soonVeil() {
+    return '<span class="soon-veil"><span class="soon-label">Coming Soon</span></span>';
   }
 
   var currentWork = null;
@@ -2124,6 +2189,14 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     $('#pp-next').textContent = 'Next ›';
     $('#pp-next').setAttribute('aria-label', 'Next painting: ' + nxt.p.title);
 
+
+    /* A work still on the easel: veil on, buying off, and a button that asks
+       to be told rather than one that sells. */
+    var soon = !!pt.comingSoon;
+    $('#pp-veil').hidden = !soon;
+    $('#pp-figure').classList.toggle('is-soon', soon);
+    $('#pp-soon').hidden = !soon;
+    if (soon) img.alt = 'A painting still in progress, shown blurred';
 
     $('#pp-status').textContent = '';
     renderBuy(pt);
@@ -2164,13 +2237,15 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     var inquireLine = document.querySelector('.pp-inquire');
 
     /* Nothing on offer: no panel at all, and the standing line that points at
-       the form comes back, so there is still a way to ask about the work. */
-    if (isNotForSale(pt)) {
+       the form comes back, so there is still a way to ask about the work.
+       An unfinished painting has its own panel instead, so it suppresses that
+       line itself. */
+    if (isNotForSale(pt) || pt.comingSoon) {
       buyEl.hidden = true;
       trackMount.innerHTML = '';
       sizeMount.innerHTML = '';
       buyState = { pt: pt, track: null, size: null };
-      if (inquireLine) inquireLine.hidden = false;
+      if (inquireLine) inquireLine.hidden = !!pt.comingSoon;
       return;
     }
 
@@ -2287,12 +2362,14 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
            (s.price > 0 ? ' (' + money(s.price) + ')' : '') + '. Could you tell me more?';
   }
 
-  if (buyCta) buyCta.addEventListener('click', function () {
+  /* Hand the enquiry form a sentence and take the visitor to it. Shared by the
+     buying panel and by the unfinished-work button. */
+  function openEnquiry(draft) {
     var msg = $('#pp-msg');
     if (msg) {
       /* Only replace an empty box or a sentence this panel wrote itself. */
       if (!msg.value.trim() || msg.value === lastDraft) {
-        lastDraft = buyDraft();
+        lastDraft = draft;
         msg.value = lastDraft;
       }
     }
@@ -2300,7 +2377,16 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
     if (form) form.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     var first = $('#pp-first');
     if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, reduceMotion ? 0 : 500);
+  }
+
+  var soonCta = $('#pp-soon-cta');
+  if (soonCta) soonCta.addEventListener('click', function () {
+    var pt = currentWork && currentWork.p;
+    openEnquiry('Please let me know when this painting' +
+      (pt ? ' (' + pt.medium + ')' : '') + ' is finished — I would like to see it.');
   });
+
+  if (buyCta) buyCta.addEventListener('click', function () { openEnquiry(buyDraft()); });
 
   var ppCrumbCat = $('#pp-crumb-cat');
   if (ppCrumbCat) ppCrumbCat.addEventListener('click', function () {
@@ -2328,7 +2414,7 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
       zoomCap  = $('#zoom-cap'),  zoomPrev = $('#zoom-prev'),
       zoomNext = $('#zoom-next');
 
-  var zoomIdx = -1;        /* where we are in ALL while the overlay is open */
+  var zoomIdx = -1;        /* where we are in ZOOMABLE while the overlay is open */
   var swapToken = 0;       /* so a slow image can't land after a newer one */
   var capTimer = null;
 
@@ -2338,10 +2424,10 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
      innerHTML — these strings come from the painting data, not from markup. */
   function setZoomCap(pt) {
     zoomCap.textContent = pt.title + ' · ' + pt.medium;
-    if (ALL.length > 1 && zoomIdx >= 0) {
+    if (ZOOMABLE.length > 1 && zoomIdx >= 0) {
       var n = document.createElement('span');
       n.className = 'zoom-count';
-      n.textContent = (zoomIdx + 1) + ' / ' + ALL.length;
+      n.textContent = (zoomIdx + 1) + ' / ' + ZOOMABLE.length;
       zoomCap.appendChild(n);
     }
   }
@@ -2357,9 +2443,9 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
   /* The next and previous works, fetched quietly while you look at this one,
      so a move is instant rather than a wait on a full-size painting. */
   function preloadNeighbours() {
-    if (ALL.length < 2 || zoomIdx < 0) return;
+    if (ZOOMABLE.length < 2 || zoomIdx < 0) return;
     [1, -1].forEach(function (d) {
-      var w = ALL[(zoomIdx + d + ALL.length) % ALL.length];
+      var w = ZOOMABLE[(zoomIdx + d + ZOOMABLE.length) % ZOOMABLE.length];
       var im = new Image();
       im.src = zoomSrc(w.p);
     });
@@ -2381,7 +2467,7 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
   }
 
   function showZoomWork(idx, dir) {
-    var pt = ALL[idx].p, src = zoomSrc(pt);
+    var pt = ZOOMABLE[idx].p, src = zoomSrc(pt);
     zoomIdx = idx;
 
     var token = ++swapToken;
@@ -2414,18 +2500,18 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
   }
 
   function zoomGo(delta) {
-    if (zoomIdx < 0 || ALL.length < 2) return;
-    showZoomWork((zoomIdx + delta + ALL.length) % ALL.length, delta > 0 ? 'next' : 'prev');
+    if (zoomIdx < 0 || ZOOMABLE.length < 2) return;
+    showZoomWork((zoomIdx + delta + ZOOMABLE.length) % ZOOMABLE.length, delta > 0 ? 'next' : 'prev');
   }
 
   function openZoom(pt) {
     zoomImg.src = zoomSrc(pt);
     zoomImg.alt = pt.title;
     zoomIdx = -1;
-    for (var i = 0; i < ALL.length; i++) { if (ALL[i].p.slug === pt.slug) { zoomIdx = i; break; } }
+    for (var i = 0; i < ZOOMABLE.length; i++) { if (ZOOMABLE[i].p.slug === pt.slug) { zoomIdx = i; break; } }
     setZoomCap(pt);
     /* One work in the collection means nothing to step to. */
-    var many = ALL.length > 1 && zoomIdx >= 0;
+    var many = ZOOMABLE.length > 1 && zoomIdx >= 0;
     zoomPrev.hidden = !many;
     zoomNext.hidden = !many;
     zoomEl.hidden = false;
@@ -2540,6 +2626,8 @@ html.a11y-spacing p { margin-bottom:1.6em !important; }
 
   var ppImgEl = $('#pp-img');
   if (ppImgEl) ppImgEl.addEventListener('click', function () {
+    /* Nothing to magnify behind the veil. */
+    if (currentWork && currentWork.p.comingSoon) return;
     if (currentWork) openZoom(currentWork.p);
   });
 
